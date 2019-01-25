@@ -1,0 +1,36 @@
+AllCops:
+  Exclude:
+    - "node_modules/**/*"
+    - "vendor/**/*"
+    - ".git/**/*"
+    - "bin/**/*"
+
+Style/BlockComments:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/StringHashKeys:
+  Enabled: true
+Layout/AlignParameters:
+  EnforcedStyle: "with_fixed_indentation"
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - "spec/**/*"
+Metrics/AbcSize:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Metrics/LineLength:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Naming/PredicateName:
+  NamePrefixBlacklist:
+    - is_
+    - have_
