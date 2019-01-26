@@ -1,4 +1,4 @@
-.PHONY: prepare build up autoinit
+.PHONY: prepare build up autoinit ci
 
 .DEFAULT_GOAL := prepare
 
@@ -18,3 +18,10 @@ up:
 	docker-compose up -d
 
 autoinit: prepare build up
+
+ci:
+	docker-compose run --rm web yarn testci
+	docker-compose run --rm web yarn eslint
+	docker-compose run --rm web yarn stylelint
+	docker-compose run --rm server rubocop
+	docker-compose run --rm server rake spec

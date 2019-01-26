@@ -13,4 +13,4 @@ test_web:
 	cd web && yarn test && yarn eslint && yarn stylelint
 
 test_server:
-	cd server && bundle exec rake spec
+	cd server && bundle exec rake spec && bundle exec rubocop
