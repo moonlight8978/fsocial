@@ -1,0 +1,53 @@
+{
+  "name": "fsocial",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.12",
+    "@fortawesome/free-solid-svg-icons": "^5.6.3",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "antd": "^3.12.4",
+    "axios": "^0.18.0",
+    "flag-icon-css": "^3.2.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-intl": "^2.8.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.3",
+    "react-transition-group": "^2.5.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "testci": "CI=true react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "prettier": "prettier --write ./src/**/*.{js,jsx,scss,json}",
+    "eslint": "eslint ./src/**/*.{js,jsx}",
+    "stylelint": "stylelint ./src/**/*.scss"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "eslint": "5.6.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^3.6.0",
+    "eslint-plugin-import": "^2.15.0",
+    "eslint-plugin-jsx-a11y": "^6.2.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "jest": "23.6.0",
+    "node-sass": "^4.11.0",
+    "prettier": "^1.16.1",
+    "react-test-renderer": "^16.7.0",
+    "stylelint": "^9.10.1",
+    "stylelint-config-recommended": "^2.1.0",
+    "stylelint-config-recommended-scss": "^3.2.0",
+    "stylelint-scss": "^3.5.1"
+  }
+}
