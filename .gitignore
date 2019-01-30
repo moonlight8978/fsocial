@@ -3,6 +3,7 @@
 /**/Dockerfile
 /Makefile
 /proxy/*
+/docker-compose.yml
 
 !/proxy/.keep
 !/tmp/.keep
