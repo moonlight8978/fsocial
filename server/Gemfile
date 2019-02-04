@@ -25,8 +25,6 @@ gem 'rails', '~> 5.2.2'
 gem 'rails-i18n'
 gem 'ransack'
 gem 'redis', '~> 4.0'
-gem 'reform'
-gem 'reform-rails'
 
 group :development, :test do
   gem 'action-cable-testing'

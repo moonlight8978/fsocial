@@ -1,0 +1,4 @@
+en:
+  errors:
+    pundit/not_authorized_error: Unauthorized
+    application_controller/unauthenticated: Unauthenticated

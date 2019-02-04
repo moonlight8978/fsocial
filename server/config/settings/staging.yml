@@ -1,3 +1,3 @@
 auth:
   token_expiration: <%= 1.day %>
-  header: AUTHORIZATION
+  header: FSOCIAL-AUTHORIZATION

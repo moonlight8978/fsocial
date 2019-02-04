@@ -23,9 +23,13 @@ ActiveRecord::Schema.define(version: 20_190_126_053_753) do
     t.string 'gender'
     t.date 'birthday'
     t.text 'description'
+    t.string 'role'
+    t.string 'language'
+    t.datetime 'deleted_at'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['country_id'], name: 'index_users_on_country_id'
+    t.index ['deleted_at'], name: 'index_users_on_deleted_at'
     t.index ['email'], name: 'index_users_on_email'
     t.index ['username'], name: 'index_users_on_username'
   end

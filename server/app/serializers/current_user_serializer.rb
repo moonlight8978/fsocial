@@ -1,0 +1,1 @@
+class CurrentUserSerializer < ProfileSerializer; end
