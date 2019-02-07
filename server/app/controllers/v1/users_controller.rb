@@ -12,10 +12,10 @@ class V1::UsersController < ApplicationController
   end
 
   def destroy
-    render json: { message: 'ngon' }, status: Settings.http.statuses.success
+    render json: {}, status: Settings.http.statuses.success
   end
 
   def update
-    render json: { message: 'ngon' }, status: Settings.http.statuses.success
+    render json: {}, status: Settings.http.statuses.success
   end
 end

@@ -1,7 +1,7 @@
 class Auth::Jwt
   class << self
     def encode(**payload)
-      JWT.encode(payload.merge(exp: Time.zone.now.to_i + expiration), secret, algorithm)
+      JWT.encode(payload.merge(exp: expires_at), secret, algorithm)
     end
 
     def decode(token)
@@ -17,6 +17,10 @@ class Auth::Jwt
     end
 
     private
+
+    def expires_at
+      Time.zone.now.to_i + expiration
+    end
 
     def expiration
       Settings.auth.token_expiration
