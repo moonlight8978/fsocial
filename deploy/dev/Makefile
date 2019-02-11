@@ -8,6 +8,7 @@ prepare:
 	cp deploy/dev/Dockerfile.server server/Dockerfile
 	cp deploy/dev/Dockerfile.web web/Dockerfile
 	cp deploy/dev/docker-compose.yml docker-compose.yml
+	cp deploy/dev/puma.rb server/config/puma.rb
 	cp .env.dev .env
 
 build:
