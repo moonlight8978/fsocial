@@ -5,6 +5,7 @@
 /proxy/*
 /docker-compose.yml
 /server/config/puma.rb
+/web/web.conf
 
 !/proxy/.keep
 !/tmp/.keep
