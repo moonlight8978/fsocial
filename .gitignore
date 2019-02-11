@@ -4,6 +4,7 @@
 /Makefile
 /proxy/*
 /docker-compose.yml
+/server/config/puma.rb
 
 !/proxy/.keep
 !/tmp/.keep
