@@ -8,3 +8,4 @@
 
 !/proxy/.keep
 !/tmp/.keep
+.byebug*

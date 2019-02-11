@@ -48,7 +48,7 @@ services:
       - .env
     volumes:
       - ./proxy/fsocial.conf:/etc/nginx/conf.d/default.conf
-      - ./tmp/auth:/etc/auth
+      - ./tmp/.htpasswd:/etc/auth/.htpasswd
       - /app/fsocial/nginx/log:/var/log/nginx
     ports:
       - 80:80
