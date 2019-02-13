@@ -1,10 +1,14 @@
 class ApplicationController < ActionController::API
   class Unauthenticated < StandardError; end
+  class GuestOnly < StandardError; end
+  class NotImplementedYet < StandardError; end
 
   before_action :set_locale
 
   rescue_from(
     Unauthenticated,
+    GuestOnly,
+    NotImplementedYet,
     Pundit::NotAuthorizedError,
     ActiveRecord::RecordNotFound,
     with: :render_error
@@ -27,11 +31,19 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate!
-    raise Unauthenticated unless current_user.present?
+    raise Unauthenticated unless signed_in?
+  end
+
+  def guest_only!
+    raise GuestOnly if signed_in?
   end
 
   def signed_in?
     current_user.present?
+  end
+
+  def not_implemented_yet!
+    raise NotImplementedYet
   end
 
   private

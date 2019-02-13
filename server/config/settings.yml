@@ -6,6 +6,8 @@ http:
       active_record/record_not_found: 404
       active_record/record_invalid: 422
       application_controller/unauthenticated: 401
+      application_controller/not_implemented_yet: 400
+      application_controller/guest_only: 403
       pundit/not_authorized_error: 403
     created: 201
     success: 200

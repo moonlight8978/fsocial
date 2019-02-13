@@ -22,16 +22,19 @@ RSpec.describe Auth::Jwt do
         it { is_expected.to be_nil }
       end
 
-      it_behaves_like 'return nil' do
+      context 'missing space between Bearer' do
         let(:header) { 'Bearertoken' }
+        include_examples 'return nil'
       end
 
-      it_behaves_like 'return nil' do
+      context 'missing Bearer' do
         let(:header) { 'token' }
+        include_examples 'return nil'
       end
 
-      it_behaves_like 'return nil' do
+      context 'empty header' do
         let(:header) { '' }
+        include_examples 'return nil'
       end
     end
   end
@@ -58,5 +61,30 @@ RSpec.describe Auth::Jwt do
   end
 
   describe '#decode' do
+    subject { described_class.decode(token) }
+
+    context 'when valid token' do
+      let(:token) do
+        <<~TOKEN.delete("\n")
+          eyJhbGciOiJIUzI1NiJ9
+          .eyJ1c2VyX2lkIjoxLCJleHAiOiIxNTQ5NTU4ODYwIn0
+          .EVQO-kE4qTbuDd4_u1mWwhXu2Oh4bpaYMzJcaQMCD1E
+        TOKEN
+      end
+
+      it { is_expected.to include(user_id: 1) }
+    end
+
+    context 'when invalid token' do
+      let(:token) do
+        <<~TOKEN.delete("\n")
+          eyJhbGciOiJIUzI1NiJ9
+          .eyJ1c2VyX2lkIjoxLCJleHAiOiIxNTQ5NTU4ODYwIn0
+          .123
+        TOKEN
+      end
+
+      it { is_expected.to be_nil }
+    end
   end
 end
