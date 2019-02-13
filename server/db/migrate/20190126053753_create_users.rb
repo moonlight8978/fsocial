@@ -13,6 +13,11 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.date :birthday
       t.text :description
 
+      t.string :role
+      t.string :language
+
+      t.datetime :deleted_at, index: true
+
       t.timestamps
     end
   end

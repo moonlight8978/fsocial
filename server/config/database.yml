@@ -17,3 +17,7 @@ test:
 production:
   <<: *default
   database: fsocial_production
+
+staging:
+  <<: *default
+  database: fsocial_staging

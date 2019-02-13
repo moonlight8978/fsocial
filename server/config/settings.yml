@@ -1,0 +1,11 @@
+
+http:
+  statuses:
+    errors:
+      default: 500
+      active_record/record_not_found: 404
+      active_record/record_invalid: 422
+      application_controller/unauthenticated: 401
+      pundit/not_authorized_error: 403
+    created: 201
+    success: 200

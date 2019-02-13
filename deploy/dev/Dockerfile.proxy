@@ -1,7 +1,5 @@
-FROM nginx:latest
+FROM nginx:1.15.8
 
 RUN apt-get update -qq && apt-get install -y curl
-
-COPY fsocial.conf /etc/nginx/conf.d
 
 EXPOSE 80

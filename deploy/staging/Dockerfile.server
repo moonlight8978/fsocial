@@ -1,0 +1,11 @@
+FROM ruby:2.6.1-alpine3.9
+
+RUN apk --update add build-base nodejs tzdata postgresql-dev imagemagick
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY Gemfile* ./
+RUN bundle install --without development test
+
+EXPOSE 3000

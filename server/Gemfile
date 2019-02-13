@@ -1,31 +1,33 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.0'
+ruby '2.6.1'
 
 gem 'active_model_serializers'
-gem 'activerecord-import'
+gem 'api-pagination'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'config'
 gem 'draper'
 gem 'enumerize'
 gem 'faker'
+gem 'http-accept'
 gem 'jwt'
 gem 'kaminari'
 gem 'mini_magick', '~> 4.8'
 gem 'paranoia'
 gem 'pg', '>= 0.18', '< 2.0'
+gem 'populator'
 gem 'puma', '~> 3.11'
 gem 'pundit'
 gem 'rack-cors'
 gem 'rails', '~> 5.2.2'
 gem 'rails-i18n'
+gem 'ransack'
 gem 'redis', '~> 4.0'
-gem 'reform'
-gem 'reform-rails'
 
 group :development, :test do
+  gem 'action-cable-testing'
   gem 'bullet'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'database_cleaner'
