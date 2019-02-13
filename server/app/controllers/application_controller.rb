@@ -34,8 +34,6 @@ class ApplicationController < ActionController::API
     current_user.present?
   end
 
-  helper_method :current_user, :signed_in?
-
   private
 
   def extract_locale_from_accept_language_header

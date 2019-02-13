@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Auth::Jwt do
   before do
-    allow(Time).to receive_message_chain('zone.now.to_i').and_return(1549558800)
-    allow(Time).to receive_message_chain('now.to_i').and_return(1549558800)
+    allow(Time).to receive_message_chain('zone.now.to_i').and_return(1_549_558_800)
+    allow(Time).to receive_message_chain('now.to_i').and_return(1_549_558_800)
     allow(described_class).to receive(:secret).and_return('secret')
     allow(described_class).to receive(:expiration).and_return(1.minute)
   end
@@ -38,7 +38,7 @@ RSpec.describe Auth::Jwt do
 
   describe '.expires_at' do
     it 'take the current time and add the expiration' do
-      expect(described_class.send(:expires_at)).to eq(1549558860)
+      expect(described_class.send(:expires_at)).to eq(1_549_558_860)
     end
   end
 
@@ -47,7 +47,7 @@ RSpec.describe Auth::Jwt do
 
     let(:payload) { Hash[user_id: 1] }
     let(:result) do
-      <<~TOKEN.gsub(/\n/, '')
+      <<~TOKEN.delete("\n")
         eyJhbGciOiJIUzI1NiJ9
         .eyJ1c2VyX2lkIjoxLCJleHAiOiIxNTQ5NTU4ODYwIn0
         .EVQO-kE4qTbuDd4_u1mWwhXu2Oh4bpaYMzJcaQMCD1E
