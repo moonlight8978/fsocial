@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "V1::Users", type: :request do
+RSpec.describe 'V1::Users', type: :request do
   let!(:exist_user) { create(:user) }
   let(:user) { build(:user) }
   let(:headers) { setup_auth(token) }
@@ -23,7 +23,7 @@ RSpec.describe "V1::Users", type: :request do
 
     context 'signed in user' do
       let(:token) { exist_user.token }
-      let(:user_params) { Hash.new }
+      let(:user_params) { {} }
 
       include_examples 'guest only'
     end

@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe "V1::Users", type: :request do
+RSpec.describe 'V1::Users', type: :request do
   let!(:user) { create(:user) }
   let(:headers) { setup_auth(token) }
 
-  describe "GET /v1/user" do
+  describe 'GET /v1/user' do
     subject { get v1_user_path, headers: headers }
 
     context 'when not signed in' do

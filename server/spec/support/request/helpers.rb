@@ -11,4 +11,3 @@ module RequestHelpers
     Hash["#{Settings.auth.header}": "Bearer #{token}"]
   end
 end
-

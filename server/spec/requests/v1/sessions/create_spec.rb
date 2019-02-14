@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe "V1::Sessions", type: :request do
-  describe "POST /v1/sessions" do
+RSpec.describe 'V1::Sessions', type: :request do
+  describe 'POST /v1/sessions' do
     let!(:user) { create(:user, username: 'abc') }
     let(:headers) { setup_auth(token) }
-    let(:user_params) { Hash.new }
+    let(:user_params) { {} }
 
     subject { post v1_sessions_path, params: { user: user_params }, headers: headers }
 

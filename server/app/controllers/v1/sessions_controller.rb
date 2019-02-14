@@ -5,11 +5,9 @@ class V1::SessionsController < ApplicationController
   def create
     sign_in_params = Users::SignInParameters.new(params).extract
     user = User.authenticate(sign_in_params)
-    if (user.errors.any?)
-      raise ActiveRecord::RecordInvalid.new(user)
-    else
-      render json: user, serializer: ::SessionSerializer, status: Settings.http.statuses.created
-    end
+    raise ActiveRecord::RecordInvalid, user if user.errors.any?
+
+    render json: user, serializer: ::SessionSerializer, status: Settings.http.statuses.created
   end
 
   def destroy; end

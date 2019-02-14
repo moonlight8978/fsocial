@@ -16,7 +16,6 @@ class ApplicationController < ActionController::API
     with: :render_error
   )
 
-
   def set_locale
     locale = current_user.try(:language) || extract_locale_from_accept_language_header
     I18n.locale =
@@ -92,7 +91,7 @@ class ApplicationController < ActionController::API
     )
   end
 
-  def debug(exception)
-    byebug
+  def debug(_exception)
+    byebug if Rails.env.test? # rubocop:disable Lint/Debugger
   end
 end

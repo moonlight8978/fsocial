@@ -1,7 +1,7 @@
 class V1::UsersController < ApplicationController
   before_action :authenticate!, except: :create
   before_action :guest_only!, only: :create
-  before_action :not_implemented_yet!, only: [:update, :destroy]
+  before_action :not_implemented_yet!, only: %i[update destroy]
 
   def create
     registration_params = Users::RegistrationParameters.new(params).extract
