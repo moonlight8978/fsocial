@@ -5,6 +5,8 @@ class ApplicationController < ActionController::API
 
   before_action :set_locale
 
+  rescue_from StandardError, with: :debug
+  rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
   rescue_from(
     Unauthenticated,
     GuestOnly,
@@ -14,7 +16,6 @@ class ApplicationController < ActionController::API
     with: :render_error
   )
 
-  rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
 
   def set_locale
     locale = current_user.try(:language) || extract_locale_from_accept_language_header
@@ -89,5 +90,9 @@ class ApplicationController < ActionController::API
       json: { errors: exception.record.errors.messages },
       status: Settings.http.statuses.errors['active_record/record_invalid']
     )
+  end
+
+  def debug(exception)
+    byebug
   end
 end

@@ -15,14 +15,18 @@ class User < ApplicationRecord
   validates :role, presence: true
 
   class << self
-    def authenticate(login_params)
-      identity, password = login_params.values_at(:identity, :password)
+    def authenticate(sign_in_params)
+      identity, password = sign_in_params.values_at(:identity, :password)
       user = new
       persisted_user = where('username = :identity OR email = :identity', identity: identity).first
       return user.tap { user.errors.add(:identity, :not_exist) } unless persisted_user
-      return persisted_user if user.authenticate(password)
+      return persisted_user if persisted_user.authenticate(password)
 
       user.tap { user.errors.add(:password, :mismatch) }
     end
+  end
+
+  def token
+    @token ||= Auth::Jwt.encode(user_id: id)
   end
 end

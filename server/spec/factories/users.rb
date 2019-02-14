@@ -4,7 +4,10 @@ FactoryBot.define do
     sequence(:username) { |i| "username-#{i}" }
     identity { email }
     password { '1111' }
+
     role { :user }
+
+    fullname { username }
 
     trait :admin do
       role { :admin }

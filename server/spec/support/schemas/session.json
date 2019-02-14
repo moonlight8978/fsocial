@@ -1,5 +1,4 @@
 {
-  "$id": "file://session.json#",
   "type": "object",
   "properties": {
     "id": {
