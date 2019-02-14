@@ -1,0 +1,16 @@
+{
+  "$id": "file://session.json#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "role": {
+      "type": "string"
+    },
+    "token": {
+      "type": "string"
+    }
+  },
+  "required": ["id", "role", "token"]
+}

@@ -44,10 +44,11 @@ RSpec.describe V1::UsersController, type: :request do
         expect { subject }.to change(User, :count).by(1)
       end
 
-      # it 'return the session data' do
-      #   expected = serialize(User.last, SessionSerializer)
-      #   expect(response.body).to eq(expected.to_json)
-      # end
+      it 'return the session data' do
+        subject
+        # assert_response_schema('session.json')
+        expect(response).to match_response_schema('session')
+      end
     end
   end
 end
