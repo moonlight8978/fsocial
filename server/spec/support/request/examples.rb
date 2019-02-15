@@ -19,6 +19,16 @@ shared_examples 'created' do
   end
 end
 
+shared_examples 'missing params' do
+  before { subject }
+
+  it 'return status 400 Bad Request' do
+    expect(response).to have_http_status(:bad_request)
+  end
+
+  it_behaves_like 'match response schema', 'error'
+end
+
 shared_examples 'validation error' do
   before { subject }
 

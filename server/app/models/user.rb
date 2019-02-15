@@ -6,8 +6,8 @@ class User < ApplicationRecord
 
   attr_accessor :identity
 
-  enumerize :role, in: { user: 1, admin: 99 }, default: :user
-  enumerize :gender, in: { male: 1, female: 2 }, default: :male
+  enumerize :role, in: { user: 1, admin: 99 }, default: :user, predicates: { prefix: true }
+  enumerize :gender, in: { male: 1, female: 2 }, default: :male, predicates: { prefix: true }
 
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true

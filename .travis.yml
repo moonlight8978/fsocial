@@ -21,6 +21,7 @@ addons:
 before_install:
   - nvm install --lts=dubnium
   - node --version
+  - apt-get install -y libidn11-dev
   - cp deploy/dev/Makefile.test Makefile
 
 install:

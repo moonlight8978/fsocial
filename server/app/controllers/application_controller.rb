@@ -1,7 +1,12 @@
 class ApplicationController < ActionController::API
+  include Pundit
+  public :policy # rubocop:disable Style/AccessModifierDeclarations
+
   class Unauthenticated < StandardError; end
   class GuestOnly < StandardError; end
   class NotImplementedYet < StandardError; end
+
+  serialization_scope :controller_context
 
   before_action :set_locale
 
@@ -13,6 +18,7 @@ class ApplicationController < ActionController::API
     NotImplementedYet,
     Pundit::NotAuthorizedError,
     ActiveRecord::RecordNotFound,
+    ActionController::ParameterMissing,
     with: :render_error
   )
 
@@ -44,6 +50,10 @@ class ApplicationController < ActionController::API
 
   def not_implemented_yet!
     raise NotImplementedYet
+  end
+
+  def controller_context
+    self
   end
 
   private
@@ -92,6 +102,6 @@ class ApplicationController < ActionController::API
   end
 
   def debug(_exception)
-    byebug if Rails.env.test? # rubocop:disable Lint/Debugger
+    byebug # rubocop:disable Lint/Debugger
   end
 end

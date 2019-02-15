@@ -26,7 +26,7 @@ services:
     volumes:
       - ./web:/usr/src/app
     ports:
-      - 1234:43000
+      - 60000:43000
 
   server:
     build:
@@ -42,7 +42,7 @@ services:
     volumes:
       - ./server:/usr/src/app
     ports:
-      - 4321:3000
+      - 60001:3000
 
   db:
     image: postgres:10.6-alpine

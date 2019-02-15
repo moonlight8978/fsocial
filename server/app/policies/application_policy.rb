@@ -18,32 +18,25 @@ class ApplicationPolicy
     false
   end
 
-  def new?
-    create?
-  end
-
   def update?
     false
-  end
-
-  def edit?
-    update?
   end
 
   def destroy?
     false
   end
 
-  class Scope
-    attr_reader :user, :scope
+  protected
 
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-    end
+  def admin?
+    user.role_admin?
+  end
 
-    def resolve
-      scope.all
-    end
+  def signed_in?
+    user.present?
+  end
+
+  def guest?
+    !signed_in?
   end
 end

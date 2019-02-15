@@ -1,5 +1,5 @@
-module Users
-  class RegistrationParameters
+module Posts
+  class CreateParameters
     attr_reader :params, :controller
 
     def initialize(params, controller = nil)
@@ -8,16 +8,15 @@ module Users
     end
 
     def extract
-      params.require(:user)
-        .permit(:email, :password, :password_confirmation, :username)
+      params.require(:post)
+        .permit(:content)
         .merge(additional_params)
         .permit!
     end
 
     def additional_params
       {
-        fullname: params.dig(:user, :username),
-        language: :en
+        creator_id: controller.current_user.id
       }
     end
   end
