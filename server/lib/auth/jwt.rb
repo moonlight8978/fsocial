@@ -1,11 +1,11 @@
 class Auth::Jwt
   class << self
     def encode(**payload)
-      JWT.encode(payload.merge(exp: expires_at), secret, algorithm)
+      JWT.encode(payload.merge(exp: expires_at), 'abc', algorithm)
     end
 
     def decode(token)
-      data = JWT.decode(token, secret, true, algorithm: algorithm)
+      data = JWT.decode(token, 'abc', true, algorithm: algorithm)
       HashWithIndifferentAccess.new(data.first)
     rescue StandardError
       nil
