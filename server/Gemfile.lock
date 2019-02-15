@@ -59,12 +59,6 @@ GEM
     arel (9.0.0)
     ast (2.4.0)
     bcrypt (3.1.12)
-    better_errors (2.5.0)
-      coderay (>= 1.0.0)
-      erubi (>= 1.0.0)
-      rack (>= 0.9.0)
-    binding_of_caller (0.8.0)
-      debug_inspector (>= 0.0.1)
     bootsnap (1.3.2)
       msgpack (~> 1.0)
     builder (3.2.3)
@@ -74,7 +68,6 @@ GEM
     byebug (10.0.2)
     case_transform (0.2)
       activesupport
-    coderay (1.1.2)
     concurrent-ruby (1.1.4)
     config (1.7.1)
       activesupport (>= 3.0)
@@ -82,7 +75,6 @@ GEM
       dry-validation (>= 0.12.2)
     crass (1.0.4)
     database_cleaner (1.7.0)
-    debug_inspector (0.0.3)
     deep_merge (1.2.1)
     diff-lcs (1.3)
     draper (3.0.1)
@@ -131,9 +123,9 @@ GEM
     ffi (1.10.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    http-accept (1.7.0)
     i18n (1.5.3)
       concurrent-ruby (~> 1.0)
+    idn-ruby (0.1.0)
     jaro_winkler (1.5.2)
     json-schema (2.8.1)
       addressable (>= 2.4)
@@ -269,8 +261,14 @@ GEM
       sprockets (>= 3.0.0)
     thor (0.20.3)
     thread_safe (0.3.6)
+    twitter-text (3.0.0)
+      idn-ruby
+      unf (~> 0.1.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.5)
     unicode-display_width (1.4.1)
     uniform_notifier (1.12.1)
     websocket-driver (0.7.0)
@@ -285,8 +283,6 @@ DEPENDENCIES
   active_model_serializers
   api-pagination
   bcrypt (~> 3.1.7)
-  better_errors
-  binding_of_caller
   bootsnap (>= 1.1.0)
   bullet
   byebug
@@ -296,7 +292,6 @@ DEPENDENCIES
   enumerize
   factory_bot_rails
   faker
-  http-accept
   json-schema
   jwt
   kaminari
@@ -316,6 +311,7 @@ DEPENDENCIES
   rubocop
   spring
   spring-watcher-listen (~> 2.0.0)
+  twitter-text
 
 RUBY VERSION
    ruby 2.6.1p33
