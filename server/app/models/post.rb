@@ -9,6 +9,8 @@ class Post < ApplicationRecord
   has_many :replies, class_name: 'Post', foreign_key: 'root_id'
   has_many :sub_replies, class_name: 'Post', foreign_key: 'parent_id'
 
+  has_many_attached :medias
+
   validates :content, presence: true
 
   def created_by?(user)
