@@ -5,8 +5,11 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
+require 'json-schema'
 # Add additional requires below this line. Rails is not loaded until this point!
 Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
+
+# ActiveModelSerializers.config.schema_path = 'spec/support/schemas'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -61,4 +64,6 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.include RequestHelpers, type: :request
+  # config.include ActiveModelSerializers::Test::Schema, type: :request
+  # config.include ActiveModelSerializers::Test::Serializer, type: :request
 end

@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "fullname": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "language": {
+      "type": ["string", "null"]
+    },
+    "username": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "gender": {
+      "type": ["string", "null"]
+    },
+    "birthday": {
+      "type": ["string", "null"]
+    },
+    "description": {
+      "type": ["string", "null"]
+    }
+  },
+  "required": [
+    "id",
+    "fullname",
+    "role",
+    "language",
+    "username",
+    "email",
+    "gender",
+    "birthday",
+    "description"
+  ]
+}

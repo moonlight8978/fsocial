@@ -1,16 +1,20 @@
 class ApplicationController < ActionController::API
   class Unauthenticated < StandardError; end
+  class GuestOnly < StandardError; end
+  class NotImplementedYet < StandardError; end
 
   before_action :set_locale
 
+  rescue_from StandardError, with: :debug
+  rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
   rescue_from(
     Unauthenticated,
+    GuestOnly,
+    NotImplementedYet,
     Pundit::NotAuthorizedError,
     ActiveRecord::RecordNotFound,
     with: :render_error
   )
-
-  rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
 
   def set_locale
     locale = current_user.try(:language) || extract_locale_from_accept_language_header
@@ -27,11 +31,19 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate!
-    raise Unauthenticated unless current_user.present?
+    raise Unauthenticated unless signed_in?
+  end
+
+  def guest_only!
+    raise GuestOnly if signed_in?
   end
 
   def signed_in?
     current_user.present?
+  end
+
+  def not_implemented_yet!
+    raise NotImplementedYet
   end
 
   private
@@ -77,5 +89,9 @@ class ApplicationController < ActionController::API
       json: { errors: exception.record.errors.messages },
       status: Settings.http.statuses.errors['active_record/record_invalid']
     )
+  end
+
+  def debug(_exception)
+    byebug if Rails.env.test? # rubocop:disable Lint/Debugger
   end
 end

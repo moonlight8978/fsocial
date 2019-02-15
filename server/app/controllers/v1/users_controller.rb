@@ -1,10 +1,12 @@
 class V1::UsersController < ApplicationController
-  before_action :authenticate!, except: [:create]
+  before_action :authenticate!, except: :create
+  before_action :guest_only!, only: :create
+  before_action :not_implemented_yet!, only: %i[update destroy]
 
   def create
     registration_params = Users::RegistrationParameters.new(params).extract
     user = User.create!(registration_params)
-    render json: user, seializer: ::SessionSerializer, status: Settings.http.statuses.created
+    render json: user, serializer: ::SessionSerializer, status: Settings.http.statuses.created
   end
 
   def show

@@ -2,3 +2,5 @@ en:
   errors:
     pundit/not_authorized_error: Unauthorized
     application_controller/unauthenticated: Unauthenticated
+    application_controller/not_implemented_yet: This API will be implemented soon
+    application_controller/guest_only: Signed users are not allow
