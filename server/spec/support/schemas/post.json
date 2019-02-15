@@ -1,0 +1,55 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "root_id": {
+      "type": ["integer", "null"]
+    },
+    "parent_id": {
+      "type": ["integer", "null"]
+    },
+    "content": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    },
+    "can_update": {
+      "type": "boolean"
+    },
+    "can_destroy": {
+      "type": "boolean"
+    },
+    "creator": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "username": {
+          "type": "string"
+        },
+        "fullname": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "username", "fullname"]
+    }
+  },
+  "required": [
+    "id",
+    "root_id",
+    "parent_id",
+    "content",
+    "created_at",
+    "updated_at",
+    "can_update",
+    "can_destroy",
+    "creator"
+  ]
+}

@@ -1,9 +1,10 @@
 module Users
   class SignInParameters
-    attr_reader :params
+    attr_reader :params, :controller
 
-    def initialize(params)
+    def initialize(params, controller = nil)
       @params = params
+      @controller = controller
     end
 
     def extract

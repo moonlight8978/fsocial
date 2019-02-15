@@ -11,7 +11,6 @@ gem 'config'
 gem 'draper'
 gem 'enumerize'
 gem 'faker'
-gem 'http-accept'
 gem 'jwt'
 gem 'kaminari'
 gem 'mini_magick', '~> 4.8'
@@ -25,6 +24,7 @@ gem 'rails', '~> 5.2.2'
 gem 'rails-i18n'
 gem 'ransack'
 gem 'redis', '~> 4.0'
+gem 'twitter-text'
 
 group :development, :test do
   gem 'action-cable-testing'
@@ -37,8 +37,8 @@ group :development, :test do
 end
 
 group :development do
-  gem 'better_errors'
-  gem 'binding_of_caller'
+  # gem 'better_errors'
+  # gem 'binding_of_caller'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
