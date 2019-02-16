@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   scope :api do
     namespace :v1 do
+      resources :tests if Rails.env.development?
+
       resource :user
       resources :sessions, only: %i[create destroy]
 

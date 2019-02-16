@@ -13,6 +13,8 @@ class Post < ApplicationRecord
 
   validates :content, presence: true
 
+  validates :medias, blob: { content_types: %r{image/*}, size: { maximum: 1.megabyte } }
+
   def created_by?(user)
     user.id == creator.id
   end
