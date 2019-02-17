@@ -2,7 +2,7 @@ module Attachment
   module Parser
     module_function
 
-    def perform!(encoded_attachments, decoder = Base64Decoder, &block)
+    def perform!(encoded_attachments, decoder = Base64Decoder)
       attachments = Array(encoded_attachments)
       attachments.reject(&:blank?).map do |encoded_attachment|
         tempfile = create_tempfile(to_blob(encoded_attachment, decoder))

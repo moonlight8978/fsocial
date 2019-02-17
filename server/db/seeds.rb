@@ -38,6 +38,7 @@ ActiveRecord::Base.transaction do
           user.email = "#{username}@sample.com"
           user.username = username
           user.fullname = "#{Faker::Football.player} #{SecureRandom.hex(8)}"
+          user.password = '1111'
         end
       )
     end
@@ -45,7 +46,7 @@ ActiveRecord::Base.transaction do
     User.import(users, on_duplicate_key_ignore: true)
   end
 
-  users = User.all
+  users = User.all.select(:id)
 
   seed :posts do
     posts = []
@@ -67,7 +68,7 @@ ActiveRecord::Base.transaction do
   seed :replies do
     replies = []
 
-    Post.where(root: nil).select(:id).each do |post|
+    Post.where(root: nil).select(:id).find_each do |post|
       random_or_nothing(5).times do
         replies.push(
           Post.new do |reply|
@@ -85,7 +86,7 @@ ActiveRecord::Base.transaction do
   seed :sub_replies do
     sub_replies = []
 
-    Post.where(parent: nil).where.not(root: nil).select(:id, :root_id).each do |reply|
+    Post.where(parent: nil).where.not(root: nil).select(:id, :root_id).find_each do |reply|
       random_or_nothing(2) do
         sub_replies.push(
           Post.new do |sub_reply|
@@ -103,6 +104,5 @@ ActiveRecord::Base.transaction do
 
 rescue StandardError => e
   puts e
-  byebug
   raise ActiveRecord::Rollback
 end

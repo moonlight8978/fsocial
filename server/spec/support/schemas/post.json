@@ -39,6 +39,12 @@
         }
       },
       "required": ["id", "username", "fullname"]
+    },
+    "medias": {
+      "type": "array",
+      "items": {
+        "$ref": "attachment.json"
+      }
     }
   },
   "required": [
@@ -50,6 +56,7 @@
     "updated_at",
     "can_update",
     "can_destroy",
-    "creator"
+    "creator",
+    "medias"
   ]
 }
