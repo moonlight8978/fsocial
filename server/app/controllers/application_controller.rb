@@ -102,6 +102,6 @@ class ApplicationController < ActionController::API
   end
 
   def debug(_exception)
-    byebug # rubocop:disable Lint/Debugger
+    byebug if Rails.env.test? || Rails.env.development? # rubocop:disable Lint/Debugger
   end
 end

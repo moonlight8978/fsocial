@@ -1,6 +1,8 @@
 class Post < ApplicationRecord
   acts_as_paranoid
 
+  attr_accessor :medias_base64
+
   belongs_to :creator, class_name: 'User'
 
   belongs_to :root, class_name: 'Post', optional: true
@@ -13,7 +15,12 @@ class Post < ApplicationRecord
 
   validates :content, presence: true
 
-  validates :medias, blob: { content_types: %r{image/*}, size: { maximum: 1.megabyte } }
+  validates :medias,
+    blob: {
+      content_types: %r{image/*},
+      size: { maximum: 1.megabyte },
+      count: { maximum: 3 }
+    }
 
   def created_by?(user)
     user.id == creator.id

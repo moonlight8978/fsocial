@@ -2,8 +2,8 @@ module Attachment
   module Base64Decoder
     module_function
 
-    def perform(attachment_base64)
-      Base64.strict_decode64(split_content(attachment_base64))
+    def perform(base64_string)
+      Base64.strict_decode64(split_content(base64_string))
     end
 
     def split_content(attachment_base64)

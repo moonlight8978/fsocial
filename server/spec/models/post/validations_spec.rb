@@ -14,5 +14,9 @@ RSpec.describe Post, type: :model do
     it_behaves_like 'validate blob max size', :medias, 1.megabyte do
       let(:attachment) { get_attachment }
     end
+
+    it_behaves_like 'validate attachment max count', :medias, 3 do
+      let(:create_attachment) { proc { get_attachment } }
+    end
   end
 end

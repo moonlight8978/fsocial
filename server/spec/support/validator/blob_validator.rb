@@ -48,6 +48,46 @@ shared_examples 'validate blob max size' do |association, maximum_size|
   end
 end
 
+shared_examples 'validate attachment min count' do |association, minimum_count|
+  before do
+    attachment_count.times { model.send(association).attach(create_attachment.call) }
+  end
+
+  context 'when invalid' do
+    let(:attachment_count) { minimum_count - 1 }
+
+    it { is_expected.to be_invalid }
+
+    it_behaves_like 'model has error', association, :too_little
+  end
+
+  context 'when valid' do
+    let(:attachment_count) { minimum_count }
+
+    it { is_expected.to be_valid }
+  end
+end
+
+shared_examples 'validate attachment max count' do |association, maximum_count|
+  before do
+    attachment_count.times { model.send(association).attach(create_attachment.call) }
+  end
+
+  context 'when invalid' do
+    let(:attachment_count) { maximum_count + 1 }
+
+    it { is_expected.to be_invalid }
+
+    it_behaves_like 'model has error', association, :too_many
+  end
+
+  context 'when valid' do
+    let(:attachment_count) { maximum_count }
+
+    it { is_expected.to be_valid }
+  end
+end
+
 shared_examples 'validate blob content type' do |association|
   before { model.send(association).attach(attachment) }
 

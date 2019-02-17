@@ -12,6 +12,7 @@ class BlobValidator < ActiveModel::EachValidator
 
       validate_size(blob, &add_error)
       validate_content_type(blob, &add_error)
+      validate_count(values, &add_error)
     end
   end
 
@@ -42,5 +43,14 @@ class BlobValidator < ActiveModel::EachValidator
         options[:content_types] == blob.content_type
       end
     yield(:invalid_content_type) unless valid
+  end
+
+  def validate_count(values)
+    valid_count = options[:count]
+    return unless valid_count.present?
+
+    minimum, maximum = valid_count.values_at(:minimum, :maximum)
+    yield :too_little if minimum.present? && values.size < minimum
+    yield :too_many if maximum.present? && values.size > maximum
   end
 end

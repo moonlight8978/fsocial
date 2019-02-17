@@ -9,7 +9,7 @@ module Posts
 
     def extract
       params.require(:post)
-        .permit(:content, medias: [])
+        .permit(:content, medias_base64: [])
         .merge(additional_params)
         .permit!
     end
