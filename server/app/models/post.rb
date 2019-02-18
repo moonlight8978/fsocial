@@ -11,6 +11,8 @@ class Post < ApplicationRecord
   has_many :replies, class_name: 'Post', foreign_key: 'root_id'
   has_many :sub_replies, class_name: 'Post', foreign_key: 'parent_id'
 
+  has_many :activities, as: :trackable
+
   has_many_attached :medias
 
   validates :content, presence: true
@@ -21,6 +23,12 @@ class Post < ApplicationRecord
       size: { maximum: 1.megabyte },
       count: { maximum: 3 }
     }
+
+  class << self
+    def tracked_actions
+      [:create]
+    end
+  end
 
   def created_by?(user)
     user.id == creator.id

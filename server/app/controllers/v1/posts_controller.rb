@@ -10,7 +10,8 @@ class V1::PostsController < ApplicationController
       post.medias.attach(io: tempfile, filename: SecureRandom.uuid)
     end
     post.save!
-    render json: post, serializer: ::PostSerializer, status: Settings.http.statuses.created
+    activity = Activities::Creator.new(post).perform(owner: current_user, action: :create)
+    render json: activity, serializer: ::ActivitySerializer, status: Settings.http.statuses.created
   end
 
   def index; end

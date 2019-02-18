@@ -36,16 +36,22 @@ RSpec.describe 'V1::Posts', type: :request do
 
           it_behaves_like 'created'
 
-          it_behaves_like 'match response schema', 'post'
+          it_behaves_like 'match response schema', 'activity/post'
 
           it_behaves_like 'correct data', proc {
             Hash[
-              content: 'abcxyz',
-              creator: include(id: user.id),
-              can_update: true,
-              can_destroy: true
+              trackable: include(
+                content: 'abcxyz',
+                creator: include(id: user.id),
+                can_update: true,
+                can_destroy: true
+              )
             ]
           }
+
+          it 'create activity' do
+            expect { subject }.to change(Activity, :count).by(1)
+          end
         end
 
         context 'with images' do
@@ -53,10 +59,14 @@ RSpec.describe 'V1::Posts', type: :request do
 
           it_behaves_like 'created'
 
-          it_behaves_like 'match response schema', 'post'
+          it_behaves_like 'match response schema', 'activity/post'
 
           it 'create blob' do
             expect { subject }.to change(ActiveStorage::Attachment, :count).by(1)
+          end
+
+          it 'create activity' do
+            expect { subject }.to change(Activity, :count).by(1)
           end
         end
       end

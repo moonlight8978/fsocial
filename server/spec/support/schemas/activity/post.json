@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "$ref": "../activity.json",
+    "trackable": {
+      "$ref": "../post.json"
+    }
+  }
+}
