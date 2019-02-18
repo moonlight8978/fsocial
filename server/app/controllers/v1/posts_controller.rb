@@ -5,7 +5,11 @@ class V1::PostsController < ApplicationController
   def create
     authorize Post
     post_params = Posts::CreateParameters.new(params, self).extract
-    post = Post.create!(post_params)
+    post = Post.new(post_params)
+    Attachment::Parser.perform!(post_params.dig(:medias_base64)) do |tempfile|
+      post.medias.attach(io: tempfile, filename: SecureRandom.uuid)
+    end
+    post.save!
     render json: post, serializer: ::PostSerializer, status: Settings.http.statuses.created
   end
 

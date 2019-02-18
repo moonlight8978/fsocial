@@ -8,6 +8,8 @@ class PostSerializer < ActiveModel::Serializer
 
   belongs_to :creator, serializer: CreatorSerializer
 
+  has_many :medias, serializer: ::AttachmentSerializer
+
   def can_update
     controller_context.policy(object).update?
   end

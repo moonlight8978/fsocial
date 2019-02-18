@@ -9,6 +9,8 @@ class User < ApplicationRecord
   enumerize :role, in: { user: 1, admin: 99 }, default: :user, predicates: { prefix: true }
   enumerize :gender, in: { male: 1, female: 2 }, default: :male, predicates: { prefix: true }
 
+  has_one_attached :avatar
+
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
   validates :password, presence: true

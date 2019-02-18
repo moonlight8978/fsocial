@@ -29,20 +29,36 @@ RSpec.describe 'V1::Posts', type: :request do
       end
 
       context 'with valid params' do
-        let(:post_params) { Hash[content: 'abcxyz'] }
+        let(:post_params) { Hash[content: 'abcxyz', medias_base64: medias_base64] }
 
-        it_behaves_like 'created'
+        context 'without images' do
+          let(:medias_base64) { [] }
 
-        it_behaves_like 'match response schema', 'post'
+          it_behaves_like 'created'
 
-        it_behaves_like 'correct data', proc {
-          Hash[
-            content: 'abcxyz',
-            creator: include(id: user.id),
-            can_update: true,
-            can_destroy: true
-          ]
-        }
+          it_behaves_like 'match response schema', 'post'
+
+          it_behaves_like 'correct data', proc {
+            Hash[
+              content: 'abcxyz',
+              creator: include(id: user.id),
+              can_update: true,
+              can_destroy: true
+            ]
+          }
+        end
+
+        context 'with images' do
+          let(:medias_base64) { [get_attachment_base64] }
+
+          it_behaves_like 'created'
+
+          it_behaves_like 'match response schema', 'post'
+
+          it 'create blob' do
+            expect { subject }.to change(ActiveStorage::Attachment, :count).by(1)
+          end
+        end
       end
     end
   end
