@@ -10,7 +10,7 @@ class CreateActivities < ActiveRecord::Migration[5.2]
 
       t.timestamps
 
-      t.index [:trackable_type, :trackable_id, :owner_id], name: 'index_trackable_owner'
+      t.index %i[trackable_type trackable_id owner_id], name: 'index_trackable_owner'
     end
   end
 end

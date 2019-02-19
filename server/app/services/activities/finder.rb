@@ -1,3 +1,4 @@
+# unused
 module Activities
   class Finder
     attr_reader :model, :klass, :class_name
