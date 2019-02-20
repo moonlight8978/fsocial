@@ -1,25 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::Users', type: :request do
-  let!(:user) { create(:user) }
-  let(:headers) { setup_auth(token) }
-
   describe 'GET /v1/user' do
-    subject { get v1_user_path, headers: headers }
+    subject { get v1_user_path }
 
-    context 'when not signed in' do
-      let(:token) { '' }
-      it_behaves_like 'unauthenticated'
+    context 'when user not found' do
+
     end
 
-    context 'when signed in' do
-      let(:token) { user.token }
+    context 'when user found' do
 
-      before { subject }
-
-      it_behaves_like 'match response schema', 'current_user'
-
-      it_behaves_like 'correct data', proc { Hash[id: user.id] }
     end
   end
 end

@@ -54,6 +54,16 @@ shared_examples 'unauthorized' do
   end
 end
 
+shared_examples 'not found' do
+  before { subject }
+
+  it 'return 404 not found' do
+    expect(response).to have_http_status(:not_found)
+  end
+
+  it_behaves_like 'match response schema', 'error'
+end
+
 shared_examples 'unauthenticated' do
   before { subject }
 

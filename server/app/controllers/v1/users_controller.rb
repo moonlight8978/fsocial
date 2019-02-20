@@ -10,7 +10,9 @@ class V1::UsersController < ApplicationController
   end
 
   def show
-    render json: @current_user, serializer: ::CurrentUserSerializer, status: Settings.http.statuses.success
+    user = User.find(params[:id])
+    authorize user
+    render json: user, serializer: ::ProfileSerializer, status: Settings.http.statuses.success
   end
 
   def destroy
