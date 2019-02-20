@@ -6,6 +6,6 @@ class AttachmentSerializer < ActiveModel::Serializer
   end
 
   def path
-    controller_context.rails_blob_path(object)
+    Rails.application.routes.url_helpers.rails_blob_path(object, only_path: true)
   end
 end

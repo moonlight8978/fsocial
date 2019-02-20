@@ -6,8 +6,6 @@ class ApplicationController < ActionController::API
   class GuestOnly < StandardError; end
   class NotImplementedYet < StandardError; end
 
-  serialization_scope :controller_context
-
   before_action :set_locale
 
   rescue_from StandardError, with: :debug
@@ -50,10 +48,6 @@ class ApplicationController < ActionController::API
 
   def not_implemented_yet!
     raise NotImplementedYet
-  end
-
-  def controller_context
-    self
   end
 
   private

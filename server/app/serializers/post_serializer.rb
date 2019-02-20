@@ -1,4 +1,6 @@
 class PostSerializer < ActiveModel::Serializer
+  include SerializerHelpers::Auth
+
   class CreatorSerializer < ActiveModel::Serializer
     attributes :id, :username, :fullname
   end
@@ -11,10 +13,10 @@ class PostSerializer < ActiveModel::Serializer
   has_many :medias, serializer: ::AttachmentSerializer
 
   def can_update
-    controller_context.policy(object).update?
+    policy.update?
   end
 
   def can_destroy
-    controller_context.policy(object).destroy?
+    policy.destroy?
   end
 end
