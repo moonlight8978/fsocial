@@ -1,103 +1,69 @@
+shared_examples 'response with status' do |status|
+  it "response with status #{status}" do
+    subject
+    expect(response).to have_http_status(status)
+  end
+end
+
 shared_examples 'match response schema' do |schema|
-  it 'response with correct schema' do
+  it "response with #{schema} schema" do
     subject
     expect(response).to match_response_schema(schema)
   end
 end
 
-shared_examples 'success' do
-  it 'return 200 success' do
+shared_examples 'response with error message' do |message|
+  it 'respone with error message' do
     subject
-    expect(response).to have_http_status(:ok)
+    expected = { error: message }
+    expect(response_body).to eq(expected.as_json)
   end
+end
+
+shared_examples 'success' do
+  include_examples 'response with status', :ok
 end
 
 shared_examples 'created' do
-  it 'return 201 created' do
-    subject
-    expect(response).to have_http_status(:created)
-  end
+  include_examples 'response with status', :created
 end
 
 shared_examples 'missing params' do
-  before { subject }
-
-  it 'return status 400 Bad Request' do
-    expect(response).to have_http_status(:bad_request)
-  end
-
-  it_behaves_like 'match response schema', 'error'
+  include_examples 'response with status', :bad_request
+  include_examples 'match response schema', 'error'
 end
 
 shared_examples 'validation error' do
-  before { subject }
-
-  it 'return status 422 Unprocessable Entity' do
-    expect(response).to have_http_status(:unprocessable_entity)
-  end
-
-  it_behaves_like 'match response schema', 'validation_error'
+  include_examples 'response with status', :unprocessable_entity
+  include_examples 'match response schema', 'validation_error'
 end
 
 shared_examples 'unauthorized' do
-  before { subject }
-
-  it 'return 403 forbidden' do
-    expect(response).to have_http_status(:forbidden)
-  end
-
-  it_behaves_like 'match response schema', 'error'
-
-  it 'return error message' do
-    expected = { error: I18n.t('errors.pundit/not_authorized_error') }
-    expect(response_body).to eq(expected.as_json)
-  end
+  include_examples 'response with status', :forbidden
+  include_examples 'match response schema', 'error'
+  include_examples 'response with error message', I18n.t('errors.pundit/not_authorized_error')
 end
 
 shared_examples 'not found' do
-  before { subject }
-
-  it 'return 404 not found' do
-    expect(response).to have_http_status(:not_found)
-  end
-
-  it_behaves_like 'match response schema', 'error'
+  include_examples 'response with status', :not_found
+  include_examples 'match response schema', 'error'
 end
 
 shared_examples 'unauthenticated' do
-  before { subject }
-
-  it 'return 401 unauthorized' do
-    expect(response).to have_http_status(:unauthorized)
-  end
-
-  it_behaves_like 'match response schema', 'error'
-
-  it 'return error message' do
-    expected = { error: I18n.t('errors.application_controller/unauthenticated') }
-    expect(response_body).to eq(expected.as_json)
-  end
+  include_examples 'response with status', :unauthorized
+  include_examples 'match response schema', 'error'
+  include_examples 'response with error message', I18n.t('errors.application_controller/unauthenticated')
 end
 
 shared_examples 'guest only' do
-  before { subject }
-
-  it 'return 403 forbidden' do
-    expect(response).to have_http_status(:forbidden)
-  end
-
-  it_behaves_like 'match response schema', 'error'
-
-  it 'return error message' do
-    expected = { error: I18n.t('errors.application_controller/guest_only') }
-    expect(response_body).to eq(expected.as_json)
-  end
+  include_examples 'response with status', :forbidden
+  include_examples 'match response schema', 'error'
+  include_examples 'response with error message', I18n.t('errors.application_controller/guest_only')
 end
 
 shared_examples 'correct data' do |expectation|
-  before { subject }
-
   it 'response with correct data' do
+    subject
     expected = instance_eval(&expectation)
     expect(response_body).to include(expected)
   end

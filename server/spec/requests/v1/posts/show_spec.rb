@@ -7,14 +7,13 @@ RSpec.describe 'V1::Posts', type: :request do
     context 'when invalid id' do
       let(:post) { double('post', id: 0) }
 
-      it_behaves_like 'not found'
+      include_examples 'not found'
     end
 
     context 'when valid id' do
       let(:post) { create(:post) }
 
       include_examples 'success'
-
       include_examples 'match response schema', 'post'
     end
   end

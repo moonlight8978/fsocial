@@ -11,6 +11,8 @@ class V1::UsersController < ApplicationController
 
   def show
     user = User.friendly.find(params[:id])
+    raise ActiveRecord::RecordNotFound, params[:id] if user.username != params[:id]
+
     authorize user
     render json: user, serializer: ::ProfileSerializer, status: Settings.http.statuses.success
   end

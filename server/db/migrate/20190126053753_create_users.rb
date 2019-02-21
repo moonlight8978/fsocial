@@ -16,6 +16,8 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :role
       t.string :language
 
+      t.string :slug, unique: true
+
       t.datetime :deleted_at, index: true
 
       t.timestamps
