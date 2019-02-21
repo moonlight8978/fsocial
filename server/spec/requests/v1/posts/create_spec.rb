@@ -10,7 +10,7 @@ RSpec.describe 'V1::Posts', type: :request do
 
     context 'when not signed in' do
       let(:token) { '' }
-      
+
       include_examples 'unauthenticated'
     end
 
