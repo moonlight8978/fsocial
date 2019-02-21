@@ -7,16 +7,18 @@ RSpec.describe 'V1::Users', type: :request do
   let(:token) { '' }
 
   describe 'POST /v1/user' do
-    subject { post v1_user_path, params: { user: user_params }, headers: headers }
+    subject { post v1_users_path, params: { user: user_params }, headers: headers }
 
     context 'invalid identities' do
       context 'missing params' do
         let(:user_params) { Hash[password: '1111'] }
+
         include_examples 'validation error'
       end
 
       context 'existed email' do
         let(:user_params) { Hash[email: exist_user.email, username: user.username, password: '1111'] }
+
         include_examples 'validation error'
       end
     end
@@ -31,15 +33,12 @@ RSpec.describe 'V1::Users', type: :request do
     context 'valid identities' do
       let(:user_params) { Hash[email: user.email, username: user.username, password: '1221'] }
 
-      it_behaves_like 'created'
-
       it 'create new user' do
         expect { subject }.to change(User, :count).by(1)
       end
-
-      it_behaves_like 'match response schema', 'session'
-
-      it_behaves_like 'correct data', proc { Hash[id: User.find_by_email(user.email).id] }
+      include_examples 'created'
+      include_examples 'match response schema', 'session'
+      include_examples 'correct data', proc { Hash[id: User.find_by_email(user.email).id] }
     end
   end
 end

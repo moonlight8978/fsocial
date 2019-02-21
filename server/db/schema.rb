@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_218_011_743) do
+ActiveRecord::Schema.define(version: 20_190_221_013_053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -50,6 +50,17 @@ ActiveRecord::Schema.define(version: 20_190_218_011_743) do
     t.index %w[trackable_type trackable_id], name: 'index_activities_on_trackable_type_and_trackable_id'
   end
 
+  create_table 'friendly_id_slugs', force: :cascade do |t|
+    t.string 'slug', null: false
+    t.integer 'sluggable_id', null: false
+    t.string 'sluggable_type', limit: 50
+    t.string 'scope'
+    t.datetime 'created_at'
+    t.index %w[slug sluggable_type scope], name: 'index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope', unique: true
+    t.index %w[slug sluggable_type], name: 'index_friendly_id_slugs_on_slug_and_sluggable_type'
+    t.index %w[sluggable_type sluggable_id], name: 'index_friendly_id_slugs_on_sluggable_type_and_sluggable_id'
+  end
+
   create_table 'posts', force: :cascade do |t|
     t.bigint 'creator_id'
     t.bigint 'root_id'
@@ -78,6 +89,7 @@ ActiveRecord::Schema.define(version: 20_190_218_011_743) do
     t.datetime 'deleted_at'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.string 'slug'
     t.index ['country_id'], name: 'index_users_on_country_id'
     t.index ['deleted_at'], name: 'index_users_on_deleted_at'
     t.index ['email'], name: 'index_users_on_email'

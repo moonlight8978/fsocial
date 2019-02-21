@@ -10,7 +10,8 @@ RSpec.describe 'V1::Sessions', type: :request do
 
     context 'when user already signed in' do
       let(:token) { user.token }
-      it_behaves_like 'guest only'
+
+      include_examples 'guest only'
     end
 
     context 'when user not signed in yet' do
@@ -33,11 +34,9 @@ RSpec.describe 'V1::Sessions', type: :request do
       context 'valid params' do
         let(:user_params) { Hash[identity: 'abc', password: '1111'] }
 
-        it_behaves_like 'created'
-
-        it_behaves_like 'match response schema', 'session'
-
-        it_behaves_like 'correct data', proc { Hash[id: user.id] }
+        include_examples 'created'
+        include_examples 'match response schema', 'session'
+        include_examples 'correct data', proc { Hash[id: user.id] }
       end
     end
   end

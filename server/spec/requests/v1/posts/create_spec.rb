@@ -10,6 +10,7 @@ RSpec.describe 'V1::Posts', type: :request do
 
     context 'when not signed in' do
       let(:token) { '' }
+
       include_examples 'unauthenticated'
     end
 
@@ -45,9 +46,9 @@ RSpec.describe 'V1::Posts', type: :request do
           include_examples 'change db', Post
           include_examples 'does not change db', ActiveStorage::Attachment
 
-          it_behaves_like 'created'
-          it_behaves_like 'match response schema', 'activity/post'
-          it_behaves_like 'correct data', proc {
+          include_examples 'created'
+          include_examples 'match response schema', 'activity/post'
+          include_examples 'correct data', proc {
             Hash[
               trackable: include(
                 content: 'abcxyz',
@@ -67,8 +68,8 @@ RSpec.describe 'V1::Posts', type: :request do
           include_examples 'change db', Post
           include_examples 'change db', ActiveStorage::Attachment
 
-          it_behaves_like 'created'
-          it_behaves_like 'match response schema', 'activity/post'
+          include_examples 'created'
+          include_examples 'match response schema', 'activity/post'
 
           include_examples 'create activity'
         end

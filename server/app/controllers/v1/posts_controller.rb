@@ -1,6 +1,6 @@
 class V1::PostsController < ApplicationController
   before_action :authenticate!, except: %i[show index]
-  before_action :not_implemented_yet!, except: :create
+  before_action :not_implemented_yet!, except: %i[create show]
 
   def create
     authorize Post
@@ -16,7 +16,11 @@ class V1::PostsController < ApplicationController
 
   def index; end
 
-  def show; end
+  def show
+    post = Post.find(params[:id])
+    authorize post
+    render json: post, serializer: ::PostSerializer, status: Settings.http.statuses.success
+  end
 
   def update; end
 

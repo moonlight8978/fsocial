@@ -1,5 +1,5 @@
 class V1::UsersController < ApplicationController
-  before_action :authenticate!, except: :create
+  before_action :authenticate!, except: %i[create show]
   before_action :guest_only!, only: :create
   before_action :not_implemented_yet!, only: %i[update destroy]
 
@@ -10,7 +10,11 @@ class V1::UsersController < ApplicationController
   end
 
   def show
-    render json: @current_user, serializer: ::CurrentUserSerializer, status: Settings.http.statuses.success
+    user = User.friendly.find(params[:id])
+    raise ActiveRecord::RecordNotFound, params[:id] if user.username != params[:id]
+
+    authorize user
+    render json: user, serializer: ::ProfileSerializer, status: Settings.http.statuses.success
   end
 
   def destroy

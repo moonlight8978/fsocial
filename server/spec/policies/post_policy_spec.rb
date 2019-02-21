@@ -27,4 +27,8 @@ RSpec.describe PostPolicy, type: :policy do
       let(:owned_by_visitor) { visitor_post }
     end
   end
+
+  permissions :show? do
+    include_examples 'allow all users'
+  end
 end

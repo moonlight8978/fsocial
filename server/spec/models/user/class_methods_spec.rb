@@ -14,7 +14,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'wrong password' do
-        expect(subject).to have_key(:password)
+        is_expected.to have_key(:password)
       end
     end
 
