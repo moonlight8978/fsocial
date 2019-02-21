@@ -1,5 +1,8 @@
 class User < ApplicationRecord
   extend Enumerize
+  extend FriendlyId
+
+  friendly_id :username, use: :slugged
 
   has_secure_password
   acts_as_paranoid

@@ -10,7 +10,7 @@ class V1::UsersController < ApplicationController
   end
 
   def show
-    user = User.find(params[:id])
+    user = User.friendly.find(params[:id])
     authorize user
     render json: user, serializer: ::ProfileSerializer, status: Settings.http.statuses.success
   end
