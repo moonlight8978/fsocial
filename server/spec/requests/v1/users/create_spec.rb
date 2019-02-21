@@ -7,7 +7,7 @@ RSpec.describe 'V1::Users', type: :request do
   let(:token) { '' }
 
   describe 'POST /v1/user' do
-    subject { post v1_user_path, params: { user: user_params }, headers: headers }
+    subject { post v1_users_path, params: { user: user_params }, headers: headers }
 
     context 'invalid identities' do
       context 'missing params' do
