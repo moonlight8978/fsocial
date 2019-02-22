@@ -9,5 +9,7 @@ http:
       application_controller/unauthenticated: 401
       application_controller/not_implemented_yet: 400
       action_controller/parameter_missing: 400
+      v1/users_controller/follow_self: 400
+      v1/users_controller/already_followed: 400
     created: 201
     success: 200

@@ -10,4 +10,11 @@ RSpec.describe UserPolicy, type: :policy do
   permissions :show? do
     include_examples 'allow all users'
   end
+
+  permissions :follow? do
+    include_examples 'allow signed in users' do
+      let(:current_user) { create(:user) }
+      let(:admin) { create(:user, :admin) }
+    end
+  end
 end
