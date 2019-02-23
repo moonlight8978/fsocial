@@ -11,5 +11,7 @@ http:
       action_controller/parameter_missing: 400
       users/follow/cannot_follow_yourself: 400
       users/follow/already_followed: 400
+      v1/users_controller/cannot_unfollow_yourself: 400
+      v1/users_controller/not_followed_yet: 400
     created: 201
     success: 200

@@ -3,7 +3,16 @@ class V1::UsersController < ApplicationController
   before_action :guest_only!, only: :create
   before_action :not_implemented_yet!, only: %i[update destroy]
 
+  class CannotUnfollowYourself < StandardError; end
+  class NotFollowedYet < StandardError
+    def initialize(followee_name, message = 'You have not followed %s yet')
+      super(format(message, followee_name))
+    end
+  end
+
   rescue_from(
+    CannotUnfollowYourself,
+    NotFollowedYet,
     Users::Follow::CannotFollowYourself,
     Users::Follow::AlreadyFollowed,
     with: :render_error
@@ -32,7 +41,20 @@ class V1::UsersController < ApplicationController
     render json: following, serializer: ::FollowingSerializer, status: Settings.http.statuses.created
   end
 
-  def unfollow; end
+  def unfollow
+    followee = User.friendly.find(params[:id])
+    raise ActiveRecord::RecordNotFound, params[:id] if followee.username != params[:id]
+
+    authorize followee
+    raise CannotUnfollowYourself if current_user.username == followee.username
+
+    following = Following.find_by(follower: current_user, followee: followee)
+    raise NotFollowedYet, followee.username if following.blank?
+
+    following.destroy
+    Activities::Creator.new(nil, 'Following').perform(owner: current_user, recipient: followee, action: :destroy)
+    head :no_content
+  end
 
   def destroy
     render json: {}, status: Settings.http.statuses.success

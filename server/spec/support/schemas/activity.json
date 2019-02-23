@@ -10,6 +10,9 @@
     "trackable_id": {
       "type": "integer"
     },
+    "key": {
+      "type": "string"
+    },
     "created_at": {
       "type": "string"
     }

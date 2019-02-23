@@ -1,5 +1,5 @@
 class ActivitySerializer < ActiveModel::Serializer
-  attributes :id, :trackable_type, :trackable_id, :created_at
+  attributes :id, :trackable_type, :trackable_id, :key, :created_at
 
   belongs_to :trackable
 

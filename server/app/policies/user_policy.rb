@@ -10,4 +10,8 @@ class UserPolicy < ApplicationPolicy
   def follow?
     signed_in?
   end
+
+  def unfollow?
+    signed_in?
+  end
 end

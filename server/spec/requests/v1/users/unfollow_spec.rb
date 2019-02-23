@@ -4,7 +4,7 @@ RSpec.describe 'V1::Users', type: :request do
   describe 'DELETE /v1/users/:id/unfollow' do
     let(:headers) { setup_auth(current_user.token) }
 
-    subject { delete unfollow_v1_user_path(followee.username) }
+    subject { delete unfollow_v1_user_path(followee.username), headers: headers }
 
     context 'when not signed in' do
       let(:current_user) { double('current_user', token: '') }
@@ -37,7 +37,7 @@ RSpec.describe 'V1::Users', type: :request do
       context 'when followee has not been followed by current user yet' do
         let(:followee) { create(:user, username: 'sample') }
 
-        include_examples 'bad request', 'You has not followed sample yet'
+        include_examples 'bad request', 'You have not followed sample yet'
         include_examples 'does not change db', Activity
         include_examples 'does not change db', Following
       end
@@ -49,7 +49,7 @@ RSpec.describe 'V1::Users', type: :request do
 
         include_examples 'deleted'
         include_examples 'change db', Activity
-        include_examples 'change db', Following
+        include_examples 'change db', Following, -1
       end
     end
   end

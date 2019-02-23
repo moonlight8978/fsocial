@@ -5,6 +5,7 @@ en:
     application_controller/not_implemented_yet: This API will be implemented soon
     application_controller/guest_only: Signed users are not allow
     users/follow/cannot_follow_yourself: You cannot follow yourself
+    v1/users_controller/cannot_unfollow_yourself: You cannot unfollow yourself
 
     dynamic:
       already_followed: You already followed %s
