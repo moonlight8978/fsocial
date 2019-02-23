@@ -33,6 +33,12 @@ shared_examples 'missing params' do
   include_examples 'match response schema', 'error'
 end
 
+shared_examples 'bad request' do |message|
+  include_examples 'response with status', :bad_request
+  include_examples 'match response schema', 'error'
+  include_examples 'response with error message', message
+end
+
 shared_examples 'validation error' do
   include_examples 'response with status', :unprocessable_entity
   include_examples 'match response schema', 'validation_error'

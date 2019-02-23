@@ -3,8 +3,14 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :tests if Rails.env.development?
 
-      resources :users
       resources :sessions, only: %i[create destroy]
+
+      resources :users do
+        member do
+          post :follow
+          delete :unfollow
+        end
+      end
 
       resources :posts
     end

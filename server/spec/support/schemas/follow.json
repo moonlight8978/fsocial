@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "follower_id": {
+      "type": "integer"
+    },
+    "followee_id": {
+      "type": "integer"
+    }
+  },
+  "required": ["id", "follower_id", "followee_id"]
+}

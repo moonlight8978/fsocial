@@ -6,4 +6,8 @@ class UserPolicy < ApplicationPolicy
   def create?
     guest?
   end
+
+  def follow?
+    signed_in?
+  end
 end
