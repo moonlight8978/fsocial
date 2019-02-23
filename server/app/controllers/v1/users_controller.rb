@@ -3,21 +3,9 @@ class V1::UsersController < ApplicationController
   before_action :guest_only!, only: :create
   before_action :not_implemented_yet!, only: %i[update destroy]
 
-  class AlreadyFollowed < StandardError
-    def initialize(followee, message = 'You already followed %s')
-      super(format(message, followee.username))
-    end
-  end
-
-  class FollowSelf < StandardError
-    def initialize(message = 'You cannot follow yourself')
-      super(message)
-    end
-  end
-
   rescue_from(
-    FollowSelf,
-    AlreadyFollowed,
+    Users::Follow::CannotFollowYourself,
+    Users::Follow::AlreadyFollowed,
     with: :render_error
   )
 
@@ -36,16 +24,11 @@ class V1::UsersController < ApplicationController
   end
 
   def follow
-    raise FollowSelf if current_user.username == params[:id]
-
     followee = User.friendly.find(params[:id])
     raise ActiveRecord::RecordNotFound, params[:id] if followee.username != params[:id]
 
     authorize followee
-    raise AlreadyFollowed, followee if Following.find_by(follower: current_user, followee: followee)
-
-    following = Following.create!(follower: current_user, followee: followee)
-    Activities::Creator.new(following).perform(action: :create, owner: current_user, recipient: followee)
+    following = Users::Follow.new(current_user: current_user, followee: followee).perform!
     render json: following, serializer: ::FollowingSerializer, status: Settings.http.statuses.created
   end
 
