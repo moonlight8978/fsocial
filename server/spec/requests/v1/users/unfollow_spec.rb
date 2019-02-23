@@ -1,10 +1,56 @@
 require 'rails_helper'
 
-RSpec.describe 'V1::Users::Unfollows', type: :request do
-  describe 'GET /v1/users/unfollows' do
-    # it 'works! (now write some real specs)' do
-    #   get v1_users_unfollows_path
-    #   expect(response).to have_http_status(200)
-    # end
+RSpec.describe 'V1::Users', type: :request do
+  describe 'DELETE /v1/users/:id/unfollow' do
+    let(:headers) { setup_auth(current_user.token) }
+
+    subject { delete unfollow_v1_user_path(followee.username) }
+
+    context 'when not signed in' do
+      let(:current_user) { double('current_user', token: '') }
+      let(:followee) { create(:user) }
+
+      include_examples 'unauthenticated'
+      include_examples 'does not change db', Activity
+      include_examples 'does not change db', Following
+    end
+
+    context 'when signed in' do
+      let(:current_user) { create(:user) }
+
+      context 'when followee not found' do
+        let(:followee) { double('followee', username: 'sample') }
+
+        include_examples 'not found'
+        include_examples 'does not change db', Activity
+        include_examples 'does not change db', Following
+      end
+
+      context 'when followee is current user' do
+        let(:followee) { current_user }
+
+        include_examples 'bad request', 'You cannot unfollow yourself'
+        include_examples 'does not change db', Activity
+        include_examples 'does not change db', Following
+      end
+
+      context 'when followee has not been followed by current user yet' do
+        let(:followee) { create(:user, username: 'sample') }
+
+        include_examples 'bad request', 'You has not followed sample yet'
+        include_examples 'does not change db', Activity
+        include_examples 'does not change db', Following
+      end
+
+      context 'when valid' do
+        let(:followee) { create(:user) }
+
+        before { create(:following, follower: current_user, followee: followee) }
+
+        include_examples 'deleted'
+        include_examples 'change db', Activity
+        include_examples 'change db', Following
+      end
+    end
   end
 end
