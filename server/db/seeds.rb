@@ -1,7 +1,7 @@
-def seed(model)
+def seed(model, counting)
   puts "Seeding #{model}..."
   yield
-  puts 'Done.'
+  puts "Done. #{counting.call} records has been imported."
 end
 
 def random_or_nothing(max)
@@ -9,14 +9,14 @@ def random_or_nothing(max)
 end
 
 ActiveRecord::Base.transaction do
-  seed :user do
+  seed(:user, proc { User.count }) do
     users = []
 
     users.push(
       User.new do |user|
-        user.email = 'admin@sample.com'
-        user.username = 'admin'
-        user.fullname = 'Admin khoai to'
+        user.email = 'assmin@sample.com'
+        user.username = 'assmin'
+        user.fullname = 'Assmin khoai to'
         user.password = '1111'
         user.role = :admin
       end
@@ -48,7 +48,36 @@ ActiveRecord::Base.transaction do
 
   users = User.all.select(:id)
 
-  seed :posts do
+  seed(:following, proc { Following.count }) do
+    followings = []
+    activities = []
+
+    users.each do |user|
+      followees = Array.new(rand(15)).map { users.sample }
+        .reject { |followee| followee.id == user.id }
+        .uniq(&:id)
+      followees.each do |followee|
+        followings.push(
+          Following.new do |following|
+            following.follower_id = user.id
+            following.followee_id = followee.id
+          end
+        )
+        activities.push(
+          Activity.new do |activity|
+            activity.owner_id = user.id
+            activity.key = 'following.create'
+            activity.recipient_id = followee.id
+          end
+        )
+      end
+    end
+
+    Following.import(followings, on_duplicate_key_ignore: true)
+    Activity.import(activities, on_duplicate_key_ignore: true)
+  end
+
+  seed(:posts, proc { Post.where(root: nil, parent_id: nil).count }) do
     posts = []
 
     users.each do |user|
@@ -65,7 +94,24 @@ ActiveRecord::Base.transaction do
     Post.import(posts, on_duplicate_key_ignore: true)
   end
 
-  seed :replies do
+  seed('activities#post', proc { Activity.where(key: 'post.create').count }) do
+    activities = []
+
+    Post.where(root: nil, parent_id: nil).select(:id, :creator_id).find_each do |post|
+      activities.push(
+        Activity.new do |activity|
+          activity.trackable_id = post.id
+          activity.trackable_type = Post.name
+          activity.owner_id = post.creator_id
+          activity.key = 'post.create'
+        end
+      )
+    end
+
+    Activity.import(activities, on_duplicate_key_ignore: true)
+  end
+
+  seed(:replies, proc { Post.where(parent: nil).where.not(root: nil).count }) do
     replies = []
 
     Post.where(root: nil).select(:id).find_each do |post|
@@ -83,11 +129,11 @@ ActiveRecord::Base.transaction do
     Post.import(replies, on_duplicate_key_ignore: true)
   end
 
-  seed :sub_replies do
+  seed(:sub_replies, proc { Post.where.not(root: nil, parent: nil).count }) do
     sub_replies = []
 
     Post.where(parent: nil).where.not(root: nil).select(:id, :root_id).find_each do |reply|
-      random_or_nothing(2) do
+      random_or_nothing(5).times do
         sub_replies.push(
           Post.new do |sub_reply|
             sub_reply.root_id = reply.root_id
@@ -101,7 +147,6 @@ ActiveRecord::Base.transaction do
 
     Post.import(sub_replies, on_duplicate_key_ignore: true)
   end
-
 rescue StandardError => e
   puts e
   raise ActiveRecord::Rollback
