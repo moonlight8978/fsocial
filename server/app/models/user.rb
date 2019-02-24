@@ -14,6 +14,12 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
+  has_many :follower_followings, class_name: Following.name, foreign_key: :followee_id
+  has_many :followers, through: :follower_followings
+
+  has_many :followee_followings, class_name: Following.name, foreign_key: :follower_id
+  has_many :followees, through: :followee_followings
+
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
   validates :password, presence: true
