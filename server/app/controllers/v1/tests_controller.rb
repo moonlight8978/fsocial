@@ -1,6 +1,7 @@
 class V1::TestsController < ApplicationController
   def index
-    byebug if Rails.env.development? # rubocop:disable Lint/Debugger
+    # byebug if Rails.env.development? # rubocop:disable Lint/Debugger
+    render json: Activity.last, serializer: ActivitySerializer
   end
 
   def create
