@@ -9,11 +9,11 @@ def random_or_nothing(max)
 end
 
 ActiveRecord::Base.transaction do
-  seed :user, proc { User.count } do
+  seed(:user, proc { User.count }) do
     users = []
 
     users.push(
-      admin = User.new do |user|
+      User.new do |user|
         user.email = 'assmin@sample.com'
         user.username = 'assmin'
         user.fullname = 'Assmin khoai to'
@@ -48,7 +48,7 @@ ActiveRecord::Base.transaction do
 
   users = User.all.select(:id)
 
-  seed :following, proc { Following.count } do
+  seed(:following, proc { Following.count }) do
     followings = []
     activities = []
 
@@ -77,7 +77,7 @@ ActiveRecord::Base.transaction do
     Activity.import(activities, on_duplicate_key_ignore: true)
   end
 
-  seed :posts, proc { Post.where(root: nil, parent_id: nil).count } do
+  seed(:posts, proc { Post.where(root: nil, parent_id: nil).count }) do
     posts = []
 
     users.each do |user|
@@ -94,7 +94,7 @@ ActiveRecord::Base.transaction do
     Post.import(posts, on_duplicate_key_ignore: true)
   end
 
-  seed 'activities#post', proc { Activity.where(key: 'post.create').count } do
+  seed('activities#post', proc { Activity.where(key: 'post.create').count }) do
     activities = []
 
     Post.where(root: nil, parent_id: nil).select(:id, :creator_id).find_each do |post|
@@ -111,7 +111,7 @@ ActiveRecord::Base.transaction do
     Activity.import(activities, on_duplicate_key_ignore: true)
   end
 
-  seed :replies, proc { Post.where(parent: nil).where.not(root: nil).count } do
+  seed(:replies, proc { Post.where(parent: nil).where.not(root: nil).count }) do
     replies = []
 
     Post.where(root: nil).select(:id).find_each do |post|
@@ -129,7 +129,7 @@ ActiveRecord::Base.transaction do
     Post.import(replies, on_duplicate_key_ignore: true)
   end
 
-  seed :sub_replies, proc { Post.where.not(root: nil, parent: nil).count } do
+  seed(:sub_replies, proc { Post.where.not(root: nil, parent: nil).count }) do
     sub_replies = []
 
     Post.where(parent: nil).where.not(root: nil).select(:id, :root_id).find_each do |reply|
