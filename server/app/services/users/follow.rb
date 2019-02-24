@@ -9,7 +9,7 @@ class Users::Follow
   def perform!
     precheck!
     following = Following.create!(follower: current_user, followee: followee)
-    Activities::Creator.new(following).perform(action: :create, owner: current_user, recipient: followee)
+    Activities::Creator.new(nil, 'Following').perform(action: :create, owner: current_user, recipient: followee)
     following
   end
 

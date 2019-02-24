@@ -8,12 +8,16 @@ module Activities
     end
 
     def perform(action:, owner:, params: nil, recipient: nil)
-      model.activities.create do |activity|
+      activity_context.create do |activity|
         activity.owner = owner
         activity.recipient = recipient
         activity.params = params
         activity.key = [class_name.underscore, action].join('.')
       end
+    end
+
+    def activity_context
+      model.present? ? model.activities : Activity
     end
   end
 end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::Users', type: :request do
-  describe 'GET /v1/users/:id/follow' do
+  describe 'POST /v1/users/:id/follow' do
     let(:headers) { setup_auth(current_user.token) }
     subject { post follow_v1_user_path(followee.username), headers: headers }
 

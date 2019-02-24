@@ -17,4 +17,11 @@ RSpec.describe UserPolicy, type: :policy do
       let(:admin) { create(:user, :admin) }
     end
   end
+
+  permissions :unfollow? do
+    include_examples 'allow signed in users' do
+      let(:current_user) { create(:user) }
+      let(:admin) { create(:user, :admin) }
+    end
+  end
 end

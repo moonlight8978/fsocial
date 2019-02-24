@@ -75,7 +75,7 @@ describe Users::Follow do
       it 'create activity record' do
         activity = Activity.last
         expect(activity.owner).to eq(current_user)
-        expect(activity.trackable).to eq(Following.last)
+        expect(activity.recipient).to eq(followee)
       end
     end
   end

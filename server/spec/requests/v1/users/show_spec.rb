@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::Users', type: :request do
-  describe 'GET /v1/user' do
+  describe 'GET /v1/users/:id' do
     subject { get v1_user_path(user.username) }
 
     context 'when user not found' do

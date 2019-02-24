@@ -6,6 +6,8 @@ class V1::UsersController < ApplicationController
   rescue_from(
     Users::Follow::CannotFollowYourself,
     Users::Follow::AlreadyFollowed,
+    Users::Unfollow::CannotUnfollowYourself,
+    Users::Unfollow::NotFollowedYet,
     with: :render_error
   )
 
@@ -32,7 +34,14 @@ class V1::UsersController < ApplicationController
     render json: following, serializer: ::FollowingSerializer, status: Settings.http.statuses.created
   end
 
-  def unfollow; end
+  def unfollow
+    followee = User.friendly.find(params[:id])
+    raise ActiveRecord::RecordNotFound, params[:id] if followee.username != params[:id]
+
+    authorize followee
+    Users::Unfollow.new(current_user: current_user, followee: followee).perform!
+    head Settings.http.statuses.deleted
+  end
 
   def destroy
     render json: {}, status: Settings.http.statuses.success

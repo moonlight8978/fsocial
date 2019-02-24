@@ -74,3 +74,7 @@ shared_examples 'correct data' do |expectation|
     expect(response_body).to include(expected)
   end
 end
+
+shared_examples 'deleted' do
+  include_examples 'response with status', :no_content
+end
