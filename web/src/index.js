@@ -6,7 +6,7 @@ import vi from 'react-intl/locale-data/vi'
 
 import './index.css'
 
-import App from './App'
+import { App } from './app'
 
 addLocaleData([...en, ...vi])
 
