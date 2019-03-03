@@ -1,1 +1,1 @@
-export { LocaleProvider, LocaleConsumer } from './locale'
+export { LocaleProvider, LocaleConsumer, LocaleContext } from './locale'

@@ -1,0 +1,9 @@
+.contentWrapper {
+  padding-top: 16px;
+  min-height: 100%;
+}
+
+.contentWithNavbar {
+  margin-top: 64px;
+  min-height: calc(100% - 64px);
+}

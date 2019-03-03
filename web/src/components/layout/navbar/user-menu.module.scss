@@ -1,0 +1,21 @@
+.menu {
+  min-width: 200px;
+
+  .fullname {
+    margin-bottom: 0.25em;
+  }
+
+  .item {
+    padding: 0.75em 1em;
+  }
+
+  .icon {
+    font-size: 1.25em;
+    margin-right: 0.75em;
+  }
+
+  /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+  :global(.ant-dropdown-menu-submenu-title) {
+    padding: 0.75em 26px 0.75em 1em;
+  }
+}

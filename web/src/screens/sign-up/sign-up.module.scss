@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+  margin-top: -16px;
+  height: calc(100% + 16px);
+}
+
+.pane {
+  flex: 50% 0 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &.paneLeft {
+    background-color: #1da1f2;
+  }
+
+  &.paneRight {
+    background-color: #fff;
+  }
+}
+
+.signUpBox {
+  width: 50%;
+  margin: auto;
+
+  .input {
+    padding: 1.5rem 1rem;
+  }
+
+  .button {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    height: auto;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.slogan {
+  color: #fff;
+  margin-bottom: 1.5rem;
+
+  .sloganIcon {
+    margin-right: 0.75rem;
+    vertical-align: middle;
+  }
+}

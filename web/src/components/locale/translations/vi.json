@@ -1,0 +1,21 @@
+{
+  "locales.english": "English",
+  "locales.vietnamese": "Tiếng Việt",
+  "navbar.menu.about": "Về chúng tôi",
+  "navbar.menu.home": "Trang chủ",
+  "navbar.menu.messages": "Tin nhắn",
+  "navbar.menu.notifications": "Thông báo",
+  "navbar.submenu.changeLocale": "Đổi ngôn ngữ",
+  "navbar.submenu.profile": "Trang cá nhân",
+  "navbar.submenu.signIn": "Đã có tài khoản? Đăng nhập",
+  "navbar.submenu.signOut": "Đăng xuất",
+  "signIn.guestTitle": "Lần đầu truy cập fsocial?",
+  "signIn.memberTitle": "Đã có tài khoản?",
+  "signIn.signUp": "Đăng kí",
+  "signIn.submit": "Đăng nhập",
+  "signUp.slogans.first": "Theo dõi những gì bạn thích.",
+  "signUp.slogans.second": "Lắng nghe những gì người khác quan tâm.",
+  "signUp.slogans.third": "Tham gia những cuộc trò chuyện.",
+  "signUp.submit": "Hoàn tất đăng kí",
+  "signUp.title": "Đăng kí thành viên fsocial"
+}
