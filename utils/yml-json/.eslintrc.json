@@ -13,5 +13,10 @@
   "parserOptions": {
     "ecmaVersion": 2018
   },
-  "rules": {}
+  "rules": {
+    "arrow-body-style": "off",
+    "arrow-parens": ["error", "as-needed"],
+    "semi": ["error", "never"],
+    "comma-dangle": ["error", "always-multiline"]
+  }
 }

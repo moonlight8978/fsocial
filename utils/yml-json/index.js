@@ -15,10 +15,6 @@ const source = path.join(
   'translations'
 )
 
-function pathFor(lang, extension) {
-  return path.join(source, `${lang}${extension}`)
-}
-
 const watcher = chokidar.watch(source, {
   ignored: /.(json|js|jsx)/,
   awaitWriteFinish: {
@@ -32,11 +28,11 @@ watcher.on('change', filePath => {
   const currentTime = new Date().toLocaleString()
 
   try {
-    const io = fs.readFileSync(pathFor(lang, '.yml'), 'utf8')
+    const io = fs.readFileSync(filePath, 'utf8')
     const rawTranslation = YamlReader.perform(io)
     const sortedTranslation = ObjectKeySorter.perform(rawTranslation)
     fs.writeFileSync(
-      pathFor(lang, '.json'),
+      filePath.replace('.yml', '.json'),
       JSON.stringify(sortedTranslation, null, 2)
     )
     console.log(`${currentTime}. Succesfully compiled ${lang.toUpperCase()}`)
