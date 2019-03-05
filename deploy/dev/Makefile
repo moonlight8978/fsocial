@@ -7,6 +7,7 @@ prepare:
 	cp deploy/dev/fsocial.conf proxy/fsocial.conf
 	cp deploy/dev/Dockerfile.server server/Dockerfile
 	cp deploy/dev/Dockerfile.web web/Dockerfile
+	cp deploy/dev/Dockerfile.utils-yml utils/yml/Dockerfile
 	cp deploy/dev/docker-compose.yml docker-compose.yml
 	cp deploy/dev/puma.rb server/config/puma.rb
 	cp .env.dev .env

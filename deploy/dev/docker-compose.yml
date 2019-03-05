@@ -66,3 +66,13 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./tmp/portainer/data:/data
+
+  utils-yml:
+    build:
+      context: utils/yml
+    command: node index.js
+    env_file:
+      - .env
+    volumes:
+      - ./web:/usr/src/app/web
+      - ./utils:/usr/src/app/utils
