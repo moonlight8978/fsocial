@@ -26,7 +26,7 @@ services:
     volumes:
       - ./web:/usr/src/app
     ports:
-      - 60000:43000
+      - 60000:3000
 
   server:
     build:

@@ -20,7 +20,6 @@ class Routes extends React.Component {
 
   async componentDidMount() {
     await AsyncUtils.delay(3000)
-    // eslint-disable-next-line react/destructuring-assignment
     this.props.finishLoading()
   }
 

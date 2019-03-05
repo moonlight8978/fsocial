@@ -1,7 +1,7 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { IntlProvider } from 'react-intl'
 import _ from 'lodash'
-import PropTypes from 'prop-types'
 
 import { PersistedStorage } from '../../services/persisted-storage'
 import { UserPreferencesUtils } from '../../utils'
@@ -9,23 +9,32 @@ import { UserPreferencesUtils } from '../../utils'
 import { translations } from './translations'
 import { defaultLocale } from './locale.constant'
 
+type State = {
+  currentLocale: string,
+  changeLocale: (language: string) => void,
+}
+
+type Props = {
+  children: React.Node,
+}
+
 const persistedState = PersistedStorage.get('locale')
 
 const defaultState = {
   currentLocale: UserPreferencesUtils.getBrowserLocale() || defaultLocale,
-  changeLocale: () => {},
+  changeLocale: (key?: string) => {},
 }
 
 const initialState = _.merge({}, defaultState, persistedState)
 
-export const LocaleContext = React.createContext(initialState)
+export const LocaleContext = React.createContext<State>(initialState)
 
 const { Provider, Consumer } = LocaleContext
 
 export const LocaleConsumer = Consumer
 
-class LocaleProvider extends React.Component {
-  constructor(props) {
+export class LocaleProvider extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props)
 
     this.changeLocaleHandlers = {}
@@ -43,7 +52,11 @@ class LocaleProvider extends React.Component {
     window.addEventListener('beforeunload', this.persistState, false)
   }
 
-  handleChangeLocale(newLocale) {
+  changeLocaleHandlers: { [locale: string]: () => void }
+
+  handleChangeLocale: (newLocale: string) => () => void
+
+  handleChangeLocale(newLocale: string) {
     if (!this.changeLocaleHandlers[newLocale]) {
       this.changeLocaleHandlers[newLocale] = () => {
         this.setState({ currentLocale: newLocale }, this.persistState)
@@ -51,6 +64,8 @@ class LocaleProvider extends React.Component {
     }
     return this.changeLocaleHandlers[newLocale]
   }
+
+  persistState: () => void
 
   persistState() {
     PersistedStorage.set('locale', _.pick(this.state, ['currentLocale']))
@@ -70,9 +85,3 @@ class LocaleProvider extends React.Component {
     )
   }
 }
-
-LocaleProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-}
-
-export { LocaleProvider }

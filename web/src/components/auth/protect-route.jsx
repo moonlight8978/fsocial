@@ -21,7 +21,6 @@ export function protectRoute(Component, allowGuest = false) {
     }
 
     async precheck() {
-      // eslint-disable-next-line react/destructuring-assignment
       this.props.finishLoading()
     }
 

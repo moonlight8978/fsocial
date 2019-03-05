@@ -15,20 +15,25 @@ type Props = {
   color: Colors,
 }
 
-export function Text({ content, children, size, color }: Props) {
-  const sizeClassName = `size-${size}`
-  const colorClassName = `color-${color}`
+export class Text extends React.Component<Props> {
+  static defaultProps = {
+    content: '',
+    children: null,
+    size: 'normal',
+    color: 'primary',
+  }
 
-  return (
-    <span className={classnames(styles[sizeClassName], styles[colorClassName])}>
-      {children || content}
-    </span>
-  )
-}
+  render() {
+    const { content, children, size, color } = this.props
+    const sizeClassName = `size-${size}`
+    const colorClassName = `color-${color}`
 
-Text.defaultProps = {
-  content: '',
-  children: null,
-  size: 'normal',
-  color: 'primary',
+    return (
+      <span
+        className={classnames(styles[sizeClassName], styles[colorClassName])}
+      >
+        {children || content}
+      </span>
+    )
+  }
 }

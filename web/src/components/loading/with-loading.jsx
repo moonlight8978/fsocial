@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 export function withLoading(Component) {
   class WithLoading extends React.Component {
@@ -9,11 +9,11 @@ export function withLoading(Component) {
         isLoading: true,
       }
 
-      this.startLoading = this.setLoading(true).bind(this)
-      this.finishLoading = this.setLoading(false).bind(this)
+      this.startLoading = this.changeLoading(true).bind(this)
+      this.finishLoading = this.changeLoading(false).bind(this)
     }
 
-    setLoading(isLoading) {
+    changeLoading(isLoading) {
       return () => {
         this.setState({ isLoading })
       }

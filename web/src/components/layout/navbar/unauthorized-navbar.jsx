@@ -1,10 +1,10 @@
+// @flow
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import * as React from 'react'
 import { Layout, Menu, Dropdown } from 'antd'
 import { withRouter } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 
 import { Container } from '../container'
 
@@ -13,13 +13,23 @@ import { SignInMenu } from './sign-in-menu'
 
 const { Header } = Layout
 
-class UnauthorizedNavbar extends React.Component {
-  static propTypes = {
-    match: PropTypes.shape().isRequired,
-    history: PropTypes.shape().isRequired,
-    hasSubmenu: PropTypes.bool,
-    submenu: PropTypes.node,
-  }
+type Props = {
+  match: {
+    path: string,
+  },
+  history: {
+    push: (path: string) => void,
+  },
+  hasSubmenu?: boolean,
+  submenu?: React.Node,
+}
+
+type State = {
+  isMenuVisible: boolean,
+}
+
+class UnauthorizedNavbar extends React.Component<Props, State> {
+  static propTypes = {}
 
   static defaultProps = {
     hasSubmenu: false,
@@ -37,21 +47,21 @@ class UnauthorizedNavbar extends React.Component {
     this.handleRouteChange = this.handleRouteChange.bind(this)
   }
 
-  handleVisibleChange(visibility) {
+  handleVisibleChange: (visibility: boolean) => void
+
+  handleVisibleChange(visibility: boolean) {
     this.setState({ isMenuVisible: visibility })
   }
 
-  handleRouteChange({ key }) {
-    // eslint-disable-next-line react/destructuring-assignment
+  handleRouteChange: ({ key: string }) => void
+
+  handleRouteChange({ key }: { key: string }) {
     this.props.history.push(key)
   }
 
   render() {
-    const {
-      match: { path },
-      submenu,
-      hasSubmenu,
-    } = this.props
+    const { path } = this.props.match
+    const { submenu, hasSubmenu } = this.props
 
     const { isMenuVisible } = this.state
 
