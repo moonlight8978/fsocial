@@ -1,8 +1,10 @@
 {
   "parser": "babel-eslint",
+  "plugins": ["flowtype"],
   "extends": [
     "airbnb",
     "plugin:prettier/recommended",
+    "plugin:flowtype/recommended",
     "prettier/react",
     "prettier/flowtype"
   ],
@@ -28,6 +30,8 @@
         "newlines-between": "always"
       }
     ],
+    "react/default-props-match-prop-types": "off",
+    "react/require-default-props": "off",
     "react/jsx-filename-extension": [
       "error",
       {

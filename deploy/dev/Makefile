@@ -12,14 +12,18 @@ prepare:
 	cp deploy/dev/puma.rb server/config/puma.rb
 	cp .env.dev .env
 
+postbuild:
+	docker-compose run --rm web yarn
+	docker-compose run --rm utils-yml yarn
+	docker-compose run --rm server yarn
+
 build:
 	docker-compose build
-	docker-compose run --rm web yarn
 
 up:
 	docker-compose up -d
 
-autoinit: prepare build up
+autoinit: prepare build postbuild up
 
 ci:
 	docker-compose run --rm web yarn testci

@@ -1,10 +1,21 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// @flow
+import * as React from 'react'
 import classnames from 'classnames'
 
 import styles from './text.module.scss'
 
-export function Text({ content, children, size, color }) {
+type Sizes = 'small' | 'normal' | 'large' | 'xlarge' | 'xxlarge'
+
+type Colors = 'primary' | 'link' | 'secondary' | 'contrast'
+
+type Props = {
+  content: string,
+  children: ?React.Node,
+  size: Sizes,
+  color: Colors,
+}
+
+export function Text({ content, children, size, color }: Props) {
   const sizeClassName = `size-${size}`
   const colorClassName = `color-${color}`
 
@@ -20,11 +31,4 @@ Text.defaultProps = {
   children: null,
   size: 'normal',
   color: 'primary',
-}
-
-Text.propTypes = {
-  content: PropTypes.string,
-  children: PropTypes.node,
-  size: PropTypes.oneOf(['small', 'normal', 'large', 'xlarge', 'xxlarge']),
-  color: PropTypes.oneOf(['primary', 'link', 'secondary', 'contrast']),
 }

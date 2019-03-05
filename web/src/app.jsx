@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -5,7 +6,9 @@ import { LocaleProvider } from './components/locale'
 import { Routes } from './screens/routes'
 import { AuthProvider } from './components/auth'
 
-export class App extends React.Component {
+type Props = {}
+
+export class App extends React.Component<Props> {
   render() {
     return (
       <LocaleProvider>

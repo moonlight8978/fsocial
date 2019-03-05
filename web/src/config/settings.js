@@ -1,3 +1,13 @@
+// @flow
+
+type Config = {
+  server: {
+    host: string,
+    prefix: string,
+    authorizationHeader: string,
+  },
+}
+
 const test = {
   server: {
     host: 'http://localhost:60000',
@@ -30,4 +40,4 @@ const allSettings = {
   staging,
 }
 
-export const settings = allSettings[env]
+export const settings: Config = allSettings[env]

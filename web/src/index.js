@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { addLocaleData } from 'react-intl'
@@ -14,4 +15,7 @@ addLocaleData([...en, ...vi])
 
 library.add(fas)
 
-ReactDOM.render(<App />, document.getElementById('root'))
+const root = document.getElementById('root')
+if (root !== null) {
+  ReactDOM.render(<App />, root)
+}

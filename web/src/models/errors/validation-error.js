@@ -1,7 +1,14 @@
+// @flow
 import { CaseConverter } from '../../utils/case-converter'
 
+type Error = {
+  [attribute: string]: string | Error,
+}
+
 export class ValidationError {
-  constructor(errors) {
+  data: Error
+
+  constructor(errors: Error) {
     this.data = CaseConverter.camelize(errors)
   }
 }

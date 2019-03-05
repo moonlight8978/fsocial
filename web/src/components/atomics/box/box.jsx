@@ -1,25 +1,30 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import PropTypes from 'prop-types'
 import { Divider } from 'antd'
 import classnames from 'classnames'
 
 import styles from './box.module.scss'
 
-export class Box extends React.Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    className: PropTypes.string,
-    bordered: PropTypes.bool,
-  }
+type BoxProps = {
+  title: string | React.Node,
+  children: React.Node,
+  className: string,
+  bordered: boolean,
+}
 
+type BoxTitleProps = {
+  children: React.Node,
+}
+
+export class Box extends React.Component<BoxProps> {
   static defaultProps = {
-    title: null,
+    title: '',
     className: '',
     bordered: false,
   }
 
-  static BoxTitle = ({ children }) => (
+  static BoxTitle = ({ children }: BoxTitleProps) => (
     <div className={styles.boxTitle}>{children}</div>
   )
 

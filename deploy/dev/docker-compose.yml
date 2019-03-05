@@ -33,7 +33,7 @@ services:
       context: server
     env_file:
       - .env
-    command: rails s
+    command: bash -c "rm -rf ./tmp/pids && rails s"
     tty: true
     stdin_open: true
     restart: always
