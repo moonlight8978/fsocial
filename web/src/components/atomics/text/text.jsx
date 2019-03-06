@@ -1,39 +1,30 @@
-// @flow
-import * as React from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
 import styles from './text.module.scss'
 
-type Sizes = 'small' | 'normal' | 'large' | 'xlarge' | 'xxlarge'
+export function Text({ content, children, size, color }) {
+  const sizeClassName = `size-${size}`
+  const colorClassName = `color-${color}`
 
-type Colors = 'primary' | 'link' | 'secondary' | 'contrast'
-
-type Props = {
-  content: string,
-  children: ?React.Node,
-  size: Sizes,
-  color: Colors,
+  return (
+    <span className={classnames(styles[sizeClassName], styles[colorClassName])}>
+      {children || content}
+    </span>
+  )
 }
 
-export class Text extends React.Component<Props> {
-  static defaultProps = {
-    content: '',
-    children: null,
-    size: 'normal',
-    color: 'primary',
-  }
+Text.defaultProps = {
+  content: '',
+  children: null,
+  size: 'normal',
+  color: 'primary',
+}
 
-  render() {
-    const { content, children, size, color } = this.props
-    const sizeClassName = `size-${size}`
-    const colorClassName = `color-${color}`
-
-    return (
-      <span
-        className={classnames(styles[sizeClassName], styles[colorClassName])}
-      >
-        {children || content}
-      </span>
-    )
-  }
+Text.propTypes = {
+  content: PropTypes.string,
+  children: PropTypes.node,
+  size: PropTypes.oneOf(['small', 'normal', 'large', 'xlarge', 'xxlarge']),
+  color: PropTypes.oneOf(['primary', 'link', 'secondary', 'contrast']),
 }

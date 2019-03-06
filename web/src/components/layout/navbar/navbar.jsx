@@ -1,10 +1,10 @@
-// @flow
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import { Layout, Menu, Dropdown, Avatar } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import { Container } from '../container'
 import { AuthConsumer } from '../../auth'
@@ -16,16 +16,12 @@ import menuStyles from './user-menu.module.scss'
 const { Header } = Layout
 const { SubMenu } = Menu
 
-type Props = {
-  match: {
-    path: string,
-  },
-  history: {
-    push: (path: string) => void,
-  },
-}
+class Navbar extends React.Component {
+  static propTypes = {
+    match: PropTypes.shape().isRequired,
+    history: PropTypes.shape().isRequired,
+  }
 
-class Navbar extends React.Component<Props> {
   static UserMenu = () => (
     <AuthConsumer>
       {({ user, signOut }) => (
@@ -95,14 +91,15 @@ class Navbar extends React.Component<Props> {
     this.handleChangeRoute = this.handleChangeRoute.bind(this)
   }
 
-  handleChangeRoute: ({ key: string }) => void
-
   handleChangeRoute({ key }) {
+    // eslint-disable-next-line react/destructuring-assignment
     this.props.history.push(key)
   }
 
   render() {
-    const { path } = this.props.match
+    const {
+      match: { path },
+    } = this.props
 
     return (
       <Header className={styles.header}>

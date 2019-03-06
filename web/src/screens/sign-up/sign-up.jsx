@@ -68,7 +68,7 @@ export class SignUp extends React.Component {
     }
   }
 
-  getFieldStatus(field) {
+  fieldStatus(field) {
     const { apiErrors, isDirty } = this.state
     if (isDirty || _.isEmpty(apiErrors)) {
       return {
@@ -90,9 +90,9 @@ export class SignUp extends React.Component {
       values: { username, email, password },
     } = this.state
 
-    const usernameField = this.getFieldStatus('username')
-    const emailField = this.getFieldStatus('email')
-    const passwordField = this.getFieldStatus('password')
+    const usernameField = this.fieldStatus('username')
+    const emailField = this.fieldStatus('email')
+    const passwordField = this.fieldStatus('password')
 
     return (
       <Layout fluid hasNavbar navbar={<UnauthorizedNavbar hasSubmenu />}>

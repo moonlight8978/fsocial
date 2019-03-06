@@ -1,7 +1,6 @@
 .container {
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
 
   @media (min-width: 576px) {
     max-width: 540px;
