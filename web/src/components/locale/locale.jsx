@@ -1,39 +1,59 @@
 import React from 'react'
 import { IntlProvider } from 'react-intl'
+import _ from 'lodash'
 import PropTypes from 'prop-types'
 
+import { PersistedStorage } from '../../services/persisted-storage'
 import { UserPreferencesUtils } from '../../utils'
+
 import { translations } from './translations'
 import { defaultLocale } from './locale.constant'
 
-const { Provider, Consumer } = React.createContext({
-  currentLocale: '',
+const persistedState = PersistedStorage.get('locale')
+
+const defaultState = {
+  currentLocale: UserPreferencesUtils.getBrowserLocale() || defaultLocale,
   changeLocale: () => {},
-})
+}
 
-const initialLocale = UserPreferencesUtils.getBrowserLocale() || defaultLocale
+const initialState = _.merge({}, defaultState, persistedState)
 
-class LocaleProvider extends React.PureComponent {
+export const LocaleContext = React.createContext(initialState)
+
+const { Provider, Consumer } = LocaleContext
+
+export const LocaleConsumer = Consumer
+
+class LocaleProvider extends React.Component {
   constructor(props) {
     super(props)
 
     this.changeLocaleHandlers = {}
     this.handleChangeLocale = this.handleChangeLocale.bind(this)
+    this.persistState = this.persistState.bind(this)
 
     this.state = {
-      currentLocale: initialLocale,
+      ...initialState,
       // eslint-disable-next-line react/no-unused-state
       changeLocale: this.handleChangeLocale,
     }
   }
 
+  componentDidMount() {
+    window.addEventListener('beforeunload', this.persistState, false)
+  }
+
   handleChangeLocale(newLocale) {
     if (!this.changeLocaleHandlers[newLocale]) {
       this.changeLocaleHandlers[newLocale] = () => {
-        this.setState({ currentLocale: newLocale })
+        this.setState({ currentLocale: newLocale }, this.persistState)
       }
     }
     return this.changeLocaleHandlers[newLocale]
+  }
+
+  persistState() {
+    PersistedStorage.set('locale', _.pick(this.state, ['currentLocale']))
   }
 
   render() {
@@ -55,4 +75,4 @@ LocaleProvider.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export { LocaleProvider, Consumer as LocaleConsumer }
+export { LocaleProvider }

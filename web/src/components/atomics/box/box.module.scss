@@ -1,0 +1,22 @@
+.box {
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 1rem;
+
+  &.bordered {
+    border: 1px solid #e8e8e8;
+  }
+
+  .boxTitle {
+    padding-bottom: 1rem;
+
+    * {
+      margin: 0 !important;
+    }
+  }
+
+  .divider {
+    margin: 0 -1rem 1rem -1rem;
+    width: auto;
+  }
+}

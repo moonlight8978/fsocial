@@ -1,9 +1,8 @@
+// @flow
 export const UserPreferencesUtils = {
-  getBrowserLocale() {
+  getBrowserLocale(): string {
     const language =
-      (navigator.languages && navigator.languages[0]) ||
-      navigator.language ||
-      navigator.userLanguage
+      (navigator.languages && navigator.languages[0]) || navigator.language
     const languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0]
     return languageWithoutRegionCode
   },

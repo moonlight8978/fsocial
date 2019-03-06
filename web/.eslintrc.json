@@ -1,9 +1,12 @@
 {
   "parser": "babel-eslint",
+  "plugins": ["flowtype"],
   "extends": [
     "airbnb",
     "plugin:prettier/recommended",
-    "plugin:react/recommended"
+    "plugin:flowtype/recommended",
+    "prettier/react",
+    "prettier/flowtype"
   ],
   "env": {
     "browser": true,
@@ -20,6 +23,14 @@
       }
     ],
     "import/prefer-default-export": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "parent", "sibling", "index"],
+        "newlines-between": "always"
+      }
+    ],
+    "react/destructuring-assignment": "off",
     "react/jsx-filename-extension": [
       "error",
       {

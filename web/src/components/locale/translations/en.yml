@@ -1,0 +1,26 @@
+navbar:
+  menu:
+    home: Home
+    notifications: Notifications
+    messages: Messages
+    about: About
+  submenu:
+    profile: Profile
+    changeLocale: Change language
+    signOut: Sign out
+    signIn: Have an account? Sign in
+locales:
+  vietnamese: Tiếng Việt
+  english: English
+signIn:
+  memberTitle: Have an account?
+  submit: Sign in
+  guestTitle: New to fsocial?
+  signUp: Sign up
+signUp:
+  title: Register to fsocial
+  submit: Complete registration
+  slogans:
+    first: Follow your interests.
+    second: Hear what people are talking about.
+    third: Join the conversation.

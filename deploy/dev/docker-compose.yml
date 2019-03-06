@@ -26,14 +26,14 @@ services:
     volumes:
       - ./web:/usr/src/app
     ports:
-      - 60000:43000
+      - 60000:3000
 
   server:
     build:
       context: server
     env_file:
       - .env
-    command: rails s
+    command: bash -c "rm -rf ./tmp/pids && rails s"
     tty: true
     stdin_open: true
     restart: always

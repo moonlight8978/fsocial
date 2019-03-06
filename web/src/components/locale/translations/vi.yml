@@ -1,0 +1,26 @@
+navbar:
+  menu:
+    home: Trang chủ
+    notifications: Thông báo
+    messages: Tin nhắn
+    about: Về chúng tôi
+  submenu:
+    profile: Trang cá nhân
+    changeLocale: Đổi ngôn ngữ
+    signOut: Đăng xuất
+    signIn: Đã có tài khoản? Đăng nhập
+locales:
+  vietnamese: Tiếng Việt
+  english: English
+signIn:
+  memberTitle: Đã có tài khoản?
+  submit: Đăng nhập
+  guestTitle: Lần đầu truy cập fsocial?
+  signUp: Đăng kí
+signUp:
+  title: Đăng kí thành viên fsocial
+  submit: Hoàn tất đăng kí
+  slogans:
+    first: Theo dõi những gì bạn thích.
+    second: Lắng nghe những gì người khác quan tâm.
+    third: Tham gia những cuộc trò chuyện.

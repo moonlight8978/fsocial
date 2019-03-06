@@ -10,20 +10,24 @@ prepare:
 	cp deploy/dev/Dockerfile.utils-yml utils/yml/Dockerfile
 	cp deploy/dev/docker-compose.yml docker-compose.yml
 	cp deploy/dev/puma.rb server/config/puma.rb
+
+env:
 	cp .env.dev .env
+
+postbuild:
+	cd web && yarn
+	cd server && yarn
+	cd utils/yml && yarn
 
 build:
 	docker-compose build
-	docker-compose run --rm web yarn
 
 up:
 	docker-compose up -d
 
-autoinit: prepare build up
+autoinit: prepare build postbuild up
 
 ci:
-	docker-compose run --rm web yarn testci
-	docker-compose run --rm web yarn eslint
-	docker-compose run --rm web yarn stylelint
+	cd web && yarn testci && yarn eslint && yarn stylelint && yarn flow
 	docker-compose run --rm server rubocop
 	docker-compose run --rm server rake spec

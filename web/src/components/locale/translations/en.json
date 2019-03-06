@@ -1,0 +1,21 @@
+{
+  "locales.english": "English",
+  "locales.vietnamese": "Tiếng Việt",
+  "navbar.menu.about": "About",
+  "navbar.menu.home": "Home",
+  "navbar.menu.messages": "Messages",
+  "navbar.menu.notifications": "Notifications",
+  "navbar.submenu.changeLocale": "Change language",
+  "navbar.submenu.profile": "Profile",
+  "navbar.submenu.signIn": "Have an account? Sign in",
+  "navbar.submenu.signOut": "Sign out",
+  "signIn.guestTitle": "New to fsocial?",
+  "signIn.memberTitle": "Have an account?",
+  "signIn.signUp": "Sign up",
+  "signIn.submit": "Sign in",
+  "signUp.slogans.first": "Follow your interests.",
+  "signUp.slogans.second": "Hear what people are talking about.",
+  "signUp.slogans.third": "Join the conversation.",
+  "signUp.submit": "Complete registration",
+  "signUp.title": "Register to fsocial"
+}
