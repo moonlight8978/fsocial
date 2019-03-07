@@ -1,17 +1,12 @@
-// @flow
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { addLocaleData } from 'react-intl'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import en from 'react-intl/locale-data/en'
-import vi from 'react-intl/locale-data/vi'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 
 import './index.scss'
 
 import { App } from './app'
-
-addLocaleData([...en, ...vi])
+import './components/locale/locale-initializer'
 
 library.add(fas)
 

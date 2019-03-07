@@ -10,7 +10,7 @@ import { authSelectors } from './auth-selectors'
 export function protectRoute(
   Component,
   allowGuest = false,
-  loading = EdgeLoading
+  Loading = EdgeLoading
 ) {
   class ProtectedRoute extends React.Component {
     static contextType = AuthContext
@@ -34,7 +34,7 @@ export function protectRoute(
       const isUnauthorized = authSelectors.getIsUnauthorized(authContext)
 
       if (isLoading) {
-        return loading
+        return <Loading />
       }
 
       if (!allowGuest && isUnauthorized) {

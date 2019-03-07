@@ -26,4 +26,12 @@ signUp:
     third: Join the conversation.
 schemas:
   session:
-    username:
+    identity:
+      label: Identity
+      placeholder: Username or Email
+      errors:
+        required: Identity is required
+    password:
+      label: Password
+      errors:
+        required: Password is required

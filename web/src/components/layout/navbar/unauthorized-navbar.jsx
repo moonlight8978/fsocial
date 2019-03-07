@@ -1,15 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
-import { Layout, Menu, Dropdown } from 'antd'
+import { Layout, Menu, Dropdown, Divider, Button } from 'antd'
 import { withRouter } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import { Container } from '../container'
 
 import styles from './navbar.module.scss'
 import { SignInMenu } from './sign-in-menu'
+import { SignInForm } from './sign-in-menu/sign-in-form'
+import { Text } from '../../atomics'
 
 const { Header } = Layout
 
@@ -18,12 +20,13 @@ class UnauthorizedNavbar extends React.Component {
     match: PropTypes.shape().isRequired,
     history: PropTypes.shape().isRequired,
     hasSubmenu: PropTypes.bool,
-    submenu: PropTypes.node,
+    Submenu: PropTypes.func,
+    intl: PropTypes.shape().isRequired,
   }
 
   static defaultProps = {
     hasSubmenu: false,
-    submenu: <SignInMenu />,
+    Submenu: SignInMenu,
   }
 
   constructor(props) {
@@ -49,8 +52,9 @@ class UnauthorizedNavbar extends React.Component {
   render() {
     const {
       match: { path },
-      submenu,
+      Submenu,
       hasSubmenu,
+      intl,
     } = this.props
 
     const { isMenuVisible } = this.state
@@ -86,7 +90,31 @@ class UnauthorizedNavbar extends React.Component {
                   <Dropdown
                     onVisibleChange={this.handleVisibleChange}
                     visible={isMenuVisible}
-                    overlay={submenu}
+                    overlay={
+                      <div className={styles.menu}>
+                        <SignInForm intl={intl} />
+
+                        <Divider className={styles.divider} />
+
+                        <div>
+                          <div className={styles.groupTitle}>
+                            <Text color="secondary" size="large">
+                              <FormattedMessage id="signIn.guestTitle" />
+                            </Text>
+                          </div>
+
+                          <Button
+                            block
+                            type="primary"
+                            shape="round"
+                            htmlType="button"
+                            className={styles.button}
+                          >
+                            <FormattedMessage id="signIn.signUp" />
+                          </Button>
+                        </div>
+                      </div>
+                    }
                     placement="bottomRight"
                     trigger={['click']}
                   >
@@ -108,6 +136,6 @@ class UnauthorizedNavbar extends React.Component {
   }
 }
 
-const NavbarWithRouter = withRouter(UnauthorizedNavbar)
+const NavbarWithRouter = withRouter(injectIntl(UnauthorizedNavbar))
 
 export { NavbarWithRouter as UnauthorizedNavbar }
