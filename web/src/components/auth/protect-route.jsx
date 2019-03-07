@@ -2,12 +2,16 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { withLoading, FluidLoading } from '../loading'
+import { withLoading, EdgeLoading } from '../loading'
 
 import { AuthContext } from './auth'
 import { authSelectors } from './auth-selectors'
 
-export function protectRoute(Component, allowGuest = false) {
+export function protectRoute(
+  Component,
+  allowGuest = false,
+  loading = EdgeLoading
+) {
   class ProtectedRoute extends React.Component {
     static contextType = AuthContext
 
@@ -21,7 +25,6 @@ export function protectRoute(Component, allowGuest = false) {
     }
 
     async precheck() {
-      // eslint-disable-next-line react/destructuring-assignment
       this.props.finishLoading()
     }
 
@@ -31,7 +34,7 @@ export function protectRoute(Component, allowGuest = false) {
       const isUnauthorized = authSelectors.getIsUnauthorized(authContext)
 
       if (isLoading) {
-        return <FluidLoading />
+        return loading
       }
 
       if (!allowGuest && isUnauthorized) {

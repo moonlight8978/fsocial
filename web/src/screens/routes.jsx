@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { protectRoute } from '../components/auth'
-import { withLoading, FluidLoading } from '../components/loading'
+import { withLoading, FullscreenLoading } from '../components/loading'
 import { AsyncUtils } from '../utils'
 
 import { SignUp } from './sign-up'
@@ -19,7 +19,7 @@ class Routes extends React.Component {
   }
 
   async componentDidMount() {
-    await AsyncUtils.delay(3000)
+    await AsyncUtils.delay(1000)
     this.props.finishLoading()
   }
 
@@ -27,7 +27,7 @@ class Routes extends React.Component {
     const { isLoading } = this.props
 
     if (isLoading) {
-      return <FluidLoading />
+      return <FullscreenLoading />
     }
 
     return (

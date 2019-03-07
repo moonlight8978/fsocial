@@ -1,3 +1,18 @@
 .fluidLoading {
   text-align: center;
 }
+
+.fullscreenLoading {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.edgeLoading {
+  position: fixed;
+  text-align: left;
+  padding: 0.5rem;
+}
