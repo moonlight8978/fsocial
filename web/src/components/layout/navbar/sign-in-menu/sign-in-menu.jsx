@@ -3,8 +3,8 @@ import { Form, Input, Button, Divider } from 'antd'
 import { FormattedMessage } from 'react-intl'
 import _ from 'lodash'
 
-import { AuthContext } from '../../auth'
-import { Text } from '../../atomics'
+import { AuthContext } from '../../../auth'
+import { Text } from '../../../atomics'
 
 import styles from './sign-in-menu.module.scss'
 

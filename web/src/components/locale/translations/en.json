@@ -9,6 +9,7 @@
   "navbar.submenu.profile": "Profile",
   "navbar.submenu.signIn": "Have an account? Sign in",
   "navbar.submenu.signOut": "Sign out",
+  "schemas.session.username": null,
   "signIn.guestTitle": "New to fsocial?",
   "signIn.memberTitle": "Have an account?",
   "signIn.signUp": "Sign up",

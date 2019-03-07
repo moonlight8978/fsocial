@@ -10,6 +10,7 @@
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "flag-icon-css": "^3.2.1",
+    "formik": "^1.5.1",
     "humps": "^2.0.1",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.11",
@@ -21,7 +22,8 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
     "react-transition-group": "^2.5.3",
-    "unstated": "^2.1.1"
+    "unstated": "^2.1.1",
+    "yup": "^0.26.10"
   },
   "scripts": {
     "start": "react-scripts start",

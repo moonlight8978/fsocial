@@ -24,3 +24,6 @@ signUp:
     first: Follow your interests.
     second: Hear what people are talking about.
     third: Join the conversation.
+schemas:
+  session:
+    username:
