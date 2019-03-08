@@ -1,11 +1,12 @@
 import React from 'react'
+import { IntlProvider } from 'react-intl'
 import _ from 'lodash'
-import i18n from 'i18next'
 import PropTypes from 'prop-types'
 
 import { PersistedStorage } from '../../services/persisted-storage'
 import { UserPreferencesUtils } from '../../utils'
 
+import { translations } from './translations'
 import { defaultLocale } from './locale.constant'
 
 const persistedState = PersistedStorage.get('locale')
@@ -39,7 +40,6 @@ class LocaleProvider extends React.Component {
   }
 
   componentDidMount() {
-    i18n.changeLanguage(this.state.currentLocale)
     window.addEventListener('beforeunload', this.persistState, false)
   }
 
@@ -47,7 +47,6 @@ class LocaleProvider extends React.Component {
     if (!this.changeLocaleHandlers[newLocale]) {
       this.changeLocaleHandlers[newLocale] = () => {
         this.setState({ currentLocale: newLocale }, this.persistState)
-        i18n.changeLanguage(newLocale)
       }
     }
     return this.changeLocaleHandlers[newLocale]
@@ -59,8 +58,16 @@ class LocaleProvider extends React.Component {
 
   render() {
     const { children } = this.props
+    const { currentLocale } = this.state
+    const messages = translations[currentLocale]
 
-    return <Provider value={this.state}>{children}</Provider>
+    return (
+      <Provider value={this.state}>
+        <IntlProvider locale={currentLocale} messages={messages}>
+          {children}
+        </IntlProvider>
+      </Provider>
+    )
   }
 }
 

@@ -11,7 +11,7 @@ type Config = {
 const test = {
   server: {
     host: 'http://localhost:60000',
-    prefix: '/api',
+    prefix: '/api/v1',
     authorizationHeader: 'Authorization',
   },
 }

@@ -1,17 +1,8 @@
 import React from 'react'
-import { Form, Input, Button, Divider } from 'antd'
-import { FormattedMessage, injectIntl } from 'react-intl'
-import _ from 'lodash'
+import { injectIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 import { object, string } from 'yup'
 import { Formik } from 'formik'
-
-import { AuthContext } from '../../../auth'
-import { Text } from '../../../atomics'
-
-import styles from './sign-in-menu.module.scss'
-
-const FormItem = Form.Item
 
 const defaultValues = {
   identity: '',
@@ -28,17 +19,34 @@ const schema = intl =>
     ),
   })
 
-export class SignInForm extends React.Component {
-  static contextType = AuthContext
+function fieldStatus(errors, touched) {
+  return attribute =>
+    touched[attribute] && errors[attribute] ? 'error' : 'success'
+}
 
+function fieldError(errors, touched) {
+  return attribute => touched[attribute] && errors[attribute]
+}
+
+class SignInForm extends React.Component {
   static propTypes = {
     intl: PropTypes.shape().isRequired,
+    children: PropTypes.func.isRequired,
+    signIn: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
 
     this.initForm()
+
+    this.renderChildren = this.renderChildren.bind(this)
+    this.handleSignIn = this.handleSignIn.bind(this)
+  }
+
+  async handleSignIn(values) {
+    const { signIn } = this.props
+    await signIn(values)
   }
 
   initForm() {
@@ -46,72 +54,29 @@ export class SignInForm extends React.Component {
     this.schema = schema(intl)
   }
 
-  render() {
-    const { intl } = this.props
+  renderChildren(formikProps) {
+    const { children } = this.props
+    const { touched, errors } = formikProps
+    return children({
+      ...formikProps,
+      fieldStatus: fieldStatus(errors, touched),
+      fieldError: fieldError(errors, touched),
+    })
+  }
 
+  render() {
     return (
       <Formik
         initialValues={defaultValues}
         validationSchema={this.schema}
-        onSubmit={values => console.log(values)}
+        onSubmit={this.handleSignIn}
       >
-        {({ values, errors, handleChange, handleBlur, touched }) => {
-          console.log(touched)
-          return (
-            <>
-              <div className={styles.groupTitle}>
-                <Text color="secondary" size="large">
-                  <FormattedMessage id="signIn.memberTitle" />
-                </Text>
-              </div>
-
-              <FormItem
-                validateStatus={
-                  errors.identity && touched.identity ? 'error' : 'success'
-                }
-                help={touched.identity && errors.identity}
-                className={styles.formItem}
-              >
-                <Input
-                  type="text"
-                  placeholder="Email or Username"
-                  value={values.identity}
-                  name="identity"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </FormItem>
-
-              <FormItem
-                validateStatus={
-                  errors.password && touched.password ? 'error' : 'success'
-                }
-                help={touched.password && errors.password}
-                className={styles.formItem}
-              >
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  value={values.password}
-                  name="password"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </FormItem>
-
-              <Button
-                block
-                type="primary"
-                shape="round"
-                htmlType="submit"
-                className={styles.button}
-              >
-                <FormattedMessage id="signIn.submit" />
-              </Button>
-            </>
-          )
-        }}
+        {this.renderChildren}
       </Formik>
     )
   }
 }
+
+const SignInFormWithIntl = injectIntl(SignInForm)
+
+export { SignInFormWithIntl as SignInForm }

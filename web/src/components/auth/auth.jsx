@@ -4,6 +4,7 @@ import axios from 'axios'
 import _ from 'lodash'
 
 import { PersistedStorage } from '../../services/persisted-storage'
+import { AuthApi } from './auth-api'
 
 const defaultState = {
   isAuthenticated: false,
@@ -50,9 +51,7 @@ export class AuthProvider extends React.Component {
 
   async signIn(user) {
     try {
-      const { data } = await axios.post('http://localhost:60001/api/v1/users', {
-        user,
-      })
+      const { data } = await AuthApi.signIn(user)
       this.setState(
         {
           token: data.token,
