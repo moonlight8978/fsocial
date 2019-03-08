@@ -36,6 +36,25 @@
     height: auto;
     margin-bottom: 0.5rem;
   }
+
+  .langList {
+    margin-top: 0.5rem;
+
+    .langSwitch {
+      border: 0;
+      box-shadow: none;
+      outline: 0;
+      padding: 0 0.5rem;
+
+      &.langActive {
+        font-weight: bold;
+      }
+
+      &:after {
+        display: none;
+      }
+    }
+  }
 }
 
 .slogan {

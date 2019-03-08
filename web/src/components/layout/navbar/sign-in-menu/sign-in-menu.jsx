@@ -4,10 +4,9 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import { Text } from '../../../atomics'
-import { AuthConsumer } from '../../../auth'
 
 import styles from './sign-in-menu.module.scss'
-import { SignInForm } from './sign-in-form'
+import SignInForm from './sign-in-form'
 
 const FormItem = Form.Item
 
@@ -35,74 +34,70 @@ class SignInMenu extends React.Component {
 
     return (
       <div className={styles.menu}>
-        <AuthConsumer>
-          {({ signIn }) => (
-            <SignInForm signIn={signIn}>
-              {({
-                values,
-                fieldStatus,
-                fieldError,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting,
-              }) => (
-                <Form onSubmit={handleSubmit}>
-                  <div className={styles.groupTitle}>
-                    <Text color="secondary" size="large">
-                      <FormattedMessage id="signIn.memberTitle" />
-                    </Text>
-                  </div>
+        <SignInForm>
+          {({
+            values,
+            fieldStatus,
+            fieldError,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <Form onSubmit={handleSubmit}>
+              <div className={styles.groupTitle}>
+                <Text color="secondary" size="large">
+                  <FormattedMessage id="signIn.memberTitle" />
+                </Text>
+              </div>
 
-                  <FormItem
-                    validateStatus={fieldStatus('identity')}
-                    help={fieldError('identity')}
-                    className={styles.formItem}
-                  >
-                    <Input
-                      type="text"
-                      placeholder={formatMessage({
-                        id: 'schemas.session.identity.placeholder',
-                      })}
-                      value={values.identity}
-                      name="identity"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                  </FormItem>
+              <FormItem
+                validateStatus={fieldStatus('identity')}
+                help={fieldError('identity')}
+                className={styles.formItem}
+              >
+                <Input
+                  type="text"
+                  placeholder={formatMessage({
+                    id: 'schemas.session.identity.placeholder',
+                  })}
+                  value={values.identity}
+                  name="identity"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </FormItem>
 
-                  <FormItem
-                    validateStatus={fieldStatus('password')}
-                    help={fieldError('password')}
-                    className={styles.formItem}
-                  >
-                    <Input
-                      type="password"
-                      placeholder={formatMessage({
-                        id: 'schemas.session.password.placeholder',
-                      })}
-                      value={values.password}
-                      name="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                  </FormItem>
+              <FormItem
+                validateStatus={fieldStatus('password')}
+                help={fieldError('password')}
+                className={styles.formItem}
+              >
+                <Input
+                  type="password"
+                  placeholder={formatMessage({
+                    id: 'schemas.session.password.placeholder',
+                  })}
+                  value={values.password}
+                  name="password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </FormItem>
 
-                  <Button
-                    block
-                    type="primary"
-                    shape="round"
-                    htmlType="submit"
-                    className={styles.button}
-                    disabled={isSubmitting}
-                  >
-                    <FormattedMessage id="signIn.submit" />
-                  </Button>
-                </Form>
-              )}
-            </SignInForm>
+              <Button
+                block
+                type="primary"
+                shape="round"
+                htmlType="submit"
+                className={styles.button}
+                disabled={isSubmitting}
+              >
+                <FormattedMessage id="signIn.submit" />
+              </Button>
+            </Form>
           )}
-        </AuthConsumer>
+        </SignInForm>
 
         <Divider className={styles.divider} />
 

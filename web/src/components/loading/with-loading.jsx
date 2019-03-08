@@ -27,6 +27,7 @@ export function withLoading(Component) {
           isLoading={isLoading}
           startLoading={this.startLoading}
           finishLoading={this.finishLoading}
+          {...this.props}
         />
       )
     }

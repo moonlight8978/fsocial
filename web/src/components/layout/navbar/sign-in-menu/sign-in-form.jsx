@@ -1,11 +1,9 @@
 import React from 'react'
-import { injectIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 import { object, string } from 'yup'
-import { Formik } from 'formik'
 
-import { AsyncUtils } from '../../../../utils'
-import { ValidationError } from '../../../../resources/errors/validation-error'
+import { withAuthContext } from '../../../auth'
+import { StaticForm } from '../../../form'
 
 const defaultValues = {
   identity: '',
@@ -22,84 +20,36 @@ const schema = intl =>
     ),
   })
 
-function fieldStatus({ errors, touched, apiErrors }) {
-  return attribute =>
-    apiErrors[attribute] || (touched[attribute] && errors[attribute])
-      ? 'error'
-      : 'success'
-}
-
-function fieldError({ errors, touched, apiErrors }) {
-  return attribute =>
-    touched[attribute] && (errors[attribute] || apiErrors[attribute])
-}
-
 class SignInForm extends React.Component {
   static propTypes = {
-    intl: PropTypes.shape().isRequired,
     children: PropTypes.func.isRequired,
-    signIn: PropTypes.func.isRequired,
+    auth: PropTypes.shape({
+      signIn: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   constructor(props) {
     super(props)
 
-    this.state = {
-      apiErrors: {},
-    }
-
-    this.initForm()
-
-    this.renderChildren = this.renderChildren.bind(this)
-    this.handleSignIn = this.handleSignIn.bind(this)
+    this.signIn = this.signIn.bind(this)
   }
 
-  async handleSignIn(values, { setSubmitting }) {
-    try {
-      setSubmitting(true)
-      this.setState({ apiErrors: {} })
-      const { signIn } = this.props
-      await AsyncUtils.delay(2000)
-      await signIn(values)
-    } catch (error) {
-      this.setState({
-        apiErrors: new ValidationError(error.response.data.errors).data,
-      })
-    } finally {
-      setSubmitting(false)
-    }
-  }
-
-  initForm() {
-    const { intl } = this.props
-    this.schema = schema(intl)
-  }
-
-  renderChildren(formikProps) {
-    const { children } = this.props
-    const { apiErrors } = this.state
-    const { touched, errors } = formikProps
-    return children({
-      ...formikProps,
-      apiErrors,
-      fieldStatus: fieldStatus({ errors, touched, apiErrors }),
-      fieldError: fieldError({ errors, touched, apiErrors }),
-    })
+  async signIn(user) {
+    const { auth } = this.props
+    await auth.signIn(user)
   }
 
   render() {
     return (
-      <Formik
+      <StaticForm
         initialValues={defaultValues}
-        validationSchema={this.schema}
-        onSubmit={this.handleSignIn}
+        schema={schema}
+        onSubmit={this.signIn}
       >
-        {this.renderChildren}
-      </Formik>
+        {this.props.children}
+      </StaticForm>
     )
   }
 }
 
-const SignInFormWithIntl = injectIntl(SignInForm)
-
-export { SignInFormWithIntl as SignInForm }
+export default withAuthContext(SignInForm, ['signIn'])

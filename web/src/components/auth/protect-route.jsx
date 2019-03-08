@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 
 import { withLoading, EdgeLoading } from '../loading'
 
-import { AuthContext } from './auth'
 import { authSelectors } from './auth-selectors'
+import { withAuthContext } from './with-auth-context'
 
 export function protectRoute(
   Component,
@@ -13,11 +13,10 @@ export function protectRoute(
   Loading = EdgeLoading
 ) {
   class ProtectedRoute extends React.Component {
-    static contextType = AuthContext
-
     static propTypes = {
       isLoading: PropTypes.bool.isRequired,
       finishLoading: PropTypes.func.isRequired,
+      auth: PropTypes.shape().isRequired,
     }
 
     componentDidMount() {
@@ -29,9 +28,8 @@ export function protectRoute(
     }
 
     render() {
-      const { isLoading } = this.props
-      const authContext = this.context
-      const isUnauthorized = authSelectors.getIsUnauthorized(authContext)
+      const { isLoading, auth } = this.props
+      const isUnauthorized = authSelectors.getIsUnauthorized(auth)
 
       if (isLoading) {
         return <Loading />
@@ -49,5 +47,5 @@ export function protectRoute(
     }
   }
 
-  return withLoading(ProtectedRoute)
+  return withAuthContext(withLoading(ProtectedRoute))
 }
