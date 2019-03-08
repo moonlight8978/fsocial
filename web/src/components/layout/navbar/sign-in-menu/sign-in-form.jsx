@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 import { object, string } from 'yup'
 import { Formik } from 'formik'
 
+import { AsyncUtils } from '../../../../utils'
+import { ValidationError } from '../../../../resources/errors/validation-error'
+
 const defaultValues = {
   identity: '',
   password: '',
@@ -19,13 +22,16 @@ const schema = intl =>
     ),
   })
 
-function fieldStatus(errors, touched) {
+function fieldStatus({ errors, touched, apiErrors }) {
   return attribute =>
-    touched[attribute] && errors[attribute] ? 'error' : 'success'
+    apiErrors[attribute] || (touched[attribute] && errors[attribute])
+      ? 'error'
+      : 'success'
 }
 
-function fieldError(errors, touched) {
-  return attribute => touched[attribute] && errors[attribute]
+function fieldError({ errors, touched, apiErrors }) {
+  return attribute =>
+    touched[attribute] && (errors[attribute] || apiErrors[attribute])
 }
 
 class SignInForm extends React.Component {
@@ -38,15 +44,30 @@ class SignInForm extends React.Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      apiErrors: {},
+    }
+
     this.initForm()
 
     this.renderChildren = this.renderChildren.bind(this)
     this.handleSignIn = this.handleSignIn.bind(this)
   }
 
-  async handleSignIn(values) {
-    const { signIn } = this.props
-    await signIn(values)
+  async handleSignIn(values, { setSubmitting }) {
+    try {
+      setSubmitting(true)
+      this.setState({ apiErrors: {} })
+      const { signIn } = this.props
+      await AsyncUtils.delay(2000)
+      await signIn(values)
+    } catch (error) {
+      this.setState({
+        apiErrors: new ValidationError(error.response.data.errors).data,
+      })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   initForm() {
@@ -56,11 +77,13 @@ class SignInForm extends React.Component {
 
   renderChildren(formikProps) {
     const { children } = this.props
+    const { apiErrors } = this.state
     const { touched, errors } = formikProps
     return children({
       ...formikProps,
-      fieldStatus: fieldStatus(errors, touched),
-      fieldError: fieldError(errors, touched),
+      apiErrors,
+      fieldStatus: fieldStatus({ errors, touched, apiErrors }),
+      fieldError: fieldError({ errors, touched, apiErrors }),
     })
   }
 

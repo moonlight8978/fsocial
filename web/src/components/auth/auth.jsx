@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unused-state */
 import React from 'react'
-import axios from 'axios'
 import _ from 'lodash'
 
 import { PersistedStorage } from '../../services/persisted-storage'
+
 import { AuthApi } from './auth-api'
+import { AuthResources } from './auth-resources'
 
 const defaultState = {
   isAuthenticated: false,
@@ -51,11 +52,12 @@ export class AuthProvider extends React.Component {
 
   async signIn(user) {
     try {
-      const { data } = await AuthApi.signIn(user)
+      const response = await AuthApi.signIn(user)
+      const session = AuthResources.Session.parse(response.data)
       this.setState(
         {
-          token: data.token,
-          expiredAt: new Date('9999-09-09').getTime(),
+          token: session.token,
+          expiredAt: session.expiredAt,
           isAuthenticated: true,
         },
         this.persistState

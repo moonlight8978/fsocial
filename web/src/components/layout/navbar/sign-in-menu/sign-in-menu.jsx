@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Divider, Form, Input } from 'antd'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import PropTypes from 'prop-types'
 
 import { Text } from '../../../atomics'
 import { AuthConsumer } from '../../../auth'
@@ -10,7 +11,13 @@ import { SignInForm } from './sign-in-form'
 
 const FormItem = Form.Item
 
-export class SignInMenu extends React.Component {
+class SignInMenu extends React.Component {
+  static propTypes = {
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+
   constructor(props) {
     super(props)
 
@@ -23,6 +30,9 @@ export class SignInMenu extends React.Component {
   }
 
   render() {
+    const { intl } = this.props
+    const { formatMessage } = intl
+
     return (
       <div className={styles.menu}>
         <AuthConsumer>
@@ -35,6 +45,7 @@ export class SignInMenu extends React.Component {
                 handleChange,
                 handleBlur,
                 handleSubmit,
+                isSubmitting,
               }) => (
                 <Form onSubmit={handleSubmit}>
                   <div className={styles.groupTitle}>
@@ -50,7 +61,9 @@ export class SignInMenu extends React.Component {
                   >
                     <Input
                       type="text"
-                      placeholder="Email or Username"
+                      placeholder={formatMessage({
+                        id: 'schemas.session.identity.placeholder',
+                      })}
                       value={values.identity}
                       name="identity"
                       onChange={handleChange}
@@ -65,7 +78,9 @@ export class SignInMenu extends React.Component {
                   >
                     <Input
                       type="password"
-                      placeholder="Password"
+                      placeholder={formatMessage({
+                        id: 'schemas.session.password.placeholder',
+                      })}
                       value={values.password}
                       name="password"
                       onChange={handleChange}
@@ -79,6 +94,7 @@ export class SignInMenu extends React.Component {
                     shape="round"
                     htmlType="submit"
                     className={styles.button}
+                    disabled={isSubmitting}
                   >
                     <FormattedMessage id="signIn.submit" />
                   </Button>
@@ -89,6 +105,7 @@ export class SignInMenu extends React.Component {
         </AuthConsumer>
 
         <Divider className={styles.divider} />
+
         <div>
           <div className={styles.groupTitle}>
             <Text color="secondary" size="large">
@@ -110,3 +127,5 @@ export class SignInMenu extends React.Component {
     )
   }
 }
+
+export default injectIntl(SignInMenu)

@@ -1,1 +1,1 @@
-export { SignInMenu } from './sign-in-menu'
+export { default as SignInMenu } from './sign-in-menu'

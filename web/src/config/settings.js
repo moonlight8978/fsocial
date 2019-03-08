@@ -10,7 +10,7 @@ type Config = {
 
 const test = {
   server: {
-    host: 'http://localhost:60000',
+    host: 'http://localhost:60001',
     prefix: '/api/v1',
     authorizationHeader: 'Authorization',
   },
@@ -18,7 +18,7 @@ const test = {
 
 const development = {
   server: {
-    host: 'http://localhost:60000',
+    host: 'http://localhost:60001',
     prefix: '/api',
     authorizationHeader: 'Authorization',
   },

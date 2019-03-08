@@ -33,5 +33,6 @@ schemas:
         required: Identity is required
     password:
       label: Password
+      placeholder: Password
       errors:
         required: Password is required
