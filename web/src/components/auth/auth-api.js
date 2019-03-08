@@ -1,8 +1,12 @@
 import { localHttp } from '../../services/http'
 import { settings } from '../../config'
 
-const User = {
+const SessionSchema = {
   parse: ({ identity, password }) => ({ identity, password }),
+}
+
+const RegistrationSchema = {
+  parse: ({ email, password, username }) => ({ email, password, username }),
 }
 
 export const AuthApi = {
@@ -13,7 +17,14 @@ export const AuthApi = {
       headers: {
         [settings.server.authorizationHeader]: '',
       },
-      data: { user: User.parse(user) },
+      data: { user: SessionSchema.parse(user) },
+    })
+  },
+  register: user => {
+    return localHttp.request({
+      method: 'post',
+      url: '/users',
+      data: { user: RegistrationSchema.parse(user) },
     })
   },
 }

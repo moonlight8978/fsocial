@@ -1,6 +1,5 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
-import _ from 'lodash'
 import classnames from 'classnames'
 import { FormattedMessage } from 'react-intl'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,89 +9,15 @@ import { AuthContext } from '../../components/auth'
 import { Box } from '../../components/atomics'
 
 import styles from './sign-up.module.scss'
+import SignUpForm from './sign-up-form'
 
 const FormItem = Form.Item
 
 export class SignUp extends React.Component {
   static contextType = AuthContext
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      values: {
-        username: '',
-        email: '',
-        password: '',
-      },
-      apiErrors: {},
-      isDirty: false,
-    }
-
-    this.getApiError = {
-      username: errors => errors.username,
-      email: errors => errors.email,
-      password: errors => errors.password,
-    }
-
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleChange({ target }) {
-    const { name, value } = target
-    this.setState(state => ({
-      values: { ...state.values, [name]: value },
-      isDirty: true,
-    }))
-  }
-
-  async handleSubmit(event) {
-    event.preventDefault()
-
-    const auth = this.context
-    const { values } = this.state
-
-    try {
-      await auth.signIn(values)
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 422) {
-          this.setState({ apiErrors: error.response.data.errors })
-        } else {
-          this.setState({ apiErrors: {} })
-        }
-      } else {
-        console.log(error.message)
-      }
-    }
-  }
-
-  fieldStatus(field) {
-    const { apiErrors, isDirty } = this.state
-    if (isDirty || _.isEmpty(apiErrors)) {
-      return {
-        status: 'success',
-      }
-    }
-    const messages = this.getApiError[field](apiErrors)
-    if (messages) {
-      return {
-        status: 'error',
-        message: messages.join(', '),
-      }
-    }
-    return { status: 'success' }
-  }
-
   render() {
-    const {
-      values: { username, email, password },
-    } = this.state
-
-    const usernameField = this.fieldStatus('username')
-    const emailField = this.fieldStatus('email')
-    const passwordField = this.fieldStatus('password')
+    const { register } = this.context
 
     return (
       <Layout fluid hasNavbar navbar={<UnauthorizedNavbar hasSubmenu />}>
@@ -139,58 +64,72 @@ export class SignUp extends React.Component {
               className={styles.signUpBox}
               bordered
             >
-              <Form onSubmit={this.handleSubmit}>
-                <FormItem
-                  validateStatus={usernameField.status}
-                  help={usernameField.message}
-                >
-                  <Input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    name="username"
-                    onChange={this.handleChange}
-                    className={styles.input}
-                  />
-                </FormItem>
-                <FormItem
-                  validateStatus={emailField.status}
-                  help={emailField.message}
-                >
-                  <Input
-                    type="text"
-                    placeholder="Email"
-                    value={email}
-                    name="email"
-                    onChange={this.handleChange}
-                    className={styles.input}
-                  />
-                </FormItem>
+              <SignUpForm register={register}>
+                {({
+                  values,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  fieldStatus,
+                  fieldError,
+                }) => (
+                  <Form onSubmit={handleSubmit}>
+                    <FormItem
+                      validateStatus={fieldStatus('username')}
+                      help={fieldError('username')}
+                    >
+                      <Input
+                        type="text"
+                        placeholder="Username"
+                        value={values.username}
+                        name="username"
+                        className={styles.input}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </FormItem>
+                    <FormItem
+                      validateStatus={fieldStatus('email')}
+                      help={fieldError('email')}
+                    >
+                      <Input
+                        type="text"
+                        placeholder="Email"
+                        value={values.email}
+                        name="email"
+                        className={styles.input}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </FormItem>
 
-                <FormItem
-                  validateStatus={passwordField.status}
-                  help={passwordField.message}
-                >
-                  <Input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    name="password"
-                    onChange={this.handleChange}
-                    className={styles.input}
-                  />
-                </FormItem>
+                    <FormItem
+                      validateStatus={fieldStatus('password')}
+                      help={fieldError('password')}
+                    >
+                      <Input
+                        type="password"
+                        placeholder="Password"
+                        value={values.password}
+                        name="password"
+                        className={styles.input}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </FormItem>
 
-                <Button
-                  block
-                  type="primary"
-                  shape="round"
-                  htmlType="submit"
-                  className={styles.button}
-                >
-                  <FormattedMessage id="signUp.submit" />
-                </Button>
-              </Form>
+                    <Button
+                      block
+                      type="primary"
+                      shape="round"
+                      htmlType="submit"
+                      className={styles.button}
+                    >
+                      <FormattedMessage id="signUp.submit" />
+                    </Button>
+                  </Form>
+                )}
+              </SignUpForm>
             </Box>
           </div>
         </div>

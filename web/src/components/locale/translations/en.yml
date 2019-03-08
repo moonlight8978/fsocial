@@ -36,3 +36,23 @@ schemas:
       placeholder: Password
       errors:
         required: Password is required
+  user:
+    username:
+      label: Username
+      placeholder: Username
+      errors:
+        required: Username is required
+        format:
+          begin_with_character: Username must begin with alphabet character
+          no_special_characters: Username must contains alphabet characters, numbers, and _ only
+    email:
+      label: Email
+      placeholder: Email
+      errors:
+        required: Email is required
+        format: Please enter a valid email address
+    password:
+      label: Password
+      placeholder: Password
+      errors:
+        required: Password is required

@@ -11,3 +11,9 @@ en:
             password:
               blank: Password cannot be blank
               mismatch: Password you provide is not correct
+            username:
+              taken: Username has already registered
+              blank: Username cannot be blank
+            email:
+              taken: Email has already registered
+              blank: Email cannot be blank
