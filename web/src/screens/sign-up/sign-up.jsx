@@ -1,101 +1,34 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
-import _ from 'lodash'
 import classnames from 'classnames'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import PropTypes from 'prop-types'
 
-import { Layout, UnauthorizedNavbar } from '../../components/layout'
-import { AuthContext } from '../../components/auth'
 import { Box } from '../../components/atomics'
+import { LocaleConsumer } from '../../components/locale'
+import { UnauthorizedNavbar, Layout } from '../layout'
 
 import styles from './sign-up.module.scss'
+import SignUpForm from './sign-up-form'
 
 const FormItem = Form.Item
 
-export class SignUp extends React.Component {
-  static contextType = AuthContext
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      values: {
-        username: '',
-        email: '',
-        password: '',
-      },
-      apiErrors: {},
-      isDirty: false,
-    }
-
-    this.getApiError = {
-      username: errors => errors.username,
-      email: errors => errors.email,
-      password: errors => errors.password,
-    }
-
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleChange({ target }) {
-    const { name, value } = target
-    this.setState(state => ({
-      values: { ...state.values, [name]: value },
-      isDirty: true,
-    }))
-  }
-
-  async handleSubmit(event) {
-    event.preventDefault()
-
-    const auth = this.context
-    const { values } = this.state
-
-    try {
-      await auth.signIn(values)
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 422) {
-          this.setState({ apiErrors: error.response.data.errors })
-        } else {
-          this.setState({ apiErrors: {} })
-        }
-      } else {
-        console.log(error.message)
-      }
-    }
-  }
-
-  fieldStatus(field) {
-    const { apiErrors, isDirty } = this.state
-    if (isDirty || _.isEmpty(apiErrors)) {
-      return {
-        status: 'success',
-      }
-    }
-    const messages = this.getApiError[field](apiErrors)
-    if (messages) {
-      return {
-        status: 'error',
-        message: messages.join(', '),
-      }
-    }
-    return { status: 'success' }
+class SignUp extends React.Component {
+  static propTypes = {
+    intl: PropTypes.shape().isRequired,
   }
 
   render() {
-    const {
-      values: { username, email, password },
-    } = this.state
-
-    const usernameField = this.fieldStatus('username')
-    const emailField = this.fieldStatus('email')
-    const passwordField = this.fieldStatus('password')
+    const { intl } = this.props
 
     return (
-      <Layout fluid hasNavbar navbar={<UnauthorizedNavbar hasSubmenu />}>
+      <Layout
+        fluid
+        hasNavbar
+        navbar={<UnauthorizedNavbar hasSubmenu />}
+        windowTitle={intl.formatMessage({ id: 'signUp.windowTitle' })}
+      >
         <div className={styles.wrapper}>
           <div className={classnames(styles.pane, styles.paneLeft)}>
             <div>
@@ -130,71 +63,113 @@ export class SignUp extends React.Component {
           </div>
 
           <div className={classnames(styles.pane, styles.paneRight)}>
-            <Box
-              title={
-                <h2>
-                  <FormattedMessage id="signUp.title" />
-                </h2>
-              }
-              className={styles.signUpBox}
-              bordered
-            >
-              <Form onSubmit={this.handleSubmit}>
-                <FormItem
-                  validateStatus={usernameField.status}
-                  help={usernameField.message}
-                >
-                  <Input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    name="username"
-                    onChange={this.handleChange}
-                    className={styles.input}
-                  />
-                </FormItem>
-                <FormItem
-                  validateStatus={emailField.status}
-                  help={emailField.message}
-                >
-                  <Input
-                    type="text"
-                    placeholder="Email"
-                    value={email}
-                    name="email"
-                    onChange={this.handleChange}
-                    className={styles.input}
-                  />
-                </FormItem>
+            <div className={styles.signUpBox}>
+              <Box
+                title={
+                  <h2>
+                    <FormattedMessage id="signUp.title" />
+                  </h2>
+                }
+                bordered
+              >
+                <SignUpForm>
+                  {({
+                    values,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    fieldStatus,
+                    fieldError,
+                    isSubmitting,
+                  }) => (
+                    <Form onSubmit={handleSubmit}>
+                      <FormItem
+                        validateStatus={fieldStatus('username')}
+                        help={fieldError('username')}
+                      >
+                        <Input
+                          type="text"
+                          placeholder="Username"
+                          value={values.username}
+                          name="username"
+                          className={styles.input}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </FormItem>
+                      <FormItem
+                        validateStatus={fieldStatus('email')}
+                        help={fieldError('email')}
+                      >
+                        <Input
+                          type="text"
+                          placeholder="Email"
+                          value={values.email}
+                          name="email"
+                          className={styles.input}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </FormItem>
 
-                <FormItem
-                  validateStatus={passwordField.status}
-                  help={passwordField.message}
-                >
-                  <Input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    name="password"
-                    onChange={this.handleChange}
-                    className={styles.input}
-                  />
-                </FormItem>
+                      <FormItem
+                        validateStatus={fieldStatus('password')}
+                        help={fieldError('password')}
+                      >
+                        <Input
+                          type="password"
+                          placeholder="Password"
+                          value={values.password}
+                          name="password"
+                          className={styles.input}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </FormItem>
 
-                <Button
-                  block
-                  type="primary"
-                  shape="round"
-                  htmlType="submit"
-                  className={styles.button}
-                >
-                  <FormattedMessage id="signUp.submit" />
-                </Button>
-              </Form>
-            </Box>
+                      <Button
+                        block
+                        type="primary"
+                        shape="round"
+                        htmlType="submit"
+                        className={styles.button}
+                        disabled={isSubmitting}
+                      >
+                        <FormattedMessage id="signUp.submit" />
+                      </Button>
+                    </Form>
+                  )}
+                </SignUpForm>
+              </Box>
+
+              <LocaleConsumer>
+                {({ changeLocale, currentLocale }) => (
+                  <div className={styles.langList}>
+                    <Button
+                      onClick={changeLocale('en')}
+                      className={classnames(styles.langSwitch, {
+                        [styles.langActive]: currentLocale === 'en',
+                      })}
+                    >
+                      <FormattedMessage id="locales.english" />
+                    </Button>
+                    <Button
+                      onClick={changeLocale('vi')}
+                      className={classnames(styles.langSwitch, {
+                        [styles.langActive]: currentLocale === 'vi',
+                      })}
+                    >
+                      <FormattedMessage id="locales.vietnamese" />
+                    </Button>
+                  </div>
+                )}
+              </LocaleConsumer>
+            </div>
           </div>
         </div>
       </Layout>
     )
   }
 }
+
+export default injectIntl(SignUp)

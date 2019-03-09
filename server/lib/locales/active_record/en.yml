@@ -1,2 +1,19 @@
 en:
-  hello_world: Hello world
+  activerecord:
+    errors:
+      format: '%{message}'
+      models:
+        user:
+          attributes:
+            identity:
+              not_exist: 'Cannot find user with username or email is %{value}'
+              blank: Identity cannot be blank
+            password:
+              blank: Password cannot be blank
+              mismatch: Password you provide is not correct
+            username:
+              taken: Username has already registered
+              blank: Username cannot be blank
+            email:
+              taken: Email has already registered
+              blank: Email cannot be blank

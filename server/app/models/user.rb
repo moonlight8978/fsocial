@@ -30,7 +30,7 @@ class User < ApplicationRecord
       identity, password = sign_in_params.values_at(:identity, :password)
       user = new
       persisted_user = where('username = :identity OR email = :identity', identity: identity).first
-      return user.tap { user.errors.add(:identity, :not_exist) } unless persisted_user
+      return user.tap { user.errors.add(:identity, :not_exist, value: identity) } unless persisted_user
       return persisted_user if persisted_user.authenticate(password)
 
       user.tap { user.errors.add(:password, :mismatch) }

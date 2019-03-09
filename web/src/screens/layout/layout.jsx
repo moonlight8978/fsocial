@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { Layout as AntdLayout, Row, Col } from 'antd'
 import classnames from 'classnames'
 
-import { Container } from './container'
 import styles from './layout.module.scss'
+import Container from './container'
+import WindowTitle from './window-title'
 
 const { Content } = AntdLayout
 
@@ -17,10 +18,12 @@ function Layout({
   sideLeft,
   children,
   fluid,
+  windowTitle,
 }) {
   if (fluid) {
     return (
       <AntdLayout className="layout">
+        <WindowTitle title={windowTitle} />
         {hasNavbar && navbar}
         <Content
           className={classnames(styles.contentWrapper, {
@@ -37,8 +40,8 @@ function Layout({
 
   return (
     <AntdLayout className="layout">
+      <WindowTitle title={windowTitle} />
       {hasNavbar && navbar}
-
       <Container>
         <Content
           className={classnames(styles.contentWrapper, {
@@ -65,6 +68,7 @@ Layout.propTypes = {
   sideLeft: PropTypes.node,
   children: PropTypes.node.isRequired,
   fluid: PropTypes.bool,
+  windowTitle: PropTypes.string.isRequired,
 }
 
 Layout.defaultProps = {

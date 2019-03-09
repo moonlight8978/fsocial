@@ -1,9 +1,11 @@
 /* eslint-disable react/no-unused-state */
 import React from 'react'
-import axios from 'axios'
 import _ from 'lodash'
 
 import { PersistedStorage } from '../../services/persisted-storage'
+
+import { AuthApi } from './auth-api'
+import { AuthResources } from './auth-resources'
 
 const defaultState = {
   isAuthenticated: false,
@@ -12,6 +14,7 @@ const defaultState = {
   user: {},
   signIn: () => {},
   signOut: () => {},
+  register: () => {},
 }
 
 const persistedState = PersistedStorage.get('auth')
@@ -28,12 +31,14 @@ export class AuthProvider extends React.Component {
 
     this.signIn = this.signIn.bind(this)
     this.signOut = this.signOut.bind(this)
+    this.register = this.register.bind(this)
     this.persistState = this.persistState.bind(this)
 
     this.state = {
       ...initialState,
       signIn: this.signIn,
       signOut: this.signOut,
+      register: this.register,
     }
   }
 
@@ -48,29 +53,47 @@ export class AuthProvider extends React.Component {
     )
   }
 
+  setStateAsync(newState) {
+    return new Promise(resolve => {
+      this.setState(newState, () => {
+        this.persistState()
+        resolve()
+      })
+    })
+  }
+
   async signIn(user) {
     try {
-      const { data } = await axios.post('http://localhost:60001/api/v1/users', {
-        user,
+      const response = await AuthApi.signIn(user)
+      const session = AuthResources.Session.parse(response.data)
+      await this.setStateAsync({
+        token: session.token,
+        expiredAt: session.expiredAt,
+        isAuthenticated: true,
       })
-      this.setState(
-        {
-          token: data.token,
-          expiredAt: new Date('9999-09-09').getTime(),
-          isAuthenticated: true,
-        },
-        this.persistState
-      )
     } catch (error) {
       throw error
     }
   }
 
   async signOut() {
-    this.setState(
-      _.pick(defaultState, ['isAuthenticated', 'token', 'expiredAt']),
-      this.persistState
+    await this.setStateAsync(
+      _.pick(defaultState, ['isAuthenticated', 'token', 'expiredAt'])
     )
+  }
+
+  async register(user) {
+    try {
+      const response = await AuthApi.register(user)
+      const session = AuthResources.Session.parse(response.data)
+      await this.setStateAsync({
+        token: session.token,
+        expiredAt: session.expiredAt,
+        isAuthenticated: true,
+      })
+    } catch (error) {
+      throw error
+    }
   }
 
   render() {

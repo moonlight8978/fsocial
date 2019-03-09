@@ -2,18 +2,22 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { withLoading, FluidLoading } from '../loading'
+import { withLoading, EdgeLoading } from '../loading'
+import { paths } from '../../config'
 
-import { AuthContext } from './auth'
 import { authSelectors } from './auth-selectors'
+import { withAuthContext } from './with-auth-context'
 
-export function protectRoute(Component, allowGuest = false) {
+export function protectRoute(
+  Component,
+  allowGuest = false,
+  Loading = EdgeLoading
+) {
   class ProtectedRoute extends React.Component {
-    static contextType = AuthContext
-
     static propTypes = {
       isLoading: PropTypes.bool.isRequired,
       finishLoading: PropTypes.func.isRequired,
+      auth: PropTypes.shape().isRequired,
     }
 
     componentDidMount() {
@@ -21,30 +25,28 @@ export function protectRoute(Component, allowGuest = false) {
     }
 
     async precheck() {
-      // eslint-disable-next-line react/destructuring-assignment
       this.props.finishLoading()
     }
 
     render() {
-      const { isLoading } = this.props
-      const authContext = this.context
-      const isUnauthorized = authSelectors.getIsUnauthorized(authContext)
+      const { isLoading, auth } = this.props
+      const isUnauthorized = authSelectors.getIsUnauthorized(auth)
 
       if (isLoading) {
-        return <FluidLoading />
+        return <Loading />
       }
 
       if (!allowGuest && isUnauthorized) {
-        return <Redirect to="/sign_up" />
+        return <Redirect to={paths.signUp.resolve()} />
       }
 
       if (allowGuest && !isUnauthorized) {
-        return <Redirect to="/" />
+        return <Redirect to={paths.home.resolve()} />
       }
 
       return <Component {...this.props} />
     }
   }
 
-  return withLoading(ProtectedRoute)
+  return withAuthContext(withLoading(ProtectedRoute))
 }

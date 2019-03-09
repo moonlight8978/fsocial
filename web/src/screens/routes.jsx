@@ -3,8 +3,9 @@ import { Switch, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { protectRoute } from '../components/auth'
-import { withLoading, FluidLoading } from '../components/loading'
+import { withLoading, FullscreenLoading } from '../components/loading'
 import { AsyncUtils } from '../utils'
+import { paths } from '../config'
 
 import { SignUp } from './sign-up'
 import { Home } from './home'
@@ -19,7 +20,7 @@ class Routes extends React.Component {
   }
 
   async componentDidMount() {
-    await AsyncUtils.delay(3000)
+    await AsyncUtils.delay(1000)
     this.props.finishLoading()
   }
 
@@ -27,13 +28,13 @@ class Routes extends React.Component {
     const { isLoading } = this.props
 
     if (isLoading) {
-      return <FluidLoading />
+      return <FullscreenLoading />
     }
 
     return (
       <Switch>
-        <Route path="/sign_up" exact component={SignUpScreen} />
-        <Route path="/" exact component={HomeScreen} />
+        <Route path={paths.signUp.route} exact component={SignUpScreen} />
+        <Route path={paths.home.route} exact component={HomeScreen} />
       </Switch>
     )
   }

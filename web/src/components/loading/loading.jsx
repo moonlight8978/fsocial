@@ -11,4 +11,16 @@ const FluidLoading = () => (
   </div>
 )
 
-export { FluidLoading, InlineLoading }
+const FullscreenLoading = () => (
+  <div className={styles.fullscreenLoading}>
+    <InlineLoading />
+  </div>
+)
+
+const EdgeLoading = () => (
+  <div className={styles.edgeLoading}>
+    <Spin size="default" />
+  </div>
+)
+
+export { FluidLoading, InlineLoading, FullscreenLoading, EdgeLoading }

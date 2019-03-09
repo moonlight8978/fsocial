@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 
-import { Container } from '../container'
+import Container from '../container'
+import { paths } from '../../../config'
 
 import styles from './navbar.module.scss'
 import { SignInMenu } from './sign-in-menu'
@@ -42,7 +43,6 @@ class UnauthorizedNavbar extends React.Component {
   }
 
   handleRouteChange({ key }) {
-    // eslint-disable-next-line react/destructuring-assignment
     this.props.history.push(key)
   }
 
@@ -65,7 +65,7 @@ class UnauthorizedNavbar extends React.Component {
               className={styles.menu}
             >
               <Menu.Item
-                key="/"
+                key={paths.home.resolve()}
                 className={styles.menuItem}
                 onClick={this.handleRouteChange}
               >
@@ -73,7 +73,7 @@ class UnauthorizedNavbar extends React.Component {
                 <FormattedMessage id="navbar.menu.home" />
               </Menu.Item>
               <Menu.Item
-                key="/about"
+                key={paths.about.resolve()}
                 className={styles.menuItem}
                 onClick={this.handleRouteChange}
               >
@@ -108,6 +108,4 @@ class UnauthorizedNavbar extends React.Component {
   }
 }
 
-const NavbarWithRouter = withRouter(UnauthorizedNavbar)
-
-export { NavbarWithRouter as UnauthorizedNavbar }
+export default withRouter(UnauthorizedNavbar)

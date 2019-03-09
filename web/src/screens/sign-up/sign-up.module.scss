@@ -27,6 +27,7 @@
 
   .input {
     padding: 1.5rem 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .button {
@@ -34,6 +35,25 @@
     padding-bottom: 0.5rem;
     height: auto;
     margin-bottom: 0.5rem;
+  }
+
+  .langList {
+    margin-top: 0.5rem;
+
+    .langSwitch {
+      border: 0;
+      box-shadow: none;
+      outline: 0;
+      padding: 0 0.5rem;
+
+      &.langActive {
+        font-weight: bold;
+      }
+
+      &:after {
+        display: none;
+      }
+    }
   }
 }
 
