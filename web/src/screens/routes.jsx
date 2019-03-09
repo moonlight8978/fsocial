@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { protectRoute } from '../components/auth'
 import { withLoading, FullscreenLoading } from '../components/loading'
 import { AsyncUtils } from '../utils'
+import { paths } from '../config'
 
 import { SignUp } from './sign-up'
 import { Home } from './home'
@@ -32,8 +33,8 @@ class Routes extends React.Component {
 
     return (
       <Switch>
-        <Route path="/sign_up" exact component={SignUpScreen} />
-        <Route path="/" exact component={HomeScreen} />
+        <Route path={paths.signUp.route} exact component={SignUpScreen} />
+        <Route path={paths.home.route} exact component={HomeScreen} />
       </Switch>
     )
   }

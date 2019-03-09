@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { withLoading, EdgeLoading } from '../loading'
+import { paths } from '../../config'
 
 import { authSelectors } from './auth-selectors'
 import { withAuthContext } from './with-auth-context'
@@ -36,11 +37,11 @@ export function protectRoute(
       }
 
       if (!allowGuest && isUnauthorized) {
-        return <Redirect to="/sign_up" />
+        return <Redirect to={paths.signUp.resolve()} />
       }
 
       if (allowGuest && !isUnauthorized) {
-        return <Redirect to="/" />
+        return <Redirect to={paths.home.resolve()} />
       }
 
       return <Component {...this.props} />

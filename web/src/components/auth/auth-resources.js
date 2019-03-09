@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode'
 
-const User = {
+const CurrentUser = {
   parse: data => ({
     id: data.id,
     fullname: data.fullname,
@@ -28,5 +28,5 @@ const Session = {
 
 export const AuthResources = {
   Session,
-  User,
+  CurrentUser,
 }

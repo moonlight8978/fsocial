@@ -1,8 +1,9 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
 import classnames from 'classnames'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import PropTypes from 'prop-types'
 
 import { Box } from '../../components/atomics'
 import { LocaleConsumer } from '../../components/locale'
@@ -13,10 +14,21 @@ import SignUpForm from './sign-up-form'
 
 const FormItem = Form.Item
 
-export class SignUp extends React.Component {
+class SignUp extends React.Component {
+  static propTypes = {
+    intl: PropTypes.shape().isRequired,
+  }
+
   render() {
+    const { intl } = this.props
+
     return (
-      <Layout fluid hasNavbar navbar={<UnauthorizedNavbar hasSubmenu />}>
+      <Layout
+        fluid
+        hasNavbar
+        navbar={<UnauthorizedNavbar hasSubmenu />}
+        windowTitle={intl.formatMessage({ id: 'signUp.windowTitle' })}
+      >
         <div className={styles.wrapper}>
           <div className={classnames(styles.pane, styles.paneLeft)}>
             <div>
@@ -159,3 +171,5 @@ export class SignUp extends React.Component {
     )
   }
 }
+
+export default injectIntl(SignUp)

@@ -6,9 +6,10 @@ import { FormattedMessage } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { Container } from '../container'
+import Container from '../container'
 import { AuthConsumer } from '../../../components/auth'
 import { LocaleConsumer } from '../../../components/locale'
+import { paths } from '../../../config'
 
 import styles from './navbar.module.scss'
 import menuStyles from './user-menu.module.scss'
@@ -111,7 +112,7 @@ class Navbar extends React.Component {
               className={styles.menu}
             >
               <Menu.Item
-                key="/"
+                key={paths.home.resolve()}
                 className={styles.menuItem}
                 onClick={this.handleChangeRoute}
               >
@@ -120,7 +121,7 @@ class Navbar extends React.Component {
               </Menu.Item>
 
               <Menu.Item
-                key="/notifications"
+                key={paths.notifications.resolve()}
                 className={styles.menuItem}
                 onClick={this.handleChangeRoute}
               >
@@ -129,7 +130,7 @@ class Navbar extends React.Component {
               </Menu.Item>
 
               <Menu.Item
-                key="/messages"
+                key={paths.messages.resolve()}
                 className={styles.menuItem}
                 onClick={this.handleChangeRoute}
               >

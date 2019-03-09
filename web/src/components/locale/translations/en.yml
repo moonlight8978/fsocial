@@ -18,12 +18,15 @@ signIn:
   guestTitle: New to fsocial?
   signUp: Sign up
 signUp:
+  windowTitle: Welcome to fsocial
   title: Register to fsocial
   submit: Complete registration
   slogans:
     first: Follow your interests.
     second: Hear what people are talking about.
     third: Join the conversation.
+home:
+  windowTitle: Home - fsocial
 schemas:
   session:
     identity:

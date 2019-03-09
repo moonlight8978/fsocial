@@ -1,4 +1,5 @@
 {
+  "home.windowTitle": "Home - fsocial",
   "locales.english": "English",
   "locales.vietnamese": "Tiếng Việt",
   "navbar.menu.about": "About",
@@ -35,5 +36,6 @@
   "signUp.slogans.second": "Hear what people are talking about.",
   "signUp.slogans.third": "Join the conversation.",
   "signUp.submit": "Complete registration",
-  "signUp.title": "Register to fsocial"
+  "signUp.title": "Register to fsocial",
+  "signUp.windowTitle": "Welcome to fsocial"
 }

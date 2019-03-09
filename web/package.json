@@ -23,6 +23,7 @@
     "react-scripts": "2.1.5",
     "react-transition-group": "^2.5.3",
     "unstated": "^2.1.1",
+    "urijs": "^1.19.1",
     "yup": "^0.26.10"
   },
   "scripts": {
