@@ -4,9 +4,9 @@ import classnames from 'classnames'
 import { FormattedMessage } from 'react-intl'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { Layout, UnauthorizedNavbar } from '../../components/layout'
 import { Box } from '../../components/atomics'
 import { LocaleConsumer } from '../../components/locale'
+import { UnauthorizedNavbar, Layout } from '../layout'
 
 import styles from './sign-up.module.scss'
 import SignUpForm from './sign-up-form'

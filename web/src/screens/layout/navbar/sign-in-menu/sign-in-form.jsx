@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { object, string } from 'yup'
 
-import { withAuthContext } from '../../../auth'
-import { StaticForm } from '../../../form'
+import { withAuthContext } from '../../../../components/auth'
+import { StaticForm } from '../../../../components/form'
 
 const defaultValues = {
   identity: '',

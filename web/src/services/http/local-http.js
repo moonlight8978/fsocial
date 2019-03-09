@@ -3,12 +3,18 @@ import axios from 'axios'
 import { settings } from '../../config'
 import { PersistedStorage } from '../persisted-storage'
 
-function getHeaders() {
+function getHeaders(auth) {
+  if (auth) {
+    return {
+      [settings.server.authorizationHeader]: [
+        'Bearer',
+        PersistedStorage.get('auth').token,
+      ].join(' '),
+      'Accept-Language': PersistedStorage.get('locale').currentLocale,
+    }
+  }
+
   return {
-    [settings.server.authorizationHeader]: [
-      'Bearer',
-      PersistedStorage.get('auth').token,
-    ].join(' '),
     'Accept-Language': PersistedStorage.get('locale').currentLocale,
   }
 }
@@ -20,11 +26,11 @@ class LocalHttp {
     })
   }
 
-  request(config) {
+  request(config, auth = true) {
     return this.axios.request({
       ...config,
       headers: {
-        ...getHeaders(),
+        ...getHeaders(auth),
         ...config.headers,
       },
     })

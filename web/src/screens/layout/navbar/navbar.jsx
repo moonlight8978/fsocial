@@ -7,8 +7,8 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { Container } from '../container'
-import { AuthConsumer } from '../../auth'
-import { LocaleConsumer } from '../../locale'
+import { AuthConsumer } from '../../../components/auth'
+import { LocaleConsumer } from '../../../components/locale'
 
 import styles from './navbar.module.scss'
 import menuStyles from './user-menu.module.scss'
@@ -148,6 +148,4 @@ class Navbar extends React.Component {
   }
 }
 
-const NavBarWithRouter = withRouter(Navbar)
-
-export { NavBarWithRouter as Navbar }
+export default withRouter(Navbar)

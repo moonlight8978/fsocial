@@ -42,7 +42,6 @@ class UnauthorizedNavbar extends React.Component {
   }
 
   handleRouteChange({ key }) {
-    // eslint-disable-next-line react/destructuring-assignment
     this.props.history.push(key)
   }
 
@@ -108,6 +107,4 @@ class UnauthorizedNavbar extends React.Component {
   }
 }
 
-const NavbarWithRouter = withRouter(UnauthorizedNavbar)
-
-export { NavbarWithRouter as UnauthorizedNavbar }
+export default withRouter(UnauthorizedNavbar)

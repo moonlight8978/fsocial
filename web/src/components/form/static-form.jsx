@@ -50,9 +50,13 @@ class StaticForm extends React.Component {
       await AsyncUtils.delay(2000)
       await onSubmit(values)
     } catch (error) {
-      this.setState({
-        apiErrors: new ValidationError(error.response.data.errors).data,
-      })
+      if (error.response && error.response.status === 422) {
+        this.setState({
+          apiErrors: new ValidationError(error.response.data.errors).data,
+        })
+      } else {
+        throw error
+      }
     } finally {
       setSubmitting(false)
     }

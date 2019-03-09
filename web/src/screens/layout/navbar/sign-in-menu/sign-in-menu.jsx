@@ -3,7 +3,7 @@ import { Button, Divider, Form, Input } from 'antd'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 
-import { Text } from '../../../atomics'
+import { Text } from '../../../../components/atomics'
 
 import styles from './sign-in-menu.module.scss'
 import SignInForm from './sign-in-form'

@@ -6,7 +6,7 @@ en:
         user:
           attributes:
             identity:
-              not_exist: 'Cannot find user with username or email is %{identity}'
+              not_exist: 'Cannot find user with username or email is %{value}'
               blank: Identity cannot be blank
             password:
               blank: Password cannot be blank

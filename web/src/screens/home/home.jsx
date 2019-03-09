@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Layout, Navbar } from '../../components/layout'
+import { Layout, Navbar } from '../layout'
 
 export class Home extends React.Component {
   render() {
