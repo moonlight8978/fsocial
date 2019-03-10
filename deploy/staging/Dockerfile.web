@@ -5,4 +5,6 @@ RUN apk --update add nodejs yarn
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
+COPY build ./
+
 EXPOSE 80

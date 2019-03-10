@@ -13,3 +13,10 @@ prepare:
 
 env:
 	cp .env.staging .env
+
+build-local:
+	cp deploy/staging/docker-compose.build.yml docker-compose.yml
+	docker-compose build
+	docker-compose run --rm web yarn install
+	docker-compose run --rm web yarn build
+	docker-compose build
