@@ -1,0 +1,15 @@
+{
+  "files.autoSave": "afterDelay",
+  "files.exclude": {
+    ".git": true,
+    ".github": true,
+    "**/node_modules": true,
+    "**/log": true,
+    "**/tmp": true,
+    "web": true,
+    "server": false,
+    "proxy": true,
+    "deploy": true,
+    "utils": true
+  }
+}

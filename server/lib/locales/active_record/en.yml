@@ -10,10 +10,16 @@ en:
               blank: Identity cannot be blank
             password:
               blank: Password cannot be blank
-              mismatch: Password you provide is not correct
+              incorrect: Password is not correct
             username:
               taken: Username has already registered
               blank: Username cannot be blank
             email:
               taken: Email has already registered
               blank: Email cannot be blank
+            current_password:
+              blank: Current password cannot be blank
+              invalid: Current password is not correct
+            password_confirmation:
+              blank: Password confirmation cannot be blank
+              confirmation: Passwords is not match

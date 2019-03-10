@@ -6,8 +6,9 @@ class ActivitySerializer < ActiveModel::Serializer
   def self.serializer_for(model, options)
     case model.class.name
     when 'Post'
-      return PostSerializer
+      PostSerializer
+    else
+      super
     end
-    super
   end
 end

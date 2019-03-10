@@ -16,3 +16,6 @@ http:
     created: 201
     success: 200
     deleted: 204
+    updated:
+      success: 200
+      no_changes: 304
