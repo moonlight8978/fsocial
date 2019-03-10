@@ -78,3 +78,18 @@ end
 shared_examples 'deleted' do
   include_examples 'response with status', :no_content
 end
+
+shared_examples 'updated success' do
+  include_examples 'success'
+end
+
+shared_examples 'updated without changes' do
+  include_examples 'response with status', :not_modified
+end
+
+shared_examples 'response with empty body' do
+  it 'response with empty body' do
+    subject
+    expect(response.body).to eq('')
+  end
+end

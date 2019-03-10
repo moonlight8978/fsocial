@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_secure_password
   acts_as_paranoid
 
-  attr_accessor :identity
+  attr_accessor :identity, :current_password
 
   enumerize :role, in: { user: 1, admin: 99 }, default: :user, predicates: { prefix: true }
   enumerize :gender, in: { male: 1, female: 2 }, default: :male, predicates: { prefix: true }
@@ -22,7 +22,13 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
-  validates :password, presence: true
+  validates :fullname, presence: true
+  validates :password, presence: true, on: :create
+  validates :password, confirmation: true, allow_blank: true
+  with_options if: proc { password || password_confirmation }, on: :update do
+    validates :password_confirmation, presence: true
+    validates :password, presence: true
+  end
   validates :role, presence: true
 
   class << self
@@ -33,11 +39,21 @@ class User < ApplicationRecord
       return user.tap { user.errors.add(:identity, :not_exist, value: identity) } unless persisted_user
       return persisted_user if persisted_user.authenticate(password)
 
-      user.tap { user.errors.add(:password, :mismatch) }
+      user.tap { user.errors.add(:password, :incorrect) }
     end
   end
 
   def token
     @token ||= Auth::Jwt.encode(user_id: id)
+  end
+
+  def update_password!(params)
+    current_password = params.delete(:current_password)
+    if authenticate(current_password)
+      update!(params)
+    else
+      errors.add(:current_password, current_password.blank? ? :blank : :invalid)
+    end
+    raise ActiveRecord::RecordInvalid, self if errors.any?
   end
 end

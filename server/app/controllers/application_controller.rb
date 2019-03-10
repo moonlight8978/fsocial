@@ -8,7 +8,6 @@ class ApplicationController < ActionController::API
 
   before_action :set_locale
 
-  rescue_from StandardError, with: :debug
   rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
   rescue_from(
     Unauthenticated,
@@ -93,9 +92,5 @@ class ApplicationController < ActionController::API
       json: { errors: exception.record.errors.messages },
       status: Settings.http.statuses.errors['active_record/record_invalid']
     )
-  end
-
-  def debug(_exception)
-    byebug if Rails.env.test? || Rails.env.development? # rubocop:disable Lint/Debugger
   end
 end

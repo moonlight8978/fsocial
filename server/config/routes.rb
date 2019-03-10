@@ -12,6 +12,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resource :profile, only: %i[show update] do
+        member do
+          put :password
+        end
+      end
+
       resources :posts
     end
   end
