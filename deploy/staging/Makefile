@@ -20,3 +20,5 @@ build-local:
 	docker-compose run --rm web yarn install
 	docker-compose run --rm web yarn build
 	docker-compose build
+	docker-compose push
+	cp deploy/staging/docker-compose.yml docker-compose.yml
