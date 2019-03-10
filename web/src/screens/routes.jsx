@@ -20,7 +20,7 @@ class Routes extends React.Component {
   }
 
   async componentDidMount() {
-    await AsyncUtils.delay(1000)
+    await AsyncUtils.delay(3000)
     this.props.finishLoading()
   }
 

@@ -31,6 +31,7 @@ export const paths = {
   },
   user: {
     route: '/users/:username([a-zA-Z]{1}[a-zA-Z0-9_]*)',
-    resolve: ({ username }) => createUri('/{username}').expand({ username }),
+    resolve: ({ username }) =>
+      createUri('/users/{username}').expand({ username }),
   },
 }

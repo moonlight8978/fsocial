@@ -1,0 +1,39 @@
+@import 'config/colors';
+
+.button {
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  height: auto;
+  padding: 0.4rem 2rem !important;
+  position: relative;
+
+  :global(.anticon-loading) {
+    position: absolute;
+  }
+}
+
+.unfollowButton,
+.followButton,
+.followingButton {
+  @extend .button;
+}
+
+.followButton:hover {
+  background-color: $btn-primary-bg !important;
+  color: $btn-primary-color !important;
+}
+
+.unfollowButton,
+.unfollowButton:hover {
+  background-color: $btn-danger-bg;
+  color: $btn-danger-color;
+  border-color: $btn-danger-bg;
+}
+
+.followingButton,
+.followingButton:hover {
+  background-color: $btn-primary-bg;
+  border-color: $btn-primary-bg;
+  color: $btn-primary-color;
+}
