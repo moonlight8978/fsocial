@@ -4,12 +4,17 @@ import classnames from 'classnames'
 
 import styles from './text.module.scss'
 
-export function Text({ content, children, size, color }) {
+export function Text({ content, children, size, color, bold, className }) {
   const sizeClassName = `size-${size}`
   const colorClassName = `color-${color}`
 
   return (
-    <span className={classnames(styles[sizeClassName], styles[colorClassName])}>
+    <span
+      className={classnames(styles[sizeClassName], styles[colorClassName], {
+        [styles.bold]: bold,
+        [className]: className,
+      })}
+    >
       {children || content}
     </span>
   )
@@ -20,6 +25,8 @@ Text.defaultProps = {
   children: null,
   size: 'normal',
   color: 'primary',
+  bold: false,
+  className: '',
 }
 
 Text.propTypes = {
@@ -27,4 +34,6 @@ Text.propTypes = {
   children: PropTypes.node,
   size: PropTypes.oneOf(['small', 'normal', 'large', 'xlarge', 'xxlarge']),
   color: PropTypes.oneOf(['primary', 'link', 'secondary', 'contrast']),
+  bold: PropTypes.bool,
+  className: PropTypes.string,
 }

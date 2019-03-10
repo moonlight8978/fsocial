@@ -12,6 +12,12 @@ class WindowTitle extends React.PureComponent {
     this.setDocumentTitle()
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.title !== this.props.title) {
+      this.setDocumentTitle()
+    }
+  }
+
   setDocumentTitle() {
     document.title = this.props.title
   }

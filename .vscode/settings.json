@@ -1,13 +1,13 @@
 {
-  "files.autoSave": "afterDelay",
+  "files.autoSave": "off",
   "files.exclude": {
     ".git": true,
     ".github": true,
     "**/node_modules": true,
     "**/log": true,
     "**/tmp": true,
-    "web": true,
-    "server": false,
+    "web": false,
+    "server": true,
     "proxy": true,
     "deploy": true,
     "utils": true

@@ -27,6 +27,12 @@ signUp:
     third: Join the conversation.
 home:
   windowTitle: Home - fsocial
+following:
+  follow: Follow
+  unfollow: Unfollow
+  following: Following
+followeeSuggestion:
+  title: Who to follow
 schemas:
   session:
     identity:

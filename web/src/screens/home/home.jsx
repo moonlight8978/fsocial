@@ -3,6 +3,8 @@ import { injectIntl } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import { Layout, Navbar } from '../layout'
+import { FolloweeSuggestion } from '../../components/followee-suggestion'
+import { Box } from '../../components/atomics'
 
 class Home extends React.Component {
   static propTypes = {
@@ -17,8 +19,12 @@ class Home extends React.Component {
         hasNavbar
         navbar={<Navbar />}
         windowTitle={intl.formatMessage({ id: 'home.windowTitle' })}
+        hasSideRight
+        sideRight={<FolloweeSuggestion />}
+        hasSideLeft
+        sideLeft={<Box>Left panel</Box>}
       >
-        <div>Home</div>
+        <Box>adfdsfsdaf</Box>
       </Layout>
     )
   }

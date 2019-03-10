@@ -1,0 +1,19 @@
+.hoverWrapper {
+  .hoverContent {
+    display: none;
+  }
+
+  .defaultContent {
+    display: block;
+  }
+
+  &:hover {
+    .hoverContent {
+      display: block;
+    }
+
+    .defaultContent {
+      display: none;
+    }
+  }
+}

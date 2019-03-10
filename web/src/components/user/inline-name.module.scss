@@ -1,0 +1,13 @@
+@import 'config/colors';
+
+.name {
+  &:hover .fullname {
+    text-decoration: underline;
+    color: $link-hover-color;
+  }
+
+  .middot {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+}
