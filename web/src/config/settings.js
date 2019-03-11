@@ -32,7 +32,7 @@ const staging = {
   },
 }
 
-const env = process.env.REACT_ENV || 'test'
+const env = process.env.REACT_APP_REACT_ENV || 'test'
 
 const allSettings = {
   test,

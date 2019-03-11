@@ -21,6 +21,8 @@ services:
 
   web:
     image: moonlight8978/fsocial:web
+    build:
+      context: web
     env_file:
       - .env
     command: ["nginx", "-g", "daemon off;"]
@@ -29,6 +31,7 @@ services:
     restart: always
 
   server:
+    image: moonlight8978/fsocial:server
     build:
       context: server
     env_file:
@@ -43,6 +46,7 @@ services:
       - db
 
   proxy:
+    image: moonlight8978/fsocial:proxy
     build:
       context: proxy
     env_file:
