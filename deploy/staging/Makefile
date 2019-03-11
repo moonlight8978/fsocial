@@ -15,6 +15,7 @@ env:
 	cp .env.staging .env
 
 build-local:
+	docker-compose build
 	docker-compose run --rm web yarn install
 	docker-compose run --rm web yarn build
 	docker-compose build
