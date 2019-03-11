@@ -20,3 +20,9 @@ build-local:
 	cd web && yarn build
 	docker-compose build
 	docker-compose push
+
+autodeploy:
+	git pull origin master
+	docker-compose pull
+	docker-compose down
+	docker-compose up -d
