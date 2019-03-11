@@ -1,10 +1,10 @@
 FROM nginx:1.15.8-alpine
 
-RUN apk --update add nodejs yarn
+RUN apk update && apk add -u nodejs yarn
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY build ./
+COPY . .
 
 EXPOSE 80
