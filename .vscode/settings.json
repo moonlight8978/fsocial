@@ -7,9 +7,9 @@
     "**/log": true,
     "**/tmp": true,
     "web": false,
-    "server": true,
-    "proxy": true,
-    "deploy": true,
-    "utils": true
+    "server": false,
+    "proxy": false,
+    "deploy": false,
+    "utils": false
   }
 }
