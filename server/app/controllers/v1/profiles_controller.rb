@@ -17,6 +17,18 @@ class V1::ProfilesController < ApplicationController
     render json: current_user, serializer: ::CurrentUserSerializer, status: Settings.http.statuses.updated.success
   end
 
+  def followers
+
+  end
+
+  def followees
+    #code
+  end
+
+  def suggestion
+    #code
+  end
+
   def password
     authorize :profile
     password_params = Profiles::PasswordParameters.new(params).extract
