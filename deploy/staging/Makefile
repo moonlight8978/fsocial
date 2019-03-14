@@ -13,3 +13,16 @@ prepare:
 
 env:
 	cp .env.staging .env
+
+build-local:
+	cp .env.staging web/.env
+	cd web && yarn install
+	cd web && yarn build
+	docker-compose build
+	docker-compose push
+
+autodeploy:
+	git pull origin master
+	docker-compose pull
+	docker-compose down
+	docker-compose up -d

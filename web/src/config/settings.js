@@ -19,7 +19,7 @@ const test = {
 const development = {
   server: {
     host: 'http://localhost:60001',
-    prefix: '/api',
+    prefix: '/api/v1',
     authorizationHeader: 'Authorization',
   },
 }
@@ -27,12 +27,12 @@ const development = {
 const staging = {
   server: {
     host: 'http://fsocial.moonlight8978.asia',
-    prefix: '/api',
+    prefix: '/api/v1',
     authorizationHeader: 'Fsocial-Authorization',
   },
 }
 
-const env = process.env.REACT_ENV || 'test'
+const env = process.env.REACT_APP_REACT_ENV || 'test'
 
 const allSettings = {
   test,
