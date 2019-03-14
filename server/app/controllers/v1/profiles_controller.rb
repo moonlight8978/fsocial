@@ -18,15 +18,19 @@ class V1::ProfilesController < ApplicationController
   end
 
   def followers
-
+    authorize :profile
+    render json: current_user.followers, each_serializer: ::FollowingUserSerializer, status: Settings.http.statuses.success
   end
 
   def followees
-    #code
+    authorize :profile
+    render json: current_user.followees, each_serializer: ::FollowingUserSerializer, status: Settings.http.statuses.success
   end
 
-  def suggestion
-    #code
+  def followees_suggestion
+    authorize :profile
+    suggestions = Profile::FolloweesSuggestor.new(user: current_user).perform
+    render json: suggestions, each_serializer: ::FollowingUserSerializer, status: Settings.http.statuses.success
   end
 
   def password

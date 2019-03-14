@@ -1,6 +1,13 @@
 module RequestHelpers
   def response_body
-    JSON.parse(response.body).with_indifferent_access
+    body = JSON.parse(response.body)
+    if body.is_a?(Hash)
+      body.with_indifferent_access
+    elsif body.is_a?(Array)
+      body.map(&:with_indifferent_access)
+    else
+      raise "Unknown type #{body.class.name}"
+    end
   end
 
   def serialize(object, serializer)
