@@ -1,0 +1,6 @@
+{
+  "type": "array",
+  "items": {
+    "$ref": "following_user.json"
+  }
+}

@@ -15,6 +15,8 @@ Rails.application.routes.draw do
       resource :profile, only: %i[show update] do
         member do
           put :password
+          get :followees
+          get :followers
         end
       end
 

@@ -17,6 +17,22 @@ class V1::ProfilesController < ApplicationController
     render json: current_user, serializer: ::CurrentUserSerializer, status: Settings.http.statuses.updated.success
   end
 
+  def followers
+    authorize :profile
+    render json: current_user.followers, each_serializer: ::FollowingUserSerializer, status: Settings.http.statuses.success
+  end
+
+  def followees
+    authorize :profile
+    render json: current_user.followees, each_serializer: ::FollowingUserSerializer, status: Settings.http.statuses.success
+  end
+
+  def followees_suggestion
+    authorize :profile
+    suggestions = Profile::FolloweesSuggestor.new(user: current_user).perform
+    render json: suggestions, each_serializer: ::FollowingUserSerializer, status: Settings.http.statuses.success
+  end
+
   def password
     authorize :profile
     password_params = Profiles::PasswordParameters.new(params).extract
