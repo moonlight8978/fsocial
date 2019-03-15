@@ -9,7 +9,7 @@ RSpec.describe 'V1::Sessions', type: :request do
     subject { post v1_sessions_path, params: { user: user_params }, headers: headers }
 
     context 'when user already signed in' do
-      let(:token) { user.token }
+      let(:token) { Users::TokenGenerator.new(user).perform }
 
       include_examples 'guest only'
     end

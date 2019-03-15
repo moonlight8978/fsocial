@@ -14,7 +14,7 @@ RSpec.describe 'V1::Profiles', type: :request do
     end
 
     context 'when user is signed in' do
-      let(:token) { user.token }
+      let(:token) { Users::TokenGenerator.new(user).perform }
       let!(:followees) { create_list(:following, 5, follower: user).map(&:followee) }
 
       include_examples 'success'

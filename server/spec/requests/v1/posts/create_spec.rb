@@ -15,7 +15,7 @@ RSpec.describe 'V1::Posts', type: :request do
     end
 
     context 'when signed in' do
-      let(:token) { user.token }
+      let(:token) { Users::TokenGenerator.new(user).perform }
 
       context 'with invalid params' do
         context 'missing params' do

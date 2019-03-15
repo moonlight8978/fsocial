@@ -24,7 +24,7 @@ RSpec.describe 'V1::Users', type: :request do
     end
 
     context 'signed in user' do
-      let(:token) { exist_user.token }
+      let(:token) { Users::TokenGenerator.new(exist_user).perform }
       let(:user_params) { {} }
 
       include_examples 'guest only'

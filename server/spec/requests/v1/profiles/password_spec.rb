@@ -15,7 +15,7 @@ RSpec.describe 'V1::Profiles', type: :request do
     end
 
     context 'when user is signed in' do
-      let(:token) { user.token }
+      let(:token) { Users::TokenGenerator.new(user).perform }
 
       context 'when user changes password' do
         let(:user_params) do
