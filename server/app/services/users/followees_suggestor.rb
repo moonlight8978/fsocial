@@ -1,4 +1,4 @@
-module Profiles
+module Users
   class FolloweesSuggestor
     attr_reader :user
 

@@ -7,7 +7,7 @@ module Users
       @encoder = encoder
     end
 
-    def perform()
+    def perform
       @token ||= encoder.encode(user_id: user.id)
     end
   end

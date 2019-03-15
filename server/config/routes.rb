@@ -9,6 +9,8 @@ Rails.application.routes.draw do
         member do
           post :follow
           delete :unfollow
+          get :followers, controller: :followings
+          get :followees, controller: :followings
         end
       end
 
@@ -17,6 +19,7 @@ Rails.application.routes.draw do
           put :password
           get :followees
           get :followers
+          get :followees_suggestion
         end
       end
 
