@@ -1,9 +1,9 @@
 AllCops:
   Exclude:
-    - "node_modules/**/*"
-    - "vendor/**/*"
-    - ".git/**/*"
-    - "bin/**/*"
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - '.git/**/*'
+    - 'bin/**/*'
 
 Style/BlockComments:
   Enabled: false
@@ -16,12 +16,12 @@ Style/FrozenStringLiteralComment:
 Style/StringHashKeys:
   Enabled: true
 Layout/AlignParameters:
-  EnforcedStyle: "with_fixed_indentation"
+  EnforcedStyle: 'with_fixed_indentation'
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 Lint/AmbiguousBlockAssociation:
   Exclude:
-    - "spec/**/*"
+    - 'spec/**/*'
 Metrics/AbcSize:
   Enabled: false
 Metrics/BlockLength:
@@ -34,3 +34,5 @@ Naming/PredicateName:
   NamePrefixBlacklist:
     - is_
     - have_
+Naming/MemoizedInstanceVariableName:
+  Enabled: false

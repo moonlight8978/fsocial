@@ -43,10 +43,6 @@ class User < ApplicationRecord
     end
   end
 
-  def token
-    @token ||= Auth::Jwt.encode(user_id: id)
-  end
-
   def update_password!(params)
     current_password = params.delete(:current_password)
     if authenticate(current_password)

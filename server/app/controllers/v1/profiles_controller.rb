@@ -29,7 +29,7 @@ class V1::ProfilesController < ApplicationController
 
   def followees_suggestion
     authorize :profile
-    suggestions = Profile::FolloweesSuggestor.new(user: current_user).perform
+    suggestions = Users::FolloweesSuggestor.new(user: current_user).perform
     render json: suggestions, each_serializer: ::FollowingUserSerializer, status: Settings.http.statuses.success
   end
 

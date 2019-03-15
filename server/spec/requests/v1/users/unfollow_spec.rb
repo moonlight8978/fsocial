@@ -2,13 +2,16 @@ require 'rails_helper'
 
 RSpec.describe 'V1::Users', type: :request do
   describe 'DELETE /v1/users/:id/unfollow' do
-    let(:headers) { setup_auth(current_user.token) }
+    let(:token_generator) { Users::TokenGenerator.new(current_user) }
+    let(:headers) { setup_auth(token_generator.perform) }
 
     subject { delete unfollow_v1_user_path(followee.username), headers: headers }
 
     context 'when not signed in' do
-      let(:current_user) { double('current_user', token: '') }
+      let(:current_user) { double('current_user') }
       let(:followee) { create(:user) }
+
+      before { allow(token_generator).to receive(:perform).and_return('') }
 
       include_examples 'unauthenticated'
       include_examples 'does not change db', Activity

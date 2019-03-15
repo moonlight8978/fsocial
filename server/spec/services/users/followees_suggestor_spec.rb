@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Profiles::FolloweesSuggestor do
+describe Users::FolloweesSuggestor do
   let(:user) { create(:user) }
   let(:service) { described_class.new(user: user) }
 
