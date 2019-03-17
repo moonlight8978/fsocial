@@ -20,6 +20,19 @@ shared_examples 'response with error message' do |message|
   end
 end
 
+shared_examples 'response with empty body' do
+  it 'response with empty body' do
+    subject
+    expect(response.body).to eq('')
+  end
+end
+
+shared_examples 'no content' do
+  include_examples 'response with status', :no_content
+
+  include_examples 'response with empty body'
+end
+
 shared_examples 'success' do
   include_examples 'response with status', :ok
 end
@@ -76,7 +89,7 @@ shared_examples 'correct data' do |expectation|
 end
 
 shared_examples 'deleted' do
-  include_examples 'response with status', :no_content
+  include_examples 'no content'
 end
 
 shared_examples 'updated success' do
@@ -85,11 +98,4 @@ end
 
 shared_examples 'updated without changes' do
   include_examples 'response with status', :not_modified
-end
-
-shared_examples 'response with empty body' do
-  it 'response with empty body' do
-    subject
-    expect(response.body).to eq('')
-  end
 end

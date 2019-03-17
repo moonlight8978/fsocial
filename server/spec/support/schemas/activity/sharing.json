@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "trackable_type": {
+      "type": "string"
+    },
+    "trackable_id": {
+      "type": "integer"
+    },
+    "trackable": {
+      "$ref": "../sharing.json"
+    },
+    "key": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    }
+  },
+  "required": ["id", "trackable_type", "trackable_id", "trackable", "key", "created_at"]
+}

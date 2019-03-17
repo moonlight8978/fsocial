@@ -7,6 +7,8 @@ class ActivitySerializer < ActiveModel::Serializer
     case model.class.name
     when 'Post'
       PostSerializer
+    when 'Sharing'
+      SharingSerializer
     else
       super
     end

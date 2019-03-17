@@ -30,5 +30,14 @@ describe Activities::Creator do
         expect(activity.owner).to eq(user)
       end
     end
+
+    context 'when owner is same as recipient' do
+      let(:model) { create(:post) }
+
+      it 'create activity without recipient' do
+        activity = subject
+        expect(activity.recipient).to be_nil
+      end
+    end
   end
 end
