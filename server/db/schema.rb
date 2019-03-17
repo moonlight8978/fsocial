@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_222_062_647) do
+ActiveRecord::Schema.define(version: 20_190_317_132_343) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -82,6 +82,17 @@ ActiveRecord::Schema.define(version: 20_190_222_062_647) do
     t.index ['deleted_at'], name: 'index_posts_on_deleted_at'
     t.index ['parent_id'], name: 'index_posts_on_parent_id'
     t.index ['root_id'], name: 'index_posts_on_root_id'
+  end
+
+  create_table 'sharings', force: :cascade do |t|
+    t.bigint 'post_id'
+    t.bigint 'creator_id'
+    t.text 'content'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['creator_id'], name: 'index_sharings_on_creator_id'
+    t.index %w[post_id creator_id], name: 'post_creator_index'
+    t.index ['post_id'], name: 'index_sharings_on_post_id'
   end
 
   create_table 'users', force: :cascade do |t|
