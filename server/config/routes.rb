@@ -23,7 +23,10 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :posts
+      resources :posts, shallow: true do
+        resource :sharing, only: %i[create destroy update]
+        resource :favorite, only: %i[create destroy update]
+      end
     end
   end
 end
