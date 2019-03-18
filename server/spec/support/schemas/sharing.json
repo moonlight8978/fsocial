@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "post": {
+      "$ref": "post.json"
+    },
+    "creator": {
+      "$ref": "profile_overall.json"
+    }
+  },
+  "required": [
+    "id",
+    "creator",
+    "post"
+  ]
+}

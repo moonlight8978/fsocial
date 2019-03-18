@@ -26,19 +26,7 @@
       "type": "boolean"
     },
     "creator": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer"
-        },
-        "username": {
-          "type": "string"
-        },
-        "fullname": {
-          "type": "string"
-        }
-      },
-      "required": ["id", "username", "fullname"]
+      "$ref": "profile_overall.json"
     },
     "medias": {
       "type": "array",

@@ -10,7 +10,7 @@ module Activities
     def perform(action:, owner:, params: nil, recipient: nil)
       activity_context.create do |activity|
         activity.owner = owner
-        activity.recipient = recipient
+        activity.recipient = recipient == owner ? nil : recipient
         activity.params = params
         activity.key = [class_name.underscore, action].join('.')
       end

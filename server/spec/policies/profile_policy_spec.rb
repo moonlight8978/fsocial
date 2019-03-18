@@ -14,4 +14,16 @@ RSpec.describe ProfilePolicy, type: :policy do
   permissions :password? do
     include_examples 'allow signed in users'
   end
+
+  permissions :followers? do
+    include_examples 'allow signed in users'
+  end
+
+  permissions :followees? do
+    include_examples 'allow signed in users'
+  end
+
+  permissions :followees_suggestion? do
+    include_examples 'allow signed in users'
+  end
 end
