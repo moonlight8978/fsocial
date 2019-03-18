@@ -3,7 +3,9 @@ class V1::SharingsController < ApplicationController
 
   def create
     post = Post.find(params[:post_id])
+    authorize post, :share?
     sharing = Sharing.find_by(post: post, creator: current_user)
+    # TODO raise error with :bad_request status
     head :no_content && return if sharing.present?
 
     sharing = Sharing.create!(post: post, creator: current_user)
@@ -12,5 +14,15 @@ class V1::SharingsController < ApplicationController
     render json: activity, serializer: ::ActivitySerializer, status: Settings.http.statuses.created
   end
 
-  def destroy; end
+  def destroy
+    post = Post.find(params[:post_id])
+    sharing = Sharing.find_by(post: post, creator: current_user)
+    # TODO raise error with :bad_request status
+    head :no_content && return if sharing.blank?
+
+    authorize sharing
+    activity = sharing.activities.where(key: 'sharing.create').destroy_all
+    sharing.destroy
+    head :no_content
+  end
 end
