@@ -147,6 +147,31 @@ ActiveRecord::Base.transaction do
 
     Post.import(sub_replies, on_duplicate_key_ignore: true)
   end
+
+  seed(:sharings, proc { Sharing.count }) do
+    seed('activities#sharing', proc { Activity.where(key: 'sharing.create').count }) do
+      sharings = []
+      activities = []
+
+      Post.where(parent: nil, root: nil).select(:id, :creator_id).each do |post|
+        Array.new(random_or_nothing(10)) { users.sample }.map do |user|
+          sharing = Sharing.new(creator_id: user.id, post_id: post.id)
+          sharings.push(sharing)
+          activities.push(
+            Activity.new do |activity|
+              activity.owner_id = user.id
+              activity.trackable = sharing
+              activity.recipient_id = post.creator_id
+              activity.key = 'sharing.create'
+            end
+          )
+        end
+      end
+
+      Sharing.import(sharings, on_duplicate_key_ignore: true)
+      Activity.import(activities, on_duplicate_key_ignore: true)
+    end
+  end
 rescue StandardError => e
   puts e
   raise ActiveRecord::Rollback
