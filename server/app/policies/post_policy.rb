@@ -18,4 +18,8 @@ class PostPolicy < ApplicationPolicy
   def share?
     signed_in?
   end
+
+  def favorite?
+    signed_in?
+  end
 end

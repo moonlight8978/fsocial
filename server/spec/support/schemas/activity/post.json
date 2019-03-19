@@ -20,5 +20,12 @@
       "type": "string"
     }
   },
-  "required": ["id", "trackable_type", "trackable_id", "trackable", "key", "created_at"]
+  "required": [
+    "id",
+    "trackable_type",
+    "trackable_id",
+    "trackable",
+    "key",
+    "created_at"
+  ]
 }
