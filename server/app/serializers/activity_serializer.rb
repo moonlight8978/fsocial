@@ -9,6 +9,8 @@ class ActivitySerializer < ActiveModel::Serializer
       PostSerializer
     when 'Sharing'
       SharingSerializer
+    when 'Favorite'
+      FavoriteSerializer
     else
       super
     end
