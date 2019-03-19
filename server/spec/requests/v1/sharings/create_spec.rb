@@ -37,6 +37,9 @@ RSpec.describe 'V1::Sharings', type: :request do
 
           include_examples 'match response schema', 'activity/sharing'
 
+          include_examples 'change db', Sharing
+          include_examples 'change db', Activity
+
           include_examples 'correct data', proc {
             Hash[
               key: 'sharing.create',
