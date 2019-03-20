@@ -172,6 +172,31 @@ ActiveRecord::Base.transaction do
       Activity.import(activities, on_duplicate_key_ignore: true)
     end
   end
+
+  seed(:favorites, proc { Favorite.count }) do
+    seed('activities#favorite', proc { Activity.where(key: 'favorite.create').count }) do
+      favorites = []
+      activities = []
+
+      Post.select(:id, :creator_id).find_each do |post|
+        Array.new(random_or_nothing(10)) { users.sample }.uniq(&:id).map do |user|
+          favorite = Favorite.new(creator_id: user.id, post_id: post.id)
+          favorites.push(favorite)
+          activities.push(
+            Activity.new do |activity|
+              activity.owner_id = user.id
+              activity.trackable = favorite
+              activity.recipient_id = post.creator_id
+              activity.key = 'favorite.create'
+            end
+          )
+        end
+      end
+
+      Favorite.import(favorites, on_duplicate_key_ignore: true)
+      Activity.import(activities, on_duplicate_key_ignore: true)
+    end
+  end
 rescue StandardError => e
   puts e
   raise ActiveRecord::Rollback
