@@ -29,4 +29,10 @@ export const AuthApi = {
       false
     )
   },
+  fetchProfile: () => {
+    return localHttp.request({
+      method: 'get',
+      url: '/profile',
+    })
+  },
 }

@@ -7,16 +7,29 @@ import { AsyncUtils } from '../../utils'
 import { Hover } from '../atomics'
 
 import styles from './follow-button.module.scss'
+import { withFollowingContext } from './with-following-context'
 
 class FollowButton extends React.Component {
   static propTypes = {
     onFollow: PropTypes.func,
     onUnfollow: PropTypes.func,
+    following: PropTypes.shape({
+      follow: PropTypes.func.isRequired,
+      unfollow: PropTypes.func.isRequired,
+    }).isRequired,
+    user: PropTypes.shape().isRequired,
   }
 
   static defaultProps = {
     onFollow: () => {},
     onUnfollow: () => {},
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (!state.userId || state.userId !== props.user.id) {
+      return { userId: props.user.id, isSubmitting: false, isFollowing: false }
+    }
+    return null
   }
 
   constructor(props) {
@@ -32,13 +45,17 @@ class FollowButton extends React.Component {
   }
 
   async handleFollow() {
-    this.setState({ isSubmitting: true })
-    await AsyncUtils.delay(2000)
-    this.setState(state => ({
-      isSubmitting: false,
-      isFollowing: true,
-    }))
-    this.props.onFollow()
+    const { user, following, onFollow } = this.props
+    try {
+      this.setState({ isSubmitting: true })
+      await following.follow(user)
+      this.setState({ isFollowing: true })
+      onFollow()
+    } catch (error) {
+      console.error(error)
+    } finally {
+      this.setState({ isSubmitting: false })
+    }
   }
 
   async handleUnfollow() {
@@ -96,4 +113,4 @@ class FollowButton extends React.Component {
   }
 }
 
-export default FollowButton
+export default withFollowingContext(FollowButton)

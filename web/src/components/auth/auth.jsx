@@ -15,6 +15,7 @@ const defaultState = {
   signIn: () => {},
   signOut: () => {},
   register: () => {},
+  fetchProfile: () => {},
 }
 
 const persistedState = PersistedStorage.get('auth')
@@ -32,6 +33,7 @@ export class AuthProvider extends React.Component {
     this.signIn = this.signIn.bind(this)
     this.signOut = this.signOut.bind(this)
     this.register = this.register.bind(this)
+    this.fetchProfile = this.fetchProfile.bind(this)
     this.persistState = this.persistState.bind(this)
 
     this.state = {
@@ -39,11 +41,24 @@ export class AuthProvider extends React.Component {
       signIn: this.signIn,
       signOut: this.signOut,
       register: this.register,
+      fetchProfile: this.fetchProfile,
     }
   }
 
   componentDidMount() {
     window.addEventListener('beforeunload', this.persistState, false)
+  }
+
+  async fetchProfile() {
+    try {
+      const { data: profile } = await AuthApi.fetchProfile()
+      await this.setStateAsync({
+        user: profile,
+        isAuthenticated: true,
+      })
+    } catch (error) {
+      await this.signOut()
+    }
   }
 
   persistState() {
@@ -69,9 +84,10 @@ export class AuthProvider extends React.Component {
       await this.setStateAsync({
         token: session.token,
         expiredAt: session.expiredAt,
-        isAuthenticated: true,
       })
+      await this.fetchProfile()
     } catch (error) {
+      await this.signOut()
       throw error
     }
   }

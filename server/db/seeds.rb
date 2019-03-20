@@ -43,6 +43,10 @@ ActiveRecord::Base.transaction do
       )
     end
 
+    users.each do |user|
+      user.username = user.username.tr('.', '_')
+    end
+
     User.import(users, on_duplicate_key_ignore: true)
   end
 

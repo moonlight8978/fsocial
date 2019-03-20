@@ -8,6 +8,7 @@
   padding: 0.4rem 2rem !important;
   position: relative;
 
+  /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
   :global(.anticon-loading) {
     position: absolute;
   }
