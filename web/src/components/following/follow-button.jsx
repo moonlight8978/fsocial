@@ -25,13 +25,6 @@ class FollowButton extends React.Component {
     onUnfollow: () => {},
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (!state.userId || state.userId !== props.user.id) {
-      return { userId: props.user.id, isSubmitting: false, isFollowing: false }
-    }
-    return null
-  }
-
   constructor(props) {
     super(props)
 

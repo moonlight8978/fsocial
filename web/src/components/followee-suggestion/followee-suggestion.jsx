@@ -17,22 +17,37 @@ class FolloweeSuggestion extends React.Component {
 
     this.state = {
       followees: [],
+      visibleFolloweeIds: [],
       followeeIds: [],
     }
   }
 
   async componentDidMount() {
     const { data: followees } = await FolloweesSuggestionApi.fetchFollowees()
+    const followeeIds = followees.map(followee => followee.id)
+    const visibleFolloweeIds = followeeIds.slice(0, 3)
     this.setState({
       followees,
-      followeeIds: followees.map(followee => followee.id),
+      visibleFolloweeIds,
+      followeeIds: followeeIds.filter(
+        followeeId => !visibleFolloweeIds.includes(followeeId)
+      ),
     })
   }
 
   handleAfterFollow(id) {
-    this.setState(state => ({
-      followeeIds: state.followeeIds.filter(followeeId => followeeId !== id),
-    }))
+    const visibleFolloweeIds = this.state.visibleFolloweeIds
+      .map(followeeId =>
+        followeeId === id ? this.state.followeeIds[0] : followeeId
+      )
+      .filter(followeeId => followeeId)
+    const followeeIds = this.state.followeeIds.filter(
+      followeeId => !visibleFolloweeIds.includes(followeeId)
+    )
+    this.setState({
+      visibleFolloweeIds,
+      followeeIds,
+    })
   }
 
   handleAfterUnfollow(id) {
@@ -42,11 +57,11 @@ class FolloweeSuggestion extends React.Component {
   }
 
   render() {
-    const { followees, followeeIds } = this.state
+    const { followees, visibleFolloweeIds } = this.state
 
     return (
       <Box title={<FormattedMessage id="followeeSuggestion.title" />}>
-        {followeeIds.slice(0, 3).map(followeeId => {
+        {visibleFolloweeIds.map(followeeId => {
           const user = followees.find(followee => followee.id === followeeId)
           const { username, fullname, id } = user
 
@@ -63,8 +78,10 @@ class FolloweeSuggestion extends React.Component {
                   </Link>
                 </div>
                 <FollowButton
+                  key={id}
                   user={user}
                   onFollow={() => this.handleAfterFollow(id)}
+                  onUnfollow={() => this.handleAfterUnfollow(id)}
                 />
               </div>
             </div>
