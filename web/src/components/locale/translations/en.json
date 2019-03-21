@@ -41,5 +41,8 @@
   "signUp.slogans.third": "Join the conversation.",
   "signUp.submit": "Complete registration",
   "signUp.title": "Register to fsocial",
-  "signUp.windowTitle": "Welcome to fsocial"
+  "signUp.windowTitle": "Welcome to fsocial",
+  "statistics.headers.followee": "Followings",
+  "statistics.headers.follower": "Followers",
+  "statistics.headers.post": "Posts"
 }

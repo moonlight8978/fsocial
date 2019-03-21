@@ -36,11 +36,13 @@ class FolloweeSuggestion extends React.Component {
   }
 
   handleAfterFollow(id) {
+    // eslint-disable-next-line react/no-access-state-in-setstate
     const visibleFolloweeIds = this.state.visibleFolloweeIds
       .map(followeeId =>
         followeeId === id ? this.state.followeeIds[0] : followeeId
       )
       .filter(followeeId => followeeId)
+    // eslint-disable-next-line react/no-access-state-in-setstate
     const followeeIds = this.state.followeeIds.filter(
       followeeId => !visibleFolloweeIds.includes(followeeId)
     )

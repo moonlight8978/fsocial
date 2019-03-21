@@ -32,7 +32,7 @@ class Routes extends React.Component {
     if (isAuthenticated) {
       await auth.fetchProfile()
     }
-    await AsyncUtils.delay(3000)
+    await AsyncUtils.delay(0)
     finishLoading()
   }
 
