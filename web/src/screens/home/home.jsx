@@ -1,6 +1,7 @@
 import React from 'react'
 import { injectIntl } from 'react-intl'
 import PropTypes from 'prop-types'
+import { List } from 'antd'
 
 import { Layout, Navbar } from '../layout'
 import { FolloweeSuggestion } from '../../components/followee-suggestion'
@@ -26,7 +27,9 @@ class Home extends React.Component {
         hasSideLeft
         sideLeft={<Statistics />}
       >
-        <Box>adfdsfsdaf</Box>
+        <Box>
+          <List dataSource={[]} />
+        </Box>
       </Layout>
     )
   }
