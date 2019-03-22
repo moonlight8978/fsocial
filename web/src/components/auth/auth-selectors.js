@@ -4,6 +4,8 @@ const getToken = state => state.token
 
 const getExpiredAt = state => parseInt(state.expiredAt, 10)
 
+const getUser = state => state.user
+
 const isTokenExpired = expiredAt => expiredAt <= new Date().getTime()
 
 const getIsVerified = state => {
@@ -22,4 +24,5 @@ export const authSelectors = {
   getExpiredAt,
   getIsVerified,
   getIsUnauthorized,
+  getUser,
 }

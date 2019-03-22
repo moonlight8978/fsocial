@@ -1,0 +1,40 @@
+.container {
+  margin: -1rem;
+}
+
+.cover {
+  padding-bottom: 1 / 3 * 100%;
+  background-color: orange;
+}
+
+.userInfo {
+  position: relative;
+
+  .avatar {
+    position: absolute;
+    left: 1rem;
+    top: -30px;
+    border: 4px solid #fff;
+    border-radius: 999px;
+
+    .avatarThumb {
+      border: 0;
+      outline: 0;
+      box-shadow: 0;
+    }
+  }
+}
+
+.userNames {
+  margin-left: calc(1rem + 60px + 8px + 0.25rem);
+  padding-top: 0.25rem;
+}
+
+.stats {
+  display: flex;
+
+  .statsGroup {
+    flex: 30% 0 0;
+    padding: 0.5rem 1rem;
+  }
+}

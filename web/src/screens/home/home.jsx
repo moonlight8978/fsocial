@@ -6,6 +6,8 @@ import { Layout, Navbar } from '../layout'
 import { FolloweeSuggestion } from '../../components/followee-suggestion'
 import { Box } from '../../components/atomics'
 
+import Statistics from './statistics'
+
 class Home extends React.Component {
   static propTypes = {
     intl: PropTypes.shape().isRequired,
@@ -22,7 +24,7 @@ class Home extends React.Component {
         hasSideRight
         sideRight={<FolloweeSuggestion />}
         hasSideLeft
-        sideLeft={<Box>Left panel</Box>}
+        sideLeft={<Statistics />}
       >
         <Box>adfdsfsdaf</Box>
       </Layout>

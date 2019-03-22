@@ -15,7 +15,7 @@ export function Text({ content, children, size, color, bold, className }) {
         [className]: className,
       })}
     >
-      {children || content}
+      {children !== null ? children : content}
     </span>
   )
 }

@@ -27,6 +27,11 @@ signUp:
     third: Join the conversation.
 home:
   windowTitle: Home - fsocial
+statistics:
+  headers:
+    post: Posts
+    followee: Followings
+    follower: Followers
 following:
   follow: Follow
   unfollow: Unfollow
