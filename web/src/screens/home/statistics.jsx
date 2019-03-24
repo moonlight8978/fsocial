@@ -14,6 +14,18 @@ import {
 import styles from './statistics.module.scss'
 
 class Statistics extends React.Component {
+  static StatGroup = ({ title, count }) => (
+    <div className={styles.statsGroup}>
+      <Text size="small" bold color="secondary">
+        {title}
+      </Text>
+      <br />
+      <Text bold color="link" size="xlarge">
+        {count}
+      </Text>
+    </div>
+  )
+
   static propTypes = {
     statistics: PropTypes.shape().isRequired,
     auth: PropTypes.shape().isRequired,
@@ -27,7 +39,7 @@ class Statistics extends React.Component {
     const postsCount = statisticsSelectors.getPostsCount(statistics)
 
     return (
-      <Box>
+      <Box bordered>
         <div className={styles.container}>
           <div className={styles.cover} />
 
@@ -51,35 +63,18 @@ class Statistics extends React.Component {
             </div>
 
             <div className={styles.stats}>
-              <div className={styles.statsGroup}>
-                <Text bold>
-                  <FormattedMessage id="statistics.headers.post" />
-                </Text>
-                <br />
-                <Text bold color="link" size="xlarge">
-                  {postsCount}
-                </Text>
-              </div>
-
-              <div className={styles.statsGroup}>
-                <Text bold>
-                  <FormattedMessage id="statistics.headers.followee" />
-                </Text>
-                <br />
-                <Text bold color="link" size="xlarge">
-                  {followeesCount}
-                </Text>
-              </div>
-
-              <div className={styles.statsGroup}>
-                <Text bold>
-                  <FormattedMessage id="statistics.headers.follower" />
-                </Text>
-                <br />
-                <Text bold color="link" size="xlarge">
-                  {followersCount}
-                </Text>
-              </div>
+              <Statistics.StatGroup
+                title={<FormattedMessage id="statistics.headers.post" />}
+                count={postsCount}
+              />
+              <Statistics.StatGroup
+                title={<FormattedMessage id="statistics.headers.followee" />}
+                count={followeesCount}
+              />
+              <Statistics.StatGroup
+                title={<FormattedMessage id="statistics.headers.follower" />}
+                count={followersCount}
+              />
             </div>
           </div>
         </div>

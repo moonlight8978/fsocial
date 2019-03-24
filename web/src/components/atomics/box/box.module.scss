@@ -1,5 +1,41 @@
+@import 'config/colors';
+
+.boxList {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+
+  .box {
+    border-radius: 0;
+    border: 0;
+
+    &:first-child {
+      border-radius: 4px 4px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 4px 4px;
+    }
+  }
+
+  .boxHasDivider {
+    position: relative;
+
+    &:not(:last-child) .boxDevider {
+      display: block;
+      margin: 0;
+      position: absolute;
+      z-index: 1;
+      top: 100%;
+      left: 0;
+      right: 0;
+      width: auto;
+      background-color: #e8e8e8;
+    }
+  }
+}
+
 .box {
-  background-color: #fff;
+  background-color: $text-primary-bg;
   border-radius: 4px;
   padding: 1rem;
 
@@ -18,5 +54,9 @@
   .divider {
     margin: 0 -1rem 1rem -1rem;
     width: auto;
+  }
+
+  .boxDevider {
+    display: none;
   }
 }

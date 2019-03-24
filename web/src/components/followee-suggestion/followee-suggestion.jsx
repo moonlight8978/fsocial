@@ -62,13 +62,13 @@ class FolloweeSuggestion extends React.Component {
     const { followees, visibleFolloweeIds } = this.state
 
     return (
-      <Box title={<FormattedMessage id="followeeSuggestion.title" />}>
+      <Box title={<FormattedMessage id="followeeSuggestion.title" />} bordered>
         {visibleFolloweeIds.map(followeeId => {
           const user = followees.find(followee => followee.id === followeeId)
           const { username, fullname, id } = user
 
           return (
-            <div className={styles.followee}>
+            <div className={styles.followee} key={id}>
               <div>
                 <Avatar size={50} src="/avatar-placeholder.png" />
               </div>

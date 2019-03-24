@@ -1,0 +1,69 @@
+@import 'config/colors';
+
+.container {
+  margin: -1rem;
+  padding: 1rem;
+  background-color: #e8f4fb;
+}
+
+textarea.input {
+  resize: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  min-height: 0;
+  height: calc(22px + 1rem);
+  border-color: #c6e4f7;
+  overflow-y: hidden;
+
+  transition: all 0.3s ease;
+
+  &::placeholder {
+    color: $link-color;
+  }
+
+  &.inputFocused {
+    height: 5rem;
+
+    &::placeholder {
+      color: $text-secondary-color;
+    }
+  }
+}
+
+.utilities {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  display: none;
+}
+
+.inputFocused ~ .utilities {
+  display: flex !important;
+}
+
+.actionButton {
+  color: $link-color;
+  padding: 0.25rem 0.5rem;
+  border-color: #e8f4fb;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.actionIcon {
+  font-size: 18px;
+}
+
+.publishButton {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 600;
+
+  &[disabled],
+  &[disabled]:hover {
+    background-color: $btn-primary-bg;
+    color: $btn-primary-color;
+    opacity: 0.3;
+  }
+}

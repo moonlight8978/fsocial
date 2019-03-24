@@ -5,7 +5,8 @@ import { List } from 'antd'
 
 import { Layout, Navbar } from '../layout'
 import { FolloweeSuggestion } from '../../components/followee-suggestion'
-import { Box } from '../../components/atomics'
+import { PostEditor } from '../../components/post-editor'
+import { Box, BoxList } from '../../components/atomics'
 
 import Statistics from './statistics'
 
@@ -27,9 +28,14 @@ class Home extends React.Component {
         hasSideLeft
         sideLeft={<Statistics />}
       >
-        <Box>
-          <List dataSource={[]} />
-        </Box>
+        {/* <div style={{ marginBottom: '1rem' }} /> */}
+        <BoxList>
+          <Box>
+            <PostEditor />
+          </Box>
+          <Box>This is a tweet</Box>
+          <Box>This is another tweet</Box>
+        </BoxList>
       </Layout>
     )
   }
