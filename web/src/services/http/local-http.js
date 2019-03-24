@@ -1,6 +1,8 @@
 import axios from 'axios'
 
 import { settings } from '../../config'
+import { UserPreferencesUtils } from '../../utils'
+import { defaultLocale } from '../../components/locale'
 import { PersistedStorage } from '../persisted-storage'
 
 function getHeaders(auth) {
@@ -10,12 +12,18 @@ function getHeaders(auth) {
         'Bearer',
         PersistedStorage.get('auth').token,
       ].join(' '),
-      'Accept-Language': PersistedStorage.get('locale').currentLocale,
+      'Accept-Language':
+        PersistedStorage.get('locale').currentLocale ||
+        UserPreferencesUtils.getBrowserLocale() ||
+        defaultLocale,
     }
   }
 
   return {
-    'Accept-Language': PersistedStorage.get('locale').currentLocale,
+    'Accept-Language':
+      PersistedStorage.get('locale').currentLocale ||
+      UserPreferencesUtils.getBrowserLocale() ||
+      defaultLocale,
   }
 }
 
