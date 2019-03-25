@@ -4,6 +4,26 @@
   margin: -1rem;
   padding: 1rem;
   background-color: #e8f4fb;
+
+  /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+  :global(.ant-form-item) {
+    margin: 0;
+  }
+
+  /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+  :global(.ant-upload-list-item-name) {
+    margin-right: 0.5rem;
+  }
+
+  /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+  :global(.ant-upload-list-item-info) {
+    border-radius: 4px;
+  }
+
+  /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+  :global(.ant-upload-list-item:hover .ant-upload-list-item-info) {
+    background-color: #fff;
+  }
 }
 
 textarea.input {
@@ -11,7 +31,7 @@ textarea.input {
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
   min-height: 0;
-  height: calc(22px + 1rem);
+  height: calc(22px + 1rem) !important;
   border-color: #c6e4f7;
   overflow-y: hidden;
 
@@ -22,7 +42,7 @@ textarea.input {
   }
 
   &.inputFocused {
-    height: 5rem;
+    height: 5rem !important;
 
     &::placeholder {
       color: $text-secondary-color;
@@ -31,14 +51,13 @@ textarea.input {
 }
 
 .utilities {
-  display: flex;
+  display: none;
   justify-content: space-between;
   margin-top: 0.5rem;
-  display: none;
-}
 
-.inputFocused ~ .utilities {
-  display: flex !important;
+  &.utilitiesFocused {
+    display: flex;
+  }
 }
 
 .actionButton {

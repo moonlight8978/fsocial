@@ -1,10 +1,22 @@
 import React from 'react'
-import { Input, Upload, Button, Icon } from 'antd'
+import { Input, Upload, Button, Icon, Form } from 'antd'
 import classnames from 'classnames'
+import PropTypes from 'prop-types'
+
+import { StaticForm } from '../form'
 
 import styles from './post-editor.module.scss'
+import { defaultValues, schema } from './post-editor-form'
+
+const FormItem = Form.Item
 
 class PostEditor extends React.Component {
+  static propTypes = {
+    placeholder: PropTypes.string.isRequired,
+    submitText: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+      .isRequired,
+  }
+
   constructor(props) {
     super(props)
 
@@ -19,6 +31,7 @@ class PostEditor extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
     this.handleActionBlur = this.handleActionBlur.bind(this)
     this.handleActionFocus = this.handleActionFocus.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleBlur(event) {
@@ -47,7 +60,12 @@ class PostEditor extends React.Component {
     }
   }
 
+  handleSubmit(event) {
+    console.log(this.state)
+  }
+
   render() {
+    const { submitText, placeholder } = this.props
     const { isFocused } = this.state
 
     return (
@@ -56,40 +74,78 @@ class PostEditor extends React.Component {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
       >
-        <Input.TextArea
-          autosize={false}
-          placeholder="What's happening?"
-          className={classnames(styles.input, {
-            [styles.inputFocused]: isFocused,
-          })}
-          ref={this.actionButton}
-        />
-        <div className={classnames(styles.utilities, 'animated fadeIn')}>
-          <div>
-            <Upload>
-              <Button
-                ghost
-                className={styles.actionButton}
-                onBlur={this.handleActionBlur}
-                onFocus={this.handleActionFocus}
+        <StaticForm
+          initialValues={defaultValues}
+          schema={schema}
+          onSubmit={this.handleSubmit}
+        >
+          {({
+            values,
+            handleChange,
+            handleUpload,
+            handleBlur,
+            handleSubmit,
+            fieldStatus,
+            fieldError,
+            isSubmitting,
+          }) => (
+            <Form onSubmit={handleSubmit}>
+              <FormItem
+                validateStatus={fieldStatus('content')}
+                help={fieldError('content')}
               >
-                <Icon type="picture" className={styles.actionIcon} />
-              </Button>
-            </Upload>
-          </div>
+                <Input.TextArea
+                  autosize={false}
+                  placeholder={placeholder}
+                  className={classnames(styles.input, {
+                    [styles.inputFocused]: isFocused,
+                  })}
+                  name="content"
+                  value={values.content}
+                  onChange={handleChange}
+                  ref={this.actionButton}
+                />
+              </FormItem>
 
-          <div>
-            <Button
-              htmlType="button"
-              shape="round"
-              type="primary"
-              disabled={false}
-              className={styles.publishButton}
-            >
-              Publish
-            </Button>
-          </div>
-        </div>
+              <div
+                className={classnames(styles.utilities, 'animated fadeIn', {
+                  [styles.utilitiesFocused]: isFocused,
+                })}
+              >
+                <div>
+                  <Upload
+                    multiple
+                    name="medias"
+                    beforeUpload={() => false}
+                    fileList={values.medias}
+                    onChange={handleUpload('medias')}
+                  >
+                    <Button
+                      ghost
+                      className={styles.actionButton}
+                      onBlur={this.handleActionBlur}
+                      onFocus={this.handleActionFocus}
+                    >
+                      <Icon type="picture" className={styles.actionIcon} />
+                    </Button>
+                  </Upload>
+                </div>
+
+                <div>
+                  <Button
+                    htmlType="button"
+                    shape="round"
+                    type="primary"
+                    disabled={isSubmitting}
+                    className={styles.publishButton}
+                  >
+                    {submitText}
+                  </Button>
+                </div>
+              </div>
+            </Form>
+          )}
+        </StaticForm>
       </div>
     )
   }

@@ -1,7 +1,6 @@
 import React from 'react'
 import { injectIntl } from 'react-intl'
 import PropTypes from 'prop-types'
-import { List } from 'antd'
 
 import { Layout, Navbar } from '../layout'
 import { FolloweeSuggestion } from '../../components/followee-suggestion'
@@ -28,10 +27,14 @@ class Home extends React.Component {
         hasSideLeft
         sideLeft={<Statistics />}
       >
-        {/* <div style={{ marginBottom: '1rem' }} /> */}
         <BoxList>
           <Box>
-            <PostEditor />
+            <PostEditor
+              submitText={intl.formatMessage({ id: 'home.postEditor.submit' })}
+              placeholder={intl.formatMessage({
+                id: 'home.postEditor.placeholder',
+              })}
+            />
           </Box>
           <Box>This is a tweet</Box>
           <Box>This is another tweet</Box>

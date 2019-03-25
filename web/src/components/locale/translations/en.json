@@ -3,6 +3,8 @@
   "following.follow": "Follow",
   "following.following": "Following",
   "following.unfollow": "Unfollow",
+  "home.postEditor.placeholder": "What's happening",
+  "home.postEditor.submit": "Publish",
   "home.windowTitle": "Home - fsocial",
   "locales.english": "English",
   "locales.vietnamese": "Tiếng Việt",

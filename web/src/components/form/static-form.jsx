@@ -38,6 +38,8 @@ class StaticForm extends React.Component {
 
     this.init()
 
+    this.uploadHandlers = {}
+
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderChildren = this.renderChildren.bind(this)
   }
@@ -62,6 +64,13 @@ class StaticForm extends React.Component {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  handleUpload(handleChange) {
+    return name => ({ file, fileList }) => {
+      handleChange({ target: { value: fileList, name } })
+    }
+  }
+
   init() {
     const { intl, schema } = this.props
     this.validationSchema = schema(intl)
@@ -76,6 +85,7 @@ class StaticForm extends React.Component {
       apiErrors,
       fieldStatus: fieldStatus({ errors, touched, apiErrors }),
       fieldError: fieldError({ errors, touched, apiErrors }),
+      handleUpload: this.handleUpload(formikProps.handleChange),
     })
   }
 

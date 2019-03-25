@@ -27,6 +27,9 @@ signUp:
     third: Join the conversation.
 home:
   windowTitle: Home - fsocial
+  postEditor:
+    submit: Publish
+    placeholder: What's happening
 statistics:
   headers:
     post: Posts
