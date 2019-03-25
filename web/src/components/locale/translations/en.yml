@@ -73,3 +73,10 @@ schemas:
       placeholder: Password
       errors:
         required: Password is required
+  post:
+    content:
+      errors:
+        required: Content is required
+    medias:
+      errors:
+        invalidMime: You can upload images only (.jpg, .jpeg, and .png)

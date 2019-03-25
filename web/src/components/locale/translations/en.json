@@ -16,6 +16,8 @@
   "navbar.submenu.profile": "Profile",
   "navbar.submenu.signIn": "Have an account? Sign in",
   "navbar.submenu.signOut": "Sign out",
+  "schemas.post.content.errors.required": "Content is required",
+  "schemas.post.medias.errors.invalidMime": "You can upload images only (.jpg, .jpeg, and .png)",
   "schemas.session.identity.errors.required": "Identity is required",
   "schemas.session.identity.label": "Identity",
   "schemas.session.identity.placeholder": "Username or Email",

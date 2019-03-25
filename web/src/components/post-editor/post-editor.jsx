@@ -2,11 +2,13 @@ import React from 'react'
 import { Input, Upload, Button, Icon, Form } from 'antd'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import _ from 'lodash'
 
 import { StaticForm } from '../form'
 
 import styles from './post-editor.module.scss'
-import { defaultValues, schema } from './post-editor-form'
+import { defaultValues, schema, allowedMimeTypes } from './post-editor-form'
 
 const FormItem = Form.Item
 
@@ -22,42 +24,21 @@ class PostEditor extends React.Component {
 
     this.state = {
       isFocused: false,
-      isPopupOpen: false,
     }
 
     this.actionButton = React.createRef()
 
-    this.handleBlur = this.handleBlur.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
-    this.handleActionBlur = this.handleActionBlur.bind(this)
-    this.handleActionFocus = this.handleActionFocus.bind(this)
+    this.handleCollapse = this.handleCollapse.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleBlur(event) {
-    if (event.relatedTarget === null && !this.state.isPopupOpen) {
-      this.setState({ isFocused: false })
-    }
   }
 
   handleFocus(event) {
     this.setState({ isFocused: true })
   }
 
-  handleActionFocus(event) {
-    event.stopPropagation()
-    this.setState(state => ({ isPopupOpen: !state.isPopupOpen }))
-    if (this.state.isPopupOpen) {
-      event.target.blur()
-      this.actionButton.current.textAreaRef.focus()
-    }
-  }
-
-  handleActionBlur(event) {
-    event.stopPropagation()
-    if (!this.state.isPopupOpen && event.relatedTarget === null) {
-      this.setState({ isFocused: false })
-    }
+  handleCollapse() {
+    this.setState({ isFocused: false })
   }
 
   handleSubmit(event) {
@@ -91,8 +72,8 @@ class PostEditor extends React.Component {
           }) => (
             <Form onSubmit={handleSubmit}>
               <FormItem
-                validateStatus={fieldStatus('content')}
-                help={fieldError('content')}
+                validateStatus={isFocused ? fieldStatus('content') : ''}
+                help={isFocused && fieldError('content')}
               >
                 <Input.TextArea
                   autosize={false}
@@ -103,6 +84,7 @@ class PostEditor extends React.Component {
                   name="content"
                   value={values.content}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   ref={this.actionButton}
                 />
               </FormItem>
@@ -113,27 +95,48 @@ class PostEditor extends React.Component {
                 })}
               >
                 <div>
-                  <Upload
-                    multiple
-                    name="medias"
-                    beforeUpload={() => false}
-                    fileList={values.medias}
-                    onChange={handleUpload('medias')}
+                  <FormItem
+                    validateStatus={isFocused ? fieldStatus('medias') : ''}
+                    help={
+                      isFocused && fieldError('medias')
+                        ? _.compact(fieldError('medias')).map(errors =>
+                            Object.values(errors)
+                          )[0]
+                        : null
+                    }
                   >
-                    <Button
-                      ghost
-                      className={styles.actionButton}
-                      onBlur={this.handleActionBlur}
-                      onFocus={this.handleActionFocus}
+                    <Upload
+                      multiple
+                      name="medias"
+                      beforeUpload={() => false}
+                      fileList={values.medias}
+                      onChange={handleUpload('medias')}
+                      accept={allowedMimeTypes.join(',')}
+                      onBlur={handleBlur}
                     >
-                      <Icon type="picture" className={styles.actionIcon} />
-                    </Button>
-                  </Upload>
+                      <Button
+                        ghost
+                        className={styles.actionButton}
+                        onBlur={this.handleActionBlur}
+                        onFocus={this.handleActionFocus}
+                      >
+                        <Icon type="picture" className={styles.actionIcon} />
+                      </Button>
+                    </Upload>
+                  </FormItem>
                 </div>
 
                 <div>
                   <Button
+                    onClick={this.handleCollapse}
                     htmlType="button"
+                    className={styles.collapseButton}
+                    shape="circle"
+                  >
+                    <FontAwesomeIcon icon="angle-up" size="lg" />
+                  </Button>
+                  <Button
+                    htmlType="submit"
                     shape="round"
                     type="primary"
                     disabled={isSubmitting}

@@ -14,8 +14,9 @@ function fieldStatus({ errors, touched, apiErrors }) {
 }
 
 function fieldError({ errors, touched, apiErrors }) {
-  return attribute =>
-    touched[attribute] && (errors[attribute] || apiErrors[attribute])
+  return attribute => {
+    return touched[attribute] && (errors[attribute] || apiErrors[attribute])
+  }
 }
 
 class StaticForm extends React.Component {
@@ -65,9 +66,10 @@ class StaticForm extends React.Component {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  handleUpload(handleChange) {
+  handleUpload({ handleChange, handleBlur }) {
     return name => ({ file, fileList }) => {
       handleChange({ target: { value: fileList, name } })
+      handleBlur({ target: { name } })
     }
   }
 
@@ -85,7 +87,7 @@ class StaticForm extends React.Component {
       apiErrors,
       fieldStatus: fieldStatus({ errors, touched, apiErrors }),
       fieldError: fieldError({ errors, touched, apiErrors }),
-      handleUpload: this.handleUpload(formikProps.handleChange),
+      handleUpload: this.handleUpload(formikProps),
     })
   }
 
