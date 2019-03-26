@@ -1,4 +1,4 @@
-import { object, string, array } from 'yup'
+import { object, string, array, mixed } from 'yup'
 
 export const defaultValues = {
   content: '',
@@ -15,13 +15,12 @@ export const schema = intl =>
       })
     ),
     medias: array().of(
-      object().shape({
-        type: string().matches(
-          /jpg|png|jpeg/,
-          intl.formatMessage({
-            id: 'schemas.post.medias.errors.invalidMime',
-          })
-        ),
-      })
+      mixed().test(
+        'mime',
+        intl.formatMessage({
+          id: 'schemas.post.medias.errors.invalidMime',
+        }),
+        value => value.type.match(/jpg|png|jpeg/)
+      )
     ),
   })

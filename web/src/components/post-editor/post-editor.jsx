@@ -17,6 +17,7 @@ class PostEditor extends React.Component {
     placeholder: PropTypes.string.isRequired,
     submitText: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
       .isRequired,
+    onSubmit: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -41,8 +42,8 @@ class PostEditor extends React.Component {
     this.setState({ isFocused: false })
   }
 
-  handleSubmit(event) {
-    console.log(this.state)
+  handleSubmit(post) {
+    this.props.onSubmit(post)
   }
 
   render() {
@@ -64,6 +65,7 @@ class PostEditor extends React.Component {
             values,
             handleChange,
             handleUpload,
+            handleRemove,
             handleBlur,
             handleSubmit,
             fieldStatus,
@@ -106,11 +108,10 @@ class PostEditor extends React.Component {
                     }
                   >
                     <Upload
-                      multiple
                       name="medias"
-                      beforeUpload={() => false}
+                      beforeUpload={handleUpload('medias')}
                       fileList={values.medias}
-                      onChange={handleUpload('medias')}
+                      onRemove={handleRemove('medias')}
                       accept={allowedMimeTypes.join(',')}
                       onBlur={handleBlur}
                     >

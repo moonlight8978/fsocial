@@ -5,9 +5,11 @@ import PropTypes from 'prop-types'
 import { Layout, Navbar } from '../layout'
 import { FolloweeSuggestion } from '../../components/followee-suggestion'
 import { PostEditor } from '../../components/post-editor'
+import { PostList } from '../../components/post-list'
 import { Box, BoxList } from '../../components/atomics'
 
 import Statistics from './statistics'
+import CreatePost, { PostApi } from './create-post'
 
 class Home extends React.Component {
   static propTypes = {
@@ -29,15 +31,26 @@ class Home extends React.Component {
       >
         <BoxList>
           <Box>
-            <PostEditor
-              submitText={intl.formatMessage({ id: 'home.postEditor.submit' })}
-              placeholder={intl.formatMessage({
-                id: 'home.postEditor.placeholder',
-              })}
-            />
+            <CreatePost>
+              {({ onSubmit }) => (
+                <PostEditor
+                  submitText={intl.formatMessage({
+                    id: 'home.postEditor.submit',
+                  })}
+                  placeholder={intl.formatMessage({
+                    id: 'home.postEditor.placeholder',
+                  })}
+                  onSubmit={onSubmit}
+                />
+              )}
+            </CreatePost>
           </Box>
-          <Box>This is a tweet</Box>
-          <Box>This is another tweet</Box>
+          <PostList
+            renderPost={post => (
+              <Box key={post.id}>{post.trackable.content}</Box>
+            )}
+            api={{ fetch: page => PostApi.all(page) }}
+          />
         </BoxList>
       </Layout>
     )

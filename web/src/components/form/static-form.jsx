@@ -66,9 +66,20 @@ class StaticForm extends React.Component {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  handleUpload({ handleChange, handleBlur }) {
-    return name => ({ file, fileList }) => {
-      handleChange({ target: { value: fileList, name } })
+  handleUpload({ handleChange, handleBlur, values }) {
+    return name => file => {
+      handleChange({ target: { value: [...values[name], file], name } })
+      handleBlur({ target: { name } })
+      return false
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  handleRemove({ handleChange, handleBlur, values }) {
+    return name => file => {
+      handleChange({
+        target: { value: values[name].filter(f => f !== file), name },
+      })
       handleBlur({ target: { name } })
     }
   }
@@ -88,6 +99,7 @@ class StaticForm extends React.Component {
       fieldStatus: fieldStatus({ errors, touched, apiErrors }),
       fieldError: fieldError({ errors, touched, apiErrors }),
       handleUpload: this.handleUpload(formikProps),
+      handleRemove: this.handleRemove(formikProps),
     })
   }
 
