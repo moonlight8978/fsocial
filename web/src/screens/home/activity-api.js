@@ -1,6 +1,3 @@
-import React from 'react'
-
-import { PostEditor } from '../../components/post-editor'
 import { localHttp } from '../../services/http'
 
 async function toBase64(file) {
@@ -19,7 +16,7 @@ const PostSchema = {
   }),
 }
 
-export const PostApi = {
+const ActivityApi = {
   create: async post => {
     try {
       return localHttp.request({
@@ -40,20 +37,4 @@ export const PostApi = {
   },
 }
 
-class CreatePost extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.handleCreatePost = this.handleCreatePost.bind(this)
-  }
-
-  async handleCreatePost(post) {
-    await PostApi.create(post)
-  }
-
-  render() {
-    return this.props.children({ onSubmit: this.handleCreatePost })
-  }
-}
-
-export default CreatePost
+export default ActivityApi

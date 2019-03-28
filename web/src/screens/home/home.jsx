@@ -5,11 +5,11 @@ import PropTypes from 'prop-types'
 import { Layout, Navbar } from '../layout'
 import { FolloweeSuggestion } from '../../components/followee-suggestion'
 import { PostEditor } from '../../components/post-editor'
-import { PostList } from '../../components/post-list'
+import { ActivityList } from '../../components/activity-list'
 import { Box, BoxList } from '../../components/atomics'
 
 import Statistics from './statistics'
-import CreatePost, { PostApi } from './create-post'
+import ActivityApi from './activity-api'
 
 class Home extends React.Component {
   static propTypes = {
@@ -31,25 +31,21 @@ class Home extends React.Component {
       >
         <BoxList>
           <Box>
-            <CreatePost>
-              {({ onSubmit }) => (
-                <PostEditor
-                  submitText={intl.formatMessage({
-                    id: 'home.postEditor.submit',
-                  })}
-                  placeholder={intl.formatMessage({
-                    id: 'home.postEditor.placeholder',
-                  })}
-                  onSubmit={onSubmit}
-                />
-              )}
-            </CreatePost>
+            <PostEditor
+              submitText={intl.formatMessage({
+                id: 'home.postEditor.submit',
+              })}
+              placeholder={intl.formatMessage({
+                id: 'home.postEditor.placeholder',
+              })}
+              onSubmit={ActivityApi.create}
+            />
           </Box>
-          <PostList
+          <ActivityList
             renderPost={post => (
               <Box key={post.id}>{post.trackable.content}</Box>
             )}
-            api={{ fetch: page => PostApi.all(page) }}
+            api={{ fetch: ActivityApi.all }}
           />
         </BoxList>
       </Layout>

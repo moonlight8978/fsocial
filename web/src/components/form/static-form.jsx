@@ -104,13 +104,15 @@ class StaticForm extends React.Component {
   }
 
   render() {
-    const { initialValues } = this.props
+    // eslint-disable-next-line no-unused-vars
+    const { initialValues, schema, intl, ...formikProps } = this.props
 
     return (
       <Formik
         initialValues={initialValues}
         validationSchema={this.validationSchema}
         onSubmit={this.handleSubmit}
+        {...formikProps}
       >
         {this.renderChildren}
       </Formik>

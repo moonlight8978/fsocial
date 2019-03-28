@@ -60,6 +60,8 @@ class PostEditor extends React.Component {
           initialValues={defaultValues}
           schema={schema}
           onSubmit={this.handleSubmit}
+          validateOnChange={false}
+          validateOnBlur={false}
         >
           {({
             values,
