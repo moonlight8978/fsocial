@@ -28,6 +28,11 @@ class StaticForm extends React.Component {
       formatMessage: PropTypes.func.isRequired,
     }).isRequired,
     children: PropTypes.func.isRequired,
+    resetOnSuccess: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    resetOnSuccess: false,
   }
 
   constructor(props) {
@@ -46,6 +51,7 @@ class StaticForm extends React.Component {
   }
 
   async handleSubmit(values, { setSubmitting }) {
+    console.log(values)
     try {
       setSubmitting(true)
       this.setState({ apiErrors: {} })
@@ -53,6 +59,7 @@ class StaticForm extends React.Component {
       await AsyncUtils.delay(2000)
       await onSubmit(values)
     } catch (error) {
+      debugger
       if (error.response && error.response.status === 422) {
         this.setState({
           apiErrors: new ValidationError(error.response.data.errors).data,
@@ -61,6 +68,7 @@ class StaticForm extends React.Component {
         throw error
       }
     } finally {
+      debugger
       setSubmitting(false)
     }
   }

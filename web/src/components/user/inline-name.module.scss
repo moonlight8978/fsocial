@@ -1,6 +1,8 @@
 @import 'config/colors';
 
 .name {
+  cursor: pointer;
+
   &:hover .fullname {
     text-decoration: underline;
     color: $link-hover-color;

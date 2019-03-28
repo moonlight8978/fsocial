@@ -1,53 +1,50 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 const initialState = {
   data: [],
   page: 1,
-  prependPost: () => {},
-  removePost: () => {},
+  prependActivity: () => {},
+  removeActivity: () => {},
+  setActivities: () => {},
+  setPage: () => {},
 }
 
 const { Provider, Consumer } = React.createContext(initialState)
 
+export const ActivityListConsumer = Consumer
+
 /* eslint-disable react/no-unused-state */
 export class ActivityListProvider extends React.Component {
-  static Consumer = Consumer
-
-  static propTypes = {
-    api: PropTypes.shape({
-      fetch: PropTypes.func.isRequired,
-    }).isRequired,
-    renderPost: PropTypes.func.isRequired,
-  }
-
   constructor(props) {
     super(props)
 
-    this.prependPost = this.prependPost.bind(this)
-    this.removePost = this.removePost.bind(this)
+    this.prependActivity = this.prependActivity.bind(this)
+    this.removeActivity = this.removeActivity.bind(this)
+    this.setActivities = this.setActivities.bind(this)
+    this.setPage = this.setPage.bind(this)
 
     this.state = {
       ...initialState,
-      prependPost: this.prependPost,
-      removePost: this.removePost,
+      prependActivity: this.prependActivity,
+      removeActivity: this.removeActivity,
+      setActivities: this.setActivities,
+      setPage: this.setPage,
     }
   }
 
-  async componentDidMount() {
-    try {
-      const { data } = await this.props.api.fetch(this.state.page)
-      this.setState({ data })
-    } catch (error) {
-      console.log(error)
-    }
+  setActivities(activities) {
+    this.setState({ data: activities })
   }
 
-  prependPost(posts) {
+  setPage(page) {
+    this.setState({ page })
+  }
+
+  prependActivity(posts) {
     this.setState(state => ({ data: [...posts, ...state.data] }))
   }
 
-  removePost(id) {
+  removeActivity(id) {
     this.setState(state => ({
       data: state.data.filter(post => post.id !== id),
     }))

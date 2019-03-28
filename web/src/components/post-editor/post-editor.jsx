@@ -31,7 +31,6 @@ class PostEditor extends React.Component {
 
     this.handleFocus = this.handleFocus.bind(this)
     this.handleCollapse = this.handleCollapse.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleFocus(event) {
@@ -40,10 +39,6 @@ class PostEditor extends React.Component {
 
   handleCollapse() {
     this.setState({ isFocused: false })
-  }
-
-  handleSubmit(post) {
-    this.props.onSubmit(post)
   }
 
   render() {
@@ -59,9 +54,10 @@ class PostEditor extends React.Component {
         <StaticForm
           initialValues={defaultValues}
           schema={schema}
-          onSubmit={this.handleSubmit}
+          onSubmit={this.props.onSubmit}
           validateOnChange={false}
           validateOnBlur={false}
+          resetOnSuccess
         >
           {({
             values,

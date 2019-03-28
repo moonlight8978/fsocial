@@ -5,7 +5,13 @@ import PropTypes from 'prop-types'
 import { Layout, Navbar } from '../layout'
 import { FolloweeSuggestion } from '../../components/followee-suggestion'
 import { PostEditor } from '../../components/post-editor'
-import { ActivityList } from '../../components/activity-list'
+import {
+  ActivityList,
+  ActivityListProvider,
+  ActivityListConsumer,
+  ActivityItem,
+  Activity,
+} from '../../components/activity-list'
 import { Box, BoxList } from '../../components/atomics'
 
 import Statistics from './statistics'
@@ -30,23 +36,31 @@ class Home extends React.Component {
         sideLeft={<Statistics />}
       >
         <BoxList>
-          <Box>
-            <PostEditor
-              submitText={intl.formatMessage({
-                id: 'home.postEditor.submit',
-              })}
-              placeholder={intl.formatMessage({
-                id: 'home.postEditor.placeholder',
-              })}
-              onSubmit={ActivityApi.create}
+          <ActivityListProvider>
+            <Box>
+              <ActivityListConsumer>
+                {({ prependActivity }) => (
+                  <PostEditor
+                    submitText={intl.formatMessage({
+                      id: 'home.postEditor.submit',
+                    })}
+                    placeholder={intl.formatMessage({
+                      id: 'home.postEditor.placeholder',
+                    })}
+                    onSubmit={() => {}}
+                  />
+                )}
+              </ActivityListConsumer>
+            </Box>
+            <ActivityList
+              renderItem={activity => (
+                <Box key={activity.id}>
+                  <ActivityItem activity={activity} />
+                </Box>
+              )}
+              api={{ fetch: ActivityApi.all }}
             />
-          </Box>
-          <ActivityList
-            renderPost={post => (
-              <Box key={post.id}>{post.trackable.content}</Box>
-            )}
-            api={{ fetch: ActivityApi.all }}
-          />
+          </ActivityListProvider>
         </BoxList>
       </Layout>
     )

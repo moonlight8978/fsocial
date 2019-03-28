@@ -9,7 +9,6 @@ class V1::PostsController < ApplicationController
     Attachment::Parser.perform!(post_params.dig(:medias_base64)) do |tempfile|
       post.medias.attach(io: tempfile, filename: SecureRandom.uuid)
     end
-    byebug
     post.save!
     activity = Activities::Creator.new(post).perform(owner: current_user, action: :create)
     render json: activity, serializer: ::ActivitySerializer, status: Settings.http.statuses.created

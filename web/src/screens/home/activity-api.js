@@ -31,8 +31,7 @@ const ActivityApi = {
   all: page => {
     return localHttp.request({
       method: 'get',
-      url: '/posts',
-      data: { page },
+      url: `/posts?page=${page}`,
     })
   },
 }
