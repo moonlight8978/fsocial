@@ -8,14 +8,12 @@ import { PostEditor } from '../../components/post-editor'
 import {
   ActivityList,
   ActivityListProvider,
-  ActivityListConsumer,
   ActivityItem,
-  Activity,
 } from '../../components/activity-list'
 import { Box, BoxList } from '../../components/atomics'
 
 import Statistics from './statistics'
-import ActivityApi from './activity-api'
+import ActivityStream from './activity-stream'
 
 class Home extends React.Component {
   static propTypes = {
@@ -35,33 +33,35 @@ class Home extends React.Component {
         hasSideLeft
         sideLeft={<Statistics />}
       >
-        <BoxList>
-          <ActivityListProvider>
-            <Box>
-              <ActivityListConsumer>
-                {({ prependActivity }) => (
-                  <PostEditor
-                    submitText={intl.formatMessage({
-                      id: 'home.postEditor.submit',
-                    })}
-                    placeholder={intl.formatMessage({
-                      id: 'home.postEditor.placeholder',
-                    })}
-                    onSubmit={() => {}}
+        <ActivityListProvider>
+          <ActivityStream>
+            {({ submitPost, fetchActivities }) => (
+              <BoxList>
+                <BoxList>
+                  <Box>
+                    <PostEditor
+                      submitText={intl.formatMessage({
+                        id: 'home.postEditor.submit',
+                      })}
+                      placeholder={intl.formatMessage({
+                        id: 'home.postEditor.placeholder',
+                      })}
+                      onSubmit={submitPost}
+                    />
+                  </Box>
+                  <ActivityList
+                    renderItem={activity => (
+                      <Box key={activity.id}>
+                        <ActivityItem activity={activity} />
+                      </Box>
+                    )}
+                    api={{ fetch: fetchActivities }}
                   />
-                )}
-              </ActivityListConsumer>
-            </Box>
-            <ActivityList
-              renderItem={activity => (
-                <Box key={activity.id}>
-                  <ActivityItem activity={activity} />
-                </Box>
-              )}
-              api={{ fetch: ActivityApi.all }}
-            />
-          </ActivityListProvider>
-        </BoxList>
+                </BoxList>
+              </BoxList>
+            )}
+          </ActivityStream>
+        </ActivityListProvider>
       </Layout>
     )
   }

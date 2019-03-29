@@ -37,7 +37,7 @@ class ActivityList extends React.Component {
       try {
         const { data } = await this.props.api.fetch(this.props.page)
         const { data: activities } = this.props
-        this.props.setActivities([...Activities.parse(data), ...activities])
+        this.props.setActivities([...activities, ...Activities.parse(data)])
       } catch (error) {
         console.log(error)
       }

@@ -50,16 +50,18 @@ class StaticForm extends React.Component {
     this.renderChildren = this.renderChildren.bind(this)
   }
 
-  async handleSubmit(values, { setSubmitting }) {
+  async handleSubmit(values, { setSubmitting, resetForm }) {
     console.log(values)
     try {
       setSubmitting(true)
       this.setState({ apiErrors: {} })
-      const { onSubmit } = this.props
+      const { onSubmit, resetOnSuccess, initialValues } = this.props
       await AsyncUtils.delay(2000)
       await onSubmit(values)
+      if (resetOnSuccess) {
+        resetForm(initialValues)
+      }
     } catch (error) {
-      debugger
       if (error.response && error.response.status === 422) {
         this.setState({
           apiErrors: new ValidationError(error.response.data.errors).data,
@@ -68,7 +70,6 @@ class StaticForm extends React.Component {
         throw error
       }
     } finally {
-      debugger
       setSubmitting(false)
     }
   }
@@ -113,7 +114,7 @@ class StaticForm extends React.Component {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { initialValues, schema, intl, ...formikProps } = this.props
+    const { initialValues, schema, intl, onSubmit, ...formikProps } = this.props
 
     return (
       <Formik
