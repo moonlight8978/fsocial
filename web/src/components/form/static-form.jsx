@@ -14,8 +14,9 @@ function fieldStatus({ errors, touched, apiErrors }) {
 }
 
 function fieldError({ errors, touched, apiErrors }) {
-  return attribute =>
-    touched[attribute] && (errors[attribute] || apiErrors[attribute])
+  return attribute => {
+    return touched[attribute] && (errors[attribute] || apiErrors[attribute])
+  }
 }
 
 class StaticForm extends React.Component {
@@ -27,6 +28,11 @@ class StaticForm extends React.Component {
       formatMessage: PropTypes.func.isRequired,
     }).isRequired,
     children: PropTypes.func.isRequired,
+    resetOnSuccess: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    resetOnSuccess: false,
   }
 
   constructor(props) {
@@ -38,17 +44,23 @@ class StaticForm extends React.Component {
 
     this.init()
 
+    this.uploadHandlers = {}
+
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderChildren = this.renderChildren.bind(this)
   }
 
-  async handleSubmit(values, { setSubmitting }) {
+  async handleSubmit(values, { setSubmitting, resetForm }) {
+    console.log(values)
     try {
       setSubmitting(true)
       this.setState({ apiErrors: {} })
-      const { onSubmit } = this.props
+      const { onSubmit, resetOnSuccess, initialValues } = this.props
       await AsyncUtils.delay(2000)
       await onSubmit(values)
+      if (resetOnSuccess) {
+        resetForm(initialValues)
+      }
     } catch (error) {
       if (error.response && error.response.status === 422) {
         this.setState({
@@ -59,6 +71,25 @@ class StaticForm extends React.Component {
       }
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  handleUpload({ handleChange, handleBlur, values }) {
+    return name => file => {
+      handleChange({ target: { value: [...values[name], file], name } })
+      handleBlur({ target: { name } })
+      return false
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  handleRemove({ handleChange, handleBlur, values }) {
+    return name => file => {
+      handleChange({
+        target: { value: values[name].filter(f => f !== file), name },
+      })
+      handleBlur({ target: { name } })
     }
   }
 
@@ -76,17 +107,21 @@ class StaticForm extends React.Component {
       apiErrors,
       fieldStatus: fieldStatus({ errors, touched, apiErrors }),
       fieldError: fieldError({ errors, touched, apiErrors }),
+      handleUpload: this.handleUpload(formikProps),
+      handleRemove: this.handleRemove(formikProps),
     })
   }
 
   render() {
-    const { initialValues } = this.props
+    // eslint-disable-next-line no-unused-vars
+    const { initialValues, schema, intl, onSubmit, ...formikProps } = this.props
 
     return (
       <Formik
         initialValues={initialValues}
         validationSchema={this.validationSchema}
         onSubmit={this.handleSubmit}
+        {...formikProps}
       >
         {this.renderChildren}
       </Formik>

@@ -46,7 +46,10 @@ class LocaleProvider extends React.Component {
   handleChangeLocale(newLocale) {
     if (!this.changeLocaleHandlers[newLocale]) {
       this.changeLocaleHandlers[newLocale] = () => {
-        this.setState({ currentLocale: newLocale }, this.persistState)
+        this.setState({ currentLocale: newLocale }, () => {
+          this.persistState()
+          window.location.reload()
+        })
       }
     }
     return this.changeLocaleHandlers[newLocale]

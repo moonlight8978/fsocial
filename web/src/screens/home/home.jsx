@@ -4,9 +4,16 @@ import PropTypes from 'prop-types'
 
 import { Layout, Navbar } from '../layout'
 import { FolloweeSuggestion } from '../../components/followee-suggestion'
-import { Box } from '../../components/atomics'
+import { PostEditor } from '../../components/post-editor'
+import {
+  ActivityList,
+  ActivityListProvider,
+  ActivityItem,
+} from '../../components/activity-list'
+import { Box, BoxList } from '../../components/atomics'
 
 import Statistics from './statistics'
+import ActivityStream from './activity-stream'
 
 class Home extends React.Component {
   static propTypes = {
@@ -26,7 +33,35 @@ class Home extends React.Component {
         hasSideLeft
         sideLeft={<Statistics />}
       >
-        <Box>adfdsfsdaf</Box>
+        <ActivityListProvider>
+          <ActivityStream>
+            {({ submitPost, fetchActivities }) => (
+              <BoxList>
+                <BoxList>
+                  <Box>
+                    <PostEditor
+                      submitText={intl.formatMessage({
+                        id: 'home.postEditor.submit',
+                      })}
+                      placeholder={intl.formatMessage({
+                        id: 'home.postEditor.placeholder',
+                      })}
+                      onSubmit={submitPost}
+                    />
+                  </Box>
+                  <ActivityList
+                    renderItem={activity => (
+                      <Box key={activity.id}>
+                        <ActivityItem activity={activity} />
+                      </Box>
+                    )}
+                    api={{ fetch: fetchActivities }}
+                  />
+                </BoxList>
+              </BoxList>
+            )}
+          </ActivityStream>
+        </ActivityListProvider>
       </Layout>
     )
   }

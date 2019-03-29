@@ -28,10 +28,16 @@ class Routes extends React.Component {
 
   async componentDidMount() {
     const { finishLoading, auth } = this.props
-    const isAuthenticated = authSelectors.getIsVerified(auth)
-    if (isAuthenticated) {
+    const isAuthenticated = !authSelectors.getIsUnauthorized(auth)
+    const isValidSession = authSelectors.getIsVerified(auth)
+
+    if (!isValidSession && isAuthenticated) {
+      await auth.signOut()
+    }
+    if (isValidSession && isAuthenticated) {
       await auth.fetchProfile()
     }
+
     await AsyncUtils.delay(0)
     finishLoading()
   }

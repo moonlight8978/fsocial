@@ -28,17 +28,18 @@ export class Box extends React.Component {
 
     return (
       <div
-        className={classnames(styles.box, className, {
+        className={classnames(styles.box, styles.boxHasDivider, className, {
           [styles.bordered]: bordered,
         })}
       >
         {title && (
-          <>
+          <div className={styles.boxTitleWrapper}>
             <Box.BoxTitle>{title}</Box.BoxTitle>
             <Divider className={styles.divider} />
-          </>
+          </div>
         )}
-        {children}
+        <div className={styles.boxContent}>{children}</div>
+        <Divider className={styles.boxDevider} />
       </div>
     )
   }

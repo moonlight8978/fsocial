@@ -1,0 +1,31 @@
+@import 'config/colors';
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.contextIcon {
+  flex: 40px 0 0;
+  text-align: right;
+}
+
+.context {
+  flex: calc(100% - 40px) 0 0;
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+}
+
+.avatar {
+  flex: 40px 0 0;
+}
+
+.post {
+  flex: calc(100% - 40px) 0 0;
+  padding-left: 1rem;
+}
+
+.media {
+  display: block;
+  width: 100%;
+}
