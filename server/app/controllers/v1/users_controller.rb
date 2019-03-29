@@ -43,6 +43,16 @@ class V1::UsersController < ApplicationController
     head Settings.http.statuses.deleted
   end
 
+  def activities
+    user = User.friendly.find(params[:id])
+    activities = Activity
+      .where(key: ['post.create'], owner: user)
+      .includes(trackable: [:creator, medias_attachments: [:blob]])
+      .order(updated_at: :desc)
+      .page(params[:page] || 1)
+    render json: activities, each_serializer: ::ActivitySerializer, status: Settings.http.statuses.success
+  end
+
   def destroy
     render json: {}, status: Settings.http.statuses.success
   end
