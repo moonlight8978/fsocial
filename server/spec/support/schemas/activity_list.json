@@ -1,14 +1,16 @@
 {
   "type": "array",
-  "items": [
-    {
-      "$ref": "activity/post.json"
-    },
-    {
-      "$ref": "activity/favorite.json"
-    },
-    {
-      "$ref": "activity/sharing.json"
-    }
-  ]
+  "items": {
+    "anyOf": [
+      {
+        "$ref": "activity/post.json"
+      },
+      {
+        "$ref": "activity/favorite.json"
+      },
+      {
+        "$ref": "activity/sharing.json"
+      }
+    ]
+  }
 }

@@ -13,4 +13,15 @@ FactoryBot.define do
       role { :admin }
     end
   end
+
+  factory :user_with_activities do
+    sequence(:email) { |i| "email_abc_#{i}@gmail.com" }
+    sequence(:username) { |i| "username_abc_#{i}" }
+    password { '1111' }
+    fullname { username }
+
+    after(:create) do |user|
+      create_list(:post, 2, :activity, creator: user)
+    end
+  end
 end

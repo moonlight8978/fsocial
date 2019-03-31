@@ -20,7 +20,7 @@ RSpec.describe 'V1::Profiles', type: :request do
 
       include_examples 'match response schema', 'current_user'
 
-      include_examples 'correct data', proc { Hash[id: user.id] }
+      include_examples 'correct data', proc { include(id: user.id) }
     end
   end
 end

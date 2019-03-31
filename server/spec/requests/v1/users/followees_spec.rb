@@ -36,11 +36,14 @@ RSpec.describe 'V1::Users', type: :request do
         include_examples 'success'
         include_examples 'match response schema', 'following_list'
 
-        it 'response correct data' do
+        it 'return correct number of followees' do
           subject
           expect(response_body.length).to eq(5)
-          expect(response_body).to include(*followees.map { |followee| include(id: followee.id) })
         end
+
+        include_examples 'correct data', proc {
+          include(*followees.map { |followee| include(id: followee.id) })
+        }
       end
     end
   end

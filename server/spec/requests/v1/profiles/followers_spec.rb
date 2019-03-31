@@ -21,10 +21,9 @@ RSpec.describe 'V1::Profiles', type: :request do
 
       include_examples 'match response schema', 'following_list'
 
-      it 'response correct data' do
-        subject
-        expect(response_body).to include(*followers.map { |follower| include(id: follower.id) })
-      end
+      include_examples 'correct data', proc {
+        include(*followers.map { |follower| include(id: follower.id) })
+      }
     end
   end
 end
