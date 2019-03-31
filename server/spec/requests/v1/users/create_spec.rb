@@ -38,7 +38,7 @@ RSpec.describe 'V1::Users', type: :request do
       end
       include_examples 'created'
       include_examples 'match response schema', 'session'
-      include_examples 'correct data', proc { Hash[id: User.find_by_email(user.email).id] }
+      include_examples 'correct data', proc { include(id: User.find_by_email(user.email).id) }
     end
   end
 end

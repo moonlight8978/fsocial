@@ -36,7 +36,7 @@ RSpec.describe 'V1::Sessions', type: :request do
 
         include_examples 'created'
         include_examples 'match response schema', 'session'
-        include_examples 'correct data', proc { Hash[id: user.id] }
+        include_examples 'correct data', proc { include(id: user.id) }
       end
     end
   end

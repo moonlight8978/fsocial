@@ -80,11 +80,37 @@ shared_examples 'guest only' do
   include_examples 'response with error message', I18n.t('errors.application_controller/guest_only')
 end
 
+shared_examples 'accept request' do
+  it 'accept request' do
+    subject
+    expect(response.status).to be < 400
+  end
+end
+
+shared_examples 'accept all requests' do
+  context 'when guest' do
+    let(:token) { '' }
+
+    include_examples 'accept request'
+  end
+
+  context 'when user' do
+    let(:token) { Users::TokenGenerator.new(create(:user)).perform }
+
+    include_examples 'accept request'
+  end
+
+  context 'when admin' do
+    let(:token) { Users::TokenGenerator.new(create(:user, :admin)).perform }
+
+    include_examples 'accept request'
+  end
+end
+
 shared_examples 'correct data' do |expectation|
   it 'response with correct data' do
     subject
-    expected = instance_eval(&expectation)
-    expect(response_body).to include(expected)
+    expect(response_body).to(instance_eval(&expectation))
   end
 end
 

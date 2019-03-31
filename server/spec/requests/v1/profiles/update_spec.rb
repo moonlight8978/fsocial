@@ -24,7 +24,9 @@ RSpec.describe 'V1::Profiles', type: :request do
 
         include_examples 'match response schema', 'current_user'
 
-        include_examples 'correct data', proc { Hash[fullname: 'Khoai to', id: user.id] }
+        include_examples 'correct data', proc {
+          include(fullname: 'Khoai to', id: user.id)
+        }
       end
 
       context 'when nothings changed' do

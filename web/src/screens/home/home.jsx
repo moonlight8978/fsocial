@@ -37,27 +37,25 @@ class Home extends React.Component {
           <ActivityStream>
             {({ submitPost, fetchActivities }) => (
               <BoxList>
-                <BoxList>
-                  <Box>
-                    <PostEditor
-                      submitText={intl.formatMessage({
-                        id: 'home.postEditor.submit',
-                      })}
-                      placeholder={intl.formatMessage({
-                        id: 'home.postEditor.placeholder',
-                      })}
-                      onSubmit={submitPost}
-                    />
-                  </Box>
-                  <ActivityList
-                    renderItem={activity => (
-                      <Box key={activity.id}>
-                        <ActivityItem activity={activity} />
-                      </Box>
-                    )}
-                    api={{ fetch: fetchActivities }}
+                <Box>
+                  <PostEditor
+                    submitText={intl.formatMessage({
+                      id: 'home.postEditor.submit',
+                    })}
+                    placeholder={intl.formatMessage({
+                      id: 'home.postEditor.placeholder',
+                    })}
+                    onSubmit={submitPost}
                   />
-                </BoxList>
+                </Box>
+                <ActivityList
+                  renderItem={activity => (
+                    <Box key={activity.id}>
+                      <ActivityItem activity={activity} />
+                    </Box>
+                  )}
+                  api={{ fetch: fetchActivities }}
+                />
               </BoxList>
             )}
           </ActivityStream>

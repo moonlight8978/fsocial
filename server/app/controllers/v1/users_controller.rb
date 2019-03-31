@@ -1,5 +1,5 @@
 class V1::UsersController < ApplicationController
-  before_action :authenticate!, except: %i[create show]
+  before_action :authenticate!, except: %i[create show activities]
   before_action :guest_only!, only: :create
   before_action :not_implemented_yet!, only: %i[update destroy]
 
@@ -41,6 +41,16 @@ class V1::UsersController < ApplicationController
     authorize followee
     Users::Unfollow.new(current_user: current_user, followee: followee).perform!
     head Settings.http.statuses.deleted
+  end
+
+  def activities
+    user = User.friendly.find(params[:id])
+    activities = Activity
+      .where(key: ['post.create'], owner: user)
+      .includes(trackable: [:creator, medias_attachments: [:blob]])
+      .order(updated_at: :desc)
+      .page(params[:page] || 1)
+    render json: activities, each_serializer: ::ActivitySerializer, status: Settings.http.statuses.success
   end
 
   def destroy

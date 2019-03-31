@@ -41,7 +41,7 @@ RSpec.describe 'V1::Sharings', type: :request do
           include_examples 'change db', Activity
 
           include_examples 'correct data', proc {
-            Hash[
+            include(
               key: 'sharing.create',
               trackable: include(
                 can_update: true,
@@ -49,7 +49,7 @@ RSpec.describe 'V1::Sharings', type: :request do
                 creator: include(id: current_user.id),
                 post: include(id: postt.id)
               )
-            ]
+            )
           }
         end
       end

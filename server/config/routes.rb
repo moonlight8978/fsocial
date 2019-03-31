@@ -11,6 +11,7 @@ Rails.application.routes.draw do
           delete :unfollow
           get :followers, controller: :followings
           get :followees, controller: :followings
+          get :activities
         end
       end
 
@@ -20,6 +21,7 @@ Rails.application.routes.draw do
           get :followees
           get :followers
           get :followees_suggestion
+          get :activities
         end
       end
 

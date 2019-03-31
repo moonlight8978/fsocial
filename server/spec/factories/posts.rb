@@ -16,5 +16,9 @@ FactoryBot.define do
     trait :destroyed do
       deleted_at { 1.day.ago }
     end
+
+    trait :activity do
+      after(:create) { |post| Activity.create(trackable: post, key: 'post.create', owner: post.creator) }
+    end
   end
 end

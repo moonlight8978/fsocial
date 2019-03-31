@@ -49,14 +49,14 @@ RSpec.describe 'V1::Posts', type: :request do
           include_examples 'created'
           include_examples 'match response schema', 'activity/post'
           include_examples 'correct data', proc {
-            Hash[
+            include(
               trackable: include(
                 content: 'abcxyz',
                 creator: include(id: user.id),
                 can_update: true,
                 can_destroy: true
               )
-            ]
+            )
           }
 
           include_examples 'create activity'
