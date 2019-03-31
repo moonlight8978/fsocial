@@ -21,4 +21,14 @@ FactoryBot.define do
       after(:create) { |post| Activity.create(trackable: post, key: 'post.create', owner: post.creator) }
     end
   end
+
+  factory :reply, class: Post.name do
+    association :root, factory: :post
+
+    content { Faker::Lorem.paragraph }
+
+    trait :activity do
+      after(:create) { |reply| Activity.create(trackable: reply, key: 'reply.create', owner: reply.creator) }
+    end
+  end
 end
