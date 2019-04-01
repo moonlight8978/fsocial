@@ -39,7 +39,7 @@ RSpec.describe 'V1::Posts', type: :request do
         include_examples 'deleted'
 
         it 'destroy all replies and sub replies' do
-          
+          expect { subject }.to change(Post, :count).by(-11)
         end
       end
 

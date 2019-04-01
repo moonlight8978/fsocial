@@ -26,6 +26,12 @@ class Post < ApplicationRecord
       count: { maximum: 3 }
     }
 
+  scope :root, proc { where(root_id: nil) }
+
+  scope :replies, proc { where.not(root_id: nil).where(parent_id: nil) }
+
+  scope :sub_replies, proc { where.not(root_id: nil, parent_id: nil) }
+
   class << self
     def tracked_actions
       [:create]
@@ -34,5 +40,13 @@ class Post < ApplicationRecord
 
   def created_by?(user)
     user.id == creator.id
+  end
+
+  def root?
+    root_id.nil?
+  end
+
+  def root_reply?
+    root_id.present? && parent_id.nil?
   end
 end
