@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+  Reply = OpenStruct.new(name: 'Reply')
+
   acts_as_paranoid
 
   attr_accessor :medias_base64

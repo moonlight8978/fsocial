@@ -24,5 +24,9 @@ class V1::PostsController < ApplicationController
 
   def update; end
 
-  def destroy; end
+  def destroy
+    post = Post.find(params[:id])
+    authorize post
+    
+  end
 end
