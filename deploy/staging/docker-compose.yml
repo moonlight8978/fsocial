@@ -9,7 +9,7 @@ services:
       - /app/fsocial/portainer/data:/data
 
   db:
-    image: postgres:10.6-alpine
+    image: postgres:11.2-alpine
     env_file:
       - .env
     environment:

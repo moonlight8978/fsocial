@@ -1,4 +1,4 @@
-FROM ruby:2.6.1-alpine3.9
+FROM ruby:2.6.2-alpine3.9
 
 RUN apk update && apk add -u build-base nodejs tzdata postgresql-dev imagemagick libidn-dev
 
