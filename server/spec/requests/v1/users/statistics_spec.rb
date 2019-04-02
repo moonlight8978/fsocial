@@ -12,7 +12,7 @@ RSpec.describe 'V1::Users::Statistics', type: :request do
           create(:favorite, post: post, creator: user)
 
           create_list(:reply, 2, root: post, creator: user).tap do |replies|
-            create_list(:sub_reply, 2, parent: replies.first, creator: user)
+            create_list(:sub_reply, 2, parent: replies.first, root: post, creator: user)
             create(:sharing, post: replies.first, creator: user)
             create(:favorite, post: replies.first, creator: user)
           end
