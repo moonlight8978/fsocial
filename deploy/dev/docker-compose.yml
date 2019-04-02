@@ -45,7 +45,7 @@ services:
       - 60001:3000
 
   db:
-    image: postgres:10.6-alpine
+    image: postgres:11.2-alpine
     env_file:
       - .env
     volumes:
