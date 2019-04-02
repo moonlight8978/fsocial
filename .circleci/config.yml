@@ -1,0 +1,91 @@
+version: 2
+jobs:
+  test-web:
+    docker:
+      - image: circleci/node:dubnium
+
+    working_directory: ~/fsocial
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - fsocial-dependencies-{{ checksum "web/yarn.lock" }}
+            - fsocial-dependencies-
+
+      - run:
+          name: Install dependencies
+          command: |
+            cd web
+            yarn install
+
+      - save_cache:
+          paths:
+            - ./web/node_modules
+          key: fsocial-dependencies-{{ checksum "web/yarn.lock" }}
+
+      - run:
+          name: run web tests
+          command: |
+            cd web
+            yarn testci
+            yarn eslint
+            yarn stylelint
+            yarn flow
+
+  test-server:
+    docker:
+      - image: circleci/ruby:2.6.2
+      - image: circleci/postgres:alpine
+
+    working_directory: ~/fsocial
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - fsocial-dependencies-{{ checksum "server/Gemfile.lock" }}
+            - fsocial-dependencies-
+
+      - run:
+          name: Install system dependencies
+          command: sudo apt-get install -y libidn11-dev imagemagick postgresql-client
+
+      - run:
+          name: install dependencies
+          command: |
+            cd server
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      - save_cache:
+          paths:
+            - ./server/vendor/bundle
+          key: fsocial-dependencies-{{ checksum "server/Gemfile.lock" }}
+
+      - run:
+          name: Wait for database
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Database setup
+          command: |
+            cd server
+            cp config/travis.database.yml config/database.yml
+            bundle exec rake db:create db:schema:load
+
+      - run:
+          name: Run tests
+          command: |
+            cd server
+            pwd
+            bundle exec rubocop
+            bundle exec rake spec
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - test-web
+      - test-server
