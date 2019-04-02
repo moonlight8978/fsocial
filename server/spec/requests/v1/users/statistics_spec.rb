@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "V1::Users::Statistics", type: :request do
-  describe "GET /v1/users/:user_id/statistics" do
+RSpec.describe 'V1::Users::Statistics', type: :request do
+  describe 'GET /v1/users/:user_id/statistics' do
     def create_user
       create(:user).tap do |user|
         create_list(:following, 4, followee: user)

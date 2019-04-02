@@ -21,7 +21,7 @@ module Users
     class Information
       include ActiveModel::Model
 
-      alias_method :read_attribute_for_serialization, :send
+      alias read_attribute_for_serialization send
 
       attr_accessor(
         :followers_count,
