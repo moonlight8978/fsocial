@@ -20,6 +20,10 @@ class User < ApplicationRecord
   has_many :followee_followings, class_name: Following.name, foreign_key: :follower_id
   has_many :followees, through: :followee_followings
 
+  has_many :posts, foreign_key: :creator_id
+  has_many :sharings, foreign_key: :creator_id
+  has_many :favorites, foreign_key: :creator_id
+
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
   validates :fullname, presence: true

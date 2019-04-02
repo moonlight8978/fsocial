@@ -12,6 +12,7 @@ Rails.application.routes.draw do
           get :followers, controller: :followings
           get :followees, controller: :followings
           get :activities
+          get :statistics
         end
       end
 

@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "followers_count": {
+      "type": "integer"
+    },
+    "followees_count": {
+      "type": "integer"
+    },
+    "posts_count": {
+      "type": "integer"
+    },
+    "shares_count": {
+      "type": "integer"
+    },
+    "favorites_count": {
+      "type": "integer"
+    },
+    "replies_count": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "followers_count",
+    "followees_count",
+    "posts_count",
+    "shares_count",
+    "favorites_count",
+    "replies_count"
+  ]
+}

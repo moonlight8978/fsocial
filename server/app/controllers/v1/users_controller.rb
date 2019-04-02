@@ -1,5 +1,5 @@
 class V1::UsersController < ApplicationController
-  before_action :authenticate!, except: %i[create show activities]
+  before_action :authenticate!, except: %i[create show activities statistics]
   before_action :guest_only!, only: :create
   before_action :not_implemented_yet!, only: %i[update destroy]
 
@@ -51,6 +51,12 @@ class V1::UsersController < ApplicationController
       .order(updated_at: :desc)
       .page(params[:page] || 1)
     render json: activities, each_serializer: ::ActivitySerializer, status: Settings.http.statuses.success
+  end
+
+  def statistics
+    user = User.find_by(id: params[:id]) || User.friendly.find(params[:id])
+    statistics = Users::Statistics.new(user).perform
+    render json: statistics, serializer: ::StatisticsSerializer, status: Settings.http.statuses.success
   end
 
   def destroy

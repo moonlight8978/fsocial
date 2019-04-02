@@ -34,7 +34,7 @@ FactoryBot.define do
   end
 
   factory :sub_reply, class: Post.name do
-    root { create(:post) }
+    root { parent.try(:root) || create(:post) }
     parent { create(:post, root: root) }
     creator { create(:user) }
 
