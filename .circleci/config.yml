@@ -64,3 +64,8 @@ jobs:
             yarn eslint
             yarn stylelint
             yarn flow
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - test
