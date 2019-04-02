@@ -22,4 +22,8 @@ class PostPolicy < ApplicationPolicy
   def favorite?
     signed_in?
   end
+
+  def reply?
+    signed_in?
+  end
 end

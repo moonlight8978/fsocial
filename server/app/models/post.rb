@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+  Reply = OpenStruct.new(name: 'Reply')
+
   acts_as_paranoid
 
   attr_accessor :medias_base64
@@ -24,6 +26,12 @@ class Post < ApplicationRecord
       count: { maximum: 3 }
     }
 
+  scope :root, -> { where(root_id: nil) }
+
+  scope :replies, -> { where.not(root_id: nil).where(parent_id: nil) }
+
+  scope :sub_replies, -> { where.not(root_id: nil, parent_id: nil) }
+
   class << self
     def tracked_actions
       [:create]
@@ -32,5 +40,13 @@ class Post < ApplicationRecord
 
   def created_by?(user)
     user.id == creator.id
+  end
+
+  def root?
+    root_id.nil?
+  end
+
+  def root_reply?
+    root_id.present? && parent_id.nil?
   end
 end

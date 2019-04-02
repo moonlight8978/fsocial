@@ -43,4 +43,10 @@ RSpec.describe PostPolicy, type: :policy do
       let(:record) { create(:post) }
     end
   end
+
+  permissions :reply? do
+    include_examples 'allow signed in users' do
+      let(:record) { create(:post) }
+    end
+  end
 end

@@ -1,6 +1,6 @@
 class V1::PostsController < ApplicationController
   before_action :authenticate!, except: %i[show index]
-  before_action :not_implemented_yet!, except: %i[create show]
+  before_action :not_implemented_yet!, only: %i[index update]
 
   def create
     authorize Post
@@ -24,5 +24,10 @@ class V1::PostsController < ApplicationController
 
   def update; end
 
-  def destroy; end
+  def destroy
+    post = Post.find(params[:id])
+    authorize post
+    Posts::Destroy.new(post).perform!
+    head :no_content
+  end
 end
