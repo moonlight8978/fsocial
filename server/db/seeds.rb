@@ -153,53 +153,70 @@ ActiveRecord::Base.transaction do
   end
 
   seed(:sharings, proc { Sharing.count }) do
-    seed('activities#sharing', proc { Activity.where(key: 'sharing.create').count }) do
-      sharings = []
-      activities = []
+    sharings = []
 
-      Post.where(parent: nil, root: nil).select(:id, :creator_id).each do |post|
-        Array.new(random_or_nothing(10)) { users.sample }.map do |user|
-          sharing = Sharing.new(creator_id: user.id, post_id: post.id)
-          sharings.push(sharing)
-          activities.push(
-            Activity.new do |activity|
-              activity.owner_id = user.id
-              activity.trackable = sharing
-              activity.recipient_id = post.creator_id
-              activity.key = 'sharing.create'
-            end
-          )
-        end
+    Post.where(parent: nil, root: nil).select(:id, :creator_id).each do |post|
+      Array.new(random_or_nothing(10)) { users.sample }.map do |user|
+        sharing = Sharing.new(creator_id: user.id, post_id: post.id)
+        sharings.push(sharing)
       end
-
-      Sharing.import(sharings, on_duplicate_key_ignore: true)
-      Activity.import(activities, on_duplicate_key_ignore: true)
     end
+
+    Post.where.not(root: nil).where(parent_id: nil).select(:id, :creator_id).find_each do |reply|
+      Array.new(random_or_nothing(10)) { users.sample }.map do |user|
+        sharing = Sharing.new(creator_id: user.id, post_id: reply.id)
+        sharings.push(sharing)
+      end
+    end
+
+    Sharing.import(sharings, on_duplicate_key_ignore: true)
+  end
+
+  seed('activities#sharing', proc { Activity.where(key: 'sharing.create').count }) do
+    activities = []
+
+    Sharing.includes(:post).all.find_each do |sharing|
+      activities.push(
+        Activity.new do |activity|
+          activity.owner_id = sharing.creator_id
+          activity.trackable = sharing
+          activity.recipient_id = sharing.post.creator_id
+          activity.key = 'sharing.create'
+        end
+      )
+    end
+
+    Activity.import(activities, on_duplicate_key_ignore: true)
   end
 
   seed(:favorites, proc { Favorite.count }) do
-    seed('activities#favorite', proc { Activity.where(key: 'favorite.create').count }) do
-      favorites = []
-      activities = []
+    favorites = []
 
-      Post.select(:id, :creator_id).find_each do |post|
-        Array.new(random_or_nothing(10)) { users.sample }.uniq(&:id).map do |user|
-          favorite = Favorite.new(creator_id: user.id, post_id: post.id)
-          favorites.push(favorite)
-          activities.push(
-            Activity.new do |activity|
-              activity.owner_id = user.id
-              activity.trackable = favorite
-              activity.recipient_id = post.creator_id
-              activity.key = 'favorite.create'
-            end
-          )
-        end
+    Post.select(:id, :creator_id).find_each do |post|
+      Array.new(random_or_nothing(10)) { users.sample }.uniq(&:id).map do |user|
+        favorite = Favorite.new(creator_id: user.id, post_id: post.id)
+        favorites.push(favorite)
       end
-
-      Favorite.import(favorites, on_duplicate_key_ignore: true)
-      Activity.import(activities, on_duplicate_key_ignore: true)
     end
+
+    Favorite.import(favorites, on_duplicate_key_ignore: true)
+  end
+
+  seed('activities#sharing', proc { Activity.where(key: 'sharing.create').count }) do
+    activities = []
+
+    Favorite.includes(:post).where(posts: { parent_id: nil, root_id: nil }).all.find_each do |favorite|
+      activities.push(
+        Activity.new do |activity|
+          activity.owner_id = favorite.creator_id
+          activity.trackable = favorite
+          activity.recipient_id = favorite.post.creator_id
+          activity.key = 'favorite.create'
+        end
+      )
+    end
+
+    Activity.import(activities, on_duplicate_key_ignore: true)
   end
 rescue StandardError => e
   puts e

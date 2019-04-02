@@ -29,10 +29,9 @@ class V1::ProfilesController < ApplicationController
   end
 
   def activities
-    activities = Activity
-      .where(key: ['post.create'], owner_id: Following.where(follower: current_user).select(:followee_id))
-      .or(Activity.where(key: ['post.create'], owner_id: current_user.id))
-      .includes(trackable: [:creator, medias_attachments: [:blob]])
+    activities = Activities::Finder
+      .new(Following.where(follower: current_user).pluck(:followee_id).push(current_user.id))
+      .perform
       .order(updated_at: :desc)
       .page(params[:page] || 1)
     render json: activities, each_serializer: ::ActivitySerializer, status: Settings.http.statuses.success

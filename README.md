@@ -1,6 +1,6 @@
 # fsocial
 
-[![Build Status](https://travis-ci.com/moonlight8978/fsocial.svg?branch=master)](https://travis-ci.com/moonlight8978/fsocial) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![Build Status](https://travis-ci.com/moonlight8978/fsocial.svg?branch=master)](https://travis-ci.com/moonlight8978/fsocial) [![CircleCI](https://circleci.com/gh/moonlight8978/fsocial.svg?style=svg)](https://circleci.com/gh/moonlight8978/fsocial) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 Simple social network webapp for HUST's final project => final-social => fsocial
 For research purpose

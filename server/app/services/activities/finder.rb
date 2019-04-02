@@ -1,22 +1,33 @@
 # unused
 module Activities
   class Finder
-    attr_reader :model, :klass, :class_name
+    attr_reader :tracked_user_ids
 
-    def initialize(model, class_name = model.class.name)
-      @model = model
-      @klass = model.class
-      @class_name = class_name
+    def initialize(tracked_user_ids)
+      @tracked_user_ids = tracked_user_ids
     end
 
-    def tracked
-      keys = klass.tracked_actions.map { |action| [class_name, action].join('.') }
-      klass.where(key: keys)
-    end
-
-    def untracked
-      keys = klass.tracked_actions.map { |action| [class_name, action].join('.') }
-      klass.where.not(key: keys)
+    def perform
+      Activity
+        .where(key: ['post.create'], owner_id: tracked_user_ids)
+        .or(
+          Activity.where(
+            key: 'sharing.create',
+            owner: tracked_user_ids,
+            trackable: Sharing.joins(:post).where(posts: { root_id: nil, parent_id: nil }).where(creator: tracked_user_ids)
+          )
+        ).or(
+          Activity.where(
+            key: 'favorite.create',
+            owner: tracked_user_ids,
+            trackable: Sharing.joins(:post).where(posts: { root_id: nil, parent_id: nil }).where(creator: tracked_user_ids)
+          )
+        )
+        .includes(
+          post: [:creator, medias_attachments: [:blob]],
+          sharing: [:creator, post: [:creator, medias_attachments: [:blob]]],
+          favorite: [:creator, post: [:creator, medias_attachments: [:blob]]]
+        )
     end
   end
 end

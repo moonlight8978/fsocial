@@ -45,9 +45,9 @@ class V1::UsersController < ApplicationController
 
   def activities
     user = User.friendly.find(params[:id])
-    activities = Activity
-      .where(key: ['post.create'], owner: user)
-      .includes(trackable: [:creator, medias_attachments: [:blob]])
+    activities = activities = Activities::Finder
+      .new(user.id)
+      .perform
       .order(updated_at: :desc)
       .page(params[:page] || 1)
     render json: activities, each_serializer: ::ActivitySerializer, status: Settings.http.statuses.success
