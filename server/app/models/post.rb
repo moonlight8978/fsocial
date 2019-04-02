@@ -26,11 +26,11 @@ class Post < ApplicationRecord
       count: { maximum: 3 }
     }
 
-  scope :root, proc { where(root_id: nil) }
+  scope :root, -> { where(root_id: nil) }
 
-  scope :replies, proc { where.not(root_id: nil).where(parent_id: nil) }
+  scope :replies, -> { where.not(root_id: nil).where(parent_id: nil) }
 
-  scope :sub_replies, proc { where.not(root_id: nil, parent_id: nil) }
+  scope :sub_replies, -> { where.not(root_id: nil, parent_id: nil) }
 
   class << self
     def tracked_actions
