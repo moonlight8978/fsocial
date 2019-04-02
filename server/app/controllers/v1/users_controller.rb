@@ -45,7 +45,7 @@ class V1::UsersController < ApplicationController
 
   def activities
     user = User.friendly.find(params[:id])
-    activities = activities = Activities::Finder
+    activities = Activities::Finder
       .new(user.id)
       .perform
       .order(updated_at: :desc)
