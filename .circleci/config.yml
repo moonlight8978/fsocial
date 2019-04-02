@@ -73,14 +73,15 @@ jobs:
           command: |
             cd server
             cp config/travis.database.yml config/database.yml
-            rake db:create db:schema:load
+            bundle exec rake db:create db:schema:load
 
       - run:
           name: Run tests
           command: |
             cd server
-            rubocop
-            rake spec
+            pwd
+            bundle exec rubocop
+            bundle exec rake spec
 
 workflows:
   version: 2
