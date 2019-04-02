@@ -1,0 +1,66 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/ruby:2.6.2
+      - image: circleci/postgres:alpine
+
+      - image: circleci/node:dubnium
+
+    working_directory: ~/fsocial
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - fsocial-dependencies-{{ checksum "Gemfile.lock" }}
+            - fsocial-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - fsocial-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            cd server
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            cd ../web
+            yarn install
+
+      - save_cache:
+          paths:
+            - ./server/vendor/bundle
+          key: fsocial-dependencies-{{ checksum "Gemfile.lock" }}
+
+      - save_cache:
+          paths:
+            - ./web/node_modules
+          key: fsocial-dependencies-{{ checksum "yarn.lock" }}
+
+      # Database setup
+      - run:
+          name: copy test configs
+          command: |
+            cd server
+            cp config/travis.database.yml config/database.yml
+            rake db:create
+            rake db:schema:load
+
+      # run server tests
+      - run:
+          name: run tests server
+          command: |
+            cd server
+            rubocop
+            rake spec
+
+      # run web tests
+      - run:
+          name: run web tests
+          command: |
+            cd web
+            yarn testci
+            yarn eslint
+            yarn stylelint
+            yarn flow
