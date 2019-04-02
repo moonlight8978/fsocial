@@ -24,13 +24,13 @@ module Replies
     end
 
     def root_id
-      post.root_id || post.id
+      post.root? ? post.id : post.root_id
     end
 
     def parent_id
-      if post.root_id.nil? # root post
+      if post.root?
         nil
-      elsif post.root_id.present? && post.parent_id.nil? # replies
+      elsif post.root_reply?
         post.id
       else # sub replies
         post.parent_id
