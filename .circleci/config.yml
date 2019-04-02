@@ -73,8 +73,7 @@ jobs:
           command: |
             cd server
             cp config/travis.database.yml config/database.yml
-            rake db:create
-            rake db:schema:load
+            rake db:create db:schema:load
 
       - run:
           name: Run tests
