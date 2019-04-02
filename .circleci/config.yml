@@ -65,6 +65,10 @@ jobs:
           key: fsocial-dependencies-{{ checksum "server/Gemfile.lock" }}
 
       - run:
+          name: Wait for database
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
           name: Database setup
           command: |
             cd server
