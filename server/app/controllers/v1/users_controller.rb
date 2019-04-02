@@ -45,9 +45,9 @@ class V1::UsersController < ApplicationController
 
   def activities
     user = User.friendly.find(params[:id])
-    activities = Activity
-      .where(key: ['post.create'], owner: user)
-      .includes(trackable: [:creator, medias_attachments: [:blob]])
+    activities = Activities::Finder
+      .new(user.id)
+      .perform
       .order(updated_at: :desc)
       .page(params[:page] || 1)
     render json: activities, each_serializer: ::ActivitySerializer, status: Settings.http.statuses.success
@@ -59,11 +59,7 @@ class V1::UsersController < ApplicationController
     render json: statistics, serializer: ::StatisticsSerializer, status: Settings.http.statuses.success
   end
 
-  def destroy
-    render json: {}, status: Settings.http.statuses.success
-  end
+  def destroy; end
 
-  def update
-    render json: {}, status: Settings.http.statuses.success
-  end
+  def update; end
 end

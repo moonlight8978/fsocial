@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'V1::Profiles', type: :request do
   describe 'GET /v1/profile/activities' do
+    before(:all) { Bullet.unused_eager_loading_enable = false }
+    after(:all) { Bullet.unused_eager_loading_enable = true }
+
     let(:headers) { setup_auth(token) }
     let(:user) { create(:user) }
 
