@@ -59,11 +59,7 @@ class V1::UsersController < ApplicationController
     render json: statistics, serializer: ::StatisticsSerializer, status: Settings.http.statuses.success
   end
 
-  def destroy
-    render json: {}, status: Settings.http.statuses.success
-  end
+  def destroy; end
 
-  def update
-    render json: {}, status: Settings.http.statuses.success
-  end
+  def update; end
 end
