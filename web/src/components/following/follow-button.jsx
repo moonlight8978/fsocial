@@ -43,11 +43,10 @@ class FollowButton extends React.Component {
       this.setState({ isSubmitting: true })
       await AsyncUtils.delay(2000)
       await following.follow(user)
-      this.setState({ isFollowing: true })
+      this.setState({ isFollowing: true, isSubmitting: false })
       onFollow()
     } catch (error) {
       console.error(error)
-    } finally {
       this.setState({ isSubmitting: false })
     }
   }

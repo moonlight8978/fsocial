@@ -1,28 +1,65 @@
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-import { LocaleProvider } from './components/locale'
-import { AuthProvider } from './components/auth'
+import { withAuthContext, authSelectors } from './components/auth'
+import { withLoading, FullscreenLoading } from './components/loading'
+import { StatisticsProvider } from './components/statistics'
 import { FollowingProvider } from './components/following'
 import { Routes } from './screens'
-import { StatisticsProvider } from './components/statistics'
+import { AsyncUtils } from './utils'
 
-export class App extends React.Component {
+class App extends React.Component {
+  static propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    finishLoading: PropTypes.func.isRequired,
+    auth: PropTypes.shape({
+      fetchProfile: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+
+  async componentDidMount() {
+    const { finishLoading, auth } = this.props
+    const isAuthenticated = !authSelectors.getIsUnauthorized(auth)
+    const isValidSession = authSelectors.getIsVerified(auth)
+
+    if (!isValidSession && isAuthenticated) {
+      await auth.signOut()
+    }
+    if (isValidSession && isAuthenticated) {
+      await auth.fetchProfile()
+    }
+
+    await AsyncUtils.delay(0)
+    finishLoading()
+  }
+
   render() {
-    return (
-      <LocaleProvider>
-        <AuthProvider>
+    const { isLoading, auth } = this.props
+
+    if (isLoading) {
+      return <FullscreenLoading />
+    }
+
+    const isValidSession = authSelectors.getIsVerified(auth)
+
+    if (isValidSession) {
+      return (
+        <div className="App">
           <StatisticsProvider>
             <FollowingProvider>
-              <BrowserRouter>
-                <div className="App">
-                  <Routes />
-                </div>
-              </BrowserRouter>
+              <Routes />
             </FollowingProvider>
           </StatisticsProvider>
-        </AuthProvider>
-      </LocaleProvider>
+        </div>
+      )
+    }
+
+    return (
+      <div className="App">
+        <Routes />
+      </div>
     )
   }
 }
+
+export default withAuthContext(withLoading(App))

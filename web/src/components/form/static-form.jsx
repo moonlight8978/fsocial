@@ -51,7 +51,6 @@ class StaticForm extends React.Component {
   }
 
   async handleSubmit(values, { setSubmitting, resetForm }) {
-    console.log(values)
     try {
       setSubmitting(true)
       this.setState({ apiErrors: {} })

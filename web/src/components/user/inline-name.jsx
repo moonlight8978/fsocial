@@ -13,7 +13,9 @@ function InlineName({ username, fullname, className }) {
         {fullname}
       </Text>
       <Text className={styles.middot}>&middot;</Text>
-      <Text color="secondary">@{username}</Text>
+      <Text color="secondary" className={styles.username}>
+        @{username}
+      </Text>
     </span>
   )
 }
