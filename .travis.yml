@@ -11,12 +11,13 @@ branches:
 
 cache:
   directories:
+    - $HOME/.rvm/
+    - $HOME/.nvm
     - ./server/vendor/bundle
     - ./web/node_modules
-    - $HOME/.nvm
 
-addons:
-  postgresql: "10"
+services:
+  - postgresql
 
 before_install:
   - nvm install --lts=dubnium
@@ -28,7 +29,6 @@ install:
   - make install
 
 before_script:
-  - psql -c 'create database fsocial_test;' -U postgres
   - cp server/config/travis.database.yml server/config/database.yml
   - cp server/config/travis.credentials.yml.enc server/config/credentials.yml.enc
   - make db
