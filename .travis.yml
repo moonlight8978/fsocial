@@ -18,15 +18,13 @@ matrix:
         - postgresql
 
       before_install:
+        - cd server
         - sudo apt-get install -y libidn11-dev imagemagick
 
       install:
-        - cd server
         - bundle install --jobs=4 --retry=3 --path vendor/bundle
 
       before_script:
-        - pwd
-        - cd server
         - cp config/travis.database.yml config/database.yml
         - bundle exec rake db:create db:schema:load
 
@@ -42,12 +40,13 @@ matrix:
         directories:
           - ./web/node_modules
 
-      install:
+      before_install:
         - cd web
+
+      install:
         - yarn install
 
       script:
-        - cd web
         - yarn eslint
         - yarn stylelint
         - yarn testci
