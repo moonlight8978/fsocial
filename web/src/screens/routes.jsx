@@ -1,14 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
-import {
-  protectRoute,
-  withAuthContext,
-  authSelectors,
-} from '../components/auth'
-import { withLoading, FullscreenLoading } from '../components/loading'
-import { AsyncUtils } from '../utils'
+import { protectRoute } from '../components/auth'
 import { paths } from '../config'
 
 import { SignUp } from './sign-up'
@@ -18,37 +11,7 @@ const SignUpScreen = protectRoute(SignUp, true)
 const HomeScreen = protectRoute(Home)
 
 class Routes extends React.Component {
-  static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    finishLoading: PropTypes.func.isRequired,
-    auth: PropTypes.shape({
-      fetchProfile: PropTypes.func.isRequired,
-    }).isRequired,
-  }
-
-  async componentDidMount() {
-    const { finishLoading, auth } = this.props
-    const isAuthenticated = !authSelectors.getIsUnauthorized(auth)
-    const isValidSession = authSelectors.getIsVerified(auth)
-
-    if (!isValidSession && isAuthenticated) {
-      await auth.signOut()
-    }
-    if (isValidSession && isAuthenticated) {
-      await auth.fetchProfile()
-    }
-
-    await AsyncUtils.delay(0)
-    finishLoading()
-  }
-
   render() {
-    const { isLoading } = this.props
-
-    if (isLoading) {
-      return <FullscreenLoading />
-    }
-
     return (
       <Switch>
         <Route path={paths.signUp.route} exact component={SignUpScreen} />
@@ -58,4 +21,4 @@ class Routes extends React.Component {
   }
 }
 
-export default withAuthContext(withLoading(Routes))
+export default Routes

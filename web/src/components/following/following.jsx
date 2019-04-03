@@ -9,7 +9,6 @@ import { FollowingApi } from './following-api'
 const initialState = {
   follow: () => {},
   unfollow: () => {},
-  fetchCount: () => {},
 }
 
 export const FollowingContext = React.createContext(initialState)
@@ -27,19 +26,13 @@ class FollowingProvider extends React.Component {
   constructor(props) {
     super(props)
 
-    this.fetchCount = this.fetchCount.bind(this)
     this.follow = this.follow.bind(this)
     this.unfollow = this.unfollow.bind(this)
 
     this.state = {
       follow: this.follow,
       unfollow: this.unfollow,
-      fetchCount: this.fetchCount,
     }
-  }
-
-  fetchCount() {
-    console.log(this.state)
   }
 
   async follow(user) {

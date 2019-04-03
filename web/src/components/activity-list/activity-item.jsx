@@ -15,10 +15,55 @@ class ActivityItem extends React.Component {
     }).isRequired,
   }
 
+  static Post = ({ post: { medias, creator, content, createdAt } }) => (
+    <>
+      <div className={styles.avatar}>
+        <Avatar size="large" src="/avatar-placeholder.png" />
+      </div>
+
+      <div className={styles.post}>
+        <div>
+          <InlineName username={creator.username} fullname={creator.fullname} />
+          <Text color="secondary">&middot;</Text>
+          <Text color="secondary">{createdAt}</Text>
+        </div>
+
+        <p>
+          <Text>{content}</Text>
+        </p>
+
+        <div>
+          {medias.map(media => (
+            <img
+              key={media.path}
+              className={styles.media}
+              alt={media.filename}
+              src={media.url}
+            />
+          ))}
+        </div>
+
+        <div>
+          <Button>
+            <FontAwesomeIcon icon={['far', 'comment']} />
+            25
+          </Button>
+          <Button>
+            <FontAwesomeIcon icon="retweet" />
+            25
+          </Button>
+          <Button>
+            <FontAwesomeIcon icon={['far', 'heart']} />
+            25
+          </Button>
+        </div>
+      </div>
+    </>
+  )
+
   render() {
     const { activity } = this.props
-    const { trackable: post } = activity
-    const { creator, medias } = post
+    const { trackable, trackableType } = activity
 
     return (
       <div className={styles.container}>
@@ -29,50 +74,17 @@ class ActivityItem extends React.Component {
           <Text>context</Text>
         </div>
 
-        <div className={styles.avatar}>
-          <Avatar size="large" src="/avatar-placeholder.png" />
-        </div>
+        {trackableType === 'Post' ? (
+          <ActivityItem.Post post={trackable} />
+        ) : null}
 
-        <div className={styles.post}>
-          <div>
-            <InlineName
-              username={creator.username}
-              fullname={creator.fullname}
-            />
-            <Text color="secondary">&middot;</Text>
-            <Text color="secondary">{post.createdAt}</Text>
-          </div>
+        {trackableType === 'Sharing' ? (
+          <ActivityItem.Post post={trackable.post} />
+        ) : null}
 
-          <p>
-            <Text>{post.content}</Text>
-          </p>
-
-          <div>
-            {medias.map(media => (
-              <img
-                key={media.path}
-                className={styles.media}
-                alt={media.filename}
-                src={media.url}
-              />
-            ))}
-          </div>
-
-          <div>
-            <Button>
-              <FontAwesomeIcon icon={['far', 'comment']} />
-              25
-            </Button>
-            <Button>
-              <FontAwesomeIcon icon="retweet" />
-              25
-            </Button>
-            <Button>
-              <FontAwesomeIcon icon={['far', 'heart']} />
-              25
-            </Button>
-          </div>
-        </div>
+        {trackableType === 'Favorite' ? (
+          <ActivityItem.Post post={trackable.post} />
+        ) : null}
       </div>
     )
   }

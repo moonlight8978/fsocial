@@ -1,38 +1,53 @@
 dist: xenial
 
-language: ruby
-rvm:
-  - 2.6.2
-
 branches:
   only:
     - master
     - /.*-runci$/
 
-cache:
-  directories:
-    - ./server/vendor/bundle
-    - ./web/node_modules
-    - $HOME/.nvm
+matrix:
+  include:
+    - language: ruby
 
-addons:
-  postgresql: "10"
+      rvm: 2.6.2
 
-before_install:
-  - nvm install --lts=dubnium
-  - node --version
-  - sudo apt-get install -y libidn11-dev imagemagick
-  - cp deploy/dev/Makefile.test Makefile
+      cache:
+        directories:
+          - ./server/vendor/bundle
+      services:
+        - postgresql
 
-install:
-  - make install
+      before_install:
+        - cd server
+        - cp config/database.ci.yml config/database.yml
+        - cp config/credentials.yml.ci.enc config/credentials.yml.enc
+        - sudo apt-get install -y libidn11-dev imagemagick
 
-before_script:
-  - psql -c 'create database fsocial_test;' -U postgres
-  - cp server/config/travis.database.yml server/config/database.yml
-  - cp server/config/travis.credentials.yml.enc server/config/credentials.yml.enc
-  - make db
+      install:
+        - bundle install --jobs=4 --retry=3 --path vendor/bundle
 
-script:
-  - make test_web
-  - make test_server
+      before_script:
+        - bundle exec rake db:create db:schema:load
+
+      script:
+        - bundle exec rake spec
+        - bundle exec rubocop
+
+    - language: node_js
+
+      node_js: 10.15.3
+
+      cache:
+        directories:
+          - ./web/node_modules
+
+      before_install:
+        - cd web
+
+      install:
+        - yarn install
+
+      script:
+        - yarn eslint
+        - yarn stylelint
+        - yarn testci

@@ -32,7 +32,6 @@ jobs:
             yarn testci
             yarn eslint
             yarn stylelint
-            yarn flow
 
   test-server:
     docker:
@@ -48,6 +47,13 @@ jobs:
           keys:
             - fsocial-dependencies-{{ checksum "server/Gemfile.lock" }}
             - fsocial-dependencies-
+
+      - run:
+          name: Copy config files
+          command: |
+            cd server
+            cp config/database.ci.yml config/database.yml
+            cp config/credentials.yml.ci.enc config/credentials.yml.enc
 
       - run:
           name: Install system dependencies
@@ -72,7 +78,6 @@ jobs:
           name: Database setup
           command: |
             cd server
-            cp config/travis.database.yml config/database.yml
             bundle exec rake db:create db:schema:load
 
       - run:

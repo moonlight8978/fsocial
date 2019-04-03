@@ -1,5 +1,11 @@
 /* eslint-disable react/no-unused-state */
 import React from 'react'
+import PropTypes from 'prop-types'
+
+import { withAuthContext, authSelectors } from '../auth'
+
+import { StatisticsApi } from './statistics-api'
+import { StatisticsResource } from './statistics-resource'
 
 const initialState = {
   followersCount: 0,
@@ -14,6 +20,10 @@ export const StatisticsContext = React.createContext(initialState)
 export const StatisticsConsumer = StatisticsContext.Consumer
 
 class StatisticsProvider extends React.Component {
+  static propTypes = {
+    auth: PropTypes.shape().isRequired,
+  }
+
   constructor(props) {
     super(props)
 
@@ -24,6 +34,20 @@ class StatisticsProvider extends React.Component {
       ...initialState,
       increase: this.increase,
       decrease: this.decrease,
+    }
+  }
+
+  async componentDidMount() {
+    const isVerified = authSelectors.getIsVerified(this.props.auth)
+    if (isVerified) {
+      try {
+        const { data } = await StatisticsApi.fetchStatistics(
+          authSelectors.getUser(this.props.auth).id
+        )
+        this.setState({ ...StatisticsResource.parse(data) })
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -44,4 +68,4 @@ class StatisticsProvider extends React.Component {
   }
 }
 
-export default StatisticsProvider
+export default withAuthContext(StatisticsProvider)

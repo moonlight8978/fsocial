@@ -35,10 +35,44 @@ const Post = {
   }),
 }
 
+const Sharing = {
+  parse: sharing => ({
+    id: sharing.id,
+    canUpdate: sharing.can_update,
+    canDestroy: sharing.can_destroy,
+    creator: User.parse(sharing.creator),
+    post: Post.parse(sharing.post),
+  }),
+}
+
+const Favorite = {
+  parse: favorite => ({
+    id: favorite.id,
+    canUpdate: favorite.can_update,
+    canDestroy: favorite.can_destroy,
+    creator: User.parse(favorite.creator),
+    post: Post.parse(favorite.post),
+  }),
+}
+
+const Trackable = {
+  factory: activityType => {
+    if (activityType === 'Favorite') {
+      return Favorite
+    }
+    if (activityType === 'Sharing') {
+      return Sharing
+    }
+    return Post
+  },
+}
+
 export const Activity = {
   parse: activity => ({
     id: activity.id,
-    trackable: Post.parse(activity.trackable),
+    trackable: Trackable.factory(activity.trackable_type).parse(
+      activity.trackable
+    ),
     trackableType: activity.trackable_type,
     trackableId: activity.trackable_id,
     key: activity.key,

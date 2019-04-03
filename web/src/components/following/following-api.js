@@ -13,10 +13,4 @@ export const FollowingApi = {
       url: `/users/${user.username}/unfollow`,
     })
   },
-  fetchCount: () => {
-    return localHttp.request({
-      method: 'get',
-      url: '/profile',
-    })
-  },
 }
