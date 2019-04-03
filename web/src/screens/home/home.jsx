@@ -11,6 +11,8 @@ import {
   ActivityItem,
 } from '../../components/activity-list'
 import { Box, BoxList } from '../../components/atomics'
+import { StatisticsProvider } from '../../components/statistics'
+import { FollowingProvider } from '../../components/following'
 
 import Statistics from './statistics'
 import ActivityStream from './activity-stream'
@@ -24,43 +26,47 @@ class Home extends React.Component {
     const { intl } = this.props
 
     return (
-      <Layout
-        hasNavbar
-        navbar={<Navbar />}
-        windowTitle={intl.formatMessage({ id: 'home.windowTitle' })}
-        hasSideRight
-        sideRight={<FolloweeSuggestion />}
-        hasSideLeft
-        sideLeft={<Statistics />}
-      >
-        <ActivityListProvider>
-          <ActivityStream>
-            {({ submitPost, fetchActivities }) => (
-              <BoxList>
-                <Box>
-                  <PostEditor
-                    submitText={intl.formatMessage({
-                      id: 'home.postEditor.submit',
-                    })}
-                    placeholder={intl.formatMessage({
-                      id: 'home.postEditor.placeholder',
-                    })}
-                    onSubmit={submitPost}
-                  />
-                </Box>
-                <ActivityList
-                  renderItem={activity => (
-                    <Box key={activity.id}>
-                      <ActivityItem activity={activity} />
+      <StatisticsProvider>
+        <FollowingProvider>
+          <Layout
+            hasNavbar
+            navbar={<Navbar />}
+            windowTitle={intl.formatMessage({ id: 'home.windowTitle' })}
+            hasSideRight
+            sideRight={<FolloweeSuggestion />}
+            hasSideLeft
+            sideLeft={<Statistics />}
+          >
+            <ActivityListProvider>
+              <ActivityStream>
+                {({ submitPost, fetchActivities }) => (
+                  <BoxList>
+                    <Box>
+                      <PostEditor
+                        submitText={intl.formatMessage({
+                          id: 'home.postEditor.submit',
+                        })}
+                        placeholder={intl.formatMessage({
+                          id: 'home.postEditor.placeholder',
+                        })}
+                        onSubmit={submitPost}
+                      />
                     </Box>
-                  )}
-                  api={{ fetch: fetchActivities }}
-                />
-              </BoxList>
-            )}
-          </ActivityStream>
-        </ActivityListProvider>
-      </Layout>
+                    <ActivityList
+                      renderItem={activity => (
+                        <Box key={activity.id}>
+                          <ActivityItem activity={activity} />
+                        </Box>
+                      )}
+                      api={{ fetch: fetchActivities }}
+                    />
+                  </BoxList>
+                )}
+              </ActivityStream>
+            </ActivityListProvider>
+          </Layout>
+        </FollowingProvider>
+      </StatisticsProvider>
     )
   }
 }

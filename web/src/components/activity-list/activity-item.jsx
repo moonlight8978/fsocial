@@ -2,6 +2,7 @@ import React from 'react'
 import { Avatar, Button } from 'antd'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classnames from 'classnames'
 
 import { InlineName } from '../user'
 import { Text } from '../atomics'
@@ -22,57 +23,101 @@ class ActivityItem extends React.Component {
       </div>
 
       <div className={styles.post}>
-        <div>
+        <header>
           <InlineName username={creator.username} fullname={creator.fullname} />
           <Text color="secondary">&middot;</Text>
           <Text color="secondary">{createdAt}</Text>
-        </div>
+        </header>
 
         <p>
           <Text>{content}</Text>
         </p>
 
-        <div>
-          {medias.map(media => (
-            <img
-              key={media.path}
-              className={styles.media}
-              alt={media.filename}
-              src={media.url}
-            />
-          ))}
-        </div>
+        {medias.length > 0 && (
+          <figure>
+            {medias.map(media => (
+              <img
+                key={media.path}
+                className={styles.media}
+                alt={media.filename}
+                src={media.url}
+              />
+            ))}
+          </figure>
+        )}
 
-        <div>
-          <Button>
-            <FontAwesomeIcon icon={['far', 'comment']} />
-            25
+        <div className={styles.actions}>
+          <Button
+            className={classnames(styles.actionButton, styles.replyButton)}
+          >
+            <Text color="secondary">
+              <FontAwesomeIcon size="lg" icon={['far', 'comment']} />
+              <span className={styles.actionCount}>25</span>
+            </Text>
           </Button>
-          <Button>
-            <FontAwesomeIcon icon="retweet" />
-            25
+          <Button
+            className={classnames(styles.actionButton, styles.retweetButton)}
+          >
+            <Text color="secondary">
+              <FontAwesomeIcon size="lg" icon="retweet" />
+              <span className={styles.actionCount}>25</span>
+            </Text>
           </Button>
-          <Button>
-            <FontAwesomeIcon icon={['far', 'heart']} />
-            25
+          <Button
+            className={classnames(styles.actionButton, styles.favoriteButton)}
+          >
+            <Text color="secondary">
+              <FontAwesomeIcon size="lg" icon={['far', 'heart']} />
+              <span className={styles.actionCount}>25</span>
+            </Text>
           </Button>
         </div>
       </div>
     </>
   )
 
+  static PostContext = ({ trackableType, creator }) => {
+    if (trackableType === 'Post') {
+      return null
+    }
+
+    if (trackableType === 'Sharing') {
+      return (
+        <>
+          <div className={styles.contextIcon}>
+            <FontAwesomeIcon icon="retweet" />
+          </div>
+          <div className={styles.context}>
+            <Text>{creator.fullname} shared a post.</Text>
+          </div>
+        </>
+      )
+    }
+
+    if (trackableType === 'Favorite') {
+      return (
+        <>
+          <div className={styles.contextIcon}>
+            <FontAwesomeIcon icon="heart" />
+          </div>
+          <div className={styles.context}>
+            <Text>{creator.fullname} favorited a post.</Text>
+          </div>
+        </>
+      )
+    }
+  }
+
   render() {
     const { activity } = this.props
     const { trackable, trackableType } = activity
 
     return (
-      <div className={styles.container}>
-        <div className={styles.contextIcon}>
-          <FontAwesomeIcon icon="heart" />
-        </div>
-        <div className={styles.context}>
-          <Text>context</Text>
-        </div>
+      <article className={styles.container}>
+        <ActivityItem.PostContext
+          trackableType={trackableType}
+          creator={trackable.creator}
+        />
 
         {trackableType === 'Post' ? (
           <ActivityItem.Post post={trackable} />
@@ -85,7 +130,7 @@ class ActivityItem extends React.Component {
         {trackableType === 'Favorite' ? (
           <ActivityItem.Post post={trackable.post} />
         ) : null}
-      </div>
+      </article>
     )
   }
 }

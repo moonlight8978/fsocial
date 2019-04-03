@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 
 import { paths } from '../../config'
 import { withLoading, EdgeLoading } from '../loading'
-import { StatisticsProvider } from '../statistics'
-import { FollowingProvider } from '../following'
 
 import { authSelectors } from './auth-selectors'
 import { withAuthContext } from './with-auth-context'
@@ -52,16 +50,6 @@ export function protectRoute(
 
       if (allowGuest && isVerified) {
         return <Redirect to={paths.home.resolve()} />
-      }
-
-      if (isVerified) {
-        return (
-          <StatisticsProvider>
-            <FollowingProvider>
-              <Component {...this.props} />
-            </FollowingProvider>
-          </StatisticsProvider>
-        )
       }
 
       return <Component {...this.props} />
