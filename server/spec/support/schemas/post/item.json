@@ -1,0 +1,61 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "root_id": {
+      "type": ["integer", "null"]
+    },
+    "parent_id": {
+      "type": ["integer", "null"]
+    },
+    "content": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    },
+    "can_update": {
+      "type": "boolean"
+    },
+    "can_destroy": {
+      "type": "boolean"
+    },
+    "creator": {
+      "$ref": "../profile_overall.json"
+    },
+    "medias": {
+      "type": "array",
+      "items": {
+        "$ref": "../attachment.json"
+      }
+    },
+    "root": {
+      "anyOf": [
+        {
+          "$ref": "overall.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "root_id",
+    "parent_id",
+    "content",
+    "created_at",
+    "updated_at",
+    "can_update",
+    "can_destroy",
+    "creator",
+    "medias",
+    "root"
+  ]
+}
