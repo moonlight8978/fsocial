@@ -32,7 +32,6 @@ jobs:
             yarn testci
             yarn eslint
             yarn stylelint
-            yarn flow
 
   test-server:
     docker:
