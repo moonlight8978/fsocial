@@ -49,6 +49,13 @@ jobs:
             - fsocial-dependencies-
 
       - run:
+          name: Copy config files
+          command: |
+            cd server
+            cp config/database.ci.yml config/database.yml
+            cp config/credentials.yml.ci.enc config/credentials.yml.enc
+
+      - run:
           name: Install system dependencies
           command: sudo apt-get install -y libidn11-dev imagemagick postgresql-client
 
@@ -71,7 +78,6 @@ jobs:
           name: Database setup
           command: |
             cd server
-            cp config/travis.database.yml config/database.yml
             bundle exec rake db:create db:schema:load
 
       - run:
