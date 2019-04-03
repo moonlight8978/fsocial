@@ -17,9 +17,9 @@ class V1::PostsController < ApplicationController
   def index; end
 
   def show
-    post = Post.find(params[:id])
+    post = Post.where(parent_id: nil).find(params[:id])
     authorize post
-    render json: post, serializer: ::PostSerializer, status: Settings.http.statuses.success
+    render json: post, serializer: ::PostSerializer::Item, status: Settings.http.statuses.success
   end
 
   def update; end

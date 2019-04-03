@@ -79,7 +79,6 @@ jobs:
           name: Run tests
           command: |
             cd server
-            pwd
             bundle exec rubocop
             bundle exec rake spec
 
