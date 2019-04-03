@@ -25,6 +25,7 @@ matrix:
         - bundle install --jobs=4 --retry=3 --path vendor/bundle
 
       before_script:
+        - pwd
         - cd server
         - cp config/travis.database.yml config/database.yml
         - bundle exec rake db:create db:schema:load
