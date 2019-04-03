@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import { withAuthContext, authSelectors } from './components/auth'
 import { withLoading, FullscreenLoading } from './components/loading'
-import { StatisticsProvider } from './components/statistics'
-import { FollowingProvider } from './components/following'
 import { Routes } from './screens'
 import { AsyncUtils } from './utils'
 
@@ -34,24 +32,10 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoading, auth } = this.props
+    const { isLoading } = this.props
 
     if (isLoading) {
       return <FullscreenLoading />
-    }
-
-    const isValidSession = authSelectors.getIsVerified(auth)
-
-    if (isValidSession) {
-      return (
-        <div className="App">
-          <StatisticsProvider>
-            <FollowingProvider>
-              <Routes />
-            </FollowingProvider>
-          </StatisticsProvider>
-        </div>
-      )
     }
 
     return (

@@ -38,16 +38,14 @@ class StatisticsProvider extends React.Component {
   }
 
   async componentDidMount() {
-    const isVerified = authSelectors.getIsVerified(this.props.auth)
-    if (isVerified) {
-      try {
-        const { data } = await StatisticsApi.fetchStatistics(
-          authSelectors.getUser(this.props.auth).id
-        )
-        this.setState({ ...StatisticsResource.parse(data) })
-      } catch (error) {
-        console.log(error)
-      }
+    console.log('mounted')
+    try {
+      const { data } = await StatisticsApi.fetchStatistics(
+        authSelectors.getUser(this.props.auth).id
+      )
+      this.setState({ ...StatisticsResource.parse(data) })
+    } catch (error) {
+      console.log(error)
     }
   }
 
