@@ -1,38 +1,52 @@
 dist: xenial
 
-language: ruby
-rvm:
-  - 2.6.2
-
 branches:
   only:
     - master
     - /.*-runci$/
 
-cache:
-  directories:
-    - $HOME/.rvm/
-    - $HOME/.nvm
-    - ./server/vendor/bundle
-    - ./web/node_modules
+matrix:
+  include:
+    - language: ruby
 
-services:
-  - postgresql
+      rvm: 2.6.2
 
-before_install:
-  - nvm install --lts=dubnium
-  - node --version
-  - sudo apt-get install -y libidn11-dev imagemagick
-  - cp deploy/dev/Makefile.test Makefile
+      cache:
+        directories:
+          - ./server/vendor/bundle
+      services:
+        - postgresql
 
-install:
-  - make install
+      before_install:
+        - sudo apt-get install -y libidn11-dev imagemagick
 
-before_script:
-  - cp server/config/travis.database.yml server/config/database.yml
-  - cp server/config/travis.credentials.yml.enc server/config/credentials.yml.enc
-  - make db
+      install:
+        - cd server
+        - bundle install --jobs=4 --retry=3 --path vendor/bundle
 
-script:
-  - make test_web
-  - make test_server
+      before_script:
+        - cd server
+        - cp config/travis.database.yml config/database.yml
+        - bundle exec rake db:create db:schema:load
+
+      script:
+        - bundle exec rake spec
+        - bundle exec rubocop
+
+    - language: node_js
+
+      node_js: 10.15.3
+
+      cache:
+        directories:
+          - ./web/node_modules
+
+      install:
+        - cd web
+        - yarn install
+
+      script:
+        - cd web
+        - yarn eslint
+        - yarn stylelint
+        - yarn testci
