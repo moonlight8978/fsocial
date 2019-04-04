@@ -49,5 +49,17 @@
   "statistics.headers.followee": "Followings",
   "statistics.headers.follower": "Followers",
   "statistics.headers.post": "Posts",
-  "time.relative.lessThanXSeconds": "< {value}s"
+  "time.relative.day": "{value}d",
+  "time.relative.halfAMinute": "30s",
+  "time.relative.hour": "{value}h",
+  "time.relative.lessThanAMinute": "1m",
+  "time.relative.lessThanXSeconds": "< {value}s",
+  "time.relative.minute": "{value}m",
+  "time.relative.month": "{value}m",
+  "time.relative.xDays": "{value}d",
+  "time.relative.xHours": "{value}h",
+  "time.relative.xMinutes": "{value}m",
+  "time.relative.xMonths": "{value}m",
+  "time.relative.xYear": "{value}y",
+  "time.relative.year": "{value}y"
 }

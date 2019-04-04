@@ -38,7 +38,6 @@ class StatisticsProvider extends React.Component {
   }
 
   async componentDidMount() {
-    console.log('mounted')
     try {
       const { data } = await StatisticsApi.fetchStatistics(
         authSelectors.getUser(this.props.auth).id

@@ -43,19 +43,19 @@ followeeSuggestion:
   title: Who to follow
 time:
   relative:
-    lessThanXSeconds: < {value}s
-    halfAMinute: 30s
-    lessThanAMinute: 1m
-    minute: {value}m
-    xMinutes: {value}m
-    hour: {value}h
-    xHours: {value}h
-    day: {value}d
-    xDays: {value}d
-    month: {value}m
-    xMonths: {value}m
-    year: {value}y
-    xYear: {value}y
+    lessThanXSeconds: '< {value}s'
+    halfAMinute: '30s'
+    lessThanAMinute: '1m'
+    minute: '{value}m'
+    xMinutes: '{value}m'
+    hour: '{value}h'
+    xHours: '{value}h'
+    day: '{value}d'
+    xDays: '{value}d'
+    month: '{value}m'
+    xMonths: '{value}m'
+    year: '{value}y'
+    xYear: '{value}y'
 schemas:
   session:
     identity:

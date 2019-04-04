@@ -2,10 +2,12 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 
-import { TimeUtils } from '../../utils/time-utils'
+import { TimeUtils } from '../../utils'
 
 export default class RelativeTime extends React.PureComponent {
-  static propTypes = {}
+  static propTypes = {
+    fromTime: PropTypes.instanceOf(Date).isRequired,
+  }
 
   render() {
     const { fromTime } = this.props

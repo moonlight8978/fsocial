@@ -26,7 +26,7 @@ export const TimeUtils = {
 
   getRelativeTimeFromNow(fromTime) {
     const now = new Date()
-    this.getRelativeTime(fromTime, now)
+    return this.getRelativeTime(fromTime, now)
   },
 
   getRelativeTime(fromTime, toTime) {
