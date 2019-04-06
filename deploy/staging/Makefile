@@ -18,6 +18,7 @@ build-local:
 	cp .env.staging web/.env
 	cd web && yarn install
 	cd web && yarn build
+	cp deploy/staging/docker-compose.build.yml docker-compose.yml
 	docker-compose build
 	docker-compose push
 
