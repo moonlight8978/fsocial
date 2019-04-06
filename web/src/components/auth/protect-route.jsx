@@ -37,7 +37,13 @@ export function protectRoute(
     }
 
     render() {
-      const { isLoading, auth } = this.props
+      const {
+        auth,
+        isLoading,
+        finishLoading,
+        startLoading,
+        ...rest
+      } = this.props
       const isVerified = authSelectors.getIsVerified(auth)
 
       if (isLoading) {
@@ -52,7 +58,7 @@ export function protectRoute(
         return <Redirect to={paths.home.resolve()} />
       }
 
-      return <Component {...this.props} />
+      return <Component {...rest} />
     }
   }
 

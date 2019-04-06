@@ -33,6 +33,8 @@ export const paths = {
     route: '/users/:username([a-zA-Z]{1}[a-zA-Z0-9_]*)',
     resolve: ({ username }) =>
       createUri('/users/{username}').expand({ username }),
+    extend: ({ username }, path) =>
+      `${paths.user.resolve({ username })}${path}`,
   },
   post: {
     route: '/users/:username([a-zA-Z]{1}[a-zA-Z0-9_]*)/posts/:id',
