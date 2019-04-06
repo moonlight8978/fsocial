@@ -21,8 +21,13 @@ build-local:
 	docker-compose build
 	docker-compose push
 
-autodeploy:
+deploy-compose:
 	git pull origin master
 	docker-compose pull
 	docker-compose down
 	docker-compose up -d
+
+deploy-swarm:
+	git pull origin master
+	docker-compose pull
+	docker-compose stack deploy --compose-file=docker-stack.yml fsocial
