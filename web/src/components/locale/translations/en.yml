@@ -26,7 +26,7 @@ signUp:
     second: Hear what people are talking about.
     third: Join the conversation.
 home:
-  windowTitle: Home - fsocial
+  windowTitle: Home
   postEditor:
     submit: Publish
     placeholder: What's happening
@@ -56,6 +56,14 @@ time:
     xMonths: '{value}m'
     year: '{value}y'
     xYear: '{value}y'
+activityList:
+  noMoreActivities: There is no more activities
+user:
+  intro:
+    title: Profile Intro
+  activities:
+    windowTitle: '{fullname} (@{username})'
+    navTitle: Timeline
 schemas:
   session:
     identity:

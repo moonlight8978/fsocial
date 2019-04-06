@@ -19,7 +19,7 @@ class WindowTitle extends React.PureComponent {
   }
 
   setDocumentTitle() {
-    document.title = this.props.title
+    document.title = `${this.props.title} - fsocial`
   }
 
   render() {

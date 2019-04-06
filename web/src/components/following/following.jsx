@@ -21,6 +21,7 @@ class FollowingProvider extends React.Component {
       increase: PropTypes.func.isRequired,
       decrease: PropTypes.func.isRequired,
     }).isRequired,
+    authorized: PropTypes.bool.isRequired,
   }
 
   constructor(props) {
@@ -36,18 +37,24 @@ class FollowingProvider extends React.Component {
   }
 
   async follow(user) {
+    const { authorized, statistics } = this.props
     try {
       await FollowingApi.follow(user)
-      this.props.statistics.increase('followee', 1)
+      if (authorized) {
+        statistics.increase('followee', 1)
+      }
     } catch (error) {
       throw error
     }
   }
 
   async unfollow(user) {
+    const { authorized, statistics } = this.props
     try {
       await FollowingApi.follow(user)
-      this.props.statistics.decrease('followee', 1)
+      if (authorized) {
+        statistics.decrease('followee', 1)
+      }
     } catch (error) {
       throw error
     }

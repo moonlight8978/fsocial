@@ -3,7 +3,7 @@ import { Avatar } from 'antd'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
 
-import { Box } from '../atomics'
+import { Box, Text } from '../atomics'
 import { FollowButton } from '../following'
 import { InlineName } from '../user'
 import { paths } from '../../config'
@@ -62,7 +62,14 @@ class FolloweeSuggestion extends React.Component {
     const { followees, visibleFolloweeIds } = this.state
 
     return (
-      <Box title={<FormattedMessage id="followeeSuggestion.title" />} bordered>
+      <Box
+        title={
+          <Text bold>
+            <FormattedMessage id="followeeSuggestion.title" />
+          </Text>
+        }
+        bordered
+      >
         {visibleFolloweeIds.map(followeeId => {
           const user = followees.find(followee => followee.id === followeeId)
           const { username, fullname, id } = user

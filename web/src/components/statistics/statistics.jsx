@@ -2,8 +2,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { withAuthContext, authSelectors } from '../auth'
-
 import { StatisticsApi } from './statistics-api'
 import { StatisticsResource } from './statistics-resource'
 
@@ -11,6 +9,8 @@ const initialState = {
   followersCount: 0,
   followeesCount: 0,
   postsCount: 0,
+  favoritesCount: 0,
+  sharesCount: 0,
   increase: () => {},
   decrease: () => {},
 }
@@ -21,7 +21,9 @@ export const StatisticsConsumer = StatisticsContext.Consumer
 
 class StatisticsProvider extends React.Component {
   static propTypes = {
-    auth: PropTypes.shape().isRequired,
+    user: PropTypes.shape({
+      username: PropTypes.string.isRequired,
+    }).isRequired,
   }
 
   constructor(props) {
@@ -40,7 +42,7 @@ class StatisticsProvider extends React.Component {
   async componentDidMount() {
     try {
       const { data } = await StatisticsApi.fetchStatistics(
-        authSelectors.getUser(this.props.auth).id
+        this.props.user.username
       )
       this.setState({ ...StatisticsResource.parse(data) })
     } catch (error) {
@@ -65,4 +67,4 @@ class StatisticsProvider extends React.Component {
   }
 }
 
-export default withAuthContext(StatisticsProvider)
+export default StatisticsProvider

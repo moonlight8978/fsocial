@@ -9,27 +9,32 @@ import {
   ActivityList,
   ActivityListProvider,
   ActivityItem,
+  ActivityStream,
 } from '../../components/activity-list'
 import { Box, BoxList } from '../../components/atomics'
 import { StatisticsProvider } from '../../components/statistics'
 import { FollowingProvider } from '../../components/following'
 import { FluidLoading } from '../../components/loading'
+import { withAuthContext } from '../../components/auth'
 
 import Statistics from './statistics'
-import ActivityStream from './activity-stream'
+import ActivityApi from './activity-api'
 import styles from './home.module.scss'
 
 class Home extends React.Component {
   static propTypes = {
     intl: PropTypes.shape().isRequired,
+    auth: PropTypes.shape({
+      user: PropTypes.shape().isRequired,
+    }).isRequired,
   }
 
   render() {
-    const { intl } = this.props
+    const { intl, auth } = this.props
 
     return (
-      <StatisticsProvider>
-        <FollowingProvider>
+      <StatisticsProvider user={auth.user}>
+        <FollowingProvider authorized>
           <Layout
             hasNavbar
             navbar={<Navbar />}
@@ -41,7 +46,7 @@ class Home extends React.Component {
             className={styles.layout}
           >
             <ActivityListProvider>
-              <ActivityStream>
+              <ActivityStream api={ActivityApi}>
                 {({ submitPost, fetchActivities }) => (
                   <BoxList>
                     <Box>
@@ -66,7 +71,7 @@ class Home extends React.Component {
                           <FluidLoading />
                         </Box>
                       }
-                      api={{ fetch: fetchActivities }}
+                      fetchActivities={fetchActivities}
                     />
                   </BoxList>
                 )}
@@ -79,4 +84,4 @@ class Home extends React.Component {
   }
 }
 
-export default injectIntl(Home)
+export default injectIntl(withAuthContext(Home))

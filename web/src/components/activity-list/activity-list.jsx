@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FormattedMessage } from 'react-intl'
 
 import { withLoading, FluidLoading } from '../loading'
 import { Box } from '../atomics'
@@ -12,9 +13,7 @@ import styles from './activity-list.module.scss'
 
 class ActivityList extends React.Component {
   static propTypes = {
-    api: PropTypes.shape({
-      fetch: PropTypes.func.isRequired,
-    }).isRequired,
+    fetchActivities: PropTypes.func.isRequired,
     renderItem: PropTypes.func.isRequired,
     page: PropTypes.number.isRequired,
     data: PropTypes.arrayOf(PropTypes.shape()).isRequired,
@@ -33,33 +32,44 @@ class ActivityList extends React.Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      isLastPage: false,
+    }
+
     this.handleLoadMore = this.handleLoadMore.bind(this)
   }
 
   async componentDidMount() {
+    this.fetchActivities(({ newActivities }) => newActivities)
+  }
+
+  async componentDidUpdate(prevProps) {
+    if (this.state.isLastPage) {
+      return
+    }
+    if (prevProps.page !== this.props.page) {
+      this.props.startLoading()
+      this.fetchActivities(({ newActivities, oldActivities }) =>
+        oldActivities.concat(newActivities)
+      )
+    }
+  }
+
+  async fetchActivities(updater) {
     try {
       this.props.startLoading()
-      const { data } = await this.props.api.fetch(this.props.page)
-      this.props.setActivities(Activities.parse(data))
+      const { data: activities } = await this.props.fetchActivities(
+        this.props.page
+      )
+      const { data: oldActivities } = this.props
+      this.setState({ isLastPage: activities.length < 20 })
+      this.props.setActivities(
+        updater({ newActivities: Activities.parse(activities), oldActivities })
+      )
     } catch (error) {
       console.log(error)
     } finally {
       this.props.finishLoading()
-    }
-  }
-
-  async componentDidUpdate(prevProps) {
-    if (prevProps.page !== this.props.page) {
-      try {
-        this.props.startLoading()
-        const { data } = await this.props.api.fetch(this.props.page)
-        const { data: activities } = this.props
-        this.props.setActivities([...activities, ...Activities.parse(data)])
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.props.finishLoading()
-      }
     }
   }
 
@@ -70,6 +80,7 @@ class ActivityList extends React.Component {
 
   render() {
     const { data, renderItem, isLoading, loadingIndicator } = this.props
+    const { isLastPage } = this.state
 
     return (
       <>
@@ -85,8 +96,19 @@ class ActivityList extends React.Component {
               type="primary"
               className={styles.buttonLoadMore}
               block
+              disabled={isLastPage}
             >
-              <FontAwesomeIcon icon="ellipsis-h" />
+              {isLastPage ? (
+                <>
+                  <FontAwesomeIcon icon="angle-up" />
+                  <span>&nbsp;</span>
+                  <FormattedMessage id="activityList.noMoreActivities" />
+                  <span>&nbsp;</span>
+                  <FontAwesomeIcon icon="angle-up" />
+                </>
+              ) : (
+                <FontAwesomeIcon icon="ellipsis-h" />
+              )}
             </Button>
           </Box>
         )}

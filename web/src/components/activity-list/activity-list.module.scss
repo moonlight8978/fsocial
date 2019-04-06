@@ -17,4 +17,9 @@
     background-color: #e8f4fb;
     color: $text-primary-color;
   }
+
+  &:disabled,
+  &:disabled:hover {
+    color: $text-primary-color;
+  }
 }
