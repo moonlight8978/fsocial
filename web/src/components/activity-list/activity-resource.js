@@ -32,6 +32,9 @@ const Post = {
     canDestroy: post.can_destroy,
     creator: User.parse(post.creator),
     medias: post.medias.map(media => Media.parse(media)),
+    repliesCount: 20,
+    favoritesCount: 9671,
+    sharesCount: 4231,
   }),
 }
 

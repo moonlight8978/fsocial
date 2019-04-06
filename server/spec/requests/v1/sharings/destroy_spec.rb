@@ -40,7 +40,7 @@ RSpec.describe 'V1::Sharings', type: :request do
           include_examples 'change db', Sharing, -1
           include_examples 'change db', Activity, -1
 
-          include_examples 'no content'
+          include_examples 'success'
         end
       end
     end

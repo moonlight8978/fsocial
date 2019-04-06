@@ -23,6 +23,6 @@ class V1::FavoritesController < ApplicationController
     authorize favorite
     favorite.activities.where(key: 'favorite.create').destroy_all
     favorite.destroy
-    head :no_content
+    head :ok
   end
 end

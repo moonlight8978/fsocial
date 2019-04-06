@@ -5,22 +5,102 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 import classnames from 'classnames'
 
+import { paths } from '../../../config'
+import { AsyncUtils } from '../../../utils'
 import { InlineName } from '../../user'
 import { Text, Ellipsis } from '../../atomics'
 import { RelativeTime } from '../../relative-time'
-import { paths } from '../../../config'
+import { ActivityListConsumer } from '../activity-list-context'
 
 import Medias from './medias'
+import PostApi from './post-api'
 import styles from './post.module.scss'
 
 class Post extends React.PureComponent {
   static propTypes = {
     post: PropTypes.shape().isRequired,
+    onChange: PropTypes.func.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isSharing: false,
+      isFavoriting: false,
+    }
+
+    this.handleFavorite = this.handleFavorite.bind(this)
+    this.handleShare = this.handleShare.bind(this)
+  }
+
+  async handleFavorite(post) {
+    try {
+      this.setState({ isFavoriting: true })
+      const response = await (post.favorited
+        ? PostApi.unfavorite(post.id)
+        : PostApi.favorite(post.id))
+      await AsyncUtils.delay(1000)
+      const { onChange } = this.props
+      onChange(post.id, {
+        ...post,
+        favorited:
+          response.status === 201 || response.status === 200
+            ? !post.favorited
+            : true,
+        favoritesCount:
+          response.status === 201 || response.status === 200
+            ? post.favoritesCount + (post.favorited ? -1 : 1)
+            : post.favoritesCount,
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      this.setState({ isFavoriting: false })
+    }
+  }
+
+  async handleShare(post) {
+    try {
+      this.setState({ isSharing: true })
+      const response = await (post.shared
+        ? PostApi.unshare(post.id)
+        : PostApi.share(post.id))
+      await AsyncUtils.delay(1000)
+      const { onChange } = this.props
+      onChange(post.id, {
+        ...post,
+        shared:
+          response.status === 201 || response.status === 200
+            ? !post.shared
+            : true,
+        sharesCount:
+          response.status === 201 || response.status === 200
+            ? post.sharesCount + (post.shared ? -1 : 1)
+            : post.sharesCount,
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      this.setState({ isSharing: false })
+    }
   }
 
   render() {
+    const { isSharing, isFavoriting } = this.state
     const { post } = this.props
-    const { id, medias, creator, content, createdAt } = post
+    const {
+      id,
+      medias,
+      creator,
+      content,
+      createdAt,
+      favorited,
+      shared,
+      repliesCount,
+      sharesCount,
+      favoritesCount,
+    } = post
 
     return (
       <>
@@ -60,11 +140,15 @@ class Post extends React.PureComponent {
             >
               <Text color="secondary">
                 <FontAwesomeIcon size="lg" icon={['far', 'comment']} />
-                <span className={styles.actionCount}>25</span>
+                <span className={styles.actionCount}>{repliesCount}</span>
               </Text>
             </Button>
             <Button
-              className={classnames(styles.actionButton, styles.retweetButton)}
+              className={classnames(styles.actionButton, styles.shareButton, {
+                [styles.shared]: shared,
+              })}
+              onClick={() => this.handleShare(post)}
+              disabled={isSharing}
             >
               <Text color="secondary">
                 <FontAwesomeIcon
@@ -72,15 +156,21 @@ class Post extends React.PureComponent {
                   icon="retweet"
                   className={styles.retweetIcon}
                 />
-                <span className={styles.actionCount}>25</span>
+                <span className={styles.actionCount}>{sharesCount}</span>
               </Text>
             </Button>
             <Button
-              className={classnames(styles.actionButton, styles.favoriteButton)}
+              className={classnames(
+                styles.actionButton,
+                styles.favoriteButton,
+                { [styles.favorited]: favorited }
+              )}
+              onClick={() => this.handleFavorite(post)}
+              disabled={isFavoriting}
             >
               <Text color="secondary">
                 <FontAwesomeIcon size="lg" icon={['far', 'heart']} />
-                <span className={styles.actionCount}>25</span>
+                <span className={styles.actionCount}>{favoritesCount}</span>
               </Text>
             </Button>
           </div>
@@ -90,4 +180,8 @@ class Post extends React.PureComponent {
   }
 }
 
-export default Post
+export default props => (
+  <ActivityListConsumer>
+    {({ changePost }) => <Post {...props} onChange={changePost} />}
+  </ActivityListConsumer>
+)
