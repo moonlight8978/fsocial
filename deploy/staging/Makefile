@@ -7,7 +7,7 @@ prepare:
 	cp deploy/staging/fsocial.conf proxy/fsocial.conf
 	cp deploy/staging/Dockerfile.server server/Dockerfile
 	cp deploy/staging/Dockerfile.web web/Dockerfile
-	cp deploy/staging/docker-compose.yml docker-compose.yml
+	cp deploy/staging/docker-* ./
 	cp deploy/staging/puma.rb server/config/puma.rb
 	cp deploy/staging/web.conf web/web.conf
 
@@ -18,7 +18,6 @@ build-local:
 	cp .env.staging web/.env
 	cd web && yarn install
 	cd web && yarn build
-	cp deploy/staging/docker-compose.build.yml docker-compose.yml
 	docker-compose build
 	docker-compose push
 
