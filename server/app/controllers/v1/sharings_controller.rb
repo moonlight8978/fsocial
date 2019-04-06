@@ -23,6 +23,6 @@ class V1::SharingsController < ApplicationController
     authorize sharing
     sharing.activities.where(key: 'sharing.create').destroy_all
     sharing.destroy
-    head :no_content
+    head :ok
   end
 end

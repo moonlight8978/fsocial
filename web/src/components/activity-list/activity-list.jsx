@@ -97,15 +97,7 @@ class ActivityList extends React.Component {
 
 const ActivityListWithContext = props => (
   <ActivityListConsumer>
-    {({ setActivities, setPage, page, data }) => (
-      <ActivityList
-        setActivities={setActivities}
-        setPage={setPage}
-        page={page}
-        data={data}
-        {...props}
-      />
-    )}
+    {context => <ActivityList {...context} {...props} />}
   </ActivityListConsumer>
 )
 

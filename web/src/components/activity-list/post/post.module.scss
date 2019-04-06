@@ -49,16 +49,29 @@
       transition: color 0.15s ease;
     }
 
-    &:hover {
-      &.replyButton * {
+    &:disabled {
+      background-color: transparent;
+      opacity: 0.5;
+    }
+
+    &.replyButton {
+      &:hover * {
         color: #1da1f2 !important;
       }
+    }
 
-      &.retweetButton * {
+    &.shareButton {
+      &:hover *,
+      &.shared *,
+      &:disabled * {
         color: #17bf63 !important;
       }
+    }
 
-      &.favoriteButton * {
+    &.favoriteButton {
+      &:hover *,
+      &.favorited *,
+      &:disabled * {
         color: #e0245e !important;
       }
     }

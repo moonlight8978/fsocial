@@ -34,13 +34,9 @@ class App extends React.Component {
   render() {
     const { isLoading } = this.props
 
-    if (isLoading) {
-      return <FullscreenLoading />
-    }
-
     return (
       <div className="fsocial-app">
-        <Routes />
+        {isLoading ? <FullscreenLoading /> : <Routes />}
       </div>
     )
   }

@@ -20,7 +20,7 @@ module Activities
           Activity.where(
             key: 'favorite.create',
             owner: tracked_user_ids,
-            trackable: Sharing.joins(:post).where(posts: { root_id: nil, parent_id: nil }).where(creator: tracked_user_ids)
+            trackable: Favorite.joins(:post).where(posts: { root_id: nil, parent_id: nil }).where(creator: tracked_user_ids)
           )
         )
         .includes(

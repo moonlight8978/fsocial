@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { Text } from '../atomics'
 
-import { Post } from './post'
+import { Post, PostApi } from './post'
+import { ActivityListConsumer } from './activity-list-context'
 import styles from './activity-item.module.scss'
 
 class ActivityItem extends React.Component {
@@ -49,6 +50,23 @@ class ActivityItem extends React.Component {
   render() {
     const { activity } = this.props
     const { trackable, trackableType } = activity
+    let post
+
+    switch (trackableType) {
+      case 'Post': {
+        post = trackable
+        break
+      }
+      case 'Sharing':
+      case 'Favorite': {
+        // eslint-disable-next-line prefer-destructuring
+        post = trackable.post
+        break
+      }
+      default: {
+        break
+      }
+    }
 
     return (
       <article className={styles.container}>
@@ -56,15 +74,9 @@ class ActivityItem extends React.Component {
           trackableType={trackableType}
           creator={trackable.creator}
         />
-
-        {trackableType === 'Post' ? <Post post={trackable} /> : null}
-
-        {trackableType === 'Sharing' ? <Post post={trackable.post} /> : null}
-
-        {trackableType === 'Favorite' ? <Post post={trackable.post} /> : null}
+        <Post post={post} />
       </article>
     )
   }
 }
-
 export default ActivityItem
