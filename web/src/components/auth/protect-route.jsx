@@ -2,8 +2,8 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { withLoading, EdgeLoading } from '../loading'
 import { paths } from '../../config'
+import { withLoading, EdgeLoading } from '../loading'
 
 import { authSelectors } from './auth-selectors'
 import { withAuthContext } from './with-auth-context'
@@ -25,22 +25,30 @@ export function protectRoute(
     }
 
     async precheck() {
-      this.props.finishLoading()
+      const { auth } = this.props
+      const isVerified = authSelectors.getIsVerified(auth)
+      try {
+        if (!allowGuest && !isVerified) {
+          await auth.signOut()
+        }
+      } finally {
+        this.props.finishLoading()
+      }
     }
 
     render() {
       const { isLoading, auth } = this.props
-      const isUnauthorized = authSelectors.getIsUnauthorized(auth)
+      const isVerified = authSelectors.getIsVerified(auth)
 
       if (isLoading) {
         return <Loading />
       }
 
-      if (!allowGuest && isUnauthorized) {
+      if (!allowGuest && !isVerified) {
         return <Redirect to={paths.signUp.resolve()} />
       }
 
-      if (allowGuest && !isUnauthorized) {
+      if (allowGuest && isVerified) {
         return <Redirect to={paths.home.resolve()} />
       }
 

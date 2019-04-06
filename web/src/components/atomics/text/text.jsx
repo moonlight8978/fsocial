@@ -4,15 +4,26 @@ import classnames from 'classnames'
 
 import styles from './text.module.scss'
 
-export function Text({ content, children, size, color, bold, className }) {
+export function Text({
+  content,
+  children,
+  size,
+  color,
+  bold,
+  className,
+  hoverColor,
+  hover,
+}) {
   const sizeClassName = `size-${size}`
   const colorClassName = `color-${color}`
+  const hoverColorClassName = `hover-color-${hoverColor}`
 
   return (
     <span
       className={classnames(styles[sizeClassName], styles[colorClassName], {
         [styles.bold]: bold,
         [className]: className,
+        [styles[hoverColorClassName]]: hover,
       })}
     >
       {children !== null ? children : content}
@@ -27,6 +38,8 @@ Text.defaultProps = {
   color: 'primary',
   bold: false,
   className: '',
+  hover: false,
+  hoverColor: 'primary',
 }
 
 Text.propTypes = {
@@ -36,4 +49,6 @@ Text.propTypes = {
   color: PropTypes.oneOf(['primary', 'link', 'secondary', 'contrast']),
   bold: PropTypes.bool,
   className: PropTypes.string,
+  hover: PropTypes.bool,
+  hoverColor: PropTypes.oneOf(['primary', 'link', 'secondary', 'contrast']),
 }

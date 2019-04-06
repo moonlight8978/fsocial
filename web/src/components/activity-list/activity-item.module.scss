@@ -10,22 +10,13 @@
   text-align: right;
 }
 
+.retweetIcon {
+  transform: scale(0.75, 1);
+}
+
 .context {
   flex: calc(100% - 40px) 0 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   padding-left: 1rem;
 }
 
-.avatar {
-  flex: 40px 0 0;
-}
-
-.post {
-  flex: calc(100% - 40px) 0 0;
-  padding-left: 1rem;
-}
-
-.media {
-  display: block;
-  width: 100%;
-}

@@ -1,0 +1,70 @@
+.post {
+  flex: calc(100% - 40px) 0 0;
+  padding-left: 1rem;
+  min-width: 0;
+
+  p {
+    margin: 0;
+  }
+
+  .nameSplitter {
+    padding: 0 0.25rem;
+  }
+
+  .username {
+    display: inline-block;
+    vertical-align: bottom;
+    max-width: 70%;
+  }
+}
+
+.retweetIcon {
+  transform: scale(0.75, 1);
+}
+
+.avatar {
+  flex: 40px 0 0;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  width: 240px;
+
+  .actionButton {
+    line-height: 1;
+    height: auto;
+    border: 0;
+    flex: 80px 0 0;
+    text-align: left;
+    padding: 0;
+    box-shadow: none;
+
+    &::after {
+      display: none !important;
+    }
+
+    svg,
+    span {
+      transition: color 0.15s ease;
+    }
+
+    &:hover {
+      &.replyButton * {
+        color: #1da1f2 !important;
+      }
+
+      &.retweetButton * {
+        color: #17bf63 !important;
+      }
+
+      &.favoriteButton * {
+        color: #e0245e !important;
+      }
+    }
+
+    .actionCount {
+      margin-left: 0.5rem;
+    }
+  }
+}

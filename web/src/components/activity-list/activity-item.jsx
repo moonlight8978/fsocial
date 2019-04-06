@@ -1,11 +1,10 @@
 import React from 'react'
-import { Avatar, Button } from 'antd'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { InlineName } from '../user'
 import { Text } from '../atomics'
 
+import { Post } from './post'
 import styles from './activity-item.module.scss'
 
 class ActivityItem extends React.Component {
@@ -15,77 +14,55 @@ class ActivityItem extends React.Component {
     }).isRequired,
   }
 
-  static Post = ({ post: { medias, creator, content, createdAt } }) => (
-    <>
-      <div className={styles.avatar}>
-        <Avatar size="large" src="/avatar-placeholder.png" />
-      </div>
+  static PostContext = ({ trackableType, creator }) => {
+    if (trackableType === 'Post') {
+      return null
+    }
 
-      <div className={styles.post}>
-        <div>
-          <InlineName username={creator.username} fullname={creator.fullname} />
-          <Text color="secondary">&middot;</Text>
-          <Text color="secondary">{createdAt}</Text>
-        </div>
+    if (trackableType === 'Sharing') {
+      return (
+        <>
+          <div className={styles.contextIcon}>
+            <FontAwesomeIcon icon="retweet" className={styles.retweetIcon} />
+          </div>
+          <div className={styles.context}>
+            <Text color="secondary">{creator.fullname} shared a post.</Text>
+          </div>
+        </>
+      )
+    }
 
-        <p>
-          <Text>{content}</Text>
-        </p>
-
-        <div>
-          {medias.map(media => (
-            <img
-              key={media.path}
-              className={styles.media}
-              alt={media.filename}
-              src={media.url}
-            />
-          ))}
-        </div>
-
-        <div>
-          <Button>
-            <FontAwesomeIcon icon={['far', 'comment']} />
-            25
-          </Button>
-          <Button>
-            <FontAwesomeIcon icon="retweet" />
-            25
-          </Button>
-          <Button>
-            <FontAwesomeIcon icon={['far', 'heart']} />
-            25
-          </Button>
-        </div>
-      </div>
-    </>
-  )
+    if (trackableType === 'Favorite') {
+      return (
+        <>
+          <div className={styles.contextIcon}>
+            <FontAwesomeIcon icon="heart" />
+          </div>
+          <div className={styles.context}>
+            <Text>{creator.fullname} favorited a post.</Text>
+          </div>
+        </>
+      )
+    }
+  }
 
   render() {
     const { activity } = this.props
     const { trackable, trackableType } = activity
 
     return (
-      <div className={styles.container}>
-        <div className={styles.contextIcon}>
-          <FontAwesomeIcon icon="heart" />
-        </div>
-        <div className={styles.context}>
-          <Text>context</Text>
-        </div>
+      <article className={styles.container}>
+        <ActivityItem.PostContext
+          trackableType={trackableType}
+          creator={trackable.creator}
+        />
 
-        {trackableType === 'Post' ? (
-          <ActivityItem.Post post={trackable} />
-        ) : null}
+        {trackableType === 'Post' ? <Post post={trackable} /> : null}
 
-        {trackableType === 'Sharing' ? (
-          <ActivityItem.Post post={trackable.post} />
-        ) : null}
+        {trackableType === 'Sharing' ? <Post post={trackable.post} /> : null}
 
-        {trackableType === 'Favorite' ? (
-          <ActivityItem.Post post={trackable.post} />
-        ) : null}
-      </div>
+        {trackableType === 'Favorite' ? <Post post={trackable.post} /> : null}
+      </article>
     )
   }
 }
