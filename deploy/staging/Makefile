@@ -7,7 +7,7 @@ prepare:
 	cp deploy/staging/fsocial.conf proxy/fsocial.conf
 	cp deploy/staging/Dockerfile.server server/Dockerfile
 	cp deploy/staging/Dockerfile.web web/Dockerfile
-	cp deploy/staging/docker-compose.yml docker-compose.yml
+	cp deploy/staging/docker-* ./
 	cp deploy/staging/puma.rb server/config/puma.rb
 	cp deploy/staging/web.conf web/web.conf
 
@@ -21,8 +21,13 @@ build-local:
 	docker-compose build
 	docker-compose push
 
-autodeploy:
+deploy-compose:
 	git pull origin master
 	docker-compose pull
 	docker-compose down
 	docker-compose up -d
+
+deploy-swarm:
+	git pull origin master
+	docker-compose pull
+	docker-compose stack deploy --compose-file=docker-stack.yml fsocial
