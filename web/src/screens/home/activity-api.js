@@ -17,7 +17,7 @@ const PostSchema = {
 }
 
 const ActivityApi = {
-  create: async post => {
+  createPost: async post => {
     try {
       return localHttp.request({
         method: 'post',
@@ -28,7 +28,7 @@ const ActivityApi = {
       console.log(error)
     }
   },
-  all: page => {
+  fetch: page => {
     return localHttp.request({
       method: 'get',
       url: `/profile/activities?page=${page}`,

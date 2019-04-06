@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { paths } from '../../config'
-import { withLoading, EdgeLoading } from '../loading'
+import { withLoading, EdgeLoading, LoadingPropTypes } from '../loading'
 
 import { authSelectors } from './auth-selectors'
 import { withAuthContext } from './with-auth-context'
@@ -15,9 +15,8 @@ export function protectRoute(
 ) {
   class ProtectedRoute extends React.Component {
     static propTypes = {
-      isLoading: PropTypes.bool.isRequired,
-      finishLoading: PropTypes.func.isRequired,
       auth: PropTypes.shape().isRequired,
+      ...LoadingPropTypes,
     }
 
     componentDidMount() {
@@ -40,8 +39,8 @@ export function protectRoute(
       const {
         auth,
         isLoading,
-        finishLoading,
-        startLoading,
+        finishLoading, // eslint-disable-line no-unused-vars
+        startLoading, // eslint-disable-line no-unused-vars
         ...rest
       } = this.props
       const isVerified = authSelectors.getIsVerified(auth)

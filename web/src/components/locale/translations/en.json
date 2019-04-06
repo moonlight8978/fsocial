@@ -1,11 +1,12 @@
 {
+  "activityList.noMoreActivities": "There is no more activities",
   "followeeSuggestion.title": "Who to follow",
   "following.follow": "Follow",
   "following.following": "Following",
   "following.unfollow": "Unfollow",
   "home.postEditor.placeholder": "What's happening",
   "home.postEditor.submit": "Publish",
-  "home.windowTitle": "Home - fsocial",
+  "home.windowTitle": "Home",
   "locales.english": "English",
   "locales.vietnamese": "Tiếng Việt",
   "navbar.menu.about": "About",
@@ -61,5 +62,8 @@
   "time.relative.xMinutes": "{value}m",
   "time.relative.xMonths": "{value}m",
   "time.relative.xYear": "{value}y",
-  "time.relative.year": "{value}y"
+  "time.relative.year": "{value}y",
+  "user.activities.navTitle": "Timeline",
+  "user.activities.windowTitle": "{fullname} (@{username})",
+  "user.intro.title": "Profile Intro"
 }
