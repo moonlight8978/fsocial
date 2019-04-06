@@ -4,6 +4,7 @@
 /Makefile
 /proxy/*
 /docker-compose.yml
+/docker-stack.yml
 /server/config/puma.rb
 /web/web.conf
 
