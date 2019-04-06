@@ -39,7 +39,7 @@ class App extends React.Component {
     }
 
     return (
-      <div className="App">
+      <div className="fsocial-app">
         <Routes />
       </div>
     )

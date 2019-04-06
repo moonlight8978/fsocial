@@ -1,0 +1,20 @@
+@import 'config/colors';
+
+.footerLoadMore {
+  background-color: $text-primary-bg;
+  padding: 0;
+  overflow: hidden;
+}
+
+.buttonLoadMore {
+  background-color: transparent;
+  // color: #ccd6dd;
+  color: $text-primary-color;
+  border: 0;
+  border-radius: 0;
+
+  &:hover {
+    background-color: #e8f4fb;
+    color: $text-primary-color;
+  }
+}

@@ -13,9 +13,11 @@ import {
 import { Box, BoxList } from '../../components/atomics'
 import { StatisticsProvider } from '../../components/statistics'
 import { FollowingProvider } from '../../components/following'
+import { FluidLoading } from '../../components/loading'
 
 import Statistics from './statistics'
 import ActivityStream from './activity-stream'
+import styles from './home.module.scss'
 
 class Home extends React.Component {
   static propTypes = {
@@ -36,6 +38,7 @@ class Home extends React.Component {
             sideRight={<FolloweeSuggestion />}
             hasSideLeft
             sideLeft={<Statistics />}
+            className={styles.layout}
           >
             <ActivityListProvider>
               <ActivityStream>
@@ -58,6 +61,11 @@ class Home extends React.Component {
                           <ActivityItem activity={activity} />
                         </Box>
                       )}
+                      loadingIndicator={
+                        <Box>
+                          <FluidLoading />
+                        </Box>
+                      }
                       api={{ fetch: fetchActivities }}
                     />
                   </BoxList>

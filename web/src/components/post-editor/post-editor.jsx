@@ -117,6 +117,7 @@ class PostEditor extends React.Component {
                       onRemove={handleRemove('medias')}
                       accept={allowedMimeTypes.join(',')}
                       onBlur={handleBlur}
+                      disabled={values.medias.length >= 3}
                     >
                       <Button
                         ghost

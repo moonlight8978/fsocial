@@ -19,10 +19,11 @@ function Layout({
   children,
   fluid,
   windowTitle,
+  className,
 }) {
   if (fluid) {
     return (
-      <AntdLayout className="layout">
+      <AntdLayout className={classnames(className, styles.layout)}>
         <WindowTitle title={windowTitle} />
         {hasNavbar && navbar}
         <Content
@@ -39,7 +40,7 @@ function Layout({
   const contentSpan = 12 + (hasSideLeft ? 0 : 6) + (hasSideRight ? 0 : 6)
 
   return (
-    <AntdLayout className="layout">
+    <AntdLayout className={classnames(className, styles.layout)}>
       <WindowTitle title={windowTitle} />
       {hasNavbar && navbar}
       <Container>
@@ -69,6 +70,7 @@ Layout.propTypes = {
   children: PropTypes.node.isRequired,
   fluid: PropTypes.bool,
   windowTitle: PropTypes.string.isRequired,
+  className: PropTypes.string,
 }
 
 Layout.defaultProps = {
@@ -79,6 +81,7 @@ Layout.defaultProps = {
   hasSideLeft: false,
   sideLeft: null,
   fluid: false,
+  className: '',
 }
 
 export { Layout }
