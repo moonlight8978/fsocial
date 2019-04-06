@@ -4,8 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { Text } from '../atomics'
 
-import { Post, PostApi } from './post'
-import { ActivityListConsumer } from './activity-list-context'
+import { Post } from './post'
 import styles from './activity-item.module.scss'
 
 class ActivityItem extends React.Component {
