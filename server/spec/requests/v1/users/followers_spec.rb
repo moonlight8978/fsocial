@@ -8,7 +8,7 @@ RSpec.describe 'V1::Users', type: :request do
 
     describe 'authorization' do
       let(:another_user) { create(:user) }
-      
+
       include_examples 'accept all requests'
     end
 

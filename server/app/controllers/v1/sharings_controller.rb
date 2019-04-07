@@ -8,7 +8,7 @@ class V1::SharingsController < ApplicationController
     # TODO: raise error with :bad_request status
     head :no_content && return if sharing.present?
 
-    sharing = Sharing.create!(post: post, creator: current_user)
+    sharing = post.shares.create!(creator: current_user)
     activity = Activities::Creator.new(sharing)
       .perform(action: :create, owner: current_user, recipient: post.creator)
     render(
@@ -23,7 +23,7 @@ class V1::SharingsController < ApplicationController
 
   def destroy
     post = Post.find(params[:post_id])
-    sharing = Sharing.find_by(post: post, creator: current_user)
+    sharing = post.shares.find_by(creator: current_user)
     # TODO: raise error with :bad_request status
     head :no_content && return if sharing.blank?
 

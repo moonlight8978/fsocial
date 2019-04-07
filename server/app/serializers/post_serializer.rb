@@ -12,7 +12,7 @@ class PostOverallSerializer < ActiveModel::Serializer
     :can_destroy,
     :favorites_count,
     :shares_count,
-    :replies_count,
+    :replies_count
   )
 
   attribute :favorited?, key: :is_favorited

@@ -18,7 +18,8 @@ class Post < ApplicationRecord
   has_many :favorites
 
   has_many :sharings
-  alias :shares :sharings
+
+  alias shares sharings
 
   has_many_attached :medias
 
@@ -63,7 +64,7 @@ class Post < ApplicationRecord
     sharings.size
   end
 
-  alias :shares_count :sharings_count
+  alias shares_count sharings_count
 
   def replies_count
     replies.size
