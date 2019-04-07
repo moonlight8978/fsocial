@@ -1,3 +1,1 @@
-class FollowingUserSerializer < ActiveModel::Serializer
-  attributes :id, :fullname, :username
-end
+class FollowingUserSerializer < ProfileOverallSerializer; end

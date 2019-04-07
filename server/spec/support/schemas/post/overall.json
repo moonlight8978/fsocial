@@ -27,6 +27,21 @@
     },
     "creator": {
       "$ref": "../profile_overall.json"
+    },
+    "is_shared": {
+      "type": "boolean"
+    },
+    "is_favorited": {
+      "type": "boolean"
+    },
+    "shares_count": {
+      "type": "integer"
+    },
+    "favorites_count": {
+      "type": "integer"
+    },
+    "replies_count": {
+      "type": "integer"
     }
   },
   "required": [
@@ -38,6 +53,11 @@
     "updated_at",
     "can_update",
     "can_destroy",
-    "creator"
+    "creator",
+    "is_shared",
+    "is_favorited",
+    "shares_count",
+    "favorites_count",
+    "replies_count"
   ]
 }

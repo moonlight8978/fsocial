@@ -4,16 +4,7 @@ class ActivitySerializer < ActiveModel::Serializer
   attribute :updated_at, key: :created_at
 
   belongs_to :trackable do |serializer|
-    case serializer.object.trackable_type
-    when 'Post'
-      serializer.object.post
-    when 'Sharing'
-      serializer.object.sharing
-    when 'Favorite'
-      serializer.object.favorite
-    else
-      serializer.object.trackable
-    end
+    serializer.object.tracked_object
   end
 
   def self.serializer_for(model, options)

@@ -26,13 +26,13 @@ RSpec.describe UserPolicy, type: :policy do
   end
 
   permissions :followers? do
-    include_examples 'allow signed in users' do
+    include_examples 'allow all users' do
       let(:record) { create(:user) }
     end
   end
 
   permissions :followees? do
-    include_examples 'allow signed in users' do
+    include_examples 'allow all users' do
       let(:record) { create(:user) }
     end
   end

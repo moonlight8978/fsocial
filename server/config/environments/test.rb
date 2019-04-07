@@ -3,7 +3,7 @@ Rails.application.configure do
   config.after_initialize do
     Bullet.enable        = true
     Bullet.bullet_logger = true
-    Bullet.raise         = true # raise an error if n+1 query occurs
+    Bullet.raise         = false # raise an error if n+1 query occurs
   end
 
   # The test environment is used exclusively to run your application's

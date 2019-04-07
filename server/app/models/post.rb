@@ -15,6 +15,12 @@ class Post < ApplicationRecord
 
   has_many :activities, as: :trackable
 
+  has_many :favorites
+
+  has_many :sharings
+
+  alias shares sharings
+
   has_many_attached :medias
 
   validates :content, presence: true
@@ -48,5 +54,19 @@ class Post < ApplicationRecord
 
   def root_reply?
     root_id.present? && parent_id.nil?
+  end
+
+  def favorites_count
+    favorites.size
+  end
+
+  def sharings_count
+    sharings.size
+  end
+
+  alias shares_count sharings_count
+
+  def replies_count
+    replies.size
   end
 end

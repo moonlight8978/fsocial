@@ -8,15 +8,22 @@ class V1::FavoritesController < ApplicationController
     # TODO: raise error with :bad_request status
     head :no_content && return if favorite.present?
 
-    favorite = Favorite.create!(post: post, creator: current_user)
+    favorite = post.favorites.create!(creator: current_user)
     activity = Activities::Creator.new(favorite)
       .perform(action: :create, owner: current_user, recipient: post.creator)
-    render json: activity, serializer: ::ActivitySerializer, status: Settings.http.statuses.created
+    render(
+      json: Activities::Serializer.new(
+        activities: activity,
+        current_user: current_user,
+        serializer: ::ActivitySerializer
+      ).perform,
+      status: Settings.http.statuses.created
+    )
   end
 
   def destroy
     post = Post.find(params[:post_id])
-    favorite = Favorite.find_by(post: post, creator: current_user)
+    favorite = post.favorites.find_by(creator: current_user)
     # TODO: raise error with :bad_request status
     head :no_content && return if favorite.blank?
 

@@ -33,6 +33,21 @@
       "items": {
         "$ref": "attachment.json"
       }
+    },
+    "is_shared": {
+      "type": "boolean"
+    },
+    "is_favorited": {
+      "type": "boolean"
+    },
+    "shares_count": {
+      "type": "integer"
+    },
+    "favorites_count": {
+      "type": "integer"
+    },
+    "replies_count": {
+      "type": "integer"
     }
   },
   "required": [
@@ -45,6 +60,11 @@
     "can_update",
     "can_destroy",
     "creator",
-    "medias"
+    "medias",
+    "is_shared",
+    "is_favorited",
+    "shares_count",
+    "favorites_count",
+    "replies_count"
   ]
 }

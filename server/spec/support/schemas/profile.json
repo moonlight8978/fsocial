@@ -27,6 +27,12 @@
     },
     "description": {
       "type": ["string", "null"]
+    },
+    "is_current_user": {
+      "type": "boolean"
+    },
+    "is_followed": {
+      "type": "boolean"
     }
   },
   "required": [
@@ -38,6 +44,8 @@
     "email",
     "gender",
     "birthday",
-    "description"
+    "description",
+    "is_current_user",
+    "is_followed"
   ]
 }

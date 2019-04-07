@@ -1,5 +1,5 @@
 class V1::UsersController < ApplicationController
-  before_action :authenticate!, except: %i[create show activities statistics]
+  before_action :authenticate!, only: %i[follow unfollow]
   before_action :guest_only!, only: :create
   before_action :not_implemented_yet!, only: %i[update destroy]
 
@@ -22,7 +22,7 @@ class V1::UsersController < ApplicationController
     raise ActiveRecord::RecordNotFound, params[:id] if user.username != params[:id]
 
     authorize user
-    render json: user, serializer: ::ProfileSerializer, status: Settings.http.statuses.success
+    render json: Users::Serializer.new(users: user, current_user: current_user, serializer: ::ProfileSerializer).perform, status: Settings.http.statuses.success
   end
 
   def follow
@@ -50,7 +50,14 @@ class V1::UsersController < ApplicationController
       .perform
       .order(updated_at: :desc)
       .page(params[:page] || 1)
-    render json: activities, each_serializer: ::ActivitySerializer, status: Settings.http.statuses.success
+    render(
+      json: Activities::Serializer.new(
+        activities: activities,
+        current_user: current_user,
+        each_serializer: ::ActivitySerializer
+      ).perform,
+      status: Settings.http.statuses.success
+    )
   end
 
   def statistics

@@ -87,11 +87,38 @@ shared_examples 'accept request' do
   end
 end
 
+shared_examples 'reject request' do
+  it 'accept request' do
+    subject
+    expect(response.status).to be_between(400, 499)
+  end
+end
+
 shared_examples 'accept all requests' do
   context 'when guest' do
     let(:token) { '' }
 
     include_examples 'accept request'
+  end
+
+  context 'when user' do
+    let(:token) { Users::TokenGenerator.new(create(:user)).perform }
+
+    include_examples 'accept request'
+  end
+
+  context 'when admin' do
+    let(:token) { Users::TokenGenerator.new(create(:user, :admin)).perform }
+
+    include_examples 'accept request'
+  end
+end
+
+shared_examples 'reject guest requests' do
+  context 'when guest' do
+    let(:token) { '' }
+
+    include_examples 'reject request'
   end
 
   context 'when user' do

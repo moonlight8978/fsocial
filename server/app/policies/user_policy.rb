@@ -16,10 +16,10 @@ class UserPolicy < ApplicationPolicy
   end
 
   def followers?
-    signed_in? && record.id != user.id
+    true
   end
 
   def followees?
-    signed_in? && record.id != user.id
+    true
   end
 end
