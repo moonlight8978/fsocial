@@ -11,10 +11,10 @@ class PostOverallSerializer < ActiveModel::Serializer
     :can_update,
     :can_destroy,
     :favorites_count,
-    :shares_count,
     :replies_count
   )
 
+  attribute :sharings_count, key: :shares_count
   attribute :favorited?, key: :is_favorited
   attribute :shared?, key: :is_shared
 

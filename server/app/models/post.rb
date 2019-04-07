@@ -19,8 +19,6 @@ class Post < ApplicationRecord
 
   has_many :sharings
 
-  alias shares_count sharings_count
-
   alias shares sharings
 
   has_many_attached :medias
