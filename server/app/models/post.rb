@@ -7,8 +7,8 @@ class Post < ApplicationRecord
 
   belongs_to :creator, class_name: User.name
 
-  belongs_to :root, class_name: Post.name, optional: true
-  belongs_to :parent, class_name: Post.name, optional: true
+  belongs_to :root, class_name: Post.name, optional: true, counter_cache: :replies_count
+  belongs_to :parent, class_name: Post.name, optional: true, counter_cache: :sub_replies_count
 
   has_many :replies, class_name: Post.name, foreign_key: 'root_id'
   has_many :sub_replies, class_name: Post.name, foreign_key: 'parent_id'
@@ -18,6 +18,8 @@ class Post < ApplicationRecord
   has_many :favorites
 
   has_many :sharings
+
+  alias shares_count sharings_count
 
   alias shares sharings
 
@@ -54,19 +56,5 @@ class Post < ApplicationRecord
 
   def root_reply?
     root_id.present? && parent_id.nil?
-  end
-
-  def favorites_count
-    favorites.size
-  end
-
-  def sharings_count
-    sharings.size
-  end
-
-  alias shares_count sharings_count
-
-  def replies_count
-    replies.size
   end
 end
