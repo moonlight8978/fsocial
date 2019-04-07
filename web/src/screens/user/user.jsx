@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import { paths } from '../../config'
 import { Layout, Navbar } from '../layout'
-import { Text, Box, Ellipsis } from '../../components/atomics'
+import { BoxSpacer } from '../../components/atomics'
 import {
   withLoading,
   FluidLoading,
@@ -17,8 +17,9 @@ import { FollowingProvider } from '../../components/following'
 
 import styles from './user.module.scss'
 import UserResource from './user-resource'
-import UserApi from './user-api'
-import { Activities, Followers, Followees, Shares, Favorites } from './screens'
+import { UserApi, UserActivitiesApi } from './user-api'
+import { FollowingUserList } from './following'
+import { ActivityList } from './activities'
 import { Header, UserIntro, FolloweeSuggestion } from './layout'
 
 class User extends React.PureComponent {
@@ -104,7 +105,11 @@ class User extends React.PureComponent {
                   header={<Header user={user} />}
                   className={styles.layout}
                 >
-                  <Activities user={user} />
+                  <ActivityList
+                    user={user}
+                    fetch={UserActivitiesApi.all(username)}
+                    key="activities"
+                  />
                 </Layout>
               )}
             />
@@ -115,25 +120,26 @@ class User extends React.PureComponent {
                 <Layout
                   hasNavbar
                   navbar={<Navbar />}
-                  windowTitle={intl.formatMessage({ id: 'home.windowTitle' })}
-                  hasSideRight
-                  sideRight={<FolloweeSuggestion />}
+                  windowTitle={intl.formatMessage(
+                    { id: 'user.followees.windowTitle' },
+                    { username, fullname }
+                  )}
                   hasSideLeft
                   sideLeft={
-                    <Box title={<Text bold>Profile Intro</Text>} bordered>
-                      <Ellipsis>
-                        <Text bold size="xxlarge">
-                          {fullname}
-                        </Text>
-                        <br />
-                        <Text color="secondary">@{username}</Text>
-                      </Ellipsis>
-                    </Box>
+                    <aside>
+                      <UserIntro user={user} />
+                      <BoxSpacer />
+                      <FolloweeSuggestion />
+                    </aside>
                   }
                   className={styles.layout}
                   header={<Header user={user} />}
                 >
-                  <Followees user={user} />
+                  <FollowingUserList
+                    fetch={UserApi.fetchFollowees}
+                    user={user}
+                    key="followees"
+                  />
                 </Layout>
               )}
             />
@@ -144,25 +150,26 @@ class User extends React.PureComponent {
                 <Layout
                   hasNavbar
                   navbar={<Navbar />}
-                  windowTitle={intl.formatMessage({ id: 'home.windowTitle' })}
-                  hasSideRight
-                  sideRight={<FolloweeSuggestion />}
+                  windowTitle={intl.formatMessage(
+                    { id: 'user.followers.windowTitle' },
+                    { username, fullname }
+                  )}
                   hasSideLeft
                   sideLeft={
-                    <Box title={<Text bold>Profile Intro</Text>} bordered>
-                      <Ellipsis>
-                        <Text bold size="xxlarge">
-                          {fullname}
-                        </Text>
-                        <br />
-                        <Text color="secondary">@{username}</Text>
-                      </Ellipsis>
-                    </Box>
+                    <aside>
+                      <UserIntro user={user} />
+                      <BoxSpacer />
+                      <FolloweeSuggestion />
+                    </aside>
                   }
                   className={styles.layout}
                   header={<Header user={user} />}
                 >
-                  <Followers user={user} />
+                  <FollowingUserList
+                    fetch={UserApi.fetchFollowers}
+                    user={user}
+                    key="followers"
+                  />
                 </Layout>
               )}
             />
@@ -173,25 +180,22 @@ class User extends React.PureComponent {
                 <Layout
                   hasNavbar
                   navbar={<Navbar />}
-                  windowTitle={intl.formatMessage({ id: 'home.windowTitle' })}
+                  windowTitle={intl.formatMessage(
+                    { id: 'user.shares.windowTitle' },
+                    { username, fullname }
+                  )}
                   hasSideRight
                   sideRight={<FolloweeSuggestion />}
                   hasSideLeft
-                  sideLeft={
-                    <Box title={<Text bold>Profile Intro</Text>} bordered>
-                      <Ellipsis>
-                        <Text bold size="xxlarge">
-                          {fullname}
-                        </Text>
-                        <br />
-                        <Text color="secondary">@{username}</Text>
-                      </Ellipsis>
-                    </Box>
-                  }
-                  className={styles.layout}
+                  sideLeft={<UserIntro user={user} />}
                   header={<Header user={user} />}
+                  className={styles.layout}
                 >
-                  <Shares user={user} />
+                  <ActivityList
+                    user={user}
+                    key="shares"
+                    fetch={UserActivitiesApi.all(username)}
+                  />
                 </Layout>
               )}
             />
@@ -202,25 +206,22 @@ class User extends React.PureComponent {
                 <Layout
                   hasNavbar
                   navbar={<Navbar />}
-                  windowTitle={intl.formatMessage({ id: 'home.windowTitle' })}
+                  windowTitle={intl.formatMessage(
+                    { id: 'user.favorites.windowTitle' },
+                    { username, fullname }
+                  )}
                   hasSideRight
                   sideRight={<FolloweeSuggestion />}
                   hasSideLeft
-                  sideLeft={
-                    <Box title={<Text bold>Profile Intro</Text>} bordered>
-                      <Ellipsis>
-                        <Text bold size="xxlarge">
-                          {fullname}
-                        </Text>
-                        <br />
-                        <Text color="secondary">@{username}</Text>
-                      </Ellipsis>
-                    </Box>
-                  }
-                  className={styles.layout}
+                  sideLeft={<UserIntro user={user} />}
                   header={<Header user={user} />}
+                  className={styles.layout}
                 >
-                  <Favorites user={user} />
+                  <ActivityList
+                    user={user}
+                    key="favorites"
+                    fetch={UserActivitiesApi.all(username)}
+                  />
                 </Layout>
               )}
             />

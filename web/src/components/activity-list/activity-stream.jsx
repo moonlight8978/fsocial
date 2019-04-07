@@ -5,31 +5,24 @@ import { StatisticsConsumer } from '../statistics'
 
 import { ActivityListConsumer } from './activity-list-context'
 import { Activities } from './activity-resource'
+import ActivityApi from './activity-api'
 
 class ActivityStream extends React.Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
     prependActivity: PropTypes.func.isRequired,
     increasePostsCount: PropTypes.func.isRequired,
-    api: PropTypes.shape({
-      fetch: PropTypes.func.isRequired,
-      createPost: PropTypes.func,
-    }).isRequired,
   }
 
   constructor(props) {
     super(props)
 
     this.handleSubmitPost = this.handleSubmitPost.bind(this)
-    this.handleFetchActivities = props.api.fetch
   }
 
   async handleSubmitPost(post) {
-    const { prependActivity, increasePostsCount, api } = this.props
-    if (!api.createPost) {
-      return false
-    }
-    const { data } = await api.createPost(post)
+    const { prependActivity, increasePostsCount } = this.props
+    const { data } = await ActivityApi.createPost(post)
     prependActivity(Activities.parse([data]))
     increasePostsCount('post', 1)
   }
@@ -37,7 +30,6 @@ class ActivityStream extends React.Component {
   render() {
     return this.props.children({
       submitPost: this.handleSubmitPost,
-      fetchActivities: this.handleFetchActivities,
     })
   }
 }

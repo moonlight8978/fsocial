@@ -1,0 +1,33 @@
+.wrapper {
+  padding: 0;
+}
+
+.profilePictures {
+  position: relative;
+
+  .cover {
+    height: 100px;
+
+    img {
+      object-fit: cover;
+      height: 100%;
+    }
+  }
+
+  .avatar {
+    position: absolute;
+    bottom: -40px;
+    left: 1rem;
+    border-radius: 999px;
+    border: 3px solid #fff;
+  }
+}
+
+.profile {
+  padding: 0.5rem 1rem 1rem;
+
+  .actions {
+    height: 40px;
+    text-align: right;
+  }
+}

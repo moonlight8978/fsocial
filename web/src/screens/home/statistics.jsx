@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 
-import { Box, Text } from '../../components/atomics'
+import { Box, Text, Ellipsis } from '../../components/atomics'
 import { withAuthContext, authSelectors } from '../../components/auth'
 import {
   withStatisticsContext,
   statisticsSelectors,
 } from '../../components/statistics'
+import { paths } from '../../config'
 
 import styles from './statistics.module.scss'
 
@@ -53,13 +54,15 @@ class Statistics extends React.Component {
             </div>
 
             <div className={styles.userNames}>
-              <Link to="/">
-                <Text bold size="large">
-                  {user.fullname}
-                </Text>
+              <Ellipsis>
+                <Link to={paths.user.resolve({ username: user.username })}>
+                  <Text bold size="large" hover hoverColor="link">
+                    {user.fullname}
+                  </Text>
+                </Link>
                 <br />
                 <Text color="secondary">@{user.username}</Text>
-              </Link>
+              </Ellipsis>
             </div>
 
             <div className={styles.stats}>

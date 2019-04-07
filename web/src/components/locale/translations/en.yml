@@ -58,12 +58,28 @@ time:
     xYear: '{value}y'
 activityList:
   noMoreActivities: There is no more activities
+  item:
+    context:
+      sharing: '{fullname} shared a post.'
+      favorite: '{fullname} liked a post.'
 user:
   intro:
     title: Profile Intro
   activities:
     windowTitle: '{fullname} (@{username})'
     navTitle: Timeline
+  followees:
+    windowTitle: 'People followed by {username} (@{username})'
+    navTitle: Followings
+  followers:
+    windowTitle: 'People following {fullname} (@{username})'
+    navTitle: Followers
+  shares:
+    windowTitle: 'Posts shared by {fullname} (@{username})'
+    navTitle: Shares
+  favorites:
+    windowTitle: 'Posts liked by {fullname} (@{username})'
+    navTitle: Favorites
 schemas:
   session:
     identity:

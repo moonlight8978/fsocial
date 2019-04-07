@@ -30,4 +30,4 @@ deploy-compose:
 deploy-swarm:
 	git pull origin master
 	docker-compose pull
-	docker-compose stack deploy --compose-file=docker-stack.yml fsocial
+	docker stack deploy --compose-file=docker-stack.yml fsocial

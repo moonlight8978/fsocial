@@ -23,7 +23,7 @@ class Header extends React.PureComponent {
   }
 
   static MenuLink = ({ title, count }) => (
-    <Text hover hoverColor="link">
+    <Text>
       <div>
         <Text bold color="secondary" size="small">
           {title}
@@ -107,7 +107,9 @@ class Header extends React.PureComponent {
                         onClick={this.handleChangeRoute}
                       >
                         <Header.MenuLink
-                          title="Following"
+                          title={
+                            <FormattedMessage id="user.followees.navTitle" />
+                          }
                           count={followeesCount}
                         />
                       </Menu.Item>
@@ -118,7 +120,9 @@ class Header extends React.PureComponent {
                         onClick={this.handleChangeRoute}
                       >
                         <Header.MenuLink
-                          title="Followers"
+                          title={
+                            <FormattedMessage id="user.followers.navTitle" />
+                          }
                           count={followersCount}
                         />
                       </Menu.Item>

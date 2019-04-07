@@ -7,11 +7,16 @@ import { Box, Text } from '../atomics'
 import { FollowButton } from '../following'
 import { InlineName } from '../user'
 import { paths } from '../../config'
+import { withLoading, FluidLoading, LoadingPropTypes } from '../loading'
 
 import styles from './followee-suggestion.module.scss'
 import { FolloweesSuggestionApi } from './followees-suggestion-api'
 
 class FolloweeSuggestion extends React.Component {
+  static propTypes = {
+    ...LoadingPropTypes,
+  }
+
   constructor(props) {
     super(props)
 
@@ -23,16 +28,21 @@ class FolloweeSuggestion extends React.Component {
   }
 
   async componentDidMount() {
-    const { data: followees } = await FolloweesSuggestionApi.fetchFollowees()
-    const followeeIds = followees.map(followee => followee.id)
-    const visibleFolloweeIds = followeeIds.slice(0, 3)
-    this.setState({
-      followees,
-      visibleFolloweeIds,
-      followeeIds: followeeIds.filter(
-        followeeId => !visibleFolloweeIds.includes(followeeId)
-      ),
-    })
+    try {
+      const { data: followees } = await FolloweesSuggestionApi.fetchFollowees()
+      const followeeIds = followees.map(followee => followee.id)
+      const visibleFolloweeIds = followeeIds.slice(0, 3)
+      this.setState({
+        followees,
+        visibleFolloweeIds,
+        followeeIds: followeeIds.filter(
+          followeeId => !visibleFolloweeIds.includes(followeeId)
+        ),
+      })
+      this.props.finishLoading()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   handleAfterFollow(id) {
@@ -60,6 +70,7 @@ class FolloweeSuggestion extends React.Component {
 
   render() {
     const { followees, visibleFolloweeIds } = this.state
+    const { isLoading } = this.props
 
     return (
       <Box
@@ -70,35 +81,39 @@ class FolloweeSuggestion extends React.Component {
         }
         bordered
       >
-        {visibleFolloweeIds.map(followeeId => {
-          const user = followees.find(followee => followee.id === followeeId)
-          const { username, fullname, id } = user
+        {isLoading ? (
+          <FluidLoading />
+        ) : (
+          visibleFolloweeIds.map(followeeId => {
+            const user = followees.find(followee => followee.id === followeeId)
+            const { username, fullname, id } = user
 
-          return (
-            <div className={styles.followee} key={id}>
-              <div>
-                <Avatar size={50} src="/avatar-placeholder.png" />
-              </div>
-
-              <div className={styles.userInfo}>
-                <div className={styles.name}>
-                  <Link to={paths.user.resolve({ username })}>
-                    <InlineName username={username} fullname={fullname} />
-                  </Link>
+            return (
+              <div className={styles.followee} key={id}>
+                <div>
+                  <Avatar size={50} src="/avatar-placeholder.png" />
                 </div>
-                <FollowButton
-                  key={id}
-                  user={user}
-                  onFollow={() => this.handleAfterFollow(id)}
-                  onUnfollow={() => this.handleAfterUnfollow(id)}
-                />
+
+                <div className={styles.userInfo}>
+                  <div className={styles.name}>
+                    <Link to={paths.user.resolve({ username })}>
+                      <InlineName username={username} fullname={fullname} />
+                    </Link>
+                  </div>
+                  <FollowButton
+                    key={id}
+                    user={user}
+                    onFollow={() => this.handleAfterFollow(id)}
+                    onUnfollow={() => this.handleAfterUnfollow(id)}
+                  />
+                </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })
+        )}
       </Box>
     )
   }
 }
 
-export default FolloweeSuggestion
+export default withLoading(FolloweeSuggestion)

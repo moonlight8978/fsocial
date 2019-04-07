@@ -3,7 +3,7 @@ import React from 'react'
 import { Layout, Menu, Dropdown, Avatar } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import Container from '../container'
@@ -39,13 +39,13 @@ class Navbar extends React.Component {
                   </Menu.Item>
                   <Menu.Divider />
                   <Menu.Item className={menuStyles.item}>
-                    <a href="/profile">
+                    <Link to={paths.user.resolve({ username: user.username })}>
                       <FontAwesomeIcon
                         icon="user"
                         className={menuStyles.icon}
                       />
                       <FormattedMessage id="navbar.submenu.profile" />
-                    </a>
+                    </Link>
                   </Menu.Item>
                   <Menu.Divider />
                   <SubMenu

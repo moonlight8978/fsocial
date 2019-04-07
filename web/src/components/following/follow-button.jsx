@@ -52,13 +52,17 @@ class FollowButton extends React.Component {
   }
 
   async handleUnfollow() {
+    const { user, following, onUnfollow } = this.props
     this.setState({ isSubmitting: true })
-    await AsyncUtils.delay(2000)
-    this.setState(state => ({
-      isSubmitting: false,
-      isFollowing: false,
-    }))
-    this.props.onUnfollow()
+    try {
+      await AsyncUtils.delay(2000)
+      await following.unfollow(user)
+      this.setState({ isSubmitting: false, isFollowing: false })
+      onUnfollow()
+    } catch (error) {
+      console.error(error)
+      this.setState({ isSubmitting: false })
+    }
   }
 
   render() {
