@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FormattedMessage } from 'react-intl'
 
 import { Text } from '../atomics'
 
@@ -26,7 +27,12 @@ class ActivityItem extends React.Component {
             <FontAwesomeIcon icon="retweet" className={styles.retweetIcon} />
           </div>
           <div className={styles.context}>
-            <Text color="secondary">{creator.fullname} shared a post.</Text>
+            <Text color="secondary">
+              <FormattedMessage
+                id="activityList.item.context.sharing"
+                values={{ fullname: creator.fullname }}
+              />
+            </Text>
           </div>
         </>
       )
@@ -39,7 +45,12 @@ class ActivityItem extends React.Component {
             <FontAwesomeIcon icon="heart" />
           </div>
           <div className={styles.context}>
-            <Text>{creator.fullname} favorited a post.</Text>
+            <Text color="secondary">
+              <FormattedMessage
+                id="activityList.item.context.favorite"
+                values={{ fullname: creator.fullname }}
+              />
+            </Text>
           </div>
         </>
       )

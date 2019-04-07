@@ -1,0 +1,14 @@
+.wrapper {
+  background-color: transparent;
+
+  &.top {
+    margin-top: 1rem;
+  }
+
+  &.bottom {
+    margin-bottom: 1rem;
+  }
+
+  .inner {
+  }
+}

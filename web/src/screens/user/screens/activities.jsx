@@ -9,8 +9,7 @@ import {
   ActivityList,
   ActivityItem,
 } from '../../../components/activity-list'
-
-import { UserActivitiesApi } from './user-api'
+import { UserActivitiesApi } from '../user-api'
 
 class Activities extends React.PureComponent {
   static propTypes = {

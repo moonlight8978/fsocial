@@ -1,4 +1,6 @@
 {
+  "activityList.item.context.favorite": "{fullname} liked a post.",
+  "activityList.item.context.sharing": "{fullname} shared a post.",
   "activityList.noMoreActivities": "There is no more activities",
   "followeeSuggestion.title": "Who to follow",
   "following.follow": "Follow",
@@ -65,5 +67,13 @@
   "time.relative.year": "{value}y",
   "user.activities.navTitle": "Timeline",
   "user.activities.windowTitle": "{fullname} (@{username})",
-  "user.intro.title": "Profile Intro"
+  "user.favorites.navTitle": "Favorites",
+  "user.favorites.windowTitle": "Posts liked by {fullname} (@{username})",
+  "user.followees.navTitle": "Followings",
+  "user.followees.windowTitle": "People followed by {username} (@{username})",
+  "user.followers.navTitle": "Followers",
+  "user.followers.windowTitle": "People following {fullname} (@{username})",
+  "user.intro.title": "Profile Intro",
+  "user.shares.navTitle": "Shares",
+  "user.shares.windowTitle": "Posts shared by {fullname} (@{username})"
 }

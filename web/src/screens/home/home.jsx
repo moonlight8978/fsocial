@@ -46,8 +46,8 @@ class Home extends React.Component {
             className={styles.layout}
           >
             <ActivityListProvider>
-              <ActivityStream api={ActivityApi}>
-                {({ submitPost, fetchActivities }) => (
+              <ActivityStream>
+                {({ submitPost }) => (
                   <BoxList>
                     <Box>
                       <PostEditor
@@ -71,7 +71,7 @@ class Home extends React.Component {
                           <FluidLoading />
                         </Box>
                       }
-                      fetchActivities={fetchActivities}
+                      fetchActivities={ActivityApi.fetch}
                     />
                   </BoxList>
                 )}

@@ -51,7 +51,7 @@ class FollowingProvider extends React.Component {
   async unfollow(user) {
     const { authorized, statistics } = this.props
     try {
-      await FollowingApi.follow(user)
+      await FollowingApi.unfollow(user)
       if (authorized) {
         statistics.decrease('followee', 1)
       }
