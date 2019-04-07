@@ -2,20 +2,19 @@ require 'rails_helper'
 
 RSpec.describe 'V1::Users::Activities', type: :request do
   describe 'GET /v1/users/activities' do
-    before(:all) { Bullet.unused_eager_loading_enable = false }
-    after(:all) { Bullet.unused_eager_loading_enable = true }
-
-    let(:headers) { setup_auth(token) }
     let(:donald_trump) { create(:user) }
 
-    subject { get activities_v1_user_path(donald_trump), headers: headers }
-
     describe 'authorization & authentication' do
+      let(:headers) { setup_auth(token) }
+
+      subject { get activities_v1_user_path(donald_trump), headers: headers }
+
       include_examples 'accept all requests'
     end
 
     describe 'response' do
-      let(:token) { '' }
+      subject { get activities_v1_user_path(donald_trump) }
+
       let(:another_users) { create_list(:user_with_activities, 2) }
       let!(:followees) { create_list(:following, 5, follower: donald_trump).map(&:followee) }
       let!(:another_users) { create_list(:following, 2, followee: donald_trump).map(&:follower) }

@@ -16,16 +16,37 @@ class V1::ProfilesController < ApplicationController
   end
 
   def followers
-    render json: current_user.followers, each_serializer: ::FollowingUserSerializer, status: Settings.http.statuses.success
+    render(
+      json: Users::Serializer.new(
+        current_user: current_user,
+        users: current_user.followers,
+        each_serializer: ::FollowingUserSerializer
+      ).perform,
+      status: Settings.http.statuses.success
+    )
   end
 
   def followees
-    render json: current_user.followees, each_serializer: ::FollowingUserSerializer, status: Settings.http.statuses.success
+    render(
+      json: Users::Serializer.new(
+        current_user: current_user,
+        users: current_user.followees,
+        each_serializer: ::FollowingUserSerializer
+      ).perform,
+      status: Settings.http.statuses.success
+    )
   end
 
   def followees_suggestion
     suggestions = Users::FolloweesSuggestor.new(user: current_user).perform
-    render json: suggestions, each_serializer: ::FollowingUserSerializer, status: Settings.http.statuses.success
+    render(
+      json: Users::Serializer.new(
+        current_user: current_user,
+        users: suggestions,
+        each_serializer: ::FollowingUserSerializer
+      ).perform,
+      status: Settings.http.statuses.success
+    )
   end
 
   def activities
@@ -34,7 +55,14 @@ class V1::ProfilesController < ApplicationController
       .perform
       .order(updated_at: :desc)
       .page(params[:page] || 1)
-    render json: activities, each_serializer: ::ActivitySerializer, status: Settings.http.statuses.success
+    render(
+      json: Activities::Serializer.new(
+        activities: activities,
+        current_user: current_user,
+        each_serializer: ::ActivitySerializer
+      ).perform,
+      status: Settings.http.statuses.success
+    )
   end
 
   def password

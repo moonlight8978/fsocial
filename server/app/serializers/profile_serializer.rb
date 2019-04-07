@@ -1,4 +1,11 @@
-class ProfileSerializer < ActiveModel::Serializer
-  attributes :id, :fullname, :role, :language, :username, :email, :gender,
-    :birthday, :description
+class ProfileSerializer < ProfileOverallSerializer
+  attributes(
+    :id,
+    :role,
+    :language,
+    :email,
+    :gender,
+    :birthday,
+    :description
+  )
 end

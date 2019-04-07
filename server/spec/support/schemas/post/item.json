@@ -43,6 +43,21 @@
           "type": "null"
         }
       ]
+    },
+    "is_shared": {
+      "type": "boolean"
+    },
+    "is_favorited": {
+      "type": "boolean"
+    },
+    "shares_count": {
+      "type": "integer"
+    },
+    "favorites_count": {
+      "type": "integer"
+    },
+    "replies_count": {
+      "type": "integer"
     }
   },
   "required": [
@@ -56,6 +71,11 @@
     "can_destroy",
     "creator",
     "medias",
-    "root"
+    "root",
+    "is_shared",
+    "is_favorited",
+    "shares_count",
+    "favorites_count",
+    "replies_count"
   ]
 }

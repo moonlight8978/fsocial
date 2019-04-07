@@ -2,21 +2,16 @@ require 'rails_helper'
 
 RSpec.describe 'V1::Profiles', type: :request do
   describe 'GET /v1/profile/activities' do
-    before(:all) { Bullet.unused_eager_loading_enable = false }
-    after(:all) { Bullet.unused_eager_loading_enable = true }
-
     let(:headers) { setup_auth(token) }
-    let(:user) { create(:user) }
 
     subject { get activities_v1_profile_path, headers: headers }
 
-    context 'when user is not signed' do
-      let(:token) { '' }
-
-      include_examples 'unauthenticated'
+    describe 'description auth' do
+      include_examples 'reject guest requests'
     end
 
-    context 'when user is signed in' do
+    describe 'response' do
+      let(:user) { create(:user) }
       let(:token) { Users::TokenGenerator.new(user).perform }
       let(:another_users) { create_list(:user_with_activities, 2) }
       let!(:followees) { create_list(:following, 5, follower: user).map(&:followee) }

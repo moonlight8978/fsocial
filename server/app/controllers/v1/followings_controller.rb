@@ -1,15 +1,15 @@
 class V1::FollowingsController < ApplicationController
-  before_action :authenticate!
-
   def followers
     user = User.friendly.find(params[:id])
     authorize user
-    render json: user.followers, each_serialize: ::FollowingUserSerializer, status: Settings.http.statuses.success
+    followers = Users::Serializer.new(users: user.followers, current_user: current_user, each_serializer: ::FollowingUserSerializer).perform
+    render json: followers, status: Settings.http.statuses.success
   end
 
   def followees
     user = User.friendly.find(params[:id])
     authorize user
-    render json: user.followees, each_serialize: ::FollowingUserSerializer, status: Settings.http.statuses.success
+    followees = Users::Serializer.new(users: user.followees, current_user: current_user, each_serializer: ::FollowingUserSerializer).perform
+    render json: followees, status: Settings.http.statuses.success
   end
 end

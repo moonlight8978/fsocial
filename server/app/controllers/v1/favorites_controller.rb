@@ -11,7 +11,14 @@ class V1::FavoritesController < ApplicationController
     favorite = Favorite.create!(post: post, creator: current_user)
     activity = Activities::Creator.new(favorite)
       .perform(action: :create, owner: current_user, recipient: post.creator)
-    render json: activity, serializer: ::ActivitySerializer, status: Settings.http.statuses.created
+    render(
+      json: Activities::Serializer.new(
+        activities: activity,
+        current_user: current_user,
+        serializer: ::ActivitySerializer
+      ).perform,
+      status: Settings.http.statuses.created
+    )
   end
 
   def destroy
