@@ -89,10 +89,10 @@ ActiveRecord::Schema.define(version: 20_190_407_092_148) do
     t.datetime 'deleted_at'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.integer 'sharings_count'
-    t.integer 'favorites_count'
-    t.integer 'replies_count'
-    t.integer 'sub_replies_count'
+    t.integer 'sharings_count', default: 0
+    t.integer 'favorites_count', default: 0
+    t.integer 'replies_count', default: 0
+    t.integer 'sub_replies_count', default: 0
     t.index ['creator_id'], name: 'index_posts_on_creator_id'
     t.index ['deleted_at'], name: 'index_posts_on_deleted_at'
     t.index ['parent_id'], name: 'index_posts_on_parent_id'

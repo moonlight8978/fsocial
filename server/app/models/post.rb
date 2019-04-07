@@ -55,4 +55,8 @@ class Post < ApplicationRecord
   def root_reply?
     root_id.present? && parent_id.nil?
   end
+
+  def shares_count
+    sharings_count
+  end
 end
