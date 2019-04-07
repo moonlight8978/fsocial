@@ -9,7 +9,13 @@
     },
     "username": {
       "type": "string"
+    },
+    "is_current_user": {
+      "type": "boolean"
+    },
+    "is_followed": {
+      "type": "boolean"
     }
   },
-  "required": ["id", "fullname", "username"]
+  "required": ["id", "fullname", "username", "is_current_user", "is_followed"]
 }
