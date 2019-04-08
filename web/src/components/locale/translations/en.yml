@@ -69,6 +69,9 @@ user:
   activities:
     windowTitle: '{fullname} (@{username})'
     navTitle: Timeline
+    postEditor:
+      placeholder: What's happening
+      submit: Publish
   followees:
     windowTitle: 'People followed by {username} (@{username})'
     navTitle: Followings

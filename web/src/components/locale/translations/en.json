@@ -66,6 +66,8 @@
   "time.relative.xYear": "{value}y",
   "time.relative.year": "{value}y",
   "user.activities.navTitle": "Timeline",
+  "user.activities.postEditor.placeholder": "What's happening",
+  "user.activities.postEditor.submit": "Publish",
   "user.activities.windowTitle": "{fullname} (@{username})",
   "user.editProfileButton": "Edit profile",
   "user.favorites.navTitle": "Favorites",
