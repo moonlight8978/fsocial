@@ -1,0 +1,28 @@
+@import 'config/colors';
+
+.modal {
+  :global(.ant-modal-title) {
+    text-align: center;
+    width: 80%;
+    color: $text-primary-color;
+    font-size: 18px;
+    line-height: 26px;
+    margin: auto;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.ant-modal-content) {
+    overflow: hidden;
+  }
+
+  :global(.ant-modal-body) {
+    padding: 1rem;
+  }
+
+  article {
+    margin-bottom: 2rem;
+  }
+}

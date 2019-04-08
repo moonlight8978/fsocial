@@ -8,7 +8,7 @@ import {
   ActivityListProvider,
   ActivityList,
   ActivityItem,
-  ActivityStream,
+  ActivityListConsumer,
 } from '../../../components/activity-list'
 import { PostEditor } from '../../../components/post-editor'
 
@@ -28,10 +28,10 @@ class ActivityListWrapper extends React.PureComponent {
     if (isCurrentUser) {
       return (
         <ActivityListProvider>
-          <ActivityStream>
-            {({ submitPost }) => (
-              <BoxList>
-                <Box>
+          <BoxList>
+            <Box>
+              <ActivityListConsumer>
+                {({ createPost }) => (
                   <PostEditor
                     submitText={intl.formatMessage({
                       id: 'home.postEditor.submit',
@@ -39,25 +39,25 @@ class ActivityListWrapper extends React.PureComponent {
                     placeholder={intl.formatMessage({
                       id: 'home.postEditor.placeholder',
                     })}
-                    onSubmit={submitPost}
+                    onSubmit={createPost}
                   />
+                )}
+              </ActivityListConsumer>
+            </Box>
+            <ActivityList
+              renderItem={activity => (
+                <Box key={activity.id}>
+                  <ActivityItem activity={activity} />
                 </Box>
-                <ActivityList
-                  renderItem={activity => (
-                    <Box key={activity.id}>
-                      <ActivityItem activity={activity} />
-                    </Box>
-                  )}
-                  loadingIndicator={
-                    <Box>
-                      <FluidLoading />
-                    </Box>
-                  }
-                  fetchActivities={fetch}
-                />
-              </BoxList>
-            )}
-          </ActivityStream>
+              )}
+              loadingIndicator={
+                <Box>
+                  <FluidLoading />
+                </Box>
+              }
+              fetchActivities={fetch}
+            />
+          </BoxList>
         </ActivityListProvider>
       )
     }

@@ -88,7 +88,7 @@ class Post extends React.PureComponent {
 
   render() {
     const { isSharing, isFavoriting } = this.state
-    const { post, showModal } = this.props
+    const { post, showReplyModal } = this.props
     const {
       id,
       medias,
@@ -137,7 +137,7 @@ class Post extends React.PureComponent {
           <div className={styles.actions}>
             <Button
               className={classnames(styles.actionButton, styles.replyButton)}
-              onClick={showModal}
+              onClick={() => showReplyModal(post)}
             >
               <Text color="secondary">
                 <FontAwesomeIcon size="lg" icon={['far', 'comment']} />

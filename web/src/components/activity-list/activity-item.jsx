@@ -13,6 +13,7 @@ class ActivityItem extends React.Component {
     activity: PropTypes.shape({
       trackable: PropTypes.shape().isRequired,
     }).isRequired,
+    showReplyModal: PropTypes.func.isRequired,
   }
 
   static PostContext = ({ trackableType, creator }) => {
@@ -58,7 +59,7 @@ class ActivityItem extends React.Component {
   }
 
   render() {
-    const { activity, showModal } = this.props
+    const { activity, showReplyModal } = this.props
     const { trackable, trackableType } = activity
     let post
 
@@ -84,7 +85,7 @@ class ActivityItem extends React.Component {
           trackableType={trackableType}
           creator={trackable.creator}
         />
-        <Post post={post} showModal={showModal} />
+        <Post post={post} showReplyModal={showReplyModal} />
       </article>
     )
   }

@@ -5,4 +5,3 @@ export {
   ActivityListConsumer,
 } from './activity-list-context'
 export { Activity, Activities } from './activity-resource'
-export { default as ActivityStream } from './activity-stream'

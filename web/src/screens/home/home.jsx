@@ -9,18 +9,21 @@ import {
   ActivityList,
   ActivityListProvider,
   ActivityItem,
-  ActivityStream,
+  ActivityListConsumer,
 } from '../../components/activity-list'
 import { Box, BoxList } from '../../components/atomics'
-import { StatisticsProvider } from '../../components/statistics'
+import {
+  StatisticsProvider,
+  StatisticsConsumer,
+} from '../../components/statistics'
 import { FollowingProvider } from '../../components/following'
 import { FluidLoading } from '../../components/loading'
 import { withAuthContext } from '../../components/auth'
+import { ReplyProvider, ReplyConsumer } from '../../components/reply-editor'
 
 import Statistics from './statistics'
 import ActivityApi from './activity-api'
 import styles from './home.module.scss'
-import withReply from '../../components/reply-editor/with-reply'
 
 class Home extends React.Component {
   static propTypes = {
@@ -31,7 +34,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { intl, auth, showModal } = this.props
+    const { intl, auth } = this.props
 
     return (
       <StatisticsProvider user={auth.user}>
@@ -46,41 +49,51 @@ class Home extends React.Component {
             sideLeft={<Statistics />}
             className={styles.layout}
           >
-            <ActivityListProvider>
-              <ActivityStream>
-                {({ submitPost }) => (
-                  <BoxList>
-                    <Box>
-                      <PostEditor
-                        submitText={intl.formatMessage({
-                          id: 'home.postEditor.submit',
-                        })}
-                        placeholder={intl.formatMessage({
-                          id: 'home.postEditor.placeholder',
-                        })}
-                        onSubmit={submitPost}
-                      />
-                    </Box>
-                    <ActivityList
-                      renderItem={activity => (
-                        <Box key={activity.id}>
-                          <ActivityItem
-                            activity={activity}
-                            showModal={showModal}
+            <StatisticsConsumer>
+              {({ increase }) => (
+                <ActivityListProvider increaseCounts={increase}>
+                  <ReplyProvider>
+                    <BoxList>
+                      <Box>
+                        <ActivityListConsumer>
+                          {({ createPost }) => (
+                            <PostEditor
+                              submitText={intl.formatMessage({
+                                id: 'home.postEditor.submit',
+                              })}
+                              placeholder={intl.formatMessage({
+                                id: 'home.postEditor.placeholder',
+                              })}
+                              onSubmit={createPost}
+                            />
+                          )}
+                        </ActivityListConsumer>
+                      </Box>
+                      <ReplyConsumer>
+                        {({ showModal }) => (
+                          <ActivityList
+                            renderItem={activity => (
+                              <Box key={activity.id}>
+                                <ActivityItem
+                                  activity={activity}
+                                  showReplyModal={showModal}
+                                />
+                              </Box>
+                            )}
+                            loadingIndicator={
+                              <Box>
+                                <FluidLoading />
+                              </Box>
+                            }
+                            fetchActivities={ActivityApi.fetch}
                           />
-                        </Box>
-                      )}
-                      loadingIndicator={
-                        <Box>
-                          <FluidLoading />
-                        </Box>
-                      }
-                      fetchActivities={ActivityApi.fetch}
-                    />
-                  </BoxList>
-                )}
-              </ActivityStream>
-            </ActivityListProvider>
+                        )}
+                      </ReplyConsumer>
+                    </BoxList>
+                  </ReplyProvider>
+                </ActivityListProvider>
+              )}
+            </StatisticsConsumer>
           </Layout>
         </FollowingProvider>
       </StatisticsProvider>
@@ -88,4 +101,4 @@ class Home extends React.Component {
   }
 }
 
-export default withReply(injectIntl(withAuthContext(Home)))
+export default injectIntl(withAuthContext(Home))

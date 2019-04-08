@@ -10,7 +10,6 @@ import { Box } from '../atomics'
 import { ActivityListConsumer } from './activity-list-context'
 import { Activities } from './activity-resource'
 import styles from './activity-list.module.scss'
-import withReply from '../reply-editor/ReplyProvider'
 
 class ActivityList extends React.Component {
   static propTypes = {
