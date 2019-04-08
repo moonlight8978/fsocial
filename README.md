@@ -9,7 +9,7 @@ For research purpose
 
 #### OS
 
-```
+```bash
 $ hostnamectl
 # Ubuntu 18.04.2 LTS
 ```

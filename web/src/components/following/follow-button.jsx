@@ -30,7 +30,6 @@ class FollowButton extends React.Component {
 
     this.state = {
       isSubmitting: false,
-      isFollowing: false,
     }
 
     this.handleFollow = this.handleFollow.bind(this)
@@ -43,8 +42,8 @@ class FollowButton extends React.Component {
       this.setState({ isSubmitting: true })
       await AsyncUtils.delay(2000)
       await following.follow(user)
-      this.setState({ isFollowing: true, isSubmitting: false })
-      onFollow()
+      this.setState({ isSubmitting: false })
+      onFollow(user)
     } catch (error) {
       console.error(error)
       this.setState({ isSubmitting: false })
@@ -57,8 +56,8 @@ class FollowButton extends React.Component {
     try {
       await AsyncUtils.delay(2000)
       await following.unfollow(user)
-      this.setState({ isSubmitting: false, isFollowing: false })
-      onUnfollow()
+      this.setState({ isSubmitting: false })
+      onUnfollow(user)
     } catch (error) {
       console.error(error)
       this.setState({ isSubmitting: false })
@@ -66,9 +65,46 @@ class FollowButton extends React.Component {
   }
 
   render() {
-    const { isSubmitting, isFollowing } = this.state
+    const { isSubmitting } = this.state
+    const { user } = this.props
+    const { isCurrentUser, isFollowed } = user
+    const isUnfollowing = isFollowed && isSubmitting
+    const isFollowing = !isFollowed && isSubmitting
+
+    if (isCurrentUser) {
+      return null
+    }
+
+    if (isUnfollowing) {
+      return (
+        <Button
+          type="danger"
+          shape="round"
+          className={styles.unfollowButton}
+          loading={isSubmitting}
+          onClick={this.handleUnfollow}
+        >
+          <FormattedMessage id="following.unfollow" />
+        </Button>
+      )
+    }
 
     if (isFollowing) {
+      return (
+        <Button
+          ghost
+          type="primary"
+          shape="round"
+          className={styles.followButton}
+          loading={isSubmitting}
+          onClick={this.handleFollow}
+        >
+          <FormattedMessage id="following.follow" />
+        </Button>
+      )
+    }
+
+    if (isFollowed) {
       return (
         <Hover
           content={

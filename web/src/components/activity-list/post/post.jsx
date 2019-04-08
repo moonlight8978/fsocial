@@ -44,7 +44,7 @@ class Post extends React.PureComponent {
       const { onChange } = this.props
       onChange(post.id, {
         ...post,
-        favorited:
+        isFavorited:
           response.status === 201 || response.status === 200
             ? !post.favorited
             : true,
@@ -70,7 +70,7 @@ class Post extends React.PureComponent {
       const { onChange } = this.props
       onChange(post.id, {
         ...post,
-        shared:
+        isShared:
           response.status === 201 || response.status === 200
             ? !post.shared
             : true,
@@ -95,8 +95,8 @@ class Post extends React.PureComponent {
       creator,
       content,
       createdAt,
-      favorited,
-      shared,
+      isFavorited,
+      isShared,
       repliesCount,
       sharesCount,
       favoritesCount,
@@ -145,7 +145,7 @@ class Post extends React.PureComponent {
             </Button>
             <Button
               className={classnames(styles.actionButton, styles.shareButton, {
-                [styles.shared]: shared,
+                [styles.shared]: isShared,
               })}
               onClick={() => this.handleShare(post)}
               disabled={isSharing}
@@ -163,7 +163,7 @@ class Post extends React.PureComponent {
               className={classnames(
                 styles.actionButton,
                 styles.favoriteButton,
-                { [styles.favorited]: favorited }
+                { [styles.favorited]: isFavorited }
               )}
               onClick={() => this.handleFavorite(post)}
               disabled={isFavoriting}

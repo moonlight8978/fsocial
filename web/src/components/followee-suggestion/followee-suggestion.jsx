@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
 
 import { Box, Text } from '../atomics'
-import { FollowButton } from '../following'
+import { FollowButton, FollowingUsersResource } from '../following'
 import { InlineName } from '../user'
 import { paths } from '../../config'
 import { withLoading, FluidLoading, LoadingPropTypes } from '../loading'
@@ -29,7 +29,8 @@ class FolloweeSuggestion extends React.Component {
 
   async componentDidMount() {
     try {
-      const { data: followees } = await FolloweesSuggestionApi.fetchFollowees()
+      const { data } = await FolloweesSuggestionApi.fetchFollowees()
+      const followees = FollowingUsersResource.parse(data)
       const followeeIds = followees.map(followee => followee.id)
       const visibleFolloweeIds = followeeIds.slice(0, 3)
       this.setState({
