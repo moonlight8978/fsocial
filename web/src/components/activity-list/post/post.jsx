@@ -37,20 +37,20 @@ class Post extends React.PureComponent {
   async handleFavorite(post) {
     try {
       this.setState({ isFavoriting: true })
-      const response = await (post.favorited
+      const response = await (post.isFavorited
         ? PostApi.unfavorite(post.id)
         : PostApi.favorite(post.id))
-      await AsyncUtils.delay(1000)
+      await AsyncUtils.delay(500)
       const { onChange } = this.props
       onChange(post.id, {
         ...post,
         isFavorited:
           response.status === 201 || response.status === 200
-            ? !post.favorited
+            ? !post.isFavorited
             : true,
         favoritesCount:
           response.status === 201 || response.status === 200
-            ? post.favoritesCount + (post.favorited ? -1 : 1)
+            ? post.favoritesCount + (post.isFavorited ? -1 : 1)
             : post.favoritesCount,
       })
     } catch (error) {
@@ -63,20 +63,20 @@ class Post extends React.PureComponent {
   async handleShare(post) {
     try {
       this.setState({ isSharing: true })
-      const response = await (post.shared
+      const response = await (post.isShared
         ? PostApi.unshare(post.id)
         : PostApi.share(post.id))
-      await AsyncUtils.delay(1000)
+      await AsyncUtils.delay(500)
       const { onChange } = this.props
       onChange(post.id, {
         ...post,
         isShared:
           response.status === 201 || response.status === 200
-            ? !post.shared
+            ? !post.isShared
             : true,
         sharesCount:
           response.status === 201 || response.status === 200
-            ? post.sharesCount + (post.shared ? -1 : 1)
+            ? post.sharesCount + (post.isShared ? -1 : 1)
             : post.sharesCount,
       })
     } catch (error) {
