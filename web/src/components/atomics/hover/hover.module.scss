@@ -1,15 +1,17 @@
 .hoverWrapper {
+  display: inline;
+
   .hoverContent {
     display: none;
   }
 
   .defaultContent {
-    display: block;
+    display: inline;
   }
 
   &:hover {
     .hoverContent {
-      display: block;
+      display: inline;
     }
 
     .defaultContent {

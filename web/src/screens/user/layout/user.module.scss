@@ -60,6 +60,7 @@
 .nav {
   background-color: $text-primary-bg;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+  position: relative;
 
   .menu {
     height: auto;
@@ -68,5 +69,18 @@
   .menuItem {
     padding: 0.5rem 0.75rem;
     text-align: center;
+  }
+
+  .actions {
+    line-height: 66px;
+    text-align: right;
+  }
+
+  .profileEditButton {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    height: auto;
+    padding: 0.4rem 2rem !important;
   }
 }

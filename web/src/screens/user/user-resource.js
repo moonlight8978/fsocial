@@ -1,14 +1,16 @@
 const UserResource = {
-  parse: data => ({
-    id: data.id,
-    fullname: data.fullname,
-    role: data.role,
-    language: data.language,
-    username: data.username,
-    email: data.email,
-    gender: data.gender,
-    birthday: data.birthday,
-    description: data.description,
+  parse: user => ({
+    id: user.id,
+    fullname: user.fullname,
+    role: user.role,
+    language: user.language,
+    username: user.username,
+    email: user.email,
+    gender: user.gender,
+    birthday: user.birthday,
+    description: user.description,
+    isCurrentUser: user.is_current_user,
+    isFollowed: user.is_followed,
   }),
 }
 

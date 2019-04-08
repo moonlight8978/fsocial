@@ -67,6 +67,7 @@
   "time.relative.year": "{value}y",
   "user.activities.navTitle": "Timeline",
   "user.activities.windowTitle": "{fullname} (@{username})",
+  "user.editProfileButton": "Edit profile",
   "user.favorites.navTitle": "Favorites",
   "user.favorites.windowTitle": "Posts liked by {fullname} (@{username})",
   "user.followees.navTitle": "Followings",

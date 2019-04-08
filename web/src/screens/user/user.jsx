@@ -42,6 +42,8 @@ class User extends React.PureComponent {
     }
 
     this.handleChangeRoute = this.handleChangeRoute.bind(this)
+    this.handleFollow = this.handleFollow.bind(this)
+    this.handleUnfollow = this.handleUnfollow.bind(this)
   }
 
   async componentDidMount() {
@@ -72,6 +74,18 @@ class User extends React.PureComponent {
     this.props.history.push(key)
   }
 
+  handleFollow() {
+    this.setState(state => ({
+      user: { ...state.user, isFollowed: true },
+    }))
+  }
+
+  handleUnfollow() {
+    this.setState(state => ({
+      user: { ...state.user, isFollowed: false },
+    }))
+  }
+
   render() {
     const { intl, isLoading, match } = this.props
     const { url } = match
@@ -81,11 +95,19 @@ class User extends React.PureComponent {
     }
 
     const { user } = this.state
-    const { username, fullname } = user
+    const { username, fullname, isCurrentUser } = user
+
+    const header = (
+      <Header
+        user={user}
+        onFollow={this.handleFollow}
+        onUnfollow={this.handleUnfollow}
+      />
+    )
 
     return (
       <StatisticsProvider user={user}>
-        <FollowingProvider authorized={false}>
+        <FollowingProvider authorized={isCurrentUser}>
           <Switch>
             <Route
               path={`${url}`}
@@ -102,7 +124,7 @@ class User extends React.PureComponent {
                   sideRight={<FolloweeSuggestion />}
                   hasSideLeft
                   sideLeft={<UserIntro user={user} />}
-                  header={<Header user={user} />}
+                  header={header}
                   className={styles.layout}
                 >
                   <ActivityList
@@ -133,7 +155,7 @@ class User extends React.PureComponent {
                     </aside>
                   }
                   className={styles.layout}
-                  header={<Header user={user} />}
+                  header={header}
                 >
                   <FollowingUserList
                     fetch={UserApi.fetchFollowees}
@@ -163,7 +185,7 @@ class User extends React.PureComponent {
                     </aside>
                   }
                   className={styles.layout}
-                  header={<Header user={user} />}
+                  header={header}
                 >
                   <FollowingUserList
                     fetch={UserApi.fetchFollowers}
@@ -188,7 +210,7 @@ class User extends React.PureComponent {
                   sideRight={<FolloweeSuggestion />}
                   hasSideLeft
                   sideLeft={<UserIntro user={user} />}
-                  header={<Header user={user} />}
+                  header={header}
                   className={styles.layout}
                 >
                   <ActivityList
@@ -214,7 +236,7 @@ class User extends React.PureComponent {
                   sideRight={<FolloweeSuggestion />}
                   hasSideLeft
                   sideLeft={<UserIntro user={user} />}
-                  header={<Header user={user} />}
+                  header={header}
                   className={styles.layout}
                 >
                   <ActivityList

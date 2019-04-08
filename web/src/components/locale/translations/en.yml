@@ -63,6 +63,7 @@ activityList:
       sharing: '{fullname} shared a post.'
       favorite: '{fullname} liked a post.'
 user:
+  editProfileButton: Edit profile
   intro:
     title: Profile Intro
   activities:

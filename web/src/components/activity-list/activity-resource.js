@@ -32,9 +32,11 @@ const Post = {
     canDestroy: post.can_destroy,
     creator: User.parse(post.creator),
     medias: post.medias.map(media => Media.parse(media)),
-    repliesCount: 20,
-    favoritesCount: 9671,
-    sharesCount: 4231,
+    repliesCount: post.replies_count,
+    favoritesCount: post.favorites_count,
+    sharesCount: post.shares_count,
+    isFavorited: post.is_favorited,
+    isShared: post.is_shared,
   }),
 }
 
