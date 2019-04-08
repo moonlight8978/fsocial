@@ -58,7 +58,7 @@ class ActivityItem extends React.Component {
   }
 
   render() {
-    const { activity } = this.props
+    const { activity, showModal } = this.props
     const { trackable, trackableType } = activity
     let post
 
@@ -84,7 +84,7 @@ class ActivityItem extends React.Component {
           trackableType={trackableType}
           creator={trackable.creator}
         />
-        <Post post={post} />
+        <Post post={post} showModal={showModal} />
       </article>
     )
   }

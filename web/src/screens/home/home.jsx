@@ -20,6 +20,7 @@ import { withAuthContext } from '../../components/auth'
 import Statistics from './statistics'
 import ActivityApi from './activity-api'
 import styles from './home.module.scss'
+import withReply from '../../components/reply-editor/with-reply'
 
 class Home extends React.Component {
   static propTypes = {
@@ -30,7 +31,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { intl, auth } = this.props
+    const { intl, auth, showModal } = this.props
 
     return (
       <StatisticsProvider user={auth.user}>
@@ -63,7 +64,10 @@ class Home extends React.Component {
                     <ActivityList
                       renderItem={activity => (
                         <Box key={activity.id}>
-                          <ActivityItem activity={activity} />
+                          <ActivityItem
+                            activity={activity}
+                            showModal={showModal}
+                          />
                         </Box>
                       )}
                       loadingIndicator={
@@ -84,4 +88,4 @@ class Home extends React.Component {
   }
 }
 
-export default injectIntl(withAuthContext(Home))
+export default withReply(injectIntl(withAuthContext(Home)))
