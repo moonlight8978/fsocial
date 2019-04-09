@@ -5,7 +5,6 @@ import { Box, BoxList } from '../../../components/atomics'
 import { FluidLoading } from '../../../components/loading'
 import {
   ActivityListProvider,
-  ActivityStream,
   ActivityList,
   ActivityItem,
 } from '../../../components/activity-list'
@@ -29,25 +28,23 @@ class Activities extends React.PureComponent {
   render() {
     return (
       <ActivityListProvider>
-        <ActivityStream api={this.api}>
-          {({ submitPost, fetchActivities }) => (
-            <BoxList>
-              <ActivityList
-                renderItem={activity => (
-                  <Box key={activity.id}>
-                    <ActivityItem activity={activity} />
-                  </Box>
-                )}
-                loadingIndicator={
-                  <Box>
-                    <FluidLoading />
-                  </Box>
-                }
-                fetchActivities={fetchActivities}
-              />
-            </BoxList>
-          )}
-        </ActivityStream>
+        {({ submitPost, fetchActivities }) => (
+          <BoxList>
+            <ActivityList
+              renderItem={activity => (
+                <Box key={activity.id}>
+                  <ActivityItem activity={activity} />
+                </Box>
+              )}
+              loadingIndicator={
+                <Box>
+                  <FluidLoading />
+                </Box>
+              }
+              fetchActivities={fetchActivities}
+            />
+          </BoxList>
+        )}
       </ActivityListProvider>
     )
   }

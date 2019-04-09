@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  margin-bottom: 2rem;
+
+  .colLeft {
+    flex: 40px 0 0;
+  }
+
+  .colRight {
+    flex: calc(100% - 40px) 0 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    .names {
+      max-width: calc(100% - 100px);
+      display: inline-block;
+      vertical-align: bottom;
+    }
+
+    .middot {
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
+    }
+
+    p {
+      margin-bottom: 0.5rem;
+    }
+  }
+}

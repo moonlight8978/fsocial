@@ -10,7 +10,7 @@ class ActivitySerializer < ActiveModel::Serializer
   def self.serializer_for(model, options)
     case model.class.name
     when 'Post'
-      PostSerializer
+      model.root? ? PostSerializer : ReplySerializer
     when 'Sharing'
       SharingSerializer
     when 'Favorite'

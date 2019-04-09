@@ -10,7 +10,7 @@ import { AsyncUtils } from '../../../utils'
 import { InlineName } from '../../user'
 import { Text, Ellipsis } from '../../atomics'
 import { RelativeTime } from '../../relative-time'
-import { ActivityListConsumer } from '../activity-list-context'
+import { Activity } from '../activity-resource'
 
 import Medias from './medias'
 import PostApi from './post-api'
@@ -20,6 +20,7 @@ class Post extends React.PureComponent {
   static propTypes = {
     post: PropTypes.shape().isRequired,
     onChange: PropTypes.func.isRequired,
+    showReplyModal: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -30,29 +31,18 @@ class Post extends React.PureComponent {
       isFavoriting: false,
     }
 
-    this.handleFavorite = this.handleFavorite.bind(this)
-    this.handleShare = this.handleShare.bind(this)
+    this.handleFavoriteClick = this.handleFavoriteClick.bind(this)
+    this.handleShareClick = this.handleShareClick.bind(this)
   }
 
-  async handleFavorite(post) {
+  async handleFavoriteClick(post) {
     try {
       this.setState({ isFavoriting: true })
-      const response = await (post.isFavorited
-        ? PostApi.unfavorite(post.id)
-        : PostApi.favorite(post.id))
-      await AsyncUtils.delay(500)
-      const { onChange } = this.props
-      onChange(post.id, {
-        ...post,
-        isFavorited:
-          response.status === 201 || response.status === 200
-            ? !post.isFavorited
-            : true,
-        favoritesCount:
-          response.status === 201 || response.status === 200
-            ? post.favoritesCount + (post.isFavorited ? -1 : 1)
-            : post.favoritesCount,
-      })
+      if (post.isFavorited) {
+        await this.handleUnfavorite(post)
+      } else {
+        await this.handleFavorite(post)
+      }
     } catch (error) {
       console.log(error)
     } finally {
@@ -60,25 +50,37 @@ class Post extends React.PureComponent {
     }
   }
 
-  async handleShare(post) {
+  async handleFavorite(post) {
+    const { data } = await PostApi.favorite(post.id)
+    const { trackable } = Activity.parse(data)
+    await AsyncUtils.delay(500)
+    const { onChange } = this.props
+    onChange(post.id, {
+      ...post,
+      isFavorited: trackable.post.isFavorited,
+      favoritesCount: trackable.post.favoritesCount,
+    })
+  }
+
+  async handleUnfavorite(post) {
+    await PostApi.unfavorite(post.id)
+    await AsyncUtils.delay(500)
+    const { onChange } = this.props
+    onChange(post.id, {
+      ...post,
+      isFavorited: false,
+      favoritesCount: post.favoritesCount - 1,
+    })
+  }
+
+  async handleShareClick(post) {
     try {
       this.setState({ isSharing: true })
-      const response = await (post.isShared
-        ? PostApi.unshare(post.id)
-        : PostApi.share(post.id))
-      await AsyncUtils.delay(500)
-      const { onChange } = this.props
-      onChange(post.id, {
-        ...post,
-        isShared:
-          response.status === 201 || response.status === 200
-            ? !post.isShared
-            : true,
-        sharesCount:
-          response.status === 201 || response.status === 200
-            ? post.sharesCount + (post.isShared ? -1 : 1)
-            : post.sharesCount,
-      })
+      if (post.isShared) {
+        await this.handleUnshare(post)
+      } else {
+        await this.handleShare(post)
+      }
     } catch (error) {
       console.log(error)
     } finally {
@@ -86,9 +88,32 @@ class Post extends React.PureComponent {
     }
   }
 
+  async handleShare(post) {
+    const { data } = await PostApi.share(post.id)
+    const { trackable } = Activity.parse(data)
+    await AsyncUtils.delay(500)
+    const { onChange } = this.props
+    onChange(post.id, {
+      ...post,
+      isShared: trackable.post.isShared,
+      sharesCount: trackable.post.sharesCount,
+    })
+  }
+
+  async handleUnshare(post) {
+    await PostApi.unshare(post.id)
+    await AsyncUtils.delay(500)
+    const { onChange } = this.props
+    onChange(post.id, {
+      ...post,
+      isShared: false,
+      sharesCount: post.sharesCount - 1,
+    })
+  }
+
   render() {
     const { isSharing, isFavoriting } = this.state
-    const { post } = this.props
+    const { post, showReplyModal } = this.props
     const {
       id,
       medias,
@@ -137,6 +162,7 @@ class Post extends React.PureComponent {
           <div className={styles.actions}>
             <Button
               className={classnames(styles.actionButton, styles.replyButton)}
+              onClick={() => showReplyModal(post)}
             >
               <Text color="secondary">
                 <FontAwesomeIcon size="lg" icon={['far', 'comment']} />
@@ -147,7 +173,7 @@ class Post extends React.PureComponent {
               className={classnames(styles.actionButton, styles.shareButton, {
                 [styles.shared]: isShared,
               })}
-              onClick={() => this.handleShare(post)}
+              onClick={() => this.handleShareClick(post)}
               disabled={isSharing}
             >
               <Text color="secondary">
@@ -165,7 +191,7 @@ class Post extends React.PureComponent {
                 styles.favoriteButton,
                 { [styles.favorited]: isFavorited }
               )}
-              onClick={() => this.handleFavorite(post)}
+              onClick={() => this.handleFavoriteClick(post)}
               disabled={isFavoriting}
             >
               <Text color="secondary">
@@ -180,8 +206,4 @@ class Post extends React.PureComponent {
   }
 }
 
-export default props => (
-  <ActivityListConsumer>
-    {({ changePost }) => <Post {...props} onChange={changePost} />}
-  </ActivityListConsumer>
-)
+export default Post
