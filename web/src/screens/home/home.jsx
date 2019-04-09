@@ -52,11 +52,18 @@ class Home extends React.Component {
             <StatisticsConsumer>
               {({ increase }) => (
                 <ActivityListProvider increaseCounts={increase}>
-                  <ReplyProvider>
-                    <BoxList>
-                      <Box>
-                        <ActivityListConsumer>
-                          {({ createPost }) => (
+                  <ActivityListConsumer>
+                    {({ createPost, changePost }) => (
+                      <ReplyProvider
+                        onCreate={(post, { trackable: { rootId, root } }) =>
+                          changePost(rootId, {
+                            ...post,
+                            repliesCount: root.repliesCount,
+                          })
+                        }
+                      >
+                        <BoxList>
+                          <Box>
                             <PostEditor
                               submitText={intl.formatMessage({
                                 id: 'home.postEditor.submit',
@@ -66,31 +73,32 @@ class Home extends React.Component {
                               })}
                               onSubmit={createPost}
                             />
-                          )}
-                        </ActivityListConsumer>
-                      </Box>
-                      <ReplyConsumer>
-                        {({ showModal }) => (
-                          <ActivityList
-                            renderItem={activity => (
-                              <Box key={activity.id}>
-                                <ActivityItem
-                                  activity={activity}
-                                  showReplyModal={showModal}
-                                />
-                              </Box>
+                          </Box>
+                          <ReplyConsumer>
+                            {({ showModal }) => (
+                              <ActivityList
+                                renderItem={activity => (
+                                  <Box key={activity.id}>
+                                    <ActivityItem
+                                      activity={activity}
+                                      showReplyModal={showModal}
+                                      onChange={changePost}
+                                    />
+                                  </Box>
+                                )}
+                                loadingIndicator={
+                                  <Box>
+                                    <FluidLoading />
+                                  </Box>
+                                }
+                                fetchActivities={ActivityApi.fetch}
+                              />
                             )}
-                            loadingIndicator={
-                              <Box>
-                                <FluidLoading />
-                              </Box>
-                            }
-                            fetchActivities={ActivityApi.fetch}
-                          />
-                        )}
-                      </ReplyConsumer>
-                    </BoxList>
-                  </ReplyProvider>
+                          </ReplyConsumer>
+                        </BoxList>
+                      </ReplyProvider>
+                    )}
+                  </ActivityListConsumer>
                 </ActivityListProvider>
               )}
             </StatisticsConsumer>

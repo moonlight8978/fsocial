@@ -18,50 +18,66 @@ class PostEditor extends React.Component {
     submitText: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
       .isRequired,
     onSubmit: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    collapsible: PropTypes.bool,
+    context: PropTypes.node,
+  }
+
+  static defaultProps = {
+    className: '',
+    collapsible: true,
+    context: null,
   }
 
   constructor(props) {
     super(props)
 
     this.state = {
-      isFocused: false,
+      isFocused: !props.collapsible,
     }
 
     this.actionButton = React.createRef()
 
     this.handleFocus = this.handleFocus.bind(this)
     this.handleCollapse = this.handleCollapse.bind(this)
-    this.handleCreatePost = this.handleCreatePost.bind(this)
   }
 
   handleFocus(event) {
-    this.setState({ isFocused: true })
+    if (this.props.collapsible) {
+      this.setState({ isFocused: true })
+    }
   }
 
   handleCollapse() {
-    this.setState({ isFocused: false })
-  }
-
-  handleCreatePost(post) {
-    this.props.onSubmit(post)
+    if (this.props.collapsible) {
+      this.setState({ isFocused: false })
+    }
   }
 
   render() {
-    const { submitText, placeholder } = this.props
+    const {
+      submitText,
+      placeholder,
+      className,
+      collapsible,
+      onSubmit,
+      context,
+    } = this.props
     const { isFocused } = this.state
 
     return (
       <div
-        className={styles.container}
+        className={classnames(styles.container, className)}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
       >
+        {context}
         <StaticForm
           initialValues={defaultValues}
           schema={schema}
           validateOnChange={false}
           validateOnBlur={false}
-          onSubmit={this.handleCreatePost}
+          onSubmit={onSubmit}
           resetOnSuccess
         >
           {({
@@ -132,14 +148,16 @@ class PostEditor extends React.Component {
                 </div>
 
                 <div>
-                  <Button
-                    onClick={this.handleCollapse}
-                    htmlType="button"
-                    className={styles.collapseButton}
-                    shape="circle"
-                  >
-                    <FontAwesomeIcon icon="angle-up" size="lg" />
-                  </Button>
+                  {collapsible && (
+                    <Button
+                      onClick={this.handleCollapse}
+                      htmlType="button"
+                      className={styles.collapseButton}
+                      shape="circle"
+                    >
+                      <FontAwesomeIcon icon="angle-up" size="lg" />
+                    </Button>
+                  )}
                   <Button
                     htmlType="submit"
                     shape="round"

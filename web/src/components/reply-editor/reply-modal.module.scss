@@ -24,5 +24,14 @@
 
   article {
     margin-bottom: 2rem;
+
+    .middot {
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
+    }
+  }
+
+  .replyContext {
+    padding-bottom: 0.5rem;
   }
 }

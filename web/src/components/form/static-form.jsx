@@ -29,10 +29,12 @@ class StaticForm extends React.Component {
     }).isRequired,
     children: PropTypes.func.isRequired,
     resetOnSuccess: PropTypes.bool,
+    onError: PropTypes.func,
   }
 
   static defaultProps = {
     resetOnSuccess: false,
+    onError: () => {},
   }
 
   constructor(props) {
@@ -66,6 +68,7 @@ class StaticForm extends React.Component {
           apiErrors: new ValidationError(error.response.data.errors).data,
         })
       } else {
+        this.props.onError()
         throw error
       }
     } finally {

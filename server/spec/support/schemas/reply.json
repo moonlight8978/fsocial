@@ -1,0 +1,116 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "root_id": {
+      "type": ["integer", "null"]
+    },
+    "parent_id": {
+      "type": ["integer", "null"]
+    },
+    "content": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    },
+    "can_update": {
+      "type": "boolean"
+    },
+    "can_destroy": {
+      "type": "boolean"
+    },
+    "creator": {
+      "$ref": "profile_overall.json"
+    },
+    "medias": {
+      "type": "array",
+      "items": {
+        "$ref": "attachment.json"
+      }
+    },
+    "is_shared": {
+      "type": "boolean"
+    },
+    "is_favorited": {
+      "type": "boolean"
+    },
+    "shares_count": {
+      "type": "integer"
+    },
+    "favorites_count": {
+      "type": "integer"
+    },
+    "replies_count": {
+      "type": "integer"
+    },
+    "root": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "is_shared": {
+          "type": "boolean"
+        },
+        "is_favorited": {
+          "type": "boolean"
+        },
+        "shares_count": {
+          "type": "integer"
+        },
+        "favorites_count": {
+          "type": "integer"
+        },
+        "replies_count": {
+          "type": "integer"
+        }
+      }
+    },
+    "parent": {
+      "type": ["null", "object"],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "is_shared": {
+          "type": "boolean"
+        },
+        "is_favorited": {
+          "type": "boolean"
+        },
+        "shares_count": {
+          "type": "integer"
+        },
+        "favorites_count": {
+          "type": "integer"
+        },
+        "replies_count": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "root_id",
+    "parent_id",
+    "content",
+    "created_at",
+    "updated_at",
+    "can_update",
+    "can_destroy",
+    "creator",
+    "medias",
+    "is_shared",
+    "is_favorited",
+    "shares_count",
+    "favorites_count",
+    "replies_count"
+  ]
+}
