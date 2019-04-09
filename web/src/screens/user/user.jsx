@@ -20,6 +20,7 @@ import UserResource from './user-resource'
 import { UserApi, UserActivitiesApi } from './user-api'
 import { FollowingUserList } from './following'
 import { ActivityList } from './activities'
+import { Post } from './post'
 import { Header, UserIntro, FolloweeSuggestion } from './layout'
 
 class User extends React.PureComponent {
@@ -136,6 +137,27 @@ class User extends React.PureComponent {
               )}
             />
             <Route
+              path={`${url}/posts/:id`}
+              render={() => (
+                <Layout
+                  hasNavbar
+                  navbar={<Navbar />}
+                  windowTitle={intl.formatMessage(
+                    { id: 'user.activities.windowTitle' },
+                    { username, fullname }
+                  )}
+                  hasSideRight
+                  sideRight={<FolloweeSuggestion />}
+                  hasSideLeft
+                  sideLeft={<UserIntro user={user} />}
+                  header={header}
+                  className={styles.layout}
+                >
+                  <Post user={user} />
+                </Layout>
+              )}
+            />
+            <Route
               path={`${url}/following`}
               exact
               render={() => (
@@ -191,58 +213,6 @@ class User extends React.PureComponent {
                     fetch={UserApi.fetchFollowers}
                     user={user}
                     key="followers"
-                  />
-                </Layout>
-              )}
-            />
-            <Route
-              path={`${url}/shares`}
-              exact
-              render={() => (
-                <Layout
-                  hasNavbar
-                  navbar={<Navbar />}
-                  windowTitle={intl.formatMessage(
-                    { id: 'user.shares.windowTitle' },
-                    { username, fullname }
-                  )}
-                  hasSideRight
-                  sideRight={<FolloweeSuggestion />}
-                  hasSideLeft
-                  sideLeft={<UserIntro user={user} />}
-                  header={header}
-                  className={styles.layout}
-                >
-                  <ActivityList
-                    user={user}
-                    key="shares"
-                    fetch={UserActivitiesApi.all(username)}
-                  />
-                </Layout>
-              )}
-            />
-            <Route
-              path={`${url}/favorites`}
-              exact
-              render={() => (
-                <Layout
-                  hasNavbar
-                  navbar={<Navbar />}
-                  windowTitle={intl.formatMessage(
-                    { id: 'user.favorites.windowTitle' },
-                    { username, fullname }
-                  )}
-                  hasSideRight
-                  sideRight={<FolloweeSuggestion />}
-                  hasSideLeft
-                  sideLeft={<UserIntro user={user} />}
-                  header={header}
-                  className={styles.layout}
-                >
-                  <ActivityList
-                    user={user}
-                    key="favorites"
-                    fetch={UserActivitiesApi.all(username)}
                   />
                 </Layout>
               )}
