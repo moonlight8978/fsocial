@@ -1,19 +1,16 @@
 /* eslint-disable react/no-unused-state */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Modal, Avatar } from 'antd'
-import { Link } from 'react-router-dom'
+import { Modal } from 'antd'
+import { FormattedMessage, injectIntl } from 'react-intl'
 
-import { RelativeTime } from '../relative-time'
 import { PostEditor } from '../post-editor'
-import { InlineName } from '../user'
-import { Text, Ellipsis } from '../atomics'
-import { paths } from '../../config'
+import { Text } from '../atomics'
 
 import ReplyApi from './reply-api'
-import styles from './reply-modal.module.scss'
-import postStyles from './post.module.scss'
+import Post from './post'
 import { Activity } from './reply-resource'
+import styles from './reply-modal.module.scss'
 
 const initialState = {
   post: {},
@@ -26,10 +23,11 @@ export const ReplyContext = React.createContext(initialState)
 
 export const ReplyConsumer = ReplyContext.Consumer
 
-export class ReplyProvider extends React.PureComponent {
+class ReplyProviderPure extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     onCreate: PropTypes.func.isRequired,
+    intl: PropTypes.shape().isRequired,
   }
 
   constructor(props) {
@@ -67,13 +65,20 @@ export class ReplyProvider extends React.PureComponent {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { children, ...rest } = this.props
+    const { children, intl, ...rest } = this.props
     const { visible, post } = this.state
 
     return (
       <ReplyContext.Provider value={this.state} {...rest}>
         <Modal
-          title={visible ? `Reply to ${post.creator.fullname}` : ''}
+          title={
+            visible
+              ? intl.formatMessage(
+                  { id: 'reply.modalTitle' },
+                  { fullname: post.creator.fullname }
+                )
+              : ''
+          }
           visible={visible}
           onCancel={this.handleHideModal}
           footer={null}
@@ -81,46 +86,20 @@ export class ReplyProvider extends React.PureComponent {
         >
           {visible && (
             <div className={styles.modalBody}>
-              <article className={postStyles.container}>
-                <div className={postStyles.colLeft}>
-                  <Avatar src="/avatar-placeholder.png" size={40} />
-                </div>
-
-                <div className={postStyles.colRight}>
-                  <header className={postStyles.header}>
-                    <Ellipsis className={postStyles.names}>
-                      <Link
-                        to={paths.user.resolve({
-                          username: post.creator.username,
-                        })}
-                      >
-                        <InlineName
-                          username={post.creator.username}
-                          fullname={post.creator.fullname}
-                        />
-                        <Text color="secondary" className={styles.middot}>
-                          &middot;
-                        </Text>
-                      </Link>
-                    </Ellipsis>
-                    <Text color="secondary">
-                      <RelativeTime fromTime={post.createdAt} />
-                    </Text>
-                  </header>
-
-                  <p>{post.content}</p>
-                </div>
-              </article>
+              <Post post={post} />
 
               <PostEditor
-                submitText="Reply"
-                placeholder="Publish your reply"
+                submitText={intl.formatMessage({ id: 'reply.submit' })}
+                placeholder={intl.formatMessage({ id: 'reply.placeholder' })}
                 collapsible={false}
                 onSubmit={this.createReply}
                 context={
                   <div className={styles.replyContext}>
                     <Text color="secondary">
-                      Replying to {post.creator.fullname}
+                      <FormattedMessage
+                        id="reply.context"
+                        values={{ fullname: post.creator.fullname }}
+                      />
                     </Text>
                   </div>
                 }
@@ -133,3 +112,5 @@ export class ReplyProvider extends React.PureComponent {
     )
   }
 }
+
+export const ReplyProvider = injectIntl(ReplyProviderPure)

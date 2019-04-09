@@ -62,6 +62,11 @@ activityList:
     context:
       sharing: '{fullname} shared a post.'
       favorite: '{fullname} liked a post.'
+reply:
+  context: 'Replying to {fullname}'
+  submit: Reply
+  placeholder: Publish your reply
+  modalTitle: 'Reply to {fullname}'
 user:
   editProfileButton: Edit profile
   intro:
