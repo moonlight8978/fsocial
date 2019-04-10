@@ -11,6 +11,7 @@ import {
   ActivityListConsumer,
 } from '../../../components/activity-list'
 import { PostEditor } from '../../../components/post-editor'
+import { ReplyProvider, ReplyConsumer } from '../../../components/reply-editor'
 
 class ActivityListWrapper extends React.PureComponent {
   static propTypes = {
@@ -25,13 +26,13 @@ class ActivityListWrapper extends React.PureComponent {
     const { fetch, user, intl } = this.props
     const { isCurrentUser } = user
 
-    if (isCurrentUser) {
-      return (
-        <ActivityListProvider>
-          <BoxList>
-            <Box>
-              <ActivityListConsumer>
-                {({ createPost }) => (
+    return (
+      <ActivityListProvider>
+        <ActivityListConsumer>
+          {({ createPost, changePost }) => (
+            <BoxList>
+              {isCurrentUser && (
+                <Box>
                   <PostEditor
                     submitText={intl.formatMessage({
                       id: 'home.postEditor.submit',
@@ -41,44 +42,40 @@ class ActivityListWrapper extends React.PureComponent {
                     })}
                     onSubmit={createPost}
                   />
-                )}
-              </ActivityListConsumer>
-            </Box>
-            <ActivityList
-              renderItem={activity => (
-                <Box key={activity.id}>
-                  <ActivityItem activity={activity} />
                 </Box>
               )}
-              loadingIndicator={
-                <Box>
-                  <FluidLoading />
-                </Box>
-              }
-              fetchActivities={fetch}
-            />
-          </BoxList>
-        </ActivityListProvider>
-      )
-    }
-
-    return (
-      <ActivityListProvider>
-        <BoxList>
-          <ActivityList
-            renderItem={activity => (
-              <Box key={activity.id}>
-                <ActivityItem activity={activity} />
-              </Box>
-            )}
-            loadingIndicator={
-              <Box>
-                <FluidLoading />
-              </Box>
-            }
-            fetchActivities={fetch}
-          />
-        </BoxList>
+              <ReplyProvider
+                onCreate={(post, { trackable: { rootId, root } }) =>
+                  changePost(rootId, {
+                    ...post,
+                    repliesCount: root.repliesCount,
+                  })
+                }
+              >
+                <ReplyConsumer>
+                  {({ showModal }) => (
+                    <ActivityList
+                      renderItem={activity => (
+                        <Box key={activity.id}>
+                          <ActivityItem
+                            activity={activity}
+                            showReplyModal={showModal}
+                          />
+                        </Box>
+                      )}
+                      loadingIndicator={
+                        <Box>
+                          <FluidLoading />
+                        </Box>
+                      }
+                      fetchActivities={fetch}
+                    />
+                  )}
+                </ReplyConsumer>
+              </ReplyProvider>
+            </BoxList>
+          )}
+        </ActivityListConsumer>
       </ActivityListProvider>
     )
   }

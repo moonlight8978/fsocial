@@ -1,0 +1,40 @@
+.box {
+  padding: 0;
+}
+
+.rootPost {
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+
+  .avatar {
+    flex: 50px 0 0;
+  }
+
+  .names {
+    padding-left: 1rem;
+    flex: calc(100% - 200px) 0 0;
+    min-width: 0;
+  }
+
+  .actions {
+    flex: 150px 0 0;
+    text-align: right;
+  }
+}
+
+.content {
+  margin: 0.5rem 0;
+}
+
+.createTime {
+  margin: 0.5rem 0;
+}
+
+.reactions {
+  margin-top: 0.5rem;
+  display: flex;
+}
