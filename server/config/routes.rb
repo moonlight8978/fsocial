@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       resources :posts, only: %i[create destroy update show], shallow: true do
         resource :sharing, only: %i[create destroy update]
         resource :favorite, only: %i[create destroy update]
-        resources :replies, only: %i[create update show]
+        resources :replies, only: %i[create update show index]
       end
     end
   end

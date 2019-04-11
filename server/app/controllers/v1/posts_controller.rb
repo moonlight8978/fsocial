@@ -14,8 +14,6 @@ class V1::PostsController < ApplicationController
     render json: activity, serializer: ::ActivitySerializer, status: Settings.http.statuses.created
   end
 
-  def index; end
-
   def show
     post = Post.where(parent_id: nil).find(params[:id])
     authorize post
