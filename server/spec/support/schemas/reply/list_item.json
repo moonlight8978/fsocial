@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "updated_at": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "can_update": {
+      "type": "boolean"
+    },
+    "can_destroy": {
+      "type": "boolean"
+    },
+    "root_id": {
+      "type": "integer"
+    },
+    "parent_id": {
+      "type": ["integer", "null"]
+    },
+    "content": {
+      "type": "string"
+    },
+    "favorites_count": {
+      "type": "integer"
+    },
+    "shares_count": {
+      "type": "integer"
+    },
+    "replies_count": {
+      "type": "integer"
+    },
+    "medias": {
+      "type": "array",
+      "items": {
+        "$ref": "../attachment.json"
+      }
+    },
+    "creator": {
+      "$ref": "../profile_overall.json"
+    }
+  },
+  "required": [
+    "id",
+    "updated_at",
+    "created_at",
+    "can_update",
+    "can_destroy",
+    "root_id",
+    "parent_id",
+    "content",
+    "favorites_count",
+    "shares_count",
+    "replies_count",
+    "medias",
+    "creator"
+  ]
+}
