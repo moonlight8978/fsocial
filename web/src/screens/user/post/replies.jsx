@@ -4,8 +4,13 @@ import { Avatar, Button } from 'antd'
 import classnames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
 
-import { withLoading, FluidLoading } from '../../../components/loading'
+import {
+  withLoading,
+  FluidLoading,
+  LoadingPropTypes,
+} from '../../../components/loading'
 import { InlineName } from '../../../components/user'
 import { paths } from '../../../config'
 import { PostMedias } from '../../../components/post-medias'
@@ -16,9 +21,14 @@ import { RelativeTime } from '../../../components/relative-time'
 import PostApi from './post-api'
 import styles from './reply.module.scss'
 import PostResource from './post-resource'
-import { PostProvider, PostConsumer } from './post-context'
 
 export class Reply extends React.PureComponent {
+  static propTypes = {
+    ...LoadingPropTypes,
+    reply: PropTypes.shape().isRequired,
+    showReplyModal: PropTypes.func.isRequired,
+  }
+
   showReplyModal = () => {
     const { showReplyModal, reply } = this.props
     showReplyModal(reply)
@@ -88,6 +98,12 @@ export class Reply extends React.PureComponent {
 }
 
 class Replies extends React.PureComponent {
+  static propTypes = {
+    ...LoadingPropTypes,
+    post: PropTypes.shape().isRequired,
+    setReplies: PropTypes.func.isRequired,
+  }
+
   state = {
     page: 1,
     isLastPage: false,
@@ -105,7 +121,7 @@ class Replies extends React.PureComponent {
   }
 
   fetchReplies = async () => {
-    const { match, finishLoading, setReplies, post } = this.props
+    const { finishLoading, setReplies, post } = this.props
     const { page } = this.state
     try {
       const { data: replies } = await PostApi.fetchReplies(post.id, page)
@@ -122,7 +138,7 @@ class Replies extends React.PureComponent {
   }
 
   render() {
-    const { children, isLoading, post } = this.props
+    const { children, isLoading } = this.props
     const { isLastPage } = this.state
 
     return (

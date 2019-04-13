@@ -2,12 +2,17 @@ import React from 'react'
 import { Button, Avatar } from 'antd'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import PropTypes from 'prop-types'
 
-import { withLoading } from '../../../components/loading'
+import {
+  withLoading,
+  LoadingPropTypes,
+  FluidLoading,
+} from '../../../components/loading'
 import { InlineName } from '../../../components/user'
 import { paths } from '../../../config'
 import { PostMedias } from '../../../components/post-medias'
-import { FavoriteButton, ReplyButton } from '../../../components/post-actions'
+import { FavoriteButton } from '../../../components/post-actions'
 import { Text, Ellipsis } from '../../../components/atomics'
 import { RelativeTime } from '../../../components/relative-time'
 
@@ -16,6 +21,11 @@ import PostApi from './post-api'
 import PostResource from './post-resource'
 
 class SubReplies extends React.PureComponent {
+  static propTypes = {
+    ...LoadingPropTypes,
+    parent: PropTypes.shape().isRequired,
+  }
+
   state = {
     page: 0,
     isLastPage: false,
@@ -34,7 +44,7 @@ class SubReplies extends React.PureComponent {
 
   fetchReplies = async () => {
     this.props.startLoading()
-    const { parent, finishLoading, startLoading, setSubReplies } = this.props
+    const { parent, finishLoading, setSubReplies } = this.props
     const { page } = this.state
     try {
       const { data } = await PostApi.fetchReplies(parent.id, page)
@@ -59,6 +69,7 @@ class SubReplies extends React.PureComponent {
     return (
       <div>
         {children}
+        {isLoading && <FluidLoading />}
         {!isEmpty && !isLastPage && (
           <div className={styles.hasMoreContainer}>
             <FontAwesomeIcon
@@ -82,8 +93,14 @@ class SubReplies extends React.PureComponent {
 export default withLoading(SubReplies)
 
 export class SubReply extends React.PureComponent {
+  static propTypes = {
+    subReply: PropTypes.shape().isRequired,
+    replyTo: PropTypes.shape().isRequired,
+    onChange: PropTypes.func.isRequired,
+  }
+
   render() {
-    const { subReply, replyTo, onChange, children } = this.props
+    const { subReply, replyTo, onChange } = this.props
     const { creator, content, createdAt } = subReply
     const { username, fullname } = creator
 

@@ -1,8 +1,13 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Avatar } from 'antd'
+import PropTypes from 'prop-types'
 
-import { withLoading, FluidLoading } from '../../../components/loading'
+import {
+  withLoading,
+  FluidLoading,
+  LoadingPropTypes,
+} from '../../../components/loading'
 import { Box, Text, Ellipsis } from '../../../components/atomics'
 import { PostMedias } from '../../../components/post-medias'
 import { FollowButton } from '../../../components/following'
@@ -23,6 +28,12 @@ import { PostProvider, PostConsumer } from './post-context'
 import selectors from './post-selectors'
 
 class Post extends React.PureComponent {
+  static propTypes = {
+    ...LoadingPropTypes,
+    match: PropTypes.shape().isRequired,
+    setPost: PropTypes.func.isRequired,
+  }
+
   async componentDidMount() {
     const { match, finishLoading, setPost } = this.props
     try {
@@ -129,11 +140,11 @@ class Post extends React.PureComponent {
               return (
                 <Replies post={post} setReplies={setReplies}>
                   <ReplyProvider
-                    onCreate={(post, { trackable }) => {
-                      changeReply(post.id, {
+                    onCreate={(root, { trackable }) => {
+                      changeReply(root.id, {
                         subRepliesCount: trackable.parent.subRepliesCount,
                       })
-                      setSubReplies(post.id, [trackable], 'before')
+                      setSubReplies(root.id, [trackable], 'before')
                     }}
                   >
                     <ReplyConsumer>
