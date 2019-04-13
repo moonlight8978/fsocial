@@ -8,7 +8,8 @@ import { InlineName } from '../../../components/user'
 import { paths } from '../../../config'
 import { PostMedias } from '../../../components/post-medias'
 import { FavoriteButton, ReplyButton } from '../../../components/post-actions'
-import { Text } from '../../../components/atomics'
+import { Text, Ellipsis } from '../../../components/atomics'
+import { RelativeTime } from '../../../components/relative-time'
 
 import PostApi from './post-api'
 import styles from './reply.module.scss'
@@ -22,27 +23,35 @@ export class Reply extends React.PureComponent {
 
   render() {
     const { reply, replyTo, onChange, children } = this.props
-    const { creator, content, subRepliesCount } = reply
+    const { creator, content, subRepliesCount, createdAt } = reply
     const { username, fullname } = creator
 
     return (
       <div className={styles.listItem}>
         <article className={styles.inner}>
-          <div className={styles.avatar}>
-            <Avatar
-              src="/avatar-placeholder.png"
-              size={50}
-              className={classnames(styles.avatarThumb, {
-                [styles.avatarThumbConnect]: subRepliesCount > 0,
-              })}
-            />
+          <div
+            className={classnames(styles.avatar, {
+              [styles.avatarConnect]: subRepliesCount > 0,
+            })}
+          >
+            <Avatar src="/avatar-placeholder.png" size={50} />
           </div>
 
           <div className={styles.reply}>
             <header>
-              <Link to={paths.user.resolve({ username })}>
-                <InlineName fullname={fullname} username={username} />
-              </Link>
+              <Ellipsis className={styles.names}>
+                <Link to={paths.user.resolve({ username })}>
+                  <InlineName fullname={fullname} username={username} />
+                </Link>
+              </Ellipsis>
+
+              <Text color="secondary">
+                <InlineName.Middot />
+              </Text>
+
+              <Text color="secondary">
+                <RelativeTime fromTime={createdAt} />
+              </Text>
             </header>
 
             <div>
@@ -99,7 +108,9 @@ class Replies extends React.PureComponent {
 
   changeReply = (id, newReply) => {
     this.setState(state => ({
-      replies: state.replies.map(reply => (reply.id === id ? newReply : reply)),
+      replies: state.replies.map(reply =>
+        reply.id === id ? { ...reply, ...newReply } : reply
+      ),
     }))
   }
 

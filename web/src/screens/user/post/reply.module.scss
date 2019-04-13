@@ -23,22 +23,29 @@
 
     position: relative;
 
-    &:after {
+    &.avatarConnect:after {
       content: '';
       position: absolute;
       z-index: 1;
       left: 50%;
       transform: translateX(-50%);
-      top: 52px;
-      bottom: -0.5rem;
+      top: 54px;
+      bottom: -12px;
       width: 4px;
-      background-color: blue;
+      background-color: $connector-color;
+      border-radius: 4px;
     }
   }
 
   .reply {
     flex: calc(100% - 50px) 0 0;
     padding-left: 1rem;
+
+    .names {
+      max-width: 75%;
+      display: inline-block;
+      vertical-align: bottom;
+    }
   }
 }
 

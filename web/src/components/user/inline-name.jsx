@@ -6,13 +6,17 @@ import { Text } from '../atomics'
 
 import styles from './inline-name.module.scss'
 
+const Middot = () => <span className={styles.middot}>&middot;</span>
+
 function InlineName({ username, fullname, className }) {
   return (
     <span className={classnames(styles.name, { [className]: className })}>
       <Text bold className={styles.fullname}>
         {fullname}
       </Text>
-      <Text className={styles.middot}>&middot;</Text>
+      <Text color="secondary">
+        <Middot />
+      </Text>
       <Text color="secondary" className={styles.username}>
         @{username}
       </Text>
@@ -30,4 +34,8 @@ InlineName.defaultProps = {
   className: '',
 }
 
-export default InlineName
+const PureInlineName = React.memo(InlineName)
+
+PureInlineName.Middot = React.memo(Middot)
+
+export default PureInlineName

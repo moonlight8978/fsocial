@@ -64,9 +64,6 @@ class Post extends React.PureComponent {
               this.setState({
                 post: { ...post, repliesCount: root.repliesCount },
               })
-              this.setState(state => ({
-                rootReplies: [trackable, ...state.rootReplies],
-              }))
             }}
           >
             <ReplyConsumer>
@@ -143,7 +140,13 @@ class Post extends React.PureComponent {
 
           <Replies post={post}>
             {({ replies, error, handleChange }) => (
-              <ReplyProvider onCreate={() => {}}>
+              <ReplyProvider
+                onCreate={(post, { trackable }) => {
+                  handleChange(post.id, {
+                    subRepliesCount: trackable.parent.subRepliesCount,
+                  })
+                }}
+              >
                 <ReplyConsumer>
                   {({ showModal }) => (
                     <div className={replyStyles.list}>
@@ -156,12 +159,13 @@ class Post extends React.PureComponent {
                           showReplyModal={showModal}
                         >
                           <SubReplies parent={reply}>
-                            {({ subReplies }) =>
+                            {({ subReplies, handleChange }) =>
                               subReplies.map(subReply => (
                                 <SubReply
                                   subReply={subReply}
                                   key={subReply.id}
                                   replyTo={reply.creator}
+                                  onChange={handleChange}
                                 />
                               ))
                             }

@@ -1,13 +1,15 @@
 import React from 'react'
 import { Button, Avatar } from 'antd'
 import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { withLoading } from '../../../components/loading'
 import { InlineName } from '../../../components/user'
 import { paths } from '../../../config'
 import { PostMedias } from '../../../components/post-medias'
 import { FavoriteButton, ReplyButton } from '../../../components/post-actions'
-import { Text } from '../../../components/atomics'
+import { Text, Ellipsis } from '../../../components/atomics'
+import { RelativeTime } from '../../../components/relative-time'
 
 import styles from './sub-replies.module.scss'
 import PostApi from './post-api'
@@ -44,6 +46,14 @@ class SubReplies extends React.PureComponent {
     }
   }
 
+  handleChange = (id, newReply) => {
+    this.setState(state => ({
+      subReplies: state.subReplies.map(reply =>
+        reply.id === id ? { ...reply, ...newReply } : reply
+      ),
+    }))
+  }
+
   render() {
     const { parent, children, isLoading } = this.props
     const { hasMore, subReplies, error } = this.state
@@ -54,9 +64,26 @@ class SubReplies extends React.PureComponent {
 
     return (
       <div>
-        {children({ subReplies, error, isLoading })}
+        {children({
+          subReplies,
+          error,
+          isLoading,
+          handleChange: this.handleChange,
+        })}
         {hasMore && (
-          <Button onClick={this.loadSubReplies}>Show more reply</Button>
+          <div className={styles.hasMoreContainer}>
+            <FontAwesomeIcon
+              icon="ellipsis-h"
+              className={styles.avatarConnectMore}
+            />
+            <Button
+              block
+              onClick={this.loadSubReplies}
+              className={styles.hasMoreButton}
+            >
+              <FontAwesomeIcon icon="ellipsis-h" />
+            </Button>
+          </div>
         )}
       </div>
     )
@@ -68,20 +95,30 @@ export default withLoading(SubReplies)
 export class SubReply extends React.PureComponent {
   render() {
     const { subReply, replyTo, onChange, children } = this.props
-    const { creator, content } = subReply
+    const { creator, content, createdAt } = subReply
     const { username, fullname } = creator
 
     return (
-      <article>
+      <article className={styles.container}>
         <div className={styles.avatar}>
           <Avatar src="/avatar-placeholder.png" size={50} />
         </div>
 
         <div className={styles.reply}>
           <header>
-            <Link to={paths.user.resolve({ username })}>
-              <InlineName fullname={fullname} username={username} />
-            </Link>
+            <Ellipsis className={styles.names}>
+              <Link to={paths.user.resolve({ username })}>
+                <InlineName fullname={fullname} username={username} />
+              </Link>
+            </Ellipsis>
+
+            <Text color="secondary">
+              <InlineName.Middot />
+            </Text>
+
+            <Text color="secondary">
+              <RelativeTime fromTime={createdAt} />
+            </Text>
           </header>
 
           <div>

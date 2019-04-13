@@ -2,7 +2,7 @@ class ReplySerializer < ActiveModel::Serializer
   class PostAncestorSerializer < ActiveModel::Serializer
     include ::SerializerHelpers::PostMetadata
 
-    attributes :id, :replies_count, :favorites_count, :shares_count
+    attributes :id, :replies_count, :favorites_count, :shares_count, :sub_replies_count
   end
 
   include ::SerializerHelpers::Auth
@@ -20,6 +20,7 @@ class ReplySerializer < ActiveModel::Serializer
     :favorites_count,
     :shares_count,
     :replies_count,
+    :sub_replies_count
   )
 
   belongs_to :creator, serializer: ProfileOverallSerializer

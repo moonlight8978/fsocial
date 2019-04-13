@@ -24,6 +24,7 @@ const Ancestor = {
   parse: post => ({
     id: post.id,
     repliesCount: post.replies_count,
+    subRepliesCount: post.sub_replies_count,
     favoritesCount: post.favorites_count,
     sharesCount: post.shares_count,
     isFavorited: post.is_favorited,
@@ -44,6 +45,7 @@ const Post = {
     creator: User.parse(post.creator),
     medias: post.medias.map(media => Media.parse(media)),
     repliesCount: post.replies_count,
+    subRepliesCount: post.sub_replies_count,
     favoritesCount: post.favorites_count,
     sharesCount: post.shares_count,
     isFavorited: post.is_favorited,
