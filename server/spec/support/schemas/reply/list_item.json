@@ -34,6 +34,9 @@
     "replies_count": {
       "type": "integer"
     },
+    "sub_replies_count": {
+      "type": "integer"
+    },
     "medias": {
       "type": "array",
       "items": {
@@ -56,6 +59,7 @@
     "favorites_count",
     "shares_count",
     "replies_count",
+    "sub_replies_count",
     "medias",
     "creator"
   ]

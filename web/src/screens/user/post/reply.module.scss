@@ -1,0 +1,50 @@
+@import 'config/colors';
+
+.listItem {
+  padding: 1rem;
+  position: relative;
+
+  &:not(:first-child):before {
+    content: '';
+    position: absolute;
+    height: 1px;
+    top: 0;
+    right: 1rem;
+    left: 1rem;
+    background-color: #e8e8e8;
+  }
+}
+
+.inner {
+  display: flex;
+
+  .avatar {
+    flex: 50px 0 0;
+
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 52px;
+      bottom: -0.5rem;
+      width: 4px;
+      background-color: blue;
+    }
+  }
+
+  .reply {
+    flex: calc(100% - 50px) 0 0;
+    padding-left: 1rem;
+  }
+}
+
+.subReplies {
+}
+
+.actions {
+  display: flex;
+}

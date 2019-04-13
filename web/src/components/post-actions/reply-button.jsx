@@ -12,10 +12,15 @@ class ReplyButton extends React.PureComponent {
   static propTypes = {
     post: PropTypes.shape().isRequired,
     showReplyModal: PropTypes.func.isRequired,
+    children: PropTypes.any,
+  }
+
+  static defaultProps = {
+    children: null,
   }
 
   render() {
-    const { post, showReplyModal } = this.props
+    const { post, showReplyModal, children } = this.props
     const { repliesCount } = post
 
     return (
@@ -25,7 +30,7 @@ class ReplyButton extends React.PureComponent {
       >
         <Text color="secondary">
           <FontAwesomeIcon size="lg" icon={['far', 'comment']} />
-          <span className={styles.actionCount}>{repliesCount}</span>
+          <span className={styles.actionCount}>{children || repliesCount}</span>
         </Text>
       </Button>
     )

@@ -19,7 +19,7 @@ class ReplySerializer < ActiveModel::Serializer
     :can_destroy,
     :favorites_count,
     :shares_count,
-    :replies_count
+    :replies_count,
   )
 
   belongs_to :creator, serializer: ProfileOverallSerializer

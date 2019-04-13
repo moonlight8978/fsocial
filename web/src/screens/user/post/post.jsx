@@ -4,7 +4,7 @@ import { Avatar } from 'antd'
 
 import { withLoading, FluidLoading } from '../../../components/loading'
 import { Box, Text, Ellipsis } from '../../../components/atomics'
-import PostMedias from '../../../components/post-medias/post-medias'
+import { PostMedias } from '../../../components/post-medias'
 import { FollowButton } from '../../../components/following'
 import {
   ReplyButton,
@@ -17,6 +17,8 @@ import PostApi from './post-api'
 import PostResource from './post-resource'
 import styles from './post.module.scss'
 import replyStyles from './reply.module.scss'
+import Replies, { Reply } from './replies'
+import SubReplies, { SubReply } from './sub-replies'
 
 class Post extends React.PureComponent {
   constructor(props) {
@@ -24,18 +26,19 @@ class Post extends React.PureComponent {
 
     this.state = {
       post: {},
-      rootReplies: [],
-      subReplies: {},
+      error: null,
     }
   }
 
   async componentDidMount() {
     const { match, finishLoading } = this.props
     try {
-      const { data } = await PostApi.fetch(match.params.id)
-      this.setState({ post: PostResource.Post.parse(data) })
-      console.log(PostResource.Post.parse(data))
+      const { data: post } = await PostApi.fetch(match.params.id)
+      this.setState({
+        post: PostResource.Post.parse(post),
+      })
     } catch (error) {
+      this.setState({ error })
       console.log(error)
     } finally {
       finishLoading()
@@ -44,30 +47,30 @@ class Post extends React.PureComponent {
 
   render() {
     const { isLoading } = this.props
-    const { post, rootReplies, subReplies } = this.state
+    const { post } = this.state
 
     if (isLoading) {
       return <FluidLoading />
     }
 
-    const { creator, content, createdAt } = post
+    const { creator, content, createdAt, sharesCount, favoritesCount } = post
 
     return (
       <Box className={styles.box}>
-        <ReplyProvider
-          onCreate={(_post, { trackable }) => {
-            const { root } = trackable
-            this.setState({
-              post: { ...post, repliesCount: root.repliesCount },
-            })
-            this.setState(state => ({
-              rootReplies: [trackable, ...state.rootReplies],
-            }))
-          }}
-        >
-          <ReplyConsumer>
-            {({ showModal }) => (
-              <div>
+        <div>
+          <ReplyProvider
+            onCreate={(_post, { trackable }) => {
+              const { root } = trackable
+              this.setState({
+                post: { ...post, repliesCount: root.repliesCount },
+              })
+              this.setState(state => ({
+                rootReplies: [trackable, ...state.rootReplies],
+              }))
+            }}
+          >
+            <ReplyConsumer>
+              {({ showModal }) => (
                 <article className={styles.rootPost}>
                   <header className={styles.header}>
                     <div className={styles.avatar}>
@@ -120,30 +123,58 @@ class Post extends React.PureComponent {
                       }
                     />
                   </div>
+
+                  <div className={styles.detailStatistics}>
+                    <div>
+                      <Text bold>{sharesCount}</Text>
+                      <span> </span>
+                      <Text color="secondary">Shares</Text>
+                    </div>
+                    <div>
+                      <Text bold>{favoritesCount}</Text>
+                      <span> </span>
+                      <Text color="secondary">Favorites</Text>
+                    </div>
+                  </div>
                 </article>
+              )}
+            </ReplyConsumer>
+          </ReplyProvider>
 
-                <div className={replyStyles.list}>
-                  {[1, 2, 3, 4].map(num => (
-                    <article>
-                      <div className={replyStyles.avatar}>avatar</div>
-                      <div className={replyStyles.reply}>
-                        <header>header</header>
-
-                        <div>context</div>
-
-                        <p>content</p>
-
-                        <div>medias</div>
-
-                        <div>actions button</div>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              </div>
+          <Replies post={post}>
+            {({ replies, error, handleChange }) => (
+              <ReplyProvider onCreate={() => {}}>
+                <ReplyConsumer>
+                  {({ showModal }) => (
+                    <div className={replyStyles.list}>
+                      {replies.map(reply => (
+                        <Reply
+                          key={reply.id}
+                          reply={reply}
+                          replyTo={reply.creator}
+                          onChange={handleChange}
+                          showReplyModal={showModal}
+                        >
+                          <SubReplies parent={reply}>
+                            {({ subReplies }) =>
+                              subReplies.map(subReply => (
+                                <SubReply
+                                  subReply={subReply}
+                                  key={subReply.id}
+                                  replyTo={reply.creator}
+                                />
+                              ))
+                            }
+                          </SubReplies>
+                        </Reply>
+                      ))}
+                    </div>
+                  )}
+                </ReplyConsumer>
+              </ReplyProvider>
             )}
-          </ReplyConsumer>
-        </ReplyProvider>
+          </Replies>
+        </div>
       </Box>
     )
   }

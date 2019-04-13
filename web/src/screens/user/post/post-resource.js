@@ -45,6 +45,21 @@ const Post = {
 const Reply = {
   parse: reply => ({
     id: reply.id,
+    rootId: reply.root_id,
+    parentId: reply.parent_id,
+    content: reply.content,
+    createdAt: new Date(reply.created_at),
+    updatedAt: new Date(reply.updated_at),
+    canUpdate: reply.can_update,
+    canDestroy: reply.can_destroy,
+    creator: User.parse(reply.creator),
+    medias: reply.medias.map(media => Media.parse(media)),
+    repliesCount: reply.replies_count,
+    subRepliesCount: reply.sub_replies_count,
+    favoritesCount: reply.favorites_count,
+    sharesCount: reply.shares_count,
+    isFavorited: reply.is_favorited,
+    isShared: reply.is_shared,
   }),
 }
 
