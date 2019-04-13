@@ -19,35 +19,34 @@ import styles from './post.module.scss'
 import replyStyles from './reply.module.scss'
 import Replies, { Reply } from './replies'
 import SubReplies, { SubReply } from './sub-replies'
+import { PostProvider, PostConsumer } from './post-context'
+import selectors from './post-selectors'
 
 class Post extends React.PureComponent {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      post: {},
-      error: null,
+  async componentDidMount() {
+    const { match, finishLoading, setPost } = this.props
+    try {
+      const { data: post } = await PostApi.fetch(match.params.id)
+      setPost(PostResource.Post.parse(post))
+      finishLoading()
+    } catch (error) {
+      console.log(error)
     }
   }
 
-  async componentDidMount() {
-    const { match, finishLoading } = this.props
-    try {
-      const { data: post } = await PostApi.fetch(match.params.id)
-      this.setState({
-        post: PostResource.Post.parse(post),
-      })
-    } catch (error) {
-      this.setState({ error })
-      console.log(error)
-    } finally {
-      finishLoading()
-    }
+  handleReact = (_postId, post) => {
+    const { setPost } = this.props
+    setPost(post)
+  }
+
+  handleReply = (post, { trackable }) => {
+    const { setPost, setReplies } = this.props
+    setPost({ repliesCount: trackable.root.repliesCount })
+    setReplies([trackable], 'before')
   }
 
   render() {
-    const { isLoading } = this.props
-    const { post } = this.state
+    const { isLoading, post } = this.props
 
     if (isLoading) {
       return <FluidLoading />
@@ -58,14 +57,7 @@ class Post extends React.PureComponent {
     return (
       <Box className={styles.box}>
         <div>
-          <ReplyProvider
-            onCreate={(_post, { trackable }) => {
-              const { root } = trackable
-              this.setState({
-                post: { ...post, repliesCount: root.repliesCount },
-              })
-            }}
-          >
+          <ReplyProvider onCreate={this.handleReply}>
             <ReplyConsumer>
               {({ showModal }) => (
                 <article className={styles.rootPost}>
@@ -101,24 +93,11 @@ class Post extends React.PureComponent {
                   <PostMedias post={post} />
 
                   <div className={styles.reactions}>
-                    <ReplyButton
-                      post={post}
-                      showReplyModal={() => showModal(post)}
-                    />
+                    <ReplyButton post={post} showReplyModal={showModal} />
 
-                    <ShareButton
-                      post={post}
-                      onChange={(postId, newPost) =>
-                        this.setState({ post: newPost })
-                      }
-                    />
+                    <ShareButton post={post} onChange={this.handleReact} />
 
-                    <FavoriteButton
-                      post={post}
-                      onChange={(postId, newPost) =>
-                        this.setState({ post: newPost })
-                      }
-                    />
+                    <FavoriteButton post={post} onChange={this.handleReact} />
                   </div>
 
                   <div className={styles.detailStatistics}>
@@ -138,50 +117,86 @@ class Post extends React.PureComponent {
             </ReplyConsumer>
           </ReplyProvider>
 
-          <Replies post={post}>
-            {({ replies, error, handleChange }) => (
-              <ReplyProvider
-                onCreate={(post, { trackable }) => {
-                  handleChange(post.id, {
-                    subRepliesCount: trackable.parent.subRepliesCount,
-                  })
-                }}
-              >
-                <ReplyConsumer>
-                  {({ showModal }) => (
-                    <div className={replyStyles.list}>
-                      {replies.map(reply => (
-                        <Reply
-                          key={reply.id}
-                          reply={reply}
-                          replyTo={reply.creator}
-                          onChange={handleChange}
-                          showReplyModal={showModal}
-                        >
-                          <SubReplies parent={reply}>
-                            {({ subReplies, handleChange }) =>
-                              subReplies.map(subReply => (
-                                <SubReply
-                                  subReply={subReply}
-                                  key={subReply.id}
-                                  replyTo={reply.creator}
-                                  onChange={handleChange}
-                                />
-                              ))
-                            }
-                          </SubReplies>
-                        </Reply>
-                      ))}
-                    </div>
-                  )}
-                </ReplyConsumer>
-              </ReplyProvider>
-            )}
-          </Replies>
+          <PostConsumer>
+            {context => {
+              const {
+                setReplies,
+                replies,
+                setSubReplies,
+                changeReply,
+                changeSubReply,
+              } = context
+              return (
+                <Replies post={post} setReplies={setReplies}>
+                  <ReplyProvider
+                    onCreate={(post, { trackable }) => {
+                      changeReply(post.id, {
+                        subRepliesCount: trackable.parent.subRepliesCount,
+                      })
+                      setSubReplies(post.id, [trackable], 'before')
+                    }}
+                  >
+                    <ReplyConsumer>
+                      {({ showModal }) => (
+                        <div className={replyStyles.list}>
+                          {replies.map(reply => (
+                            <Reply
+                              key={reply.id}
+                              reply={reply}
+                              replyTo={reply.creator}
+                              onChange={changeReply}
+                              showReplyModal={showModal}
+                            >
+                              <SubReplies
+                                parent={reply}
+                                setSubReplies={setSubReplies}
+                              >
+                                {selectors
+                                  .getSubReplies(reply.id)(context)
+                                  .map(subReply => (
+                                    <SubReply
+                                      subReply={subReply}
+                                      key={subReply.id}
+                                      replyTo={reply.creator}
+                                      onChange={(subReplyId, newSubReply) =>
+                                        changeSubReply(
+                                          reply.id,
+                                          subReplyId,
+                                          newSubReply
+                                        )
+                                      }
+                                    />
+                                  ))}
+                              </SubReplies>
+                            </Reply>
+                          ))}
+                        </div>
+                      )}
+                    </ReplyConsumer>
+                  </ReplyProvider>
+                </Replies>
+              )
+            }}
+          </PostConsumer>
         </div>
       </Box>
     )
   }
 }
 
-export default withLoading(withRouter(Post))
+const PostScreen = withLoading(withRouter(Post))
+
+export default props => (
+  <PostProvider>
+    <PostConsumer>
+      {({ setPost, post, setReplies }) => (
+        <PostScreen
+          {...props}
+          setPost={setPost}
+          post={post}
+          setReplies={setReplies}
+        />
+      )}
+    </PostConsumer>
+  </PostProvider>
+)

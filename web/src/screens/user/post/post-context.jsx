@@ -1,4 +1,7 @@
 import React from 'react'
+import _ from 'lodash'
+
+import selectors from './post-selectors'
 
 const initialState = {
   post: {},
@@ -8,12 +11,7 @@ const initialState = {
   setReplies: () => {},
   changeReply: () => {},
   setSubReplies: () => {},
-  changeSubReplies: () => {},
-}
-
-const selectors = {
-  getSubReplies: parentId => state =>
-    state.subRepliesHash[parentId.toString()] || [],
+  changeSubReply: () => {},
 }
 
 const PostContext = React.createContext(initialState)
@@ -23,14 +21,14 @@ export const PostConsumer = PostContext.Consumer
 export class PostProvider extends React.PureComponent {
   state = {
     ...initialState,
-    setPost: this.setPost,
-    setReplies: this.setReplies,
-    changeReply: this.changeReply,
-    setSubReplies: this.setSubReplies,
-    changeSubReplies: this.changeSubReplies,
+    setPost: this.setPost.bind(this),
+    setReplies: this.setReplies.bind(this),
+    changeReply: this.changeReply.bind(this),
+    setSubReplies: this.setSubReplies.bind(this),
+    changeSubReply: this.changeSubReply.bind(this),
   }
 
-  setPost = newPost => {
+  setPost(newPost) {
     this.setState(state => ({
       post: {
         ...state.post,
@@ -39,7 +37,7 @@ export class PostProvider extends React.PureComponent {
     }))
   }
 
-  setReplies = (newReplies, position = 'after') => {
+  setReplies(newReplies, position = 'after') {
     const { replies } = this.state
     let newState
 
@@ -50,11 +48,11 @@ export class PostProvider extends React.PureComponent {
     }
 
     this.setState({
-      replies: newState,
+      replies: _.uniqBy(newState, 'id'),
     })
   }
 
-  changeReply = (id, newReply) => {
+  changeReply(id, newReply) {
     this.setState(state => ({
       replies: state.replies.map(reply =>
         reply.id === id ? { ...reply, ...newReply } : reply
@@ -62,7 +60,7 @@ export class PostProvider extends React.PureComponent {
     }))
   }
 
-  setSubReplies = (parentId, newReplies, position = 'after') => {
+  setSubReplies(parentId, newReplies, position = 'after') {
     const key = parentId.toString()
     const oldSubReplies = selectors.getSubReplies(parentId)(this.state)
     let newState
@@ -75,13 +73,13 @@ export class PostProvider extends React.PureComponent {
 
     this.setState(state => ({
       subRepliesHash: {
-        ...state.subReplies,
-        [key]: newState,
+        ...state.subRepliesHash,
+        [key]: _.uniqBy(newState, 'id'),
       },
     }))
   }
 
-  changeSubReply = (parentId, id, newReply) => {
+  changeSubReply(parentId, id, newReply) {
     const key = parentId.toString()
     const oldSubReplies = selectors.getSubReplies(parentId)(this.state)
 

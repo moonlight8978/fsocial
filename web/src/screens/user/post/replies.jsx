@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Avatar } from 'antd'
+import { Avatar, Button } from 'antd'
 import classnames from 'classnames'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FormattedMessage } from 'react-intl'
 
-import { withLoading } from '../../../components/loading'
+import { withLoading, FluidLoading } from '../../../components/loading'
 import { InlineName } from '../../../components/user'
 import { paths } from '../../../config'
 import { PostMedias } from '../../../components/post-medias'
@@ -14,6 +16,7 @@ import { RelativeTime } from '../../../components/relative-time'
 import PostApi from './post-api'
 import styles from './reply.module.scss'
 import PostResource from './post-resource'
+import { PostProvider, PostConsumer } from './post-context'
 
 export class Reply extends React.PureComponent {
   showReplyModal = () => {
@@ -87,47 +90,69 @@ export class Reply extends React.PureComponent {
 class Replies extends React.PureComponent {
   state = {
     page: 1,
-    error: null,
-    replies: [],
+    isLastPage: false,
   }
 
-  async componentDidMount() {
-    const { post, finishLoading } = this.props
-    const { page } = this.state
-    try {
-      const { data } = await PostApi.fetchReplies(post.id, page)
-      this.setState(
-        { replies: PostResource.Replies.parse(data), error: null },
-        finishLoading
-      )
-      finishLoading()
-    } catch (error) {
-      this.setState({ error: null }, finishLoading)
+  componentDidMount() {
+    this.fetchReplies()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.page !== prevState.page) {
+      this.props.startLoading()
+      this.fetchReplies()
     }
   }
 
-  changeReply = (id, newReply) => {
-    this.setState(state => ({
-      replies: state.replies.map(reply =>
-        reply.id === id ? { ...reply, ...newReply } : reply
-      ),
-    }))
+  fetchReplies = async () => {
+    const { match, finishLoading, setReplies, post } = this.props
+    const { page } = this.state
+    try {
+      const { data: replies } = await PostApi.fetchReplies(post.id, page)
+      setReplies(PostResource.Replies.parse(replies))
+      this.setState({ isLastPage: replies.length < 25 })
+      finishLoading()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  handleLoadMore = () => {
+    this.setState(state => ({ page: state.page + 1 }))
   }
 
   render() {
     const { children, isLoading, post } = this.props
-    const { error, replies } = this.state
+    const { isLastPage } = this.state
 
-    if (post.repliesCount === 0) {
-      return null
-    }
-
-    return children({
-      isLoading,
-      error,
-      replies,
-      handleChange: this.changeReply,
-    })
+    return (
+      <>
+        {children}
+        {isLoading && <FluidLoading />}
+        {!isLoading && (
+          <Button
+            onClick={this.handleLoadMore}
+            htmlType="button"
+            type="primary"
+            className={styles.buttonLoadMore}
+            block
+            disabled={isLastPage}
+          >
+            {isLastPage ? (
+              <>
+                <FontAwesomeIcon icon="angle-up" />
+                <span>&nbsp;</span>
+                <FormattedMessage id="post.replyList.lastPage" />
+                <span>&nbsp;</span>
+                <FontAwesomeIcon icon="angle-up" />
+              </>
+            ) : (
+              <FontAwesomeIcon icon="ellipsis-h" />
+            )}
+          </Button>
+        )}
+      </>
+    )
   }
 }
 

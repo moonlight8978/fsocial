@@ -10,7 +10,7 @@ export default {
   fetchReplies: (id, page) => {
     return localHttp.request({
       method: 'get',
-      url: `/posts/${id}/replies`,
+      url: `/posts/${id}/replies?page=${page}`,
     })
   },
 }

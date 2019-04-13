@@ -17,46 +17,40 @@ import PostResource from './post-resource'
 
 class SubReplies extends React.PureComponent {
   state = {
-    subReplies: [],
-    page: 1,
-    error: null,
-    hasMore: true,
+    page: 0,
+    isLastPage: false,
+    isEmpty: this.props.parent.subRepliesCount === 0,
   }
 
   componentDidMount() {
     this.props.finishLoading()
   }
 
-  loadSubReplies = async () => {
-    const { parent, finishLoading, startLoading } = this.props
-    const { page } = this.state
-    startLoading()
-    try {
-      const { data } = await PostApi.fetchReplies(parent.id, page)
-      this.setState(
-        {
-          subReplies: PostResource.Replies.parse(data),
-          error: null,
-          hasMore: data.length === 25,
-        },
-        finishLoading
-      )
-    } catch (error) {
-      this.setState({ error: error }, finishLoading)
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.page !== prevState.page) {
+      this.fetchReplies()
     }
   }
 
-  handleChange = (id, newReply) => {
-    this.setState(state => ({
-      subReplies: state.subReplies.map(reply =>
-        reply.id === id ? { ...reply, ...newReply } : reply
-      ),
-    }))
+  fetchReplies = async () => {
+    this.props.startLoading()
+    const { parent, finishLoading, startLoading, setSubReplies } = this.props
+    const { page } = this.state
+    try {
+      const { data } = await PostApi.fetchReplies(parent.id, page)
+      setSubReplies(parent.id, PostResource.Replies.parse(data))
+      this.setState({ isLastPage: data.length < 25 })
+      finishLoading()
+    } catch (error) {
+      console.log(error)
+    }
   }
+
+  loadMore = () => this.setState(state => ({ page: state.page + 1 }))
 
   render() {
     const { parent, children, isLoading } = this.props
-    const { hasMore, subReplies, error } = this.state
+    const { isLastPage, isEmpty } = this.state
 
     if (parent.subRepliesCount === 0) {
       return null
@@ -64,13 +58,8 @@ class SubReplies extends React.PureComponent {
 
     return (
       <div>
-        {children({
-          subReplies,
-          error,
-          isLoading,
-          handleChange: this.handleChange,
-        })}
-        {hasMore && (
+        {children}
+        {!isEmpty && !isLastPage && (
           <div className={styles.hasMoreContainer}>
             <FontAwesomeIcon
               icon="ellipsis-h"
@@ -78,7 +67,7 @@ class SubReplies extends React.PureComponent {
             />
             <Button
               block
-              onClick={this.loadSubReplies}
+              onClick={this.loadMore}
               className={styles.hasMoreButton}
             >
               <FontAwesomeIcon icon="ellipsis-h" />

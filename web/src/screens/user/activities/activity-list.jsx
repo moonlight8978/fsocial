@@ -60,6 +60,7 @@ class ActivityListWrapper extends React.PureComponent {
                           <ActivityItem
                             activity={activity}
                             showReplyModal={showModal}
+                            onChange={changePost}
                           />
                         </Box>
                       )}
