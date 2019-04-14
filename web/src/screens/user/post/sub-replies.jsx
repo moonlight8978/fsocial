@@ -97,7 +97,10 @@ export class SubReply extends React.PureComponent {
   static propTypes = {
     subReply: PropTypes.shape().isRequired,
     replyTo: PropTypes.shape().isRequired,
+    parent: PropTypes.shape().isRequired,
     onChange: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
+    setReply: PropTypes.func.isRequired,
   }
 
   handleRemove = async () => {

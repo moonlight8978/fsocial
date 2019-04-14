@@ -25,9 +25,13 @@ import PostResource from './post-resource'
 export class Reply extends React.PureComponent {
   static propTypes = {
     reply: PropTypes.shape().isRequired,
+    root: PropTypes.shape().isRequired,
+    replyTo: PropTypes.shape().isRequired,
     showReplyModal: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
+    setPost: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
   }
 
   handleRemove = async () => {
