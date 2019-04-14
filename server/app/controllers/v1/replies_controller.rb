@@ -4,7 +4,7 @@ class V1::RepliesController < ApplicationController
   def index
     post = Post.root.or(Post.replies).find(params[:post_id])
     replies = post.root? ? post.replies.replies : post.sub_replies
-    json = Replies::Serializer.new(
+    json = Posts::Replies::Serializer.new(
       replies: replies.page(params[:page] || 1),
       current_user: current_user,
       each_serializer: ::ReplyListItemSerializer
@@ -14,7 +14,7 @@ class V1::RepliesController < ApplicationController
 
   def create
     post = Post.find(params[:post_id])
-    reply_params = Replies::CreateParameters.new(params, self).extract
+    reply_params = Posts::Replies::CreateParameters.new(params, self).extract
     reply = Post.new(reply_params)
     Attachment::Parser.perform!(reply_params.dig(:medias_base64)) do |tempfile|
       reply.medias.attach(io: tempfile, filename: SecureRandom.uuid)

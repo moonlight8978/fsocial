@@ -73,6 +73,10 @@ RSpec.describe 'V1::Posts', type: :request do
 
           include_examples 'create activity'
         end
+
+        context 'when content includes hashtags' do
+          it 'is pending'
+        end
       end
     end
   end

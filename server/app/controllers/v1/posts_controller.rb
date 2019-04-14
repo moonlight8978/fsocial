@@ -11,6 +11,7 @@ class V1::PostsController < ApplicationController
     end
     post.save!
     activity = Activities::Creator.new(post).perform(owner: current_user, action: :create)
+    Posts::CreateHashtags.new(post).perform
     render json: activity, serializer: ::ActivitySerializer, status: Settings.http.statuses.created
   end
 
