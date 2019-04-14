@@ -2,6 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Avatar } from 'antd'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 
 import {
   withLoading,
@@ -115,12 +116,16 @@ class Post extends React.PureComponent {
                     <div>
                       <Text bold>{sharesCount}</Text>
                       <span> </span>
-                      <Text color="secondary">Shares</Text>
+                      <Text color="secondary">
+                        <FormattedMessage id="user.post.statistics.sharesCount" />
+                      </Text>
                     </div>
                     <div>
                       <Text bold>{favoritesCount}</Text>
                       <span> </span>
-                      <Text color="secondary">Favorites</Text>
+                      <Text color="secondary">
+                        <FormattedMessage id="user.post.statistics.favoritesCount" />
+                      </Text>
                     </div>
                   </div>
                 </article>

@@ -144,30 +144,6 @@ class Header extends React.PureComponent {
                           count={followersCount}
                         />
                       </Menu.Item>
-
-                      <Menu.Item
-                        key={paths.user.extend({ username }, '/shares')}
-                        className={styles.menuItem}
-                        onClick={this.handleChangeRoute}
-                      >
-                        <Header.MenuLink
-                          title={<FormattedMessage id="user.shares.navTitle" />}
-                          count={sharesCount}
-                        />
-                      </Menu.Item>
-
-                      <Menu.Item
-                        key={paths.user.extend({ username }, '/favorites')}
-                        className={styles.menuItem}
-                        onClick={this.handleChangeRoute}
-                      >
-                        <Header.MenuLink
-                          title={
-                            <FormattedMessage id="user.favorites.navTitle" />
-                          }
-                          count={favoritesCount}
-                        />
-                      </Menu.Item>
                     </Menu>
                   </Col>
                   <Col span={6}>

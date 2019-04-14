@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Avatar } from 'antd'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import {
@@ -129,7 +130,7 @@ export class SubReply extends React.PureComponent {
 
           <div>
             <Text color="secondary">
-              Replying to{' '}
+              <FormattedMessage id="user.post.reply.context" />{' '}
               <Link to={paths.user.resolve({ username: replyTo.username })}>
                 @{replyTo.username}
               </Link>

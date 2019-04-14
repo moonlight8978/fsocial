@@ -69,7 +69,7 @@ export class Reply extends React.PureComponent {
 
             <div>
               <Text color="secondary">
-                Replying to{' '}
+                <FormattedMessage id="user.post.reply.context" />{' '}
                 <Link to={paths.user.resolve({ username: replyTo.username })}>
                   @{replyTo.username}
                 </Link>
@@ -158,7 +158,7 @@ class Replies extends React.PureComponent {
               <>
                 <FontAwesomeIcon icon="angle-up" />
                 <span>&nbsp;</span>
-                <FormattedMessage id="post.replyList.lastPage" />
+                <FormattedMessage id="user.post.replyList.lastPage" />
                 <span>&nbsp;</span>
                 <FontAwesomeIcon icon="angle-up" />
               </>

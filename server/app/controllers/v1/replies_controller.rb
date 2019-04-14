@@ -15,7 +15,11 @@ class V1::RepliesController < ApplicationController
   def create
     post = Post.find(params[:post_id])
     reply_params = Replies::CreateParameters.new(params, self).extract
-    reply = Post.create!(reply_params)
+    reply = Post.new(reply_params)
+    Attachment::Parser.perform!(reply_params.dig(:medias_base64)) do |tempfile|
+      reply.medias.attach(io: tempfile, filename: SecureRandom.uuid)
+    end
+    reply.save!
     activity = Activities::Creator.new(reply, Post::Reply.name).perform(action: :create, owner: current_user, recipient: post.creator)
     render json: activity, serializer: ::ActivitySerializer, status: Settings.http.statuses.created
   end
