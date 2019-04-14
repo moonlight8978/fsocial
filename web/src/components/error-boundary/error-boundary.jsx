@@ -1,6 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class ErrorBoundary extends React.PureComponent {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  }
+
   state = {
     error: null,
   }

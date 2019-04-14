@@ -12,7 +12,7 @@ class ReplyButton extends React.PureComponent {
   static propTypes = {
     post: PropTypes.shape().isRequired,
     showReplyModal: PropTypes.func.isRequired,
-    children: PropTypes.any,
+    children: PropTypes.number,
   }
 
   static defaultProps = {
