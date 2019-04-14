@@ -58,3 +58,14 @@
     }
   }
 }
+
+.header {
+  position: relative;
+
+  .dropdown {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    right: 0;
+  }
+}

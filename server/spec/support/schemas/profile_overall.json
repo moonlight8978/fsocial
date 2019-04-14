@@ -9,7 +9,10 @@
     },
     "fullname": {
       "type": "string"
+    },
+    "is_current_user": {
+      "type": "boolean"
     }
   },
-  "required": ["id", "username", "fullname"]
+  "required": ["id", "username", "fullname", "is_current_user"]
 }

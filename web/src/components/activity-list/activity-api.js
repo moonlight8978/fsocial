@@ -28,6 +28,12 @@ const ActivityApi = {
       console.log(error)
     }
   },
+  deletePost: async id => {
+    return localHttp.request({
+      method: 'delete',
+      url: `/posts/${id}`,
+    })
+  },
 }
 
 export default ActivityApi

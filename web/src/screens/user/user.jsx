@@ -142,10 +142,9 @@ class User extends React.PureComponent {
                 <Layout
                   hasNavbar
                   navbar={<Navbar />}
-                  windowTitle={intl.formatMessage(
-                    { id: 'user.activities.windowTitle' },
-                    { username, fullname }
-                  )}
+                  windowTitle={intl.formatMessage({
+                    id: 'user.post.windowTitle',
+                  })}
                   hasSideRight
                   sideRight={<FolloweeSuggestion />}
                   hasSideLeft

@@ -90,8 +90,11 @@ user:
     windowTitle: 'Posts liked by {fullname} (@{username})'
     navTitle: Favorites
   post:
-    postList:
+    windowTitle: '{content} - {fullname} (@{username})'
+    delete: Delete post
+    replyList:
       lastPage: There is no more replies
+      delete: Delete reply
     statistics:
       favoritesCount: Favorites
       sharesCount: Shares

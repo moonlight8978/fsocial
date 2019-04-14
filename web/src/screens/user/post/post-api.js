@@ -13,4 +13,10 @@ export default {
       url: `/posts/${id}/replies?page=${page}`,
     })
   },
+  delete: id => {
+    return localHttp.request({
+      method: 'delete',
+      url: `/posts/${id}`,
+    })
+  },
 }

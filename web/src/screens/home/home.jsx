@@ -50,10 +50,13 @@ class Home extends React.Component {
             className={styles.layout}
           >
             <StatisticsConsumer>
-              {({ increase }) => (
-                <ActivityListProvider increaseCounts={increase}>
+              {({ increase, decrease }) => (
+                <ActivityListProvider
+                  increaseCounts={increase}
+                  decreaseCounts={decrease}
+                >
                   <ActivityListConsumer>
-                    {({ createPost, changePost }) => (
+                    {({ createPost, changePost, removePost }) => (
                       <ReplyProvider
                         onCreate={(post, { trackable: { rootId, root } }) =>
                           changePost(rootId, {
@@ -83,6 +86,9 @@ class Home extends React.Component {
                                       activity={activity}
                                       showReplyModal={showModal}
                                       onChange={changePost}
+                                      onRemove={removePost}
+                                      decreasePost={decrease}
+                                      currentUser={auth.user}
                                     />
                                   </Box>
                                 )}

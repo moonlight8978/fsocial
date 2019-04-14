@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Avatar, Button } from 'antd'
+import { Avatar, Button, Menu, Dropdown } from 'antd'
 import classnames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
@@ -24,9 +24,22 @@ import PostResource from './post-resource'
 
 export class Reply extends React.PureComponent {
   static propTypes = {
-    ...LoadingPropTypes,
     reply: PropTypes.shape().isRequired,
     showReplyModal: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
+  }
+
+  handleRemove = async () => {
+    const { onRemove, reply, setPost, root } = this.props
+    const { id } = reply
+    try {
+      await PostApi.delete(id)
+      onRemove(id)
+      setPost({ repliesCount: root.repliesCount - 1 })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   showReplyModal = () => {
@@ -36,7 +49,14 @@ export class Reply extends React.PureComponent {
 
   render() {
     const { reply, replyTo, onChange, children } = this.props
-    const { creator, content, subRepliesCount, createdAt } = reply
+    const {
+      id,
+      creator,
+      content,
+      subRepliesCount,
+      createdAt,
+      canDestroy,
+    } = reply
     const { username, fullname } = creator
 
     return (
@@ -51,7 +71,7 @@ export class Reply extends React.PureComponent {
           </div>
 
           <div className={styles.reply}>
-            <header>
+            <header className={styles.header}>
               <Ellipsis className={styles.names}>
                 <Link to={paths.user.resolve({ username })}>
                   <InlineName fullname={fullname} username={username} />
@@ -65,6 +85,32 @@ export class Reply extends React.PureComponent {
               <Text color="secondary">
                 <RelativeTime fromTime={createdAt} />
               </Text>
+
+              {canDestroy && (
+                <div className={styles.dropdown}>
+                  <Dropdown
+                    overlay={
+                      <Menu>
+                        <Menu.Item key={id} onClick={this.handleRemove}>
+                          <Text>
+                            <FormattedMessage id="user.post.replyList.delete" />
+                          </Text>
+                        </Menu.Item>
+                      </Menu>
+                    }
+                    trigger={['click']}
+                    placement="bottomRight"
+                  >
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a className="ant-dropdown-link" href="#">
+                      {' '}
+                      <Text color="secondary" hover hoverColor="link">
+                        <FontAwesomeIcon icon="angle-down" />
+                      </Text>
+                    </a>
+                  </Dropdown>
+                </div>
+              )}
             </header>
 
             <div>

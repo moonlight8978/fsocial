@@ -18,12 +18,12 @@
 
   .names {
     padding-left: 1rem;
-    flex: calc(100% - 200px) 0 0;
+    flex: calc(100% - 250px) 0 0;
     min-width: 0;
   }
 
   .actions {
-    flex: 150px 0 0;
+    flex: 200px 0 0;
     text-align: right;
   }
 }
@@ -51,4 +51,9 @@
   > * {
     margin-right: 1rem;
   }
+}
+
+.dropdown {
+  margin-left: 1rem;
+  display: inline-block;
 }

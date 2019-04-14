@@ -1,7 +1,8 @@
 import React from 'react'
-import { Avatar } from 'antd'
+import { Avatar, Menu, Dropdown } from 'antd'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { paths } from '../../../config'
 import { InlineName } from '../../user'
@@ -17,11 +18,17 @@ class Post extends React.PureComponent {
     post: PropTypes.shape().isRequired,
     onChange: PropTypes.func.isRequired,
     showReplyModal: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
+  }
+
+  handleRemove = () => {
+    const { onRemove, post } = this.props
+    onRemove(post)
   }
 
   render() {
     const { post, showReplyModal, onChange } = this.props
-    const { id, creator, content, createdAt } = post
+    const { id, creator, content, createdAt, canDestroy } = post
 
     return (
       <>
@@ -30,7 +37,7 @@ class Post extends React.PureComponent {
         </div>
 
         <div className={styles.post}>
-          <header>
+          <header className={styles.header}>
             <Ellipsis className={styles.username}>
               <Link to={paths.user.resolve(creator)}>
                 <InlineName
@@ -47,6 +54,30 @@ class Post extends React.PureComponent {
                 <RelativeTime fromTime={createdAt} />
               </Text>
             </Link>
+
+            {canDestroy && (
+              <div className={styles.dropdown}>
+                <Dropdown
+                  overlay={
+                    <Menu>
+                      <Menu.Item key={id} onClick={this.handleRemove}>
+                        <Text>Delete post</Text>
+                      </Menu.Item>
+                    </Menu>
+                  }
+                  trigger={['click']}
+                  placement="bottomRight"
+                >
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                  <a className="ant-dropdown-link" href="#">
+                    {' '}
+                    <Text color="secondary" hover hoverColor="link">
+                      <FontAwesomeIcon icon="angle-down" />
+                    </Text>
+                  </a>
+                </Dropdown>
+              </div>
+            )}
           </header>
 
           <p>
