@@ -1,10 +1,12 @@
-import { settings } from '../../config'
+import { settings } from '../../../config'
 
 const User = {
   parse: user => ({
     fullname: user.fullname,
     username: user.username,
     id: user.id,
+    isFollowed: user.is_followed,
+    isCurrentUser: user.is_current_user,
   }),
 }
 
@@ -17,18 +19,6 @@ const Media = {
       width: media.metadata.width,
       height: media.metadata.height,
     },
-  }),
-}
-
-const Ancestor = {
-  parse: post => ({
-    id: post.id,
-    repliesCount: post.replies_count,
-    subRepliesCount: post.sub_replies_count,
-    favoritesCount: post.favorites_count,
-    sharesCount: post.shares_count,
-    isFavorited: post.is_favorited,
-    isShared: post.is_shared,
   }),
 }
 
@@ -45,27 +35,40 @@ const Post = {
     creator: User.parse(post.creator),
     medias: post.medias.map(media => Media.parse(media)),
     repliesCount: post.replies_count,
-    subRepliesCount: post.sub_replies_count,
     favoritesCount: post.favorites_count,
     sharesCount: post.shares_count,
     isFavorited: post.is_favorited,
     isShared: post.is_shared,
-    root: Ancestor.parse(post.root),
-    parent: post.parent && Ancestor.parse(post.parent),
   }),
 }
 
-export const Activity = {
-  parse: activity => ({
-    id: activity.id,
-    trackable: Post.parse(activity.trackable),
-    trackableType: activity.trackable_type,
-    trackableId: activity.trackable_id,
-    key: activity.key,
-    createdAt: activity.created_at,
+const Reply = {
+  parse: reply => ({
+    id: reply.id,
+    rootId: reply.root_id,
+    parentId: reply.parent_id,
+    content: reply.content,
+    createdAt: new Date(reply.created_at),
+    updatedAt: new Date(reply.updated_at),
+    canUpdate: reply.can_update,
+    canDestroy: reply.can_destroy,
+    creator: User.parse(reply.creator),
+    medias: reply.medias.map(media => Media.parse(media)),
+    repliesCount: reply.replies_count,
+    subRepliesCount: reply.sub_replies_count,
+    favoritesCount: reply.favorites_count,
+    sharesCount: reply.shares_count,
+    isFavorited: reply.is_favorited,
+    isShared: reply.is_shared,
   }),
 }
 
-export const Activities = {
-  parse: activities => activities.map(activity => Activity.parse(activity)),
+const Replies = {
+  parse: replies => replies.map(reply => Reply.parse(reply)),
+}
+
+export default {
+  Post,
+  Reply,
+  Replies,
 }

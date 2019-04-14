@@ -1,0 +1,75 @@
+@import 'config/colors';
+
+.listItem {
+  padding: 1rem;
+  position: relative;
+
+  &:not(:first-child):before {
+    content: '';
+    position: absolute;
+    height: 1px;
+    top: 0;
+    right: 1rem;
+    left: 1rem;
+    background-color: #e8e8e8;
+  }
+}
+
+.inner {
+  display: flex;
+
+  .avatar {
+    flex: 50px 0 0;
+
+    position: relative;
+
+    &.avatarConnect:after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 54px;
+      bottom: -12px;
+      width: 4px;
+      background-color: $connector-color;
+      border-radius: 4px;
+    }
+  }
+
+  .reply {
+    flex: calc(100% - 50px) 0 0;
+    padding-left: 1rem;
+
+    .names {
+      max-width: 75%;
+      display: inline-block;
+      vertical-align: bottom;
+    }
+  }
+}
+
+.subReplies {
+}
+
+.actions {
+  display: flex;
+}
+
+.buttonLoadMore {
+  background-color: transparent;
+  // color: #ccd6dd;
+  color: $text-primary-color;
+  border: 0;
+  border-radius: 0;
+
+  &:hover {
+    background-color: #e8f4fb;
+    color: $text-primary-color;
+  }
+
+  &:disabled,
+  &:disabled:hover {
+    color: $text-primary-color;
+  }
+}

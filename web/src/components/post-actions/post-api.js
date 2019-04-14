@@ -1,4 +1,4 @@
-import { localHttp } from '../../../services/http'
+import { localHttp } from '../../services/http'
 
 const PostApi = {
   favorite: id => {

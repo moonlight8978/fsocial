@@ -38,5 +38,6 @@ class PostSerializer < PostOverallSerializer
     belongs_to :root, serializer: PostOverallSerializer do |serializer|
       serializer.object.root
     end
+    belongs_to :creator, serializer: FollowingUserSerializer
   end
 end

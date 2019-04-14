@@ -1,19 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ImagePreloader } from '../../atomics'
+import { ImagePreloader } from '../atomics'
 
-import styles from './medias.module.scss'
+import styles from './post-medias.module.scss'
 
-class Medias extends React.PureComponent {
+export default class PostMedias extends React.PureComponent {
   static propTypes = {
-    medias: PropTypes.arrayOf(
-      PropTypes.shape({
-        path: PropTypes.string,
-        filename: PropTypes.string,
-        url: PropTypes.string,
-      })
-    ).isRequired,
+    post: PropTypes.shape().isRequired,
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -29,7 +23,8 @@ class Medias extends React.PureComponent {
   }
 
   render() {
-    const { medias } = this.props
+    const { post } = this.props
+    const { medias } = post
 
     if (medias.length === 0) {
       return null
@@ -101,5 +96,3 @@ class Medias extends React.PureComponent {
     return <picture className={styles.container}>{children}</picture>
   }
 }
-
-export default Medias

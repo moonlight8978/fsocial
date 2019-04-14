@@ -81,6 +81,10 @@
   "user.followers.navTitle": "Followers",
   "user.followers.windowTitle": "People following {fullname} (@{username})",
   "user.intro.title": "Profile Intro",
+  "user.post.postList.lastPage": "There is no more replies",
+  "user.post.reply.context": "Replying to",
+  "user.post.statistics.favoritesCount": "Favorites",
+  "user.post.statistics.sharesCount": "Shares",
   "user.shares.navTitle": "Shares",
   "user.shares.windowTitle": "Posts shared by {fullname} (@{username})"
 }

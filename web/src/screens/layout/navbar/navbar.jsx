@@ -121,15 +121,6 @@ class Navbar extends React.Component {
               </Menu.Item>
 
               <Menu.Item
-                key={paths.notifications.resolve()}
-                className={styles.menuItem}
-                onClick={this.handleChangeRoute}
-              >
-                <FontAwesomeIcon icon="bell" className={styles.menuIcon} />
-                <FormattedMessage id="navbar.menu.notifications" />
-              </Menu.Item>
-
-              <Menu.Item
                 key={paths.messages.resolve()}
                 className={styles.menuItem}
                 onClick={this.handleChangeRoute}

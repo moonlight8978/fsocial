@@ -89,6 +89,14 @@ user:
   favorites:
     windowTitle: 'Posts liked by {fullname} (@{username})'
     navTitle: Favorites
+  post:
+    postList:
+      lastPage: There is no more replies
+    statistics:
+      favoritesCount: Favorites
+      sharesCount: Shares
+    reply:
+      context: Replying to
 schemas:
   session:
     identity:

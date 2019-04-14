@@ -12,6 +12,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { LocaleProvider } from './components/locale'
 import { AuthProvider } from './components/auth'
+import { ErrorBoundary } from './components/error-boundary'
 import './index.scss'
 import App from './app'
 
@@ -22,13 +23,15 @@ library.add(fas, far, fab)
 const root = document.getElementById('root')
 if (root !== null) {
   ReactDOM.render(
-    <LocaleProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </AuthProvider>
-    </LocaleProvider>,
+    <ErrorBoundary>
+      <LocaleProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AuthProvider>
+      </LocaleProvider>
+    </ErrorBoundary>,
     root
   )
 }

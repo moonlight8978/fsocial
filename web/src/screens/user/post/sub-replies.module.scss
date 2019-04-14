@@ -1,0 +1,60 @@
+@import 'config/colors';
+
+.hasMoreContainer {
+  margin-left: 50px;
+  padding-left: 1rem;
+  position: relative;
+
+  .hasMoreButton {
+    margin-top: 1rem;
+    padding: 0;
+    height: auto;
+  }
+
+  .avatarConnectMore {
+    position: absolute;
+    left: -25px;
+    top: 1rem;
+    transform: translateX(-50%);
+    color: $connector-color;
+  }
+}
+
+.container {
+  display: flex;
+  margin-top: 1rem;
+
+  .avatar {
+    flex: 50px 0 0;
+  }
+
+  .reply {
+    flex: calc(100% - 50px) 0 0;
+    padding-left: 1rem;
+
+    .names {
+      max-width: 75%;
+      display: inline-block;
+      vertical-align: bottom;
+    }
+  }
+}
+
+.container:not(:last-child) {
+  .avatar {
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 54px;
+      bottom: -12px;
+      width: 4px;
+      background-color: $connector-color;
+      border-radius: 4px;
+    }
+  }
+}

@@ -13,7 +13,8 @@ class ReplyListItemSerializer < ActiveModel::Serializer
     :content,
     :favorites_count,
     :replies_count,
-    :shares_count
+    :shares_count,
+    :sub_replies_count
   )
 
   belongs_to :creator, serializer: ::ProfileOverallSerializer

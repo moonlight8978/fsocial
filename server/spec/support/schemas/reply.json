@@ -49,6 +49,9 @@
     "replies_count": {
       "type": "integer"
     },
+    "sub_replies_count": {
+      "type": "integer"
+    },
     "root": {
       "type": "object",
       "properties": {
@@ -64,13 +67,25 @@
         "shares_count": {
           "type": "integer"
         },
+        "sub_replies_count": {
+          "type": "integer"
+        },
         "favorites_count": {
           "type": "integer"
         },
         "replies_count": {
           "type": "integer"
         }
-      }
+      },
+      "required": [
+        "id",
+        "is_shared",
+        "is_favorited",
+        "shares_count",
+        "sub_replies_count",
+        "favorites_count",
+        "replies_count"
+      ]
     },
     "parent": {
       "type": ["null", "object"],
@@ -93,7 +108,16 @@
         "replies_count": {
           "type": "integer"
         }
-      }
+      },
+      "required": [
+        "id",
+        "is_shared",
+        "is_favorited",
+        "shares_count",
+        "sub_replies_count",
+        "favorites_count",
+        "replies_count"
+      ]
     }
   },
   "required": [
@@ -110,6 +134,7 @@
     "is_shared",
     "is_favorited",
     "shares_count",
+    "sub_replies_count",
     "favorites_count",
     "replies_count"
   ]
