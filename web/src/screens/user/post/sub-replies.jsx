@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Avatar } from 'antd'
+import { Button, Avatar, Menu, Dropdown } from 'antd'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
@@ -71,7 +71,7 @@ class SubReplies extends React.PureComponent {
       <div>
         {children}
         {isLoading && <FluidLoading />}
-        {!isEmpty && !isLastPage && (
+        {!isLoading && !isEmpty && !isLastPage && (
           <div className={styles.hasMoreContainer}>
             <FontAwesomeIcon
               icon="ellipsis-h"
@@ -97,12 +97,27 @@ export class SubReply extends React.PureComponent {
   static propTypes = {
     subReply: PropTypes.shape().isRequired,
     replyTo: PropTypes.shape().isRequired,
+    parent: PropTypes.shape().isRequired,
     onChange: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
+    setReply: PropTypes.func.isRequired,
+  }
+
+  handleRemove = async () => {
+    const { onRemove, parent, setReply, subReply } = this.props
+    const { id } = subReply
+    try {
+      await PostApi.delete(id)
+      onRemove(parent.id, id)
+      setReply(parent.id, { subRepliesCount: parent.subRepliesCount - 1 })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {
     const { subReply, replyTo, onChange } = this.props
-    const { creator, content, createdAt } = subReply
+    const { id, creator, content, createdAt, canDestroy } = subReply
     const { username, fullname } = creator
 
     return (
@@ -112,7 +127,7 @@ export class SubReply extends React.PureComponent {
         </div>
 
         <div className={styles.reply}>
-          <header>
+          <header className={styles.header}>
             <Ellipsis className={styles.names}>
               <Link to={paths.user.resolve({ username })}>
                 <InlineName fullname={fullname} username={username} />
@@ -126,6 +141,32 @@ export class SubReply extends React.PureComponent {
             <Text color="secondary">
               <RelativeTime fromTime={createdAt} />
             </Text>
+
+            {canDestroy && (
+              <div className={styles.dropdown}>
+                <Dropdown
+                  overlay={
+                    <Menu>
+                      <Menu.Item key={id} onClick={this.handleRemove}>
+                        <Text>
+                          <FormattedMessage id="user.post.replyList.delete" />
+                        </Text>
+                      </Menu.Item>
+                    </Menu>
+                  }
+                  trigger={['click']}
+                  placement="bottomRight"
+                >
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                  <a className="ant-dropdown-link" href="#">
+                    {' '}
+                    <Text color="secondary" hover hoverColor="link">
+                      <FontAwesomeIcon icon="angle-down" />
+                    </Text>
+                  </a>
+                </Dropdown>
+              </div>
+            )}
           </header>
 
           <div>

@@ -5,6 +5,7 @@ const User = {
     fullname: user.fullname,
     username: user.username,
     id: user.id,
+    isCurrentUser: user.is_current_user,
   }),
 }
 

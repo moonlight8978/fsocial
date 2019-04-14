@@ -12,6 +12,8 @@ const initialState = {
   changeReply: () => {},
   setSubReplies: () => {},
   changeSubReply: () => {},
+  removeReply: () => {},
+  removeSubReply: () => {},
 }
 
 const PostContext = React.createContext(initialState)
@@ -23,9 +25,11 @@ export class PostProvider extends React.PureComponent {
     ...initialState,
     setPost: this.setPost.bind(this),
     setReplies: this.setReplies.bind(this),
+    removeReply: this.removeReply.bind(this),
     changeReply: this.changeReply.bind(this),
     setSubReplies: this.setSubReplies.bind(this),
     changeSubReply: this.changeSubReply.bind(this),
+    removeSubReply: this.removeSubReply.bind(this),
   }
 
   setPost(newPost) {
@@ -60,6 +64,12 @@ export class PostProvider extends React.PureComponent {
     }))
   }
 
+  removeReply(id) {
+    this.setState(state => ({
+      replies: state.replies.filter(reply => reply.id !== id),
+    }))
+  }
+
   setSubReplies(parentId, newReplies, position = 'after') {
     const key = parentId.toString()
     const oldSubReplies = selectors.getSubReplies(parentId)(this.state)
@@ -89,6 +99,18 @@ export class PostProvider extends React.PureComponent {
         [key]: oldSubReplies.map(reply =>
           reply.id === id ? { ...reply, ...newReply } : reply
         ),
+      },
+    }))
+  }
+
+  removeSubReply(parentId, id) {
+    const key = parentId.toString()
+    const currentSubReplies = selectors.getSubReplies(parentId)(this.state)
+
+    this.setState(state => ({
+      subRepliesHash: {
+        ...state.subRepliesHash,
+        [key]: currentSubReplies.filter(reply => reply.id !== id),
       },
     }))
   }

@@ -15,6 +15,7 @@ class ActivityItem extends React.Component {
     }).isRequired,
     showReplyModal: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
   }
 
   static PostContext = ({ trackableType, creator }) => {
@@ -24,7 +25,7 @@ class ActivityItem extends React.Component {
 
     if (trackableType === 'Sharing') {
       return (
-        <>
+        <React.Fragment>
           <div className={styles.contextIcon}>
             <FontAwesomeIcon icon="retweet" className={styles.retweetIcon} />
           </div>
@@ -36,13 +37,13 @@ class ActivityItem extends React.Component {
               />
             </Text>
           </div>
-        </>
+        </React.Fragment>
       )
     }
 
     if (trackableType === 'Favorite') {
       return (
-        <>
+        <React.Fragment>
           <div className={styles.contextIcon}>
             <FontAwesomeIcon icon="heart" />
           </div>
@@ -54,13 +55,13 @@ class ActivityItem extends React.Component {
               />
             </Text>
           </div>
-        </>
+        </React.Fragment>
       )
     }
   }
 
   render() {
-    const { activity, showReplyModal, onChange } = this.props
+    const { activity, showReplyModal, onChange, onRemove } = this.props
     const { trackable, trackableType } = activity
     let post
 
@@ -86,7 +87,12 @@ class ActivityItem extends React.Component {
           trackableType={trackableType}
           creator={trackable.creator}
         />
-        <Post post={post} showReplyModal={showReplyModal} onChange={onChange} />
+        <Post
+          post={post}
+          showReplyModal={showReplyModal}
+          onChange={onChange}
+          onRemove={onRemove}
+        />
       </article>
     )
   }

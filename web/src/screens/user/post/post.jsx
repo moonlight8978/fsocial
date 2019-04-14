@@ -1,9 +1,11 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { Avatar } from 'antd'
+import { withRouter, Link } from 'react-router-dom'
+import { Avatar, Menu, Dropdown } from 'antd'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import { paths } from '../../../config'
 import {
   withLoading,
   FluidLoading,
@@ -17,6 +19,7 @@ import {
   ShareButton,
   FavoriteButton,
 } from '../../../components/post-actions'
+import { WindowTitle } from '../../layout'
 import { ReplyConsumer, ReplyProvider } from '../../../components/reply-editor'
 
 import PostApi from './post-api'
@@ -57,150 +60,218 @@ class Post extends React.PureComponent {
     setReplies([trackable], 'before')
   }
 
+  handleRemove = async () => {
+    const { history, post } = this.props
+    try {
+      await PostApi.delete(post.id)
+      history.push(paths.user.resolve({ username: post.creator.username }))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   render() {
-    const { isLoading, post } = this.props
+    const { isLoading, post, intl } = this.props
 
     if (isLoading) {
       return <FluidLoading />
     }
 
-    const { creator, content, createdAt, sharesCount, favoritesCount } = post
+    const {
+      creator,
+      content,
+      createdAt,
+      sharesCount,
+      favoritesCount,
+      canDestroy,
+      id,
+    } = post
 
     return (
       <Box className={styles.box}>
-        <div>
-          <ReplyProvider onCreate={this.handleReply}>
-            <ReplyConsumer>
-              {({ showModal }) => (
-                <article className={styles.rootPost}>
-                  <header className={styles.header}>
-                    <div className={styles.avatar}>
-                      <Avatar src="/avatar-placeholder.png" size={50} />
-                    </div>
+        <WindowTitle
+          title={intl.formatMessage(
+            {
+              id: 'user.post.windowTitle',
+            },
+            {
+              fullname: creator.fullname,
+              username: creator.username,
+              content,
+            }
+          )}
+        />
 
-                    <div className={styles.names}>
-                      <Ellipsis>
-                        <Text size="large" bold>
+        <ReplyProvider onCreate={this.handleReply}>
+          <ReplyConsumer>
+            {({ showModal }) => (
+              <article className={styles.rootPost}>
+                <header className={styles.header}>
+                  <div className={styles.avatar}>
+                    <Avatar src="/avatar-placeholder.png" size={50} />
+                  </div>
+
+                  <div className={styles.names}>
+                    <Ellipsis>
+                      <Link
+                        to={paths.user.resolve({ username: creator.username })}
+                      >
+                        <Text size="large" bold hover hoverColor="link">
                           {creator.fullname}
                         </Text>
-                      </Ellipsis>
-                      <Ellipsis>
-                        <Text color="secondary">@{creator.username}</Text>
-                      </Ellipsis>
-                    </div>
-
-                    <div className={styles.actions}>
-                      <FollowButton user={creator} />
-                    </div>
-                  </header>
-
-                  <p className={styles.content}>
-                    <Text size="xxlarge">{content}</Text>
-                  </p>
-
-                  <div className={styles.createTime}>
-                    <Text color="secondary">{createdAt.toLocaleString()}</Text>
+                      </Link>
+                    </Ellipsis>
+                    <Ellipsis>
+                      <Text color="secondary">@{creator.username}</Text>
+                    </Ellipsis>
                   </div>
 
-                  <PostMedias post={post} />
+                  <div className={styles.actions}>
+                    <FollowButton user={creator} />
 
-                  <div className={styles.reactions}>
-                    <ReplyButton post={post} showReplyModal={showModal} />
-
-                    <ShareButton post={post} onChange={this.handleReact} />
-
-                    <FavoriteButton post={post} onChange={this.handleReact} />
+                    {canDestroy && (
+                      <div className={styles.dropdown}>
+                        <Dropdown
+                          overlay={
+                            <Menu>
+                              <Menu.Item key={id} onClick={this.handleRemove}>
+                                <Text>
+                                  <FormattedMessage id="user.post.delete" />
+                                </Text>
+                              </Menu.Item>
+                            </Menu>
+                          }
+                          trigger={['click']}
+                          placement="bottomRight"
+                        >
+                          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                          <a className="ant-dropdown-link" href="#">
+                            {' '}
+                            <Text color="secondary" hover hoverColor="link">
+                              <FontAwesomeIcon icon="angle-down" />
+                            </Text>
+                          </a>
+                        </Dropdown>
+                      </div>
+                    )}
                   </div>
+                </header>
 
-                  <div className={styles.detailStatistics}>
-                    <div>
-                      <Text bold>{sharesCount}</Text>
-                      <span> </span>
-                      <Text color="secondary">
-                        <FormattedMessage id="user.post.statistics.sharesCount" />
-                      </Text>
-                    </div>
-                    <div>
-                      <Text bold>{favoritesCount}</Text>
-                      <span> </span>
-                      <Text color="secondary">
-                        <FormattedMessage id="user.post.statistics.favoritesCount" />
-                      </Text>
-                    </div>
+                <p className={styles.content}>
+                  <Text size="xxlarge">{content}</Text>
+                </p>
+
+                <div className={styles.createTime}>
+                  <Text color="secondary">{createdAt.toLocaleString()}</Text>
+                </div>
+
+                <PostMedias post={post} />
+
+                <div className={styles.reactions}>
+                  <ReplyButton post={post} showReplyModal={showModal} />
+
+                  <ShareButton post={post} onChange={this.handleReact} />
+
+                  <FavoriteButton post={post} onChange={this.handleReact} />
+                </div>
+
+                <div className={styles.detailStatistics}>
+                  <div>
+                    <Text bold>{sharesCount}</Text>
+                    <span> </span>
+                    <Text color="secondary">
+                      <FormattedMessage id="user.post.statistics.sharesCount" />
+                    </Text>
                   </div>
-                </article>
-              )}
-            </ReplyConsumer>
-          </ReplyProvider>
+                  <div>
+                    <Text bold>{favoritesCount}</Text>
+                    <span> </span>
+                    <Text color="secondary">
+                      <FormattedMessage id="user.post.statistics.favoritesCount" />
+                    </Text>
+                  </div>
+                </div>
+              </article>
+            )}
+          </ReplyConsumer>
+        </ReplyProvider>
 
-          <PostConsumer>
-            {context => {
-              const {
-                setReplies,
-                replies,
-                setSubReplies,
-                changeReply,
-                changeSubReply,
-              } = context
-              return (
-                <Replies post={post} setReplies={setReplies}>
-                  <ReplyProvider
-                    onCreate={(root, { trackable }) => {
-                      changeReply(root.id, {
-                        subRepliesCount: trackable.parent.subRepliesCount,
-                      })
-                      setSubReplies(root.id, [trackable], 'before')
-                    }}
-                  >
-                    <ReplyConsumer>
-                      {({ showModal }) => (
-                        <div className={replyStyles.list}>
-                          {replies.map(reply => (
-                            <Reply
-                              key={reply.id}
-                              reply={reply}
-                              replyTo={reply.creator}
-                              onChange={changeReply}
-                              showReplyModal={showModal}
+        <PostConsumer>
+          {context => {
+            const {
+              setPost,
+              setReplies,
+              replies,
+              setSubReplies,
+              changeReply,
+              changeSubReply,
+              removeReply,
+              removeSubReply,
+            } = context
+            return (
+              <Replies post={post} setReplies={setReplies}>
+                <ReplyProvider
+                  onCreate={(root, { trackable }) => {
+                    changeReply(root.id, {
+                      subRepliesCount: trackable.parent.subRepliesCount,
+                    })
+                    setSubReplies(root.id, [trackable], 'before')
+                  }}
+                >
+                  <ReplyConsumer>
+                    {({ showModal }) => (
+                      <div className={replyStyles.list}>
+                        {replies.map(reply => (
+                          <Reply
+                            key={reply.id}
+                            reply={reply}
+                            replyTo={post.creator}
+                            onChange={changeReply}
+                            showReplyModal={showModal}
+                            onRemove={removeReply}
+                            setPost={setPost}
+                            root={post}
+                          >
+                            <SubReplies
+                              parent={reply}
+                              setSubReplies={setSubReplies}
                             >
-                              <SubReplies
-                                parent={reply}
-                                setSubReplies={setSubReplies}
-                              >
-                                {selectors
-                                  .getSubReplies(reply.id)(context)
-                                  .map(subReply => (
-                                    <SubReply
-                                      subReply={subReply}
-                                      key={subReply.id}
-                                      replyTo={reply.creator}
-                                      onChange={(subReplyId, newSubReply) =>
-                                        changeSubReply(
-                                          reply.id,
-                                          subReplyId,
-                                          newSubReply
-                                        )
-                                      }
-                                    />
-                                  ))}
-                              </SubReplies>
-                            </Reply>
-                          ))}
-                        </div>
-                      )}
-                    </ReplyConsumer>
-                  </ReplyProvider>
-                </Replies>
-              )
-            }}
-          </PostConsumer>
-        </div>
+                              {selectors
+                                .getSubReplies(reply.id)(context)
+                                .map(subReply => (
+                                  <SubReply
+                                    subReply={subReply}
+                                    key={subReply.id}
+                                    replyTo={reply.creator}
+                                    onChange={(subReplyId, newSubReply) =>
+                                      changeSubReply(
+                                        reply.id,
+                                        subReplyId,
+                                        newSubReply
+                                      )
+                                    }
+                                    onRemove={removeSubReply}
+                                    setReply={changeReply}
+                                    parent={reply}
+                                  />
+                                ))}
+                            </SubReplies>
+                          </Reply>
+                        ))}
+                      </div>
+                    )}
+                  </ReplyConsumer>
+                </ReplyProvider>
+              </Replies>
+            )
+          }}
+        </PostConsumer>
       </Box>
     )
   }
 }
 
-const PostScreen = withLoading(withRouter(Post))
+const PostScreen = injectIntl(withLoading(withRouter(Post)))
 
 export default props => (
   <PostProvider>

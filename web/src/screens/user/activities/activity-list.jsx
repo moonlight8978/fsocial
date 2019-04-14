@@ -29,7 +29,7 @@ class ActivityListWrapper extends React.PureComponent {
     return (
       <ActivityListProvider>
         <ActivityListConsumer>
-          {({ createPost, changePost }) => (
+          {({ createPost, changePost, removePost }) => (
             <BoxList>
               {isCurrentUser && (
                 <Box>
@@ -61,6 +61,7 @@ class ActivityListWrapper extends React.PureComponent {
                             activity={activity}
                             showReplyModal={showModal}
                             onChange={changePost}
+                            onRemove={removePost}
                           />
                         </Box>
                       )}

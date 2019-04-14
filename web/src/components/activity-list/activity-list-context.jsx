@@ -28,10 +28,12 @@ const changeTrackable = ({ trackable, trackableType }, newPost) =>
 export class ActivityListProvider extends React.Component {
   static propTypes = {
     increaseCounts: PropTypes.func,
+    decreaseCounts: PropTypes.func,
   }
 
   static defaultProps = {
     increaseCounts: () => {},
+    decreaseCounts: () => {},
   }
 
   constructor(props) {
@@ -40,7 +42,7 @@ export class ActivityListProvider extends React.Component {
     this.state = {
       ...initialState,
       prependActivity: this.prependActivity.bind(this),
-      removeActivity: this.removeActivity.bind(this),
+      removePost: this.removePost.bind(this),
       setActivities: this.setActivities.bind(this),
       setPage: this.setPage.bind(this),
       changePost: this.changePost.bind(this),
@@ -60,10 +62,20 @@ export class ActivityListProvider extends React.Component {
     this.setState(state => ({ data: [...activities, ...state.data] }))
   }
 
-  removeActivity(id) {
-    this.setState(state => ({
-      data: state.data.filter(activity => activity.id !== id),
-    }))
+  async removePost(post) {
+    try {
+      await ActivityApi.deletePost(post.id)
+      const { data } = this.state
+      const newState = data.filter(
+        activity => getTrackablePost(activity).id !== post.id
+      )
+      this.setState({ data: newState })
+      if (post.creator.isCurrentUser) {
+        this.props.decreaseCounts('post', 1)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   changePost(id, newPost) {
