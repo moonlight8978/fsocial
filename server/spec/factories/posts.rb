@@ -18,7 +18,7 @@ FactoryBot.define do
     end
 
     trait :activity do
-      after(:create) { |post| Activity.create(trackable: post, key: 'post.create', owner: post.creator) }
+      after(:create) { |post| create(:post_activity, trackable: post) }
     end
   end
 
@@ -29,7 +29,7 @@ FactoryBot.define do
     content { Faker::Lorem.paragraph }
 
     trait :activity do
-      after(:create) { |reply| Activity.create(trackable: reply, key: 'reply.create', owner: reply.creator) }
+      after(:create) { |reply| create(:reply_activity, trackable: reply) }
     end
   end
 
@@ -41,7 +41,32 @@ FactoryBot.define do
     content { Faker::Lorem.paragraph }
 
     trait :activity do
-      after(:create) { |reply| Activity.create(trackable: reply, key: 'reply.create', owner: reply.creator) }
+      after(:create) { |reply| create(:reply_activity, trackable: reply) }
+    end
+  end
+
+  factory :tagged_post, class: Post.name do
+    transient do
+      tags { [] }
+    end
+
+    creator { create(:user) }
+    content do
+      [
+        Faker::Lorem.paragraph,
+        tags.map { |name| "##{name}" }.join(' ')
+      ].select(&:present?).join(' ')
+    end
+
+    after(:create) do |post, evaluator|
+      evaluator.tags.each do |name|
+        hashtag = Hashtag.find_by(name: name) || create(:hashtag, name: name, creator: post.creator)
+        create(:tagging, post: post, hashtag: hashtag)
+      end
+    end
+
+    trait :activity do
+      after(:create) { |post| create(:post_activity, trackable: post) }
     end
   end
 end

@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": ["null", "string"]
+    },
+    "creator": {
+      "$ref": "../profile_overall.json"
+    },
+    "activities": {
+      "$ref": "../activity_list.json"
+    }
+  },
+  "required": ["id", "name", "description", "creator", "activities"]
+}

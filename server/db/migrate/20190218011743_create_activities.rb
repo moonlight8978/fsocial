@@ -2,8 +2,8 @@ class CreateActivities < ActiveRecord::Migration[5.2]
   def change
     create_table :activities do |t|
       t.belongs_to :trackable, polymorphic: true, index: true
-      t.belongs_to :owner, index: true
-      t.belongs_to :recipient, index: true
+      t.belongs_to :owner
+      t.belongs_to :recipient
 
       t.string :key
       t.text :params

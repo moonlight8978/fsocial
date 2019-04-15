@@ -4,11 +4,13 @@ class CreateHashtags < ActiveRecord::Migration[5.2]
       t.belongs_to :creator
 
       t.string :name
+      t.string :slug
       t.text :description
 
       t.timestamps
-    end
 
-    add_index :hashtags, :name
+      t.index :name
+      t.index :slug, unique: true
+    end
   end
 end

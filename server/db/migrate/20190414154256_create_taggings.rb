@@ -5,8 +5,8 @@ class CreateTaggings < ActiveRecord::Migration[5.2]
       t.belongs_to :post
 
       t.timestamps
-    end
 
-    add_index :taggings, %i[hashtag_id post_id]
+      t.index %i[hashtag_id post_id]
+    end
   end
 end

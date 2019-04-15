@@ -31,6 +31,12 @@ Rails.application.routes.draw do
         resource :favorite, only: %i[create destroy update]
         resources :replies, only: %i[create update show index]
       end
+
+      resources :hashtags, only: :show do
+        collection do
+          get :popular
+        end
+      end
     end
   end
 end

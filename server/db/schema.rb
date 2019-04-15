@@ -84,11 +84,13 @@ ActiveRecord::Schema.define(version: 20_190_414_154_256) do
   create_table 'hashtags', force: :cascade do |t|
     t.bigint 'creator_id'
     t.string 'name'
+    t.string 'slug'
     t.text 'description'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['creator_id'], name: 'index_hashtags_on_creator_id'
     t.index ['name'], name: 'index_hashtags_on_name'
+    t.index ['slug'], name: 'index_hashtags_on_slug', unique: true
   end
 
   create_table 'posts', force: :cascade do |t|
@@ -116,7 +118,7 @@ ActiveRecord::Schema.define(version: 20_190_414_154_256) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['creator_id'], name: 'index_sharings_on_creator_id'
-    t.index %w[post_id creator_id], name: 'post_creator_index'
+    t.index %w[post_id creator_id], name: 'index_sharings_on_post_id_and_creator_id'
     t.index ['post_id'], name: 'index_sharings_on_post_id'
   end
 
@@ -148,6 +150,7 @@ ActiveRecord::Schema.define(version: 20_190_414_154_256) do
     t.index ['country_id'], name: 'index_users_on_country_id'
     t.index ['deleted_at'], name: 'index_users_on_deleted_at'
     t.index ['email'], name: 'index_users_on_email'
+    t.index ['slug'], name: 'index_users_on_slug', unique: true
     t.index ['username'], name: 'index_users_on_username'
   end
 

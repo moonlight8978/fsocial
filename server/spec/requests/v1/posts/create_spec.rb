@@ -75,7 +75,46 @@ RSpec.describe 'V1::Posts', type: :request do
         end
 
         context 'when content includes hashtags' do
-          it 'is pending'
+          let(:post_params) { Hash[content: "abcxyz\r\n#tag1\r\n#tag2"] }
+
+          shared_examples 'post created with hashtags' do
+            include_examples 'created'
+            include_examples 'match response schema', 'activity/post'
+            include_examples 'create activity'
+            include_examples 'change db', Post
+
+            it 'create correct records' do
+              subject
+              expect(Post.last.hashtags).to match_array([
+                                                          Hashtag.find_by(name: 'tag1'),
+                                                          Hashtag.find_by(name: 'tag2')
+                                                        ])
+            end
+          end
+
+          context 'when post contains new hashtags' do
+            include_examples 'post created with hashtags'
+            include_examples 'change db', Hashtag, 2
+
+            it 'create both hashtags with creator is current user' do
+              subject
+              expect(Hashtag.find_by(name: 'tag1').creator).to eq(user)
+              expect(Hashtag.find_by(name: 'tag2').creator).to eq(user)
+            end
+          end
+
+          context 'when hashtag is already create' do
+            before { create(:hashtag, name: 'tag1') }
+
+            include_examples 'post created with hashtags'
+            include_examples 'change db', Hashtag, 1
+
+            it 'create tag2 with creator is current user' do
+              subject
+              expect(Hashtag.find_by(name: 'tag1').creator).not_to eq(user)
+              expect(Hashtag.find_by(name: 'tag2').creator).to eq(user)
+            end
+          end
         end
       end
     end
