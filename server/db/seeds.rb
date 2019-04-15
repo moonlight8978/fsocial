@@ -234,7 +234,7 @@ ActiveRecord::Base.transaction do
     taggings = []
     updated_hashtags = []
 
-    hashtags = Hashtag.all
+    hashtags = Hashtag.all.to_a
 
     Post.root.each do |post|
       tagged_hashtags = Array.new(random_or_nothing(5)) { hashtags.sample }.uniq(&:id)
