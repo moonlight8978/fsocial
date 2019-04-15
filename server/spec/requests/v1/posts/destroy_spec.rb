@@ -31,7 +31,7 @@ RSpec.describe 'V1::Posts', type: :request do
     context 'when user is creator' do
       let(:token) { Users::TokenGenerator.new(create(:user, :admin)).perform }
       let!(:conversation) do
-        postt = create(:post, :activity)
+        postt = create(:tagged_post, :activity, tags: %w[depzai 20cm])
         replies = create_list(:reply, 5, :activity, root: postt)
         create_list(:sub_reply, 5, :activity, root: postt, parent: replies.first)
         postt
@@ -48,6 +48,12 @@ RSpec.describe 'V1::Posts', type: :request do
 
         it 'destroy all activities related' do
           expect { subject }.to change(Activity, :count).by(-11)
+        end
+
+        include_examples 'change db', Tagging, -2
+
+        it 'reduce the posts count of hashtag' do
+          expect { subject }.to change(Hashtag.find_by(name: 'depzai').posts.reload, :count).by(-1)
         end
       end
 

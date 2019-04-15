@@ -218,6 +218,40 @@ ActiveRecord::Base.transaction do
 
     Activity.import(activities, on_duplicate_key_ignore: true)
   end
+
+  seed('hashtags', proc { Hashtag.count }) do
+    hashtags = []
+
+    100.times do |i|
+      hashtags << Hashtag.new(name: "#{Faker::Lorem.word}_#{i}")
+    end
+
+    Hashtag.import(hashtags, on_duplicate_key_ignore: true)
+  end
+
+  seed('taggings', proc { Tagging.count }) do
+    posts = []
+    taggings = []
+
+    hashtags = Hashtags.all.select(:id, :name)
+
+    Post.root.each do |post|
+      tagged_hashtags = Array.new(random_or_nothing(5)) { hashtags.sample }.uniq(&:id)
+      next if tagged_hashtags.empty?
+
+      post.content = [
+        post.content,
+        tagged_hashtags.map { |hashtag| "##{hashtag.name}" }.join(' ')
+      ].join(' ')
+      posts << post
+      tagged_hashtags.each do |hashtag|
+        taggings << Tagging.new(post: post, hashtag: hashtag)
+      end
+    end
+
+    Post.import(posts, on_duplicate_key_update: :content)
+    Taggings.import(hashtags, on_duplicate_key_ignore: true)
+  end
 rescue StandardError => e
   puts e
   raise ActiveRecord::Rollback

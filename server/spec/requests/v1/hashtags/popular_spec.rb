@@ -26,13 +26,15 @@ RSpec.describe 'V1::Hashtags', type: :request do
 
     it 'return 5 hashtags has most posts (sort by created time if posts count is equal)' do
       subject
-      expect(response_body.pluck(:id, :posts_count)).to eq([
-        [hashtags[3].id, 5],
-        [hashtags[4].id, 4],
-        [hashtags[2].id, 3],
-        [hashtags[0].id, 3],
-        [hashtags[1].id, 2],
-      ])
+      expect(response_body.pluck(:id, :posts_count)).to eq(
+        [
+          [hashtags[3].id, 5],
+          [hashtags[4].id, 4],
+          [hashtags[2].id, 3],
+          [hashtags[0].id, 3],
+          [hashtags[1].id, 2]
+        ]
+      )
     end
   end
 end
