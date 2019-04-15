@@ -232,7 +232,6 @@ ActiveRecord::Base.transaction do
   seed('taggings', proc { Tagging.count }) do
     posts = []
     taggings = []
-    updated_hashtags = []
 
     hashtags = Hashtag.all.to_a
 
