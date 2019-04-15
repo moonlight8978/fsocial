@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_407_092_148) do
+ActiveRecord::Schema.define(version: 20_190_414_154_256) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -81,6 +81,18 @@ ActiveRecord::Schema.define(version: 20_190_407_092_148) do
     t.index %w[sluggable_type sluggable_id], name: 'index_friendly_id_slugs_on_sluggable_type_and_sluggable_id'
   end
 
+  create_table 'hashtags', force: :cascade do |t|
+    t.bigint 'creator_id'
+    t.string 'name'
+    t.string 'slug'
+    t.text 'description'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['creator_id'], name: 'index_hashtags_on_creator_id'
+    t.index ['name'], name: 'index_hashtags_on_name'
+    t.index ['slug'], name: 'index_hashtags_on_slug', unique: true
+  end
+
   create_table 'posts', force: :cascade do |t|
     t.bigint 'creator_id'
     t.bigint 'root_id'
@@ -106,8 +118,18 @@ ActiveRecord::Schema.define(version: 20_190_407_092_148) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['creator_id'], name: 'index_sharings_on_creator_id'
-    t.index %w[post_id creator_id], name: 'post_creator_index'
+    t.index %w[post_id creator_id], name: 'index_sharings_on_post_id_and_creator_id'
     t.index ['post_id'], name: 'index_sharings_on_post_id'
+  end
+
+  create_table 'taggings', force: :cascade do |t|
+    t.bigint 'hashtag_id'
+    t.bigint 'post_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index %w[hashtag_id post_id], name: 'index_taggings_on_hashtag_id_and_post_id'
+    t.index ['hashtag_id'], name: 'index_taggings_on_hashtag_id'
+    t.index ['post_id'], name: 'index_taggings_on_post_id'
   end
 
   create_table 'users', force: :cascade do |t|
@@ -128,6 +150,7 @@ ActiveRecord::Schema.define(version: 20_190_407_092_148) do
     t.index ['country_id'], name: 'index_users_on_country_id'
     t.index ['deleted_at'], name: 'index_users_on_deleted_at'
     t.index ['email'], name: 'index_users_on_email'
+    t.index ['slug'], name: 'index_users_on_slug', unique: true
     t.index ['username'], name: 'index_users_on_username'
   end
 

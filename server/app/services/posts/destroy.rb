@@ -8,16 +8,17 @@ module Posts
 
     def perform!
       ActiveRecord::Base.transaction do
-        destroy!
+        destroy_dependencies!
         post.replies.destroy_all
         post.destroy
       end
     end
 
-    def destroy!
+    def destroy_dependencies!
       if post.root?
         Activity.where(trackable: [*post.replies, post]).destroy_all
         post.replies.destroy_all
+        post.taggings.destroy_all
       elsif post.root_reply?
         Activity.where(trackable: [*post.sub_replies, post]).destroy_all
         post.sub_replies.destroy_all

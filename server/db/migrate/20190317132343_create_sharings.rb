@@ -7,8 +7,8 @@ class CreateSharings < ActiveRecord::Migration[5.2]
       t.text :content
 
       t.timestamps
-    end
 
-    add_index :sharings, %i[post_id creator_id], name: :post_creator_index
+      t.index %i[post_id creator_id]
+    end
   end
 end

@@ -16,10 +16,11 @@ class Post < ApplicationRecord
   has_many :activities, as: :trackable
 
   has_many :favorites
-
   has_many :sharings
-
   alias shares sharings
+
+  has_many :taggings
+  has_many :hashtags, through: :taggings
 
   has_many_attached :medias
 

@@ -7,8 +7,8 @@ class CreateFavorites < ActiveRecord::Migration[5.2]
       t.string :emoticon
 
       t.timestamps
-    end
 
-    add_index :favorites, %i[creator_id post_id]
+      t.index %i[creator_id post_id]
+    end
   end
 end

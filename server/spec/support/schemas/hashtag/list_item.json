@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": ["null", "string"]
+    },
+    "posts_count": {
+      "type": ["integer"]
+    }
+  },
+  "required": ["name", "id", "description", "posts_count"]
+}
