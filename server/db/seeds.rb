@@ -232,8 +232,9 @@ ActiveRecord::Base.transaction do
   seed('taggings', proc { Tagging.count }) do
     posts = []
     taggings = []
+    updated_hashtags = []
 
-    hashtags = Hashtags.all.select(:id, :name)
+    hashtags = Hashtag.all
 
     Post.root.each do |post|
       tagged_hashtags = Array.new(random_or_nothing(5)) { hashtags.sample }.uniq(&:id)
@@ -245,12 +246,14 @@ ActiveRecord::Base.transaction do
       ].join(' ')
       posts << post
       tagged_hashtags.each do |hashtag|
+        hashtag.creator ||= post.creator
         taggings << Tagging.new(post: post, hashtag: hashtag)
       end
     end
 
-    Post.import(posts, on_duplicate_key_update: :content)
-    Taggings.import(hashtags, on_duplicate_key_ignore: true)
+    Post.import(posts, on_duplicate_key_update: [:content])
+    Tagging.import(taggings, on_duplicate_key_ignore: true)
+    Hashtag.import(hashtags, on_duplicate_key_update: [:creator_id])
   end
 rescue StandardError => e
   puts e
