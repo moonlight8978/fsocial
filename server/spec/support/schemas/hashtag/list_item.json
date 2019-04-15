@@ -9,7 +9,10 @@
     },
     "description": {
       "type": ["null", "string"]
+    },
+    "posts_count": {
+      "type": ["integer"]
     }
   },
-  "required": ["name", "id", "description"]
+  "required": ["name", "id", "description", "posts_count"]
 }

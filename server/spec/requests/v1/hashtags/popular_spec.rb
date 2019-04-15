@@ -14,8 +14,9 @@ RSpec.describe 'V1::Hashtags', type: :request do
       create_list(:tagged_post, 2, tags: [hashtag2.name])
       create_list(:tagged_post, 4, tags: [hashtag4.name, hashtag5.name])
       create_list(:tagged_post, 1, tags: [hashtag4.name])
+      create_list(:tagged_post, 1, tags: rest_hashtags.map(&:name))
 
-      [hashtag1, hashtag2, hashtag3, hashtag4, hashtag5]
+      [hashtag1, hashtag2, hashtag3, hashtag4, hashtag5, *rest_hashtags]
     end
 
     subject { get popular_v1_hashtags_path }
@@ -23,7 +24,7 @@ RSpec.describe 'V1::Hashtags', type: :request do
     include_examples 'success'
     include_examples 'match response schema', 'hashtag/list'
 
-    it 'return 5 hashtags has most posts' do
+    it 'return 5 hashtags has most posts (sort by created time if posts count is equal)' do
       subject
 
       expected_hashtags = [hashtags[3], hashtags[4], hashtags[2], hashtags[0], hashtags[1]]
