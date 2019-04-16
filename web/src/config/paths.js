@@ -41,4 +41,8 @@ export const paths = {
     resolve: ({ username, id }) =>
       createUri('/users/{username}/posts/{id}').expand({ username, id }),
   },
+  hashtag: {
+    route: '/hashtags/:slug',
+    resolve: ({ slug }) => createUri('/hashtags/{slug}').expand({ slug }),
+  },
 }

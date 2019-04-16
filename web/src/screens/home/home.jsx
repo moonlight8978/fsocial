@@ -11,7 +11,7 @@ import {
   ActivityItem,
   ActivityListConsumer,
 } from '../../components/activity-list'
-import { Box, BoxList } from '../../components/atomics'
+import { Box, BoxList, BoxSpacer } from '../../components/atomics'
 import {
   StatisticsProvider,
   StatisticsConsumer,
@@ -20,6 +20,7 @@ import { FollowingProvider } from '../../components/following'
 import { FluidLoading } from '../../components/loading'
 import { withAuthContext } from '../../components/auth'
 import { ReplyProvider, ReplyConsumer } from '../../components/reply-editor'
+import PopularHashtags from '../../components/hashtag/popular-hashtags/popular-hashtags'
 
 import Statistics from './statistics'
 import ActivityApi from './activity-api'
@@ -46,7 +47,13 @@ class Home extends React.Component {
             hasSideRight
             sideRight={<FolloweeSuggestion />}
             hasSideLeft
-            sideLeft={<Statistics />}
+            sideLeft={
+              <>
+                <Statistics />
+                <BoxSpacer />
+                <PopularHashtags />
+              </>
+            }
             className={styles.layout}
           >
             <StatisticsConsumer>

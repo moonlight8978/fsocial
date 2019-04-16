@@ -1,3 +1,5 @@
+@import 'config/colors';
+
 .size-small {
   font-size: 12px;
   line-height: 20px;
@@ -28,7 +30,7 @@
 }
 
 .color-link {
-  color: #1890ff;
+  color: $link-color;
 }
 
 .color-secondary {
@@ -44,7 +46,7 @@
 }
 
 .hover-color-link:hover {
-  color: #1890ff;
+  color: $link-hover-color;
 }
 
 .hover-color-secondary:hover {
