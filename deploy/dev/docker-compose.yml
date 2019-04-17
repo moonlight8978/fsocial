@@ -58,15 +58,6 @@ services:
     ports:
       - 60002:8080
 
-  portainer:
-    image: portainer/portainer
-    env_file:
-      - .env
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./tmp/portainer/data:/data
-
   utils-yml:
     build:
       context: utils/yml

@@ -5,3 +5,4 @@ export {
 } from './statistics'
 export { withStatisticsContext } from './with-statistics-context'
 export { statisticsSelectors } from './statistics-selectors'
+export { default as Statistics } from './statistics'

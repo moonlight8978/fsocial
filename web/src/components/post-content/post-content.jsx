@@ -1,19 +1,45 @@
 import React from 'react'
-import twitter from 'twitter-text'
+import { withRouter } from 'react-router-dom'
+import _ from 'lodash'
 
 import { Text } from '../atomics'
+import { Twitter } from '../../services/twitter'
+
+import SanitizedHtml from './sanitized-html'
 
 class PostContent extends React.PureComponent {
+  componentDidMount() {
+    this.links = Array.from(document.getElementsByClassName(this.className))
+    this.links.forEach(link => {
+      link.addEventListener('click', this.handleClick)
+    })
+  }
+
+  componentWillUnmount() {
+    this.links.forEach(link => {
+      link.removeEventListener('click', this.handleClick)
+    })
+  }
+
+  handleClick = event => {
+    event.preventDefault()
+    const href = event.target.getAttribute('href')
+    this.props.history.push(href)
+  }
+
+  className = `postContent_${_.uniqueId()}`
+
   render() {
     const { content, className } = this.props
 
     return (
       <p className={className}>
         <Text>
-          <span
-            dangerouslySetInnerHTML={{
-              __html: twitter.autoLink(twitter.htmlEscape(content)),
-            }}
+          <SanitizedHtml
+            content={Twitter.autoLink(content, {
+              hashtagClass: this.className,
+              usernameClass: this.className,
+            })}
           />
         </Text>
       </p>
@@ -21,4 +47,4 @@ class PostContent extends React.PureComponent {
   }
 }
 
-export default PostContent
+export default withRouter(PostContent)
