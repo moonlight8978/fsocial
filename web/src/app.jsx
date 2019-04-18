@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 
 import { withAuthContext, authSelectors } from './components/auth'
 import { withLoading, FullscreenLoading } from './components/loading'
@@ -43,4 +42,4 @@ class App extends React.Component {
   }
 }
 
-export default withAuthContext(withLoading(withRouter(App)))
+export default withAuthContext(withLoading(App))
