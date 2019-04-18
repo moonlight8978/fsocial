@@ -100,6 +100,13 @@ user:
       sharesCount: Shares
     reply:
       context: Replying to
+hashtags:
+  popular:
+    title: Trends for you
+    postsCount: '{count} Posts'
+hashtag:
+  windowTitle: 'Posts related to #{name}'
+  firstCreated: First created by
 schemas:
   session:
     identity:

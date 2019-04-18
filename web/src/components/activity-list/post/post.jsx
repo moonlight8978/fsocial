@@ -9,6 +9,7 @@ import { InlineName } from '../../user'
 import { Text, Ellipsis } from '../../atomics'
 import { RelativeTime } from '../../relative-time'
 import { FavoriteButton, ShareButton, ReplyButton } from '../../post-actions'
+import { PostContent } from '../../post-content'
 import PostMedias from '../../post-medias/post-medias'
 
 import styles from './post.module.scss'
@@ -80,9 +81,7 @@ class Post extends React.PureComponent {
             )}
           </header>
 
-          <p>
-            <Text>{content}</Text>
-          </p>
+          <PostContent content={content} />
 
           <PostMedias post={post} />
 

@@ -9,14 +9,21 @@ module Posts
 
     def extract
       params.require(:post)
-        .permit(:content, medias_base64: [])
+        .permit(medias_base64: [])
         .merge(additional_params)
+        .merge(escaped_content)
         .permit!
     end
 
     def additional_params
       {
         creator_id: controller.current_user.id
+      }
+    end
+
+    def escaped_content
+      {
+        content: CGI.escapeHTML(params.dig(:post, :content).to_s)
       }
     end
   end
