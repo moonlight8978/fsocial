@@ -27,43 +27,47 @@ class Layout extends React.PureComponent {
 
     if (fluid) {
       return (
-        <AntdLayout className={classnames(className, styles.layout)}>
-          <WindowTitle title={windowTitle} />
-          {hasNavbar && navbar}
-          <Content
-            className={classnames(styles.contentWrapper, {
-              [styles.contentWithNavbar]: hasNavbar,
-            })}
-          >
-            {children}
-          </Content>
-        </AntdLayout>
+        <div className="animated fadeIn">
+          <AntdLayout className={classnames(className, styles.layout)}>
+            <WindowTitle title={windowTitle} />
+            {hasNavbar && navbar}
+            <Content
+              className={classnames(styles.contentWrapper, {
+                [styles.contentWithNavbar]: hasNavbar,
+              })}
+            >
+              {children}
+            </Content>
+          </AntdLayout>
+        </div>
       )
     }
 
     const contentSpan = 12 + (hasSideLeft ? 0 : 6) + (hasSideRight ? 0 : 6)
 
     return (
-      <AntdLayout className={classnames(className, styles.layout)}>
-        <WindowTitle title={windowTitle} />
-        {hasNavbar && navbar}
+      <div className="animated fadeIn">
+        <AntdLayout className={classnames(className, styles.layout)}>
+          <WindowTitle title={windowTitle} />
+          {hasNavbar && navbar}
 
-        {header}
+          {header}
 
-        <Container>
-          <Content
-            className={classnames(styles.contentWrapper, {
-              [styles.contentWithNavbar]: hasNavbar && !header,
-            })}
-          >
-            <Row gutter={16}>
-              {hasSideLeft && <Col span={6}>{sideLeft}</Col>}
-              <Col span={contentSpan}>{children}</Col>
-              {hasSideRight && <Col span={6}>{sideRight}</Col>}
-            </Row>
-          </Content>
-        </Container>
-      </AntdLayout>
+          <Container>
+            <Content
+              className={classnames(styles.contentWrapper, {
+                [styles.contentWithNavbar]: hasNavbar && !header,
+              })}
+            >
+              <Row gutter={16}>
+                {hasSideLeft && <Col span={6}>{sideLeft}</Col>}
+                <Col span={contentSpan}>{children}</Col>
+                {hasSideRight && <Col span={6}>{sideRight}</Col>}
+              </Row>
+            </Content>
+          </Container>
+        </AntdLayout>
+      </div>
     )
   }
 }

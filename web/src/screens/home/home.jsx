@@ -94,8 +94,6 @@ class Home extends React.Component {
                                       showReplyModal={showModal}
                                       onChange={changePost}
                                       onRemove={removePost}
-                                      decreasePost={decrease}
-                                      currentUser={auth.user}
                                     />
                                   </Box>
                                 )}

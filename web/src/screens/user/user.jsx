@@ -11,7 +11,6 @@ import {
   FluidLoading,
   LoadingPropTypes,
 } from '../../components/loading'
-import { AsyncUtils } from '../../utils'
 import { StatisticsProvider } from '../../components/statistics'
 import { FollowingProvider } from '../../components/following'
 
@@ -63,7 +62,6 @@ class User extends React.PureComponent {
     const { history, finishLoading, match } = this.props
     try {
       const { data } = await UserApi.fetch(match.params.username)
-      await AsyncUtils.delay(1000)
       this.setState({ user: UserResource.parse(data) }, finishLoading)
     } catch (error) {
       console.log(error)

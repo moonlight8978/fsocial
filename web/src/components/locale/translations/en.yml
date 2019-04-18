@@ -100,6 +100,8 @@ user:
       sharesCount: Shares
     reply:
       context: Replying to
+hashtag:
+  firstCreated: First created by
 schemas:
   session:
     identity:
