@@ -121,6 +121,13 @@ settings:
     submit: Save password
 features:
   comingSoon: Coming soon...
+conversations:
+  windowTitle: Messages
+  title: Messages
+  new:
+    title: New conversation
+    participant:
+      label: Select a participant
 schemas:
   session:
     identity:
