@@ -25,6 +25,12 @@ class V1::UsersController < ApplicationController
     render json: Users::Serializer.new(users: user, current_user: current_user, serializer: ::ProfileSerializer).perform, status: Settings.http.statuses.success
   end
 
+  def index
+    search = User.ransack(username_cont: params[:q], id_not_eq: current_user&.id)
+    users = search.result(distinct: true).page(params[:page] || 1)
+    render json: users, each_serializer: ::ProfileOverallSerializer, status: Settings.http.statuses.success
+  end
+
   def follow
     followee = User.friendly.find(params[:id])
     raise ActiveRecord::RecordNotFound, params[:id] if followee.username != params[:id]

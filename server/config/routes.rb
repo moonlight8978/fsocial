@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   scope :api do
     namespace :v1 do
+      mount ActionCable.server => '/cable'
+
       resources :tests if Rails.env.development?
 
       resources :sessions, only: %i[create destroy]
@@ -25,6 +27,7 @@ Rails.application.routes.draw do
           get :followers
           get :followees_suggestion
           get :activities
+          get :interactable_people
         end
       end
 
