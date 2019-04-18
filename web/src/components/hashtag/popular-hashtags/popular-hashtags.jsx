@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
 
 import { Box, Text, Ellipsis } from '../../atomics'
 import { paths } from '../../../config'
@@ -35,7 +36,13 @@ class PopularHashtags extends React.PureComponent {
     const { hashtags } = this.state
 
     return (
-      <Box title={<Text bold>Trends for you</Text>}>
+      <Box
+        title={
+          <Text bold>
+            <FormattedMessage id="hashtags.popular.title" />
+          </Text>
+        }
+      >
         {isLoading ? (
           <FluidLoading />
         ) : (
@@ -50,7 +57,10 @@ class PopularHashtags extends React.PureComponent {
               </Ellipsis>
               <Ellipsis>
                 <Text color="secondary" size="small">
-                  {postsCount} Posts
+                  <FormattedMessage
+                    id="hashtags.popular.postsCount"
+                    values={{ count: postsCount }}
+                  />
                 </Text>
               </Ellipsis>
             </div>

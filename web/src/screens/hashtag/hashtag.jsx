@@ -64,7 +64,10 @@ class Hashtag extends React.PureComponent {
       <Layout
         hasNavbar
         navbar={<Navbar />}
-        windowTitle={intl.formatMessage({ id: 'home.windowTitle' })}
+        windowTitle={intl.formatMessage(
+          { id: 'hashtag.windowTitle' },
+          { name: slug }
+        )}
         hasSideRight
         sideRight={<FolloweeSuggestion />}
         hasSideLeft
