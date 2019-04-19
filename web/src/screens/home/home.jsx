@@ -14,6 +14,7 @@ import {
   ActivityListProvider,
   ActivityItem,
   ActivityListConsumer,
+  ActivityStream,
 } from '../../components/activity-list'
 import { Box, BoxList, BoxSpacer } from '../../components/atomics'
 import {
@@ -72,9 +73,8 @@ class Home extends React.Component {
                     <ActivityListConsumer>
                       {({ createPost, changePost, removePost }) => (
                         <>
-                          <ActionCableConsumer
+                          <ActivityStream
                             channel={{ channel: 'ActivitiesChannel' }}
-                            onReceived={() => console.log(123213)}
                           />
                           <ReplyProvider
                             onCreate={(post, { trackable: { rootId, root } }) =>
