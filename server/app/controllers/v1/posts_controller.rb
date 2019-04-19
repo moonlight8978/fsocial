@@ -13,7 +13,7 @@ class V1::PostsController < ApplicationController
     activity = Activities::Creator.new(post).perform(owner: current_user, action: :create)
     Posts::CreateHashtags.new(post).perform
     current_user.followers.select(:id).each do |follower|
-      ActivitiesChannel.broadcast(activity)
+      ActivitiesChannel.broadcast_to(follower, ActiveModelSerializers::SerializableResource.new(activity, { serializer: ::ActivitySerializer, scope: current_user, scope_name: :current_user }).as_json)
     end
     render json: activity, serializer: ::ActivitySerializer, status: Settings.http.statuses.created
   end

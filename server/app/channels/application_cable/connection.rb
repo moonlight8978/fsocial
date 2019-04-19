@@ -4,7 +4,6 @@ module ApplicationCable
 
     def connect
       self.current_user = find_verified_user
-      Rails.logger.debug(current_user.to_json)
     end
 
     private
@@ -13,7 +12,6 @@ module ApplicationCable
       if verified_user = User.find_by(id: extract_user_id_from_token)
         verified_user
       else
-        Rails.logger.error('rejected')
         reject_unauthorized_connection
       end
     end
