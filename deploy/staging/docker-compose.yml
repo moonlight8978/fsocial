@@ -59,7 +59,6 @@ services:
     ports:
       - 80:80
     depends_on:
-      - portainer
       - server
       - web
     restart: always
