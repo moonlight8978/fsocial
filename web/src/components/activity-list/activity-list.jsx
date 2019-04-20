@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
 
 import { withLoading, FluidLoading } from '../loading'
-import { Box } from '../atomics'
+import { Box, Text } from '../atomics'
 
 import { ActivityListConsumer } from './activity-list-context'
 import { Activities } from './activity-resource'
@@ -17,7 +17,9 @@ class ActivityList extends React.Component {
     renderItem: PropTypes.func.isRequired,
     page: PropTypes.number.isRequired,
     data: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    pendingData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     setActivities: PropTypes.func.isRequired,
+    mergeActivities: PropTypes.func.isRequired,
     setPage: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     finishLoading: PropTypes.func.isRequired,
@@ -79,11 +81,37 @@ class ActivityList extends React.Component {
   }
 
   render() {
-    const { data, renderItem, isLoading, loadingIndicator } = this.props
+    const {
+      data,
+      pendingData,
+      renderItem,
+      isLoading,
+      loadingIndicator,
+      mergeActivities,
+    } = this.props
     const { isLastPage } = this.state
 
     return (
       <>
+        {!isLoading && pendingData.length > 0 && (
+          <Box className={styles.pendingActivities}>
+            <Button
+              onClick={mergeActivities}
+              htmlType="button"
+              type="primary"
+              className={styles.buttonMergePendingActivities}
+              block
+            >
+              <Text color="link">
+                <FormattedMessage
+                  id="activityList.newActivities"
+                  values={{ count: pendingData.length }}
+                />
+              </Text>
+            </Button>
+          </Box>
+        )}
+
         {data.map(activity => renderItem(activity))}
 
         {isLoading && loadingIndicator}

@@ -60,6 +60,7 @@ RSpec.describe 'V1::Posts', type: :request do
           }
 
           include_examples 'create activity'
+          include_examples 'enqueue job', ActivityStreamingJob
         end
 
         context 'with images' do
@@ -72,6 +73,7 @@ RSpec.describe 'V1::Posts', type: :request do
           include_examples 'match response schema', 'activity/post'
 
           include_examples 'create activity'
+          include_examples 'enqueue job', ActivityStreamingJob
         end
 
         context 'when content includes hashtags' do
@@ -82,13 +84,12 @@ RSpec.describe 'V1::Posts', type: :request do
             include_examples 'match response schema', 'activity/post'
             include_examples 'create activity'
             include_examples 'change db', Post
+            include_examples 'enqueue job', ActivityStreamingJob
 
             it 'create correct records' do
               subject
-              expect(Post.last.hashtags).to match_array([
-                                                          Hashtag.find_by(name: 'tag1'),
-                                                          Hashtag.find_by(name: 'tag2')
-                                                        ])
+              expect(Post.last.hashtags)
+                .to match_array([Hashtag.find_by(name: 'tag1'), Hashtag.find_by(name: 'tag2')])
             end
           end
 

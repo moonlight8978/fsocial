@@ -1,13 +1,5 @@
 version: "3.7"
 services:
-  portainer:
-    image: portainer/portainer
-    command: -H unix:///var/run/docker.sock --no-auth
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /app/fsocial/portainer/data:/data
-
   db:
     image: postgres:11.2-alpine
     env_file:
@@ -17,6 +9,14 @@ services:
       POSTGRES_PASSWORD: $DB_PASSWORD
     volumes:
       - /app/fsocial/postgresql/data:/var/lib/postgresql/data
+    restart: always
+
+  redis:
+    image: redis:5.0.4-alpine
+    volumes:
+      - /app/fsocial/redis:/data
+    env_file:
+      - .env
     restart: always
 
   web:
@@ -40,10 +40,11 @@ services:
       - ./server:/usr/src/app
       - /app/fsocial/rails/log:/usr/src/app/log
       - /app/fsocial/rails/storage:/usr/src/app/storage
-    command: puma -C config/puma.rb
+    command: ["puma", "-C", "config/puma.rb"]
     restart: always
     depends_on:
       - db
+      - redis
 
   proxy:
     image: moonlight8978/fsocial:proxy
@@ -58,7 +59,6 @@ services:
     ports:
       - 80:80
     depends_on:
-      - portainer
       - server
       - web
     restart: always

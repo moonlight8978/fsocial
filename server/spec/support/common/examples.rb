@@ -31,3 +31,9 @@ shared_examples 'does not create activity' do
     end .not_to change(Activity, :count)
   end
 end
+
+shared_examples 'enqueue job' do |job|
+  it "enqueue #{job.name.humanize}" do
+    expect { subject }.to have_enqueued_job(job)
+  end
+end

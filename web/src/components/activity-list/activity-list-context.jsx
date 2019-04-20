@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 
 import ActivityApi from './activity-api'
 import { Activities } from './activity-resource'
 
 const initialState = {
   data: [],
+  pendingData: [],
   page: 1,
   prependActivity: () => {},
   removeActivity: () => {},
@@ -47,6 +49,8 @@ export class ActivityListProvider extends React.Component {
       setPage: this.setPage.bind(this),
       changePost: this.changePost.bind(this),
       createPost: this.createPost.bind(this),
+      prependPendingActivities: this.prependPendingActivities.bind(this),
+      mergeActivities: this.mergeActivities.bind(this),
     }
   }
 
@@ -59,7 +63,22 @@ export class ActivityListProvider extends React.Component {
   }
 
   prependActivity(activities) {
-    this.setState(state => ({ data: [...activities, ...state.data] }))
+    this.setState(state => ({
+      data: _.uniqBy([...activities, ...state.data], 'id'),
+    }))
+  }
+
+  prependPendingActivities(activities) {
+    this.setState(state => ({
+      pendingData: [...activities, ...state.pendingData],
+    }))
+  }
+
+  mergeActivities() {
+    this.setState(state => ({
+      data: _.uniqBy([...state.pendingData, ...state.data], 'id'),
+      pendingData: [],
+    }))
   }
 
   async removePost(post) {
