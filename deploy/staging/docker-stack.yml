@@ -15,6 +15,18 @@ services:
       placement:
         constraints: [node.role == manager]
 
+  redis:
+    image: redis:5.0.4-alpine
+    volumes:
+      - /app/fsocial/redis:/data
+    env_file:
+      - .env
+    deploy:
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == manager]
+
   web:
     image: moonlight8978/fsocial:web
     env_file:

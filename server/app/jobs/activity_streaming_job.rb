@@ -5,11 +5,9 @@ class ActivityStreamingJob < ApplicationJob
     serialized_activity = ActiveModelSerializers::SerializableResource
       .new(
         activity,
-        {
-          serializer: ::ActivitySerializer,
-          scope: current_user,
-          scope_name: :current_user
-        }
+        serializer: ::ActivitySerializer,
+        scope: current_user,
+        scope_name: :current_user
       )
       .as_json
     current_user.followers.select(:id).each do |follower|

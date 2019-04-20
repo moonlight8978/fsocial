@@ -39,6 +39,7 @@ services:
     restart: always
     depends_on:
       - db
+      - redis
     volumes:
       - ./server:/usr/src/app
     ports:
