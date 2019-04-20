@@ -47,7 +47,7 @@ services:
       - ./server:/usr/src/app
       - /app/fsocial/rails/log:/usr/src/app/log
       - /app/fsocial/rails/storage:/usr/src/app/storage
-    command: puma -C config/puma.rb
+    command: ["puma", "-C", "config/puma.rb"]
     deploy:
       replicas: 1
       restart_policy:
