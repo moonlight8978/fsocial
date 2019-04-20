@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => '/api/cable'
+
   scope :api do
     namespace :v1 do
-      mount ActionCable.server => '/cable'
 
       resources :tests if Rails.env.development?
 

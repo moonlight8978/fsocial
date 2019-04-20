@@ -4,6 +4,8 @@ Rails.application.configure do
     Bullet.enable        = true
     Bullet.bullet_logger = true
     Bullet.raise         = false # raise an error if n+1 query occurs
+
+    ActiveJob::Base.queue_adapter = :test
   end
 
   # The test environment is used exclusively to run your application's

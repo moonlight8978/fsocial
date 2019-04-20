@@ -57,6 +57,7 @@ time:
     year: '{value}y'
     xYear: '{value}y'
 activityList:
+  newActivities: 'See {count} new post(s).'
   noMoreActivities: There is no more activities
   item:
     context:

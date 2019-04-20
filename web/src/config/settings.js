@@ -11,6 +11,7 @@ type Config = {
 const test = {
   server: {
     host: 'http://localhost:60001',
+    websocket: 'ws://localhost:60001/api/cable',
     prefix: '/api/v1',
     authorizationHeader: 'Authorization',
   },
@@ -19,6 +20,7 @@ const test = {
 const development = {
   server: {
     host: 'http://localhost:60001',
+    websocket: 'ws://localhost:60001/api/cable',
     prefix: '/api/v1',
     authorizationHeader: 'Authorization',
   },
@@ -27,6 +29,7 @@ const development = {
 const staging = {
   server: {
     host: 'http://fsocial.moonlight8978.asia',
+    websocket: 'ws://fsocial.moonlight8978.asia/api/cable',
     prefix: '/api/v1',
     authorizationHeader: 'Fsocial-Authorization',
   },

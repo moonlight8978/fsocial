@@ -1,10 +1,7 @@
 import React from 'react'
 import { injectIntl } from 'react-intl'
 import PropTypes from 'prop-types'
-import {
-  ActionCableConsumer,
-  ActionCableProvider,
-} from 'react-actioncable-provider'
+import { ActionCableProvider } from 'react-actioncable-provider'
 
 import { Layout, Navbar } from '../layout'
 import { FolloweeSuggestion } from '../../components/followee-suggestion'
@@ -26,6 +23,7 @@ import { FluidLoading } from '../../components/loading'
 import { withAuthContext, authSelectors } from '../../components/auth'
 import { ReplyProvider, ReplyConsumer } from '../../components/reply-editor'
 import PopularHashtags from '../../components/hashtag/popular-hashtags/popular-hashtags'
+import { settings } from '../../config'
 
 import Statistics from './statistics'
 import ActivityApi from './activity-api'
@@ -39,13 +37,16 @@ class Home extends React.Component {
     }).isRequired,
   }
 
+  streamingChannel = {
+    channel: 'ActivitiesChannel',
+  }
+
   render() {
     const { intl, auth } = this.props
+    const token = authSelectors.getToken(auth)
 
     return (
-      <ActionCableProvider
-        url={`ws://localhost:60001/cable?token=${authSelectors.getToken(auth)}`}
-      >
+      <ActionCableProvider url={`${settings.server.websocket}?token=${token}`}>
         <StatisticsProvider user={auth.user}>
           <FollowingProvider authorized>
             <Layout
@@ -73,9 +74,8 @@ class Home extends React.Component {
                     <ActivityListConsumer>
                       {({ createPost, changePost, removePost }) => (
                         <>
-                          <ActivityStream
-                            channel={{ channel: 'ActivitiesChannel' }}
-                          />
+                          <ActivityStream channel={this.streamingChannel} />
+
                           <ReplyProvider
                             onCreate={(post, { trackable: { rootId, root } }) =>
                               changePost(rootId, {
