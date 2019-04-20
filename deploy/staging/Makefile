@@ -16,6 +16,7 @@ env:
 
 build-local:
 	cp .env.staging web/.env
+	rm -rf node_modules build
 	cd web && yarn install
 	cd web && yarn build
 	docker-compose build
