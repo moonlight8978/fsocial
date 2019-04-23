@@ -9,8 +9,8 @@ const CurrentUser = {
     username: data.username,
     email: data.email,
     gender: data.gender,
-    birthday: data.birthday,
-    description: data.description,
+    birthday: new Date(data.birthday).getTime(),
+    description: data.description || '',
   }),
 }
 

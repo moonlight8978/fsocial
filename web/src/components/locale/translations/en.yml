@@ -161,6 +161,9 @@ schemas:
     gender:
       label: Gender
       placeholder: Choose your gender
+      enums:
+        male: Male
+        female: Female
     description:
       label: About me
       placeholder: About me

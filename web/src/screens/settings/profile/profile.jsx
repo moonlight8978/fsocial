@@ -2,15 +2,21 @@ import React from 'react'
 import { Form, Input, Button, DatePicker, Select } from 'antd'
 import _ from 'lodash'
 import moment from 'moment'
+import { injectIntl, FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
 
-import { Box, Text } from '../../../components/atomics'
+import { Box } from '../../../components/atomics'
 import { withAuthContext, authSelectors } from '../../../components/auth'
 
 import ProfileForm from './profile-form'
 import styles from './profile.module.scss'
-import { injectIntl, FormattedMessage } from 'react-intl'
 
 class Profile extends React.PureComponent {
+  static propTypes = {
+    auth: PropTypes.shape().isRequired,
+    intl: PropTypes.shape().isRequired,
+  }
+
   dateFormat = 'YYYY/MM/DD'
 
   formLayout = {
@@ -23,7 +29,7 @@ class Profile extends React.PureComponent {
   defaultValues = () => {
     const { auth } = this.props
     const user = authSelectors.getUser(auth)
-    return _.pick(user, [
+    const userForm = _.pick(user, [
       'username',
       'fullname',
       'email',
@@ -31,6 +37,8 @@ class Profile extends React.PureComponent {
       'birthday',
       'description',
     ])
+    userForm.birthday = userForm.birthday ? moment(userForm.birthday) : null
+    return userForm
   }
 
   render() {
@@ -65,7 +73,6 @@ class Profile extends React.PureComponent {
                   })}
                   value={values.username}
                   name="username"
-                  className={styles.input}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   disabled
@@ -85,7 +92,6 @@ class Profile extends React.PureComponent {
                   })}
                   value={values.fullname}
                   name="fullname"
-                  className={styles.input}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
@@ -104,7 +110,6 @@ class Profile extends React.PureComponent {
                   })}
                   value={values.email}
                   name="email"
-                  className={styles.input}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
@@ -147,8 +152,13 @@ class Profile extends React.PureComponent {
                   }
                   onBlur={() => handleBlur({ target: { name: 'gender' } })}
                 >
-                  <Select.Option value="male">Male</Select.Option>
-                  <Select.Option value="female">Female</Select.Option>
+                  {['male', 'female'].map(gender => (
+                    <Select.Option value={gender} key={gender}>
+                      {formatMessage({
+                        id: `schemas.user.gender.enums.${gender}`,
+                      })}
+                    </Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
 

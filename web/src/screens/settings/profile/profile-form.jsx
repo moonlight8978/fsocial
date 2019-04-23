@@ -1,5 +1,5 @@
 import React from 'react'
-import { object, string } from 'yup'
+import { object, string, date } from 'yup'
 import PropTypes from 'prop-types'
 
 import { StaticForm } from '../../../components/form'
@@ -33,6 +33,8 @@ const schema = intl =>
     fullname: string().required(
       intl.formatMessage({ id: 'schemas.user.password.errors.required' })
     ),
+    birthday: date().nullable(),
+    description: string().notRequired(),
   })
 
 class ProfileForm extends React.Component {
@@ -41,6 +43,7 @@ class ProfileForm extends React.Component {
     auth: PropTypes.shape({
       register: PropTypes.func.isRequired,
     }).isRequired,
+    defaultValues: PropTypes.shape().isRequired,
   }
 
   constructor(props) {

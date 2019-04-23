@@ -56,7 +56,7 @@ export class AuthProvider extends React.Component {
     try {
       const { data: profile } = await AuthApi.fetchProfile()
       await this.setStateAsync({
-        user: profile,
+        user: AuthResources.CurrentUser.parse(profile),
         isAuthenticated: true,
       })
     } catch (error) {

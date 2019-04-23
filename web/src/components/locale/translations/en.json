@@ -48,6 +48,8 @@
   "schemas.user.fullname.errors.required": "Fullname is required",
   "schemas.user.fullname.label": "Fullname",
   "schemas.user.fullname.placeholder": "Fullname",
+  "schemas.user.gender.enums.female": "Female",
+  "schemas.user.gender.enums.male": "Male",
   "schemas.user.gender.label": "Gender",
   "schemas.user.gender.placeholder": "Choose your gender",
   "schemas.user.password.errors.required": "Password is required",
