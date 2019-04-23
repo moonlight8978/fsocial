@@ -6,6 +6,7 @@ navbar:
     about: About
   submenu:
     profile: Profile
+    settings: Settings
     changeLocale: Change language
     signOut: Sign out
     signIn: Have an account? Sign in
@@ -108,6 +109,10 @@ hashtags:
 hashtag:
   windowTitle: 'Posts related to #{name}'
   firstCreated: First created by
+settings:
+  windowTitle: Settings
+  profile:
+    submit: Save profile
 schemas:
   session:
     identity:
@@ -140,6 +145,25 @@ schemas:
       placeholder: Password
       errors:
         required: Password is required
+    passwordConfirmation:
+      label: Password confirmation
+      placeholder: Password confirmation
+      errors:
+        required: Password confirmation is required
+    fullname:
+      label: Fullname
+      placeholder: Fullname
+      errors:
+        required: Fullname is required
+    birthday:
+      label: Birthday
+      placeholder: Birthday
+    gender:
+      label: Gender
+      placeholder: Choose your gender
+    description:
+      label: About me
+      placeholder: About me
   post:
     content:
       errors:

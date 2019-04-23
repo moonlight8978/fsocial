@@ -19,7 +19,16 @@ export const paths = {
   },
   settings: {
     route: '/settings',
-    resolve: () => '/settings',
+    resolve: (params = {}) =>
+      params.subPath
+        ? createUri('/settings/{subPath}').expand({ subPath: params.subPath })
+        : '/settings',
+  },
+  settingsProfile: {
+    route: '/:path(settings|settings/profile)',
+  },
+  settingsPassword: {
+    route: '/settings/password',
   },
   notifications: {
     route: '/notifications',

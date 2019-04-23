@@ -48,6 +48,13 @@ class Navbar extends React.Component {
                     </Link>
                   </Menu.Item>
                   <Menu.Divider />
+                  <Menu.Item className={menuStyles.item}>
+                    <Link to={paths.settings.resolve()}>
+                      <FontAwesomeIcon icon="cog" className={menuStyles.icon} />
+                      <FormattedMessage id="navbar.submenu.settings" />
+                    </Link>
+                  </Menu.Item>
+                  <Menu.Divider />
                   <SubMenu
                     title={
                       <FormattedMessage id="navbar.submenu.changeLocale" />

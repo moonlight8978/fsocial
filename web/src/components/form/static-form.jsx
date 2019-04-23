@@ -56,10 +56,11 @@ class StaticForm extends React.Component {
     try {
       setSubmitting(true)
       this.setState({ apiErrors: {} })
-      const { onSubmit, resetOnSuccess, initialValues } = this.props
+      const { onSubmit, resetOnSuccess } = this.props
       await AsyncUtils.delay(2000)
       await onSubmit(values)
       if (resetOnSuccess) {
+        const { initialValues } = this.props
         resetForm(initialValues)
       }
     } catch (error) {
