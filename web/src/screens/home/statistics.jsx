@@ -17,10 +17,11 @@ import styles from './statistics.module.scss'
 class Statistics extends React.Component {
   static StatGroup = ({ title, count }) => (
     <div className={styles.statsGroup}>
-      <Text size="small" bold color="secondary">
-        {title}
-      </Text>
-      <br />
+      <Ellipsis>
+        <Text size="small" bold color="secondary">
+          {title}
+        </Text>
+      </Ellipsis>
       <Text bold color="link" size="xlarge">
         {count}
       </Text>

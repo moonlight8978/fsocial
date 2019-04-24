@@ -6,6 +6,7 @@ navbar:
     about: Về chúng tôi
   submenu:
     profile: Trang cá nhân
+    settings: Thiết lập
     changeLocale: Đổi ngôn ngữ
     signOut: Đăng xuất
     signIn: Đã có tài khoản? Đăng nhập
@@ -24,3 +25,169 @@ signUp:
     first: Theo dõi những gì bạn thích.
     second: Lắng nghe những gì người khác quan tâm.
     third: Tham gia những cuộc trò chuyện.
+home:
+  windowTitle: Trang chủ
+  postEditor:
+    submit: Đăng
+    placeholder: Hãy cập nhật trạng thái của bạn!
+statistics:
+  headers:
+    post: Bài viết
+    followee: Đang theo dõi
+    follower: Người theo dõi
+following:
+  follow: Theo dõi
+  unfollow: Hủy theo dõi
+  following: Đang theo dõi
+followeeSuggestion:
+  title: Gợi ý theo dõi
+time:
+  relative:
+    lessThanXSeconds: '< {value}s'
+    halfAMinute: '30s'
+    lessThanAMinute: '1m'
+    minute: '{value}m'
+    xMinutes: '{value}m'
+    hour: '{value}h'
+    xHours: '{value}h'
+    day: '{value}d'
+    xDays: '{value}d'
+    month: '{value}m'
+    xMonths: '{value}m'
+    year: '{value}y'
+    xYear: '{value}y'
+activityList:
+  newActivities: 'Xem {count} bài viết mới.'
+  noMoreActivities: Không có thêm hoạt động nào nữa.
+  item:
+    context:
+      sharing: '{fullname} đã chia sẻ'
+      favorite: '{fullname} đã thích'
+reply:
+  context: 'Trả lời {fullname}'
+  submit: Trả lời
+  placeholder: Để lại bình luận của bạn.
+  modalTitle: 'Trả lời {fullname}'
+user:
+  editProfileButton: Sửa thông tin
+  intro:
+    title: Giới thiệu
+  activities:
+    windowTitle: '{fullname} (@{username})'
+    navTitle: Dòng thời gian
+    postEditor:
+      placeholder: Hãy cập nhật trạng thái của bạn!
+      submit: Đăng
+  followees:
+    windowTitle: 'Theo dõi bởi {username} (@{username})'
+    navTitle: Đang theo dõi
+  followers:
+    windowTitle: 'Người theo dõi {fullname} (@{username})'
+    navTitle: Người theo dõi
+  shares:
+    windowTitle: 'Bài viết được chia sẻ bởi {fullname} (@{username})'
+    navTitle: Chia sẻ
+  favorites:
+    windowTitle: 'Bài viết được thích bởi {fullname} (@{username})'
+    navTitle: Thích
+  post:
+    windowTitle: '{content} - {fullname} (@{username})'
+    delete: Xóa bài viết
+    replyList:
+      lastPage: Không còn bình luận nào nữa
+      delete: Xóa bình luận
+    statistics:
+      favoritesCount: Lượt thích
+      sharesCount: Lượt chia sẻ
+    reply:
+      context: Trả lời
+hashtags:
+  popular:
+    title: Hashtag nổi bật
+    postsCount: '{count} bài viết'
+hashtag:
+  windowTitle: 'Bài viết liên quan tới #{name}'
+  firstCreated: Tạo bởi
+settings:
+  windowTitle: Thiết lập
+  profile:
+    title: Thông tin cá nhân
+    windowTitle: Sửa thông tin cá nhân
+    submit: Cập nhật
+  password:
+    title: Mật khẩu
+    windowTitle: Sửa mật khẩu
+    submit: Cập nhật
+features:
+  comingSoon: Sắp ra mắt...
+schemas:
+  session:
+    identity:
+      label: Định danh
+      placeholder: Username hoặc email
+      errors:
+        required: Định danh không được bỏ trống
+    password:
+      label: Mật khẩu
+      placeholder: Mật khẩu
+      errors:
+        required: Mật khẩu không được bỏ trống
+  user:
+    username:
+      label: Username
+      placeholder: Username
+      errors:
+        required: Username không được bỏ trống
+        format:
+          beginWithCharacter: Username phải bắt đầu bằng chữ cái
+          noSpecialCharacters: Username chỉ được chứa chữ cái, số và dấu gạch dưới _
+    email:
+      label: Email
+      placeholder: Email
+      errors:
+        required: Email không được bỏ trống
+        format: Email không hợp lệ
+    password:
+      label: Mật khẩu
+      placeholder: Mật khẩu
+      errors:
+        required: Mật khẩu không được bỏ trống
+    currentPassword:
+      label: Mật khẩu hiện tại
+      placeholder: Mật khẩu hiện tại
+      errors:
+        required: Mật khẩu hiện tại không được bỏ trống
+    passwordConfirmation:
+      label: Mật khẩu xác nhận
+      placeholder: Mật khẩu xác nhận
+      errors:
+        required: Mật khẩu xác nhận không được bỏ trống
+        mustMatchWithPassword: Mật khẩu xác nhận phải trùng với mật khẩu
+    fullname:
+      label: Tên đầy đủ
+      placeholder: Tên đầy đủ
+      errors:
+        required: Tên đầy đủ không được bỏ trống
+    birthday:
+      label: Ngày sinh
+      placeholder: Ngày sinh
+      errors:
+        invalidDate: Ngày sinh không hợp lệ (định dạng YYYY/MM/DD)
+    gender:
+      label: Giới tính
+      placeholder: Chọn giới tính
+      enums:
+        male: Nam
+        female: Nữ
+      errors:
+        required: Giới tính không được bỏ trống
+    description:
+      label: Về bản thân
+      placeholder: Giới thiệu về bản thân
+  post:
+    content:
+      errors:
+        required: Nội dung không được bỏ trống
+    medias:
+      errors:
+        invalidMime: Chỉ có thể upload file hình ảnh (.jpg, .jpeg, và .png)

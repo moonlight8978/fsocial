@@ -32,9 +32,11 @@
 
 .stats {
   display: flex;
+  padding: 0 0.5rem;
 
   .statsGroup {
-    flex: 30% 0 0;
-    padding: 0.5rem 1rem;
+    flex: 33.3333333% 0 0;
+    padding: 0.5rem;
+    min-width: 0;
   }
 }
