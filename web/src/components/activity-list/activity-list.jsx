@@ -19,6 +19,7 @@ class ActivityList extends React.Component {
     data: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     pendingData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     setActivities: PropTypes.func.isRequired,
+    appendActivities: PropTypes.func.isRequired,
     mergeActivities: PropTypes.func.isRequired,
     setPage: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -42,7 +43,7 @@ class ActivityList extends React.Component {
   }
 
   async componentDidMount() {
-    this.fetchActivities(({ newActivities }) => newActivities)
+    this.fetchActivities(activities => this.props.setActivities(activities))
   }
 
   async componentDidUpdate(prevProps) {
@@ -51,8 +52,8 @@ class ActivityList extends React.Component {
     }
     if (prevProps.page !== this.props.page) {
       this.props.startLoading()
-      this.fetchActivities(({ newActivities, oldActivities }) =>
-        oldActivities.concat(newActivities)
+      this.fetchActivities(activities =>
+        this.props.appendActivities(activities)
       )
     }
   }
@@ -63,11 +64,8 @@ class ActivityList extends React.Component {
       const { data: activities } = await this.props.fetchActivities(
         this.props.page
       )
-      const { data: oldActivities } = this.props
       this.setState({ isLastPage: activities.length < 20 })
-      this.props.setActivities(
-        updater({ newActivities: Activities.parse(activities), oldActivities })
-      )
+      updater(Activities.parse(activities))
     } catch (error) {
       console.log(error)
     } finally {
