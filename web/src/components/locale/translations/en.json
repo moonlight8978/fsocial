@@ -1,6 +1,6 @@
 {
-  "activityList.item.context.favorite": "{fullname} liked a post.",
-  "activityList.item.context.sharing": "{fullname} shared a post.",
+  "activityList.item.context.favorite": "{fullname} liked",
+  "activityList.item.context.sharing": "{fullname} shared",
   "activityList.newActivities": "See {count} new post(s).",
   "activityList.noMoreActivities": "There is no more activities",
   "features.comingSoon": "Coming soon...",
@@ -104,7 +104,7 @@
   "time.relative.xYear": "{value}y",
   "time.relative.year": "{value}y",
   "user.activities.navTitle": "Timeline",
-  "user.activities.postEditor.placeholder": "What's happening",
+  "user.activities.postEditor.placeholder": "What's happening?",
   "user.activities.postEditor.submit": "Publish",
   "user.activities.windowTitle": "{fullname} (@{username})",
   "user.editProfileButton": "Edit profile",

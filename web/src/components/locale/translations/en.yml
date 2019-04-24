@@ -62,8 +62,8 @@ activityList:
   noMoreActivities: There is no more activities
   item:
     context:
-      sharing: '{fullname} shared a post.'
-      favorite: '{fullname} liked a post.'
+      sharing: '{fullname} shared'
+      favorite: '{fullname} liked'
 reply:
   context: 'Replying to {fullname}'
   submit: Reply
@@ -77,7 +77,7 @@ user:
     windowTitle: '{fullname} (@{username})'
     navTitle: Timeline
     postEditor:
-      placeholder: What's happening
+      placeholder: What's happening?
       submit: Publish
   followees:
     windowTitle: 'People followed by {username} (@{username})'

@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import { Text, Box, Ellipsis } from '../../components/atomics'
+import { paths } from '../../config'
 
 class HashtagInfo extends React.PureComponent {
   static propTypes = {
@@ -28,7 +29,9 @@ class HashtagInfo extends React.PureComponent {
           </i>
 
           <Ellipsis>
-            <Link to="/">@{creator.username}</Link>
+            <Link to={paths.user.resolve({ username: creator.username })}>
+              @{creator.username}
+            </Link>
           </Ellipsis>
         </div>
       </Box>
