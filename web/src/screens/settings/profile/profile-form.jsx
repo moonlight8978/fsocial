@@ -1,15 +1,11 @@
 import React from 'react'
-import { object, string } from 'yup'
+import { object, string, date } from 'yup'
 import PropTypes from 'prop-types'
 
-import { StaticForm } from '../../components/form'
-import { withAuthContext } from '../../components/auth'
-
-const defaultValues = {
-  username: '',
-  email: '',
-  password: '',
-}
+import { StaticForm } from '../../../components/form'
+import { withAuthContext } from '../../../components/auth'
+import SettingsApi from '../settings-api'
+import { AuthResources } from '../../../components/auth/auth-resources'
 
 const schema = intl =>
   object().shape({
@@ -36,36 +32,46 @@ const schema = intl =>
         intl.formatMessage({ id: 'schemas.user.email.errors.required' })
       )
       .email(intl.formatMessage({ id: 'schemas.user.email.errors.format' })),
-    password: string().required(
-      intl.formatMessage({ id: 'schemas.user.password.errors.required' })
+    fullname: string().required(
+      intl.formatMessage({ id: 'schemas.user.fullname.errors.required' })
+    ),
+    birthday: date(
+      intl.formatMessage({ id: 'schemas.user.birthday.errors.invalidDate' })
+    ).nullable(),
+    description: string().notRequired(),
+    gender: string().required(
+      intl.formatMessage({ id: 'schemas.user.gender.errors.required' })
     ),
   })
 
-class SignUpForm extends React.Component {
+class ProfileForm extends React.Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
     auth: PropTypes.shape({
       register: PropTypes.func.isRequired,
     }).isRequired,
+    defaultValues: PropTypes.shape().isRequired,
   }
 
   constructor(props) {
     super(props)
 
-    this.register = this.register.bind(this)
+    this.updateProfile = this.updateProfile.bind(this)
   }
 
-  async register(user) {
+  async updateProfile(user) {
     const { auth } = this.props
-    await auth.register(user)
+    const { data } = await SettingsApi.updateProfile(user)
+    await auth.setUser(AuthResources.CurrentUser.parse(data))
   }
 
   render() {
     return (
       <StaticForm
         schema={schema}
-        initialValues={defaultValues}
-        onSubmit={this.register}
+        initialValues={this.props.defaultValues}
+        onSubmit={this.updateProfile}
+        resetOnSuccess
       >
         {this.props.children}
       </StaticForm>
@@ -73,4 +79,4 @@ class SignUpForm extends React.Component {
   }
 }
 
-export default withAuthContext(SignUpForm)
+export default withAuthContext(ProfileForm)

@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
-import { Layout, Menu, Dropdown, Avatar } from 'antd'
+import { Layout, Menu, Dropdown, Avatar, Tooltip } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -21,6 +21,7 @@ class Navbar extends React.Component {
   static propTypes = {
     match: PropTypes.shape().isRequired,
     history: PropTypes.shape().isRequired,
+    intl: PropTypes.shape().isRequired,
   }
 
   static UserMenu = () => (
@@ -32,10 +33,8 @@ class Navbar extends React.Component {
               overlay={
                 <Menu className={menuStyles.menu}>
                   <Menu.Item className={menuStyles.item}>
-                    <h2 className={menuStyles.fullname}>
-                      {user.fullname || 'Park Ji Sung'}
-                    </h2>
-                    <span>@{user.username || 'park_ji_sung'}</span>
+                    <h2 className={menuStyles.fullname}>{user.fullname}</h2>
+                    <span>@{user.username}</span>
                   </Menu.Item>
                   <Menu.Divider />
                   <Menu.Item className={menuStyles.item}>
@@ -45,6 +44,13 @@ class Navbar extends React.Component {
                         className={menuStyles.icon}
                       />
                       <FormattedMessage id="navbar.submenu.profile" />
+                    </Link>
+                  </Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Item className={menuStyles.item}>
+                    <Link to={paths.settings.resolve()}>
+                      <FontAwesomeIcon icon="cog" className={menuStyles.icon} />
+                      <FormattedMessage id="navbar.submenu.settings" />
                     </Link>
                   </Menu.Item>
                   <Menu.Divider />
@@ -100,6 +106,7 @@ class Navbar extends React.Component {
   render() {
     const {
       match: { path },
+      intl,
     } = this.props
 
     return (
@@ -124,9 +131,18 @@ class Navbar extends React.Component {
                 key={paths.messages.resolve()}
                 className={styles.menuItem}
                 onClick={this.handleChangeRoute}
+                disabled
               >
-                <FontAwesomeIcon icon="envelope" className={styles.menuIcon} />
-                <FormattedMessage id="navbar.menu.messages" />
+                <Tooltip
+                  placement="bottom"
+                  title={intl.formatMessage({ id: 'features.comingSoon' })}
+                >
+                  <FontAwesomeIcon
+                    icon="envelope"
+                    className={styles.menuIcon}
+                  />
+                  <FormattedMessage id="navbar.menu.messages" />
+                </Tooltip>
               </Menu.Item>
 
               <Menu.Item className={[styles.submenu, styles.dropdownTrigger]}>
@@ -140,4 +156,4 @@ class Navbar extends React.Component {
   }
 }
 
-export default withRouter(Navbar)
+export default withRouter(injectIntl(Navbar))

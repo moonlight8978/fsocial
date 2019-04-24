@@ -14,6 +14,9 @@ const initialState = {
   setActivities: () => {},
   setPage: () => {},
   changePost: () => {},
+  appendActivities: () => {},
+  prependPendingActivities: () => {},
+  createPost: () => {},
 }
 
 const { Provider, Consumer } = React.createContext(initialState)
@@ -51,6 +54,7 @@ export class ActivityListProvider extends React.Component {
       createPost: this.createPost.bind(this),
       prependPendingActivities: this.prependPendingActivities.bind(this),
       mergeActivities: this.mergeActivities.bind(this),
+      appendActivities: this.appendActivities.bind(this),
     }
   }
 
@@ -71,6 +75,12 @@ export class ActivityListProvider extends React.Component {
   prependPendingActivities(activities) {
     this.setState(state => ({
       pendingData: [...activities, ...state.pendingData],
+    }))
+  }
+
+  appendActivities(activities) {
+    this.setState(state => ({
+      data: _.uniqBy([...state.data, ...activities], 'id'),
     }))
   }
 

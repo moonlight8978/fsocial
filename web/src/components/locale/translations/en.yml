@@ -6,6 +6,7 @@ navbar:
     about: About
   submenu:
     profile: Profile
+    settings: Settings
     changeLocale: Change language
     signOut: Sign out
     signIn: Have an account? Sign in
@@ -108,6 +109,18 @@ hashtags:
 hashtag:
   windowTitle: 'Posts related to #{name}'
   firstCreated: First created by
+settings:
+  windowTitle: Settings
+  profile:
+    title: Profile
+    windowTitle: Change profile
+    submit: Save profile
+  password:
+    title: Password
+    windowTitle: Change password
+    submit: Save password
+features:
+  comingSoon: Coming soon...
 schemas:
   session:
     identity:
@@ -127,8 +140,8 @@ schemas:
       errors:
         required: Username is required
         format:
-          begin_with_character: Username must begin with alphabet character
-          no_special_characters: Username must contains alphabet characters, numbers, and _ only
+          beginWithCharacter: Username must begin with alphabet character
+          noSpecialCharacters: Username must contains alphabet characters, numbers, and _ only
     email:
       label: Email
       placeholder: Email
@@ -140,6 +153,38 @@ schemas:
       placeholder: Password
       errors:
         required: Password is required
+    currentPassword:
+      label: Current password
+      placeholder: Current password
+      errors:
+        required: Current password is required
+    passwordConfirmation:
+      label: Password confirmation
+      placeholder: Password confirmation
+      errors:
+        required: Password confirmation is required
+        mustMatchWithPassword: Password confirmation must be match with password
+    fullname:
+      label: Fullname
+      placeholder: Fullname
+      errors:
+        required: Fullname is required
+    birthday:
+      label: Birthday
+      placeholder: Birthday
+      errors:
+        invalidDate: Birthday must be valid date (YYYY/MM/DD)
+    gender:
+      label: Gender
+      placeholder: Choose your gender
+      enums:
+        male: Male
+        female: Female
+      errors:
+        required: Gender is required
+    description:
+      label: About me
+      placeholder: About me
   post:
     content:
       errors:

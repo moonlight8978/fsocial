@@ -16,6 +16,7 @@ const defaultState = {
   signOut: () => {},
   register: () => {},
   fetchProfile: () => {},
+  setUser: () => {},
 }
 
 const persistedState = PersistedStorage.get('auth')
@@ -35,6 +36,7 @@ export class AuthProvider extends React.Component {
     this.register = this.register.bind(this)
     this.fetchProfile = this.fetchProfile.bind(this)
     this.persistState = this.persistState.bind(this)
+    this.setUser = this.setUser.bind(this)
 
     this.state = {
       ...initialState,
@@ -42,6 +44,7 @@ export class AuthProvider extends React.Component {
       signOut: this.signOut,
       register: this.register,
       fetchProfile: this.fetchProfile,
+      setUser: this.setUser,
     }
   }
 
@@ -53,7 +56,7 @@ export class AuthProvider extends React.Component {
     try {
       const { data: profile } = await AuthApi.fetchProfile()
       await this.setStateAsync({
-        user: profile,
+        user: AuthResources.CurrentUser.parse(profile),
         isAuthenticated: true,
       })
     } catch (error) {
@@ -75,6 +78,10 @@ export class AuthProvider extends React.Component {
         resolve()
       })
     })
+  }
+
+  async setUser(user) {
+    await this.setStateAsync({ user: { ...this.state.user, ...user } })
   }
 
   async signIn(user) {

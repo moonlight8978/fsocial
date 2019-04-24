@@ -1,0 +1,21 @@
+.layout {
+  min-height: 100vh;
+}
+
+.sidebar {
+  padding: 0.5rem 0;
+
+  .menu {
+    margin: 0;
+    border: 0;
+  }
+
+  :global(.ant-menu-item-selected) {
+    width: 100%;
+  }
+
+  :global(.ant-menu-item-selected:after) {
+    left: 0;
+    right: auto;
+  }
+}
