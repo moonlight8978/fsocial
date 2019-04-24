@@ -18,13 +18,13 @@ const schema = intl =>
       .matches(
         /^[a-zA-Z]/,
         intl.formatMessage({
-          id: 'schemas.user.username.errors.format.begin_with_character',
+          id: 'schemas.user.username.errors.format.beginWithCharacter',
         })
       )
       .matches(
         /^[a-zA-Z0-9_]*$/,
         intl.formatMessage({
-          id: 'schemas.user.username.errors.format.no_special_characters',
+          id: 'schemas.user.username.errors.format.noSpecialCharacters',
         })
       ),
     email: string()
