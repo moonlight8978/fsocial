@@ -2,7 +2,7 @@
 import React from 'react'
 import { Layout, Menu, Dropdown, Avatar, Tooltip } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -21,6 +21,7 @@ class Navbar extends React.Component {
   static propTypes = {
     match: PropTypes.shape().isRequired,
     history: PropTypes.shape().isRequired,
+    intl: PropTypes.shape().isRequired,
   }
 
   static UserMenu = () => (
@@ -105,6 +106,7 @@ class Navbar extends React.Component {
   render() {
     const {
       match: { path },
+      intl,
     } = this.props
 
     return (
@@ -131,7 +133,10 @@ class Navbar extends React.Component {
                 onClick={this.handleChangeRoute}
                 disabled
               >
-                <Tooltip placement="bottom" title="Coming soon">
+                <Tooltip
+                  placement="bottom"
+                  title={intl.formatMessage({ id: 'features.comingSoon' })}
+                >
                   <FontAwesomeIcon
                     icon="envelope"
                     className={styles.menuIcon}
@@ -151,4 +156,4 @@ class Navbar extends React.Component {
   }
 }
 
-export default withRouter(Navbar)
+export default withRouter(injectIntl(Navbar))

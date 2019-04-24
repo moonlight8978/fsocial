@@ -21,13 +21,14 @@ class SignUp extends React.Component {
 
   render() {
     const { intl } = this.props
+    const { formatMessage } = intl
 
     return (
       <Layout
         fluid
         hasNavbar
         navbar={<UnauthorizedNavbar hasSubmenu />}
-        windowTitle={intl.formatMessage({ id: 'signUp.windowTitle' })}
+        windowTitle={formatMessage({ id: 'signUp.windowTitle' })}
       >
         <div className={styles.wrapper}>
           <div className={classnames(styles.pane, styles.paneLeft)}>
@@ -89,7 +90,9 @@ class SignUp extends React.Component {
                       >
                         <Input
                           type="text"
-                          placeholder="Username"
+                          placeholder={formatMessage({
+                            id: 'schemas.user.username.placeholder',
+                          })}
                           value={values.username}
                           name="username"
                           className={styles.input}
@@ -103,7 +106,9 @@ class SignUp extends React.Component {
                       >
                         <Input
                           type="text"
-                          placeholder="Email"
+                          placeholder={formatMessage({
+                            id: 'schemas.user.email.placeholder',
+                          })}
                           value={values.email}
                           name="email"
                           className={styles.input}
@@ -118,7 +123,9 @@ class SignUp extends React.Component {
                       >
                         <Input
                           type="password"
-                          placeholder="Password"
+                          placeholder={formatMessage({
+                            id: 'schemas.user.password.placeholder',
+                          })}
                           value={values.password}
                           name="password"
                           className={styles.input}

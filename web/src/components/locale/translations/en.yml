@@ -119,6 +119,8 @@ settings:
     title: Password
     windowTitle: Change password
     submit: Save password
+features:
+  comingSoon: Coming soon...
 schemas:
   session:
     identity:
