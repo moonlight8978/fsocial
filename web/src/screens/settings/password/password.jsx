@@ -1,13 +1,19 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
 import { injectIntl, FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
 
 import { Box } from '../../../components/atomics'
+import { WindowTitle } from '../../layout'
 
 import PasswordForm from './password-form'
 import styles from './password.module.scss'
 
 class Password extends React.PureComponent {
+  static propTypes = {
+    intl: PropTypes.shape().isRequired,
+  }
+
   formLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 18 },
@@ -21,6 +27,10 @@ class Password extends React.PureComponent {
 
     return (
       <Box className={styles.container}>
+        <WindowTitle
+          title={formatMessage({ id: 'settings.password.windowTitle' })}
+        />
+
         <PasswordForm>
           {({
             values,
@@ -33,13 +43,33 @@ class Password extends React.PureComponent {
           }) => (
             <Form onSubmit={handleSubmit} {...this.formLayout}>
               <Form.Item
+                validateStatus={fieldStatus('currentPassword')}
+                help={fieldError('currentPassword')}
+                label={formatMessage({
+                  id: 'schemas.user.currentPassword.label',
+                })}
+                required
+              >
+                <Input
+                  type="password"
+                  placeholder={formatMessage({
+                    id: 'schemas.user.currentPassword.placeholder',
+                  })}
+                  value={values.currentPassword}
+                  name="currentPassword"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </Form.Item>
+
+              <Form.Item
                 validateStatus={fieldStatus('password')}
                 help={fieldError('password')}
                 label={formatMessage({ id: 'schemas.user.password.label' })}
                 required
               >
                 <Input
-                  type="text"
+                  type="password"
                   placeholder={formatMessage({
                     id: 'schemas.user.password.placeholder',
                   })}
@@ -59,7 +89,7 @@ class Password extends React.PureComponent {
                 required
               >
                 <Input
-                  type="text"
+                  type="password"
                   placeholder={formatMessage({
                     id: 'schemas.user.passwordConfirmation.placeholder',
                   })}
@@ -78,7 +108,7 @@ class Password extends React.PureComponent {
                   disabled={isSubmitting}
                   className={styles.submit}
                 >
-                  <FormattedMessage id="settings.profile.submit" />
+                  <FormattedMessage id="settings.password.submit" />
                 </Button>
               </div>
             </Form>

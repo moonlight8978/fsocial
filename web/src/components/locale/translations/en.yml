@@ -112,7 +112,13 @@ hashtag:
 settings:
   windowTitle: Settings
   profile:
+    title: Profile
+    windowTitle: Change profile
     submit: Save profile
+  password:
+    title: Password
+    windowTitle: Change password
+    submit: Save password
 schemas:
   session:
     identity:
@@ -145,11 +151,17 @@ schemas:
       placeholder: Password
       errors:
         required: Password is required
+    currentPassword:
+      label: Current password
+      placeholder: Current password
+      errors:
+        required: Current password is required
     passwordConfirmation:
       label: Password confirmation
       placeholder: Password confirmation
       errors:
         required: Password confirmation is required
+        mustMatchWithPassword: Password confirmation must be match with password
     fullname:
       label: Fullname
       placeholder: Fullname
@@ -158,12 +170,16 @@ schemas:
     birthday:
       label: Birthday
       placeholder: Birthday
+      errors:
+        invalidDate: Birthday must be valid date (YYYY/MM/DD)
     gender:
       label: Gender
       placeholder: Choose your gender
       enums:
         male: Male
         female: Female
+      errors:
+        required: Gender is required
     description:
       label: About me
       placeholder: About me

@@ -1,26 +1,45 @@
 import React from 'react'
-import { object, string } from 'yup'
+import { object, string, ref } from 'yup'
 import PropTypes from 'prop-types'
 
 import { StaticForm } from '../../../components/form'
+import SettingsApi from '../settings-api'
 
 const defaultValues = {
+  currentPassword: '',
   password: '',
   passwordConfirmation: '',
 }
 
 const schema = intl =>
   object().shape({
-    password: string().required(),
-    passwordConfirmation: string().required(),
+    currentPassword: string().required(
+      intl.formatMessage({
+        id: 'schemas.user.currentPassword.errors.required',
+      })
+    ),
+    password: string().required(
+      intl.formatMessage({
+        id: 'schemas.user.password.errors.required',
+      })
+    ),
+    passwordConfirmation: string()
+      .oneOf(
+        [ref('password')],
+        intl.formatMessage({
+          id: 'schemas.user.passwordConfirmation.errors.mustMatchWithPassword',
+        })
+      )
+      .required(
+        intl.formatMessage({
+          id: 'schemas.user.passwordConfirmation.errors.required',
+        })
+      ),
   })
 
 class PasswordForm extends React.Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
-    auth: PropTypes.shape({
-      register: PropTypes.func.isRequired,
-    }).isRequired,
   }
 
   constructor(props) {
@@ -29,9 +48,7 @@ class PasswordForm extends React.Component {
     this.updatePassword = this.updatePassword.bind(this)
   }
 
-  async updatePassword(user) {
-    console.log(user)
-  }
+  updatePassword = user => SettingsApi.updatePassword(user)
 
   render() {
     return (

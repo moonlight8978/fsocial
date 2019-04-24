@@ -1,8 +1,9 @@
 import React from 'react'
 import { Menu } from 'antd'
-import { injectIntl } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { Switch, Route } from 'react-router-dom'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
 
 import { Layout, Navbar } from '../layout'
 import { Box } from '../../components/atomics'
@@ -13,6 +14,12 @@ import { Password } from './password'
 import { Profile } from './profile'
 
 class Settings extends React.PureComponent {
+  static propTypes = {
+    history: PropTypes.shape().isRequired,
+    location: PropTypes.shape().isRequired,
+    intl: PropTypes.shape().isRequired,
+  }
+
   handleClick = ({ key }) => {
     const { history } = this.props
     history.push(paths.settings.resolve({ subPath: key }))
@@ -25,8 +32,7 @@ class Settings extends React.PureComponent {
   }
 
   render() {
-    const { intl, match } = this.props
-    const { url } = match
+    const { intl } = this.props
     const selectedKey = this.currentScreen()
 
     return (
@@ -44,8 +50,12 @@ class Settings extends React.PureComponent {
               mode="inline"
               className={styles.menu}
             >
-              <Menu.Item key="profile">Profile</Menu.Item>
-              <Menu.Item key="password">Password</Menu.Item>
+              <Menu.Item key="profile">
+                <FormattedMessage id="settings.profile.title" />
+              </Menu.Item>
+              <Menu.Item key="password">
+                <FormattedMessage id="settings.password.title" />
+              </Menu.Item>
             </Menu>
           </Box>
         }

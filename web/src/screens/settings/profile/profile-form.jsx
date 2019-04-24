@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 
 import { StaticForm } from '../../../components/form'
 import { withAuthContext } from '../../../components/auth'
+import SettingsApi from '../settings-api'
+import { AuthResources } from '../../../components/auth/auth-resources'
 
 const schema = intl =>
   object().shape({
@@ -31,10 +33,15 @@ const schema = intl =>
       )
       .email(intl.formatMessage({ id: 'schemas.user.email.errors.format' })),
     fullname: string().required(
-      intl.formatMessage({ id: 'schemas.user.password.errors.required' })
+      intl.formatMessage({ id: 'schemas.user.fullname.errors.required' })
     ),
-    birthday: date().nullable(),
+    birthday: date(
+      intl.formatMessage({ id: 'schemas.user.birthday.errors.invalidDate' })
+    ).nullable(),
     description: string().notRequired(),
+    gender: string().required(
+      intl.formatMessage({ id: 'schemas.user.gender.errors.required' })
+    ),
   })
 
 class ProfileForm extends React.Component {
@@ -54,7 +61,8 @@ class ProfileForm extends React.Component {
 
   async updateProfile(user) {
     const { auth } = this.props
-    await auth.setUser(user)
+    const { data } = await SettingsApi.updateProfile(user)
+    await auth.setUser(AuthResources.CurrentUser.parse(data))
   }
 
   render() {

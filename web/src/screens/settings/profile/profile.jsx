@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 
 import { Box } from '../../../components/atomics'
 import { withAuthContext, authSelectors } from '../../../components/auth'
+import { WindowTitle } from '../../layout'
 
 import ProfileForm from './profile-form'
 import styles from './profile.module.scss'
@@ -45,10 +46,12 @@ class Profile extends React.PureComponent {
     const { intl } = this.props
     const { formatMessage } = intl
 
-    console.log(this.defaultValues())
-
     return (
       <Box className={styles.container}>
+        <WindowTitle
+          title={formatMessage({ id: 'settings.profile.windowTitle' })}
+        />
+
         <ProfileForm defaultValues={this.defaultValues()}>
           {({
             values,

@@ -62,7 +62,7 @@ class Header extends React.PureComponent {
           'ant-btn ant-btn-round',
           styles.profileEditButton
         )}
-        to={paths.home.resolve()}
+        to={paths.settings.resolve()}
       >
         <FormattedMessage id="user.editProfileButton" />
       </Link>
