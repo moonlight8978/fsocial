@@ -1,0 +1,25 @@
+vi:
+  activerecord:
+    errors:
+      format: '%{message}'
+      models:
+        user:
+          attributes:
+            identity:
+              not_exist: 'Không thể tìm thấy người dùng với tên đăng nhập hoặc email là %{value}'
+              blank: Định danh không được để trống
+            password:
+              blank: Mật khẩu không được để trống
+              incorrect: Mật khẩu không chính xác
+            username:
+              taken: Tên đăng nhập đã được đăng kí
+              blank: Tên đăng nhập không được để trống
+            email:
+              taken: Email đã được đăng kí
+              blank: Email không được để trống
+            current_password:
+              blank: Mật khẩu hiện tại không được để trống
+              invalid: Mật khẩu hiện tại không chính xác
+            password_confirmation:
+              blank: Mật khẩu xác nhận không được để trống
+              confirmation: Mật khẩu xác nhận không khớp với mật khẩu

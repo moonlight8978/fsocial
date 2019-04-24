@@ -1,0 +1,12 @@
+vi:
+  errors:
+    pundit/not_authorized_error: Không đủ quyền
+    application_controller/unauthenticated: Chưa đăng nhập
+    application_controller/not_implemented_yet: API đang trong quá trình xây dựng
+    application_controller/guest_only: Chỉ dành cho guest
+    users/follow/cannot_follow_yourself: Bạn không thể tự theo dõi chính mình
+    users/unfollow/cannot_unfollow_yourself: Bạn không thể hủy theo dõi chính mình
+
+    dynamic:
+      already_followed: Bạn đã theo dõi %s trước đây
+      not_followed_yet: Bạn chưa theo dõi %s
