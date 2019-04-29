@@ -95,9 +95,14 @@ export class Reply extends React.PureComponent {
                   <Dropdown
                     overlay={
                       <Menu>
-                        <Menu.Item key={id} onClick={this.handleRemove}>
+                        <Menu.Item key="remove" onClick={this.handleRemove}>
                           <Text>
                             <FormattedMessage id="user.post.replyList.delete" />
+                          </Text>
+                        </Menu.Item>
+                        <Menu.Item key="report" onClick={this.handleReport}>
+                          <Text>
+                            <FormattedMessage id="user.post.replyList.report" />
                           </Text>
                         </Menu.Item>
                       </Menu>

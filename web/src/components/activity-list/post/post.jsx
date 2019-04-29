@@ -61,8 +61,11 @@ class Post extends React.PureComponent {
                 <Dropdown
                   overlay={
                     <Menu>
-                      <Menu.Item key={id} onClick={this.handleRemove}>
+                      <Menu.Item key="remove" onClick={this.handleRemove}>
                         <Text>Delete post</Text>
+                      </Menu.Item>
+                      <Menu.Item key="report" onClick={this.handleReport}>
+                        <Text>Report post</Text>
                       </Menu.Item>
                     </Menu>
                   }

@@ -1,0 +1,60 @@
+@import 'config/colors';
+
+.rightCol {
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 1px;
+    left: -1rem;
+    top: 0;
+    bottom: 0;
+    background-color: #ccc;
+  }
+
+  .statsIcon {
+    margin-right: 0.5rem;
+  }
+
+  .statsCount {
+    margin-right: 0.5rem;
+  }
+
+  .action {
+    display: flex;
+    align-items: center;
+
+    .actionTrigger {
+      flex-grow: 0;
+    }
+
+    .actionButton {
+      margin-top: 0.5rem;
+      margin-right: 0.5rem;
+    }
+
+    .actionDescription {
+      flex-grow: 1;
+      text-align: center;
+    }
+  }
+
+  .divider {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+.container {
+  display: flex;
+  padding-right: 1rem;
+
+  .avatar {
+    flex: 50px 0 0;
+  }
+
+  .post {
+    flex: calc(100% - 50px) 0 0;
+  }
+}

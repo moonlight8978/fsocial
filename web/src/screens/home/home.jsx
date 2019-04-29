@@ -14,7 +14,7 @@ import {
   ActivityListConsumer,
   ActivityStream,
 } from '../../components/activity-list'
-import { Box, BoxList, BoxSpacer } from '../../components/atomics'
+import { Box, BoxList, BoxSpacer, Text } from '../../components/atomics'
 import {
   StatisticsProvider,
   StatisticsConsumer,
@@ -62,7 +62,13 @@ class Home extends React.Component {
               sideRight={
                 <>
                   <Authorized requiredRole="admin">
-                    <Box title={<FormattedMessage id="dashboard.title" />}>
+                    <Box
+                      title={
+                        <Text bold>
+                          <FormattedMessage id="dashboard.title" />
+                        </Text>
+                      }
+                    >
                       <Link to={paths.dashboard.resolve()}>
                         <FormattedMessage id="dashboard.invitation" />
                       </Link>
