@@ -30,4 +30,11 @@ class V1::PostsController < ApplicationController
     Posts::Destroy.new(post).perform!
     head :no_content
   end
+
+  def report
+    report_params = Reports::CreateParameters.new(params, Post.name, self).perform!
+    service = Reports::Create.new(report_params.dig(:reportable), **report_params.slice(:reporter, :message).to_h.symbolize_keys)
+    service.perform!
+    head :no_content
+  end
 end

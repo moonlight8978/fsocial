@@ -13,6 +13,7 @@ class ApplicationController < ActionController::API
     Unauthenticated,
     GuestOnly,
     NotImplementedYet,
+    Reports::Create::AlreadyReported,
     Pundit::NotAuthorizedError,
     ActiveRecord::RecordNotFound,
     ActionController::ParameterMissing,

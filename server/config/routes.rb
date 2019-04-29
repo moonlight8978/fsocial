@@ -32,6 +32,10 @@ Rails.application.routes.draw do
         resource :sharing, only: %i[create destroy update]
         resource :favorite, only: %i[create destroy update]
         resources :replies, only: %i[create update show index]
+
+        member do
+          post :report
+        end
       end
 
       resources :hashtags, only: :show do
