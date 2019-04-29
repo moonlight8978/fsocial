@@ -14,6 +14,7 @@ class Post < ApplicationRecord
   has_many :sub_replies, class_name: Post.name, foreign_key: 'parent_id'
 
   has_many :activities, as: :trackable
+  has_many :reports, as: :reportable
 
   has_many :favorites
   has_many :sharings

@@ -35,12 +35,19 @@ Rails.application.routes.draw do
 
         member do
           post :report
+          delete :reports, action: :destroy_reports
         end
       end
 
       resources :hashtags, only: :show do
         collection do
           get :popular
+        end
+      end
+
+      resources :reports, only: [] do
+        collection do
+          get :posts
         end
       end
     end
