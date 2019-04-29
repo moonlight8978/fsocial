@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "V1::Reports", type: :request do
-  describe "GET /v1/reports/posts" do
+RSpec.describe 'V1::Reports', type: :request do
+  describe 'GET /v1/reports/posts' do
     let(:headers) { setup_auth(token) }
 
     subject { get posts_v1_reports_path, headers: headers }
