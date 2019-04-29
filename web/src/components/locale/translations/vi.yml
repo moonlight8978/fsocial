@@ -120,6 +120,10 @@ settings:
     submit: Cập nhật
 features:
   comingSoon: Sắp ra mắt...
+dashboard:
+  windowTitle: Dashboard
+  title: Dashboard
+  invitation: Quản lý ứng dụng
 schemas:
   session:
     identity:

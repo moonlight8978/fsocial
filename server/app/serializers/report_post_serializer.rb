@@ -13,7 +13,8 @@ class ReportPostSerializer < ActiveModel::Serializer
     :can_destroy,
     :shares_count,
     :favorites_count,
-    :replies_count
+    :replies_count,
+    :reports_count
   )
 
   belongs_to :creator, serializer: ::ProfileOverallSerializer

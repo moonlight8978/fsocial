@@ -42,6 +42,9 @@
     },
     "replies_count": {
       "type": "integer"
+    },
+    "reports_count": {
+      "type": "integer"
     }
   },
   "required": [
@@ -57,6 +60,7 @@
     "medias",
     "shares_count",
     "favorites_count",
-    "replies_count"
+    "replies_count",
+    "reports_count"
   ]
 }

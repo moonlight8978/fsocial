@@ -1,7 +1,8 @@
 import React from 'react'
-import { injectIntl } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import { ActionCableProvider } from 'react-actioncable-provider'
+import { Link } from 'react-router-dom'
 
 import { Layout, Navbar } from '../layout'
 import { FolloweeSuggestion } from '../../components/followee-suggestion'
@@ -20,10 +21,14 @@ import {
 } from '../../components/statistics'
 import { FollowingProvider } from '../../components/following'
 import { FluidLoading } from '../../components/loading'
-import { withAuthContext, authSelectors } from '../../components/auth'
+import {
+  withAuthContext,
+  authSelectors,
+  Authorized,
+} from '../../components/auth'
 import { ReplyProvider, ReplyConsumer } from '../../components/reply-editor'
 import PopularHashtags from '../../components/hashtag/popular-hashtags/popular-hashtags'
-import { settings } from '../../config'
+import { settings, paths } from '../../config'
 
 import Statistics from './statistics'
 import ActivityApi from './activity-api'
@@ -54,7 +59,19 @@ class Home extends React.Component {
               navbar={<Navbar />}
               windowTitle={intl.formatMessage({ id: 'home.windowTitle' })}
               hasSideRight
-              sideRight={<FolloweeSuggestion />}
+              sideRight={
+                <>
+                  <Authorized requiredRole="admin">
+                    <Box title={<FormattedMessage id="dashboard.title" />}>
+                      <Link to={paths.dashboard.resolve()}>
+                        <FormattedMessage id="dashboard.invitation" />
+                      </Link>
+                    </Box>
+                    <BoxSpacer />
+                  </Authorized>
+                  <FolloweeSuggestion />
+                </>
+              }
               hasSideLeft
               sideLeft={
                 <>

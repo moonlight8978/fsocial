@@ -121,6 +121,10 @@ settings:
     submit: Save password
 features:
   comingSoon: Coming soon...
+dashboard:
+  windowTitle: Dashboard
+  title: Dashboard
+  invitation: Manage the application
 schemas:
   session:
     identity:
