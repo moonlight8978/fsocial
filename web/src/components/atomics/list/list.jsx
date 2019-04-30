@@ -16,13 +16,11 @@ export default class List extends React.Component {
   render() {
     const { items, renderItem, className } = this.props
 
-    if (!items || items.length === 0) {
-      return null
-    }
-
     return (
       <div className={classnames({ [className]: className })}>
-        {items.map(item => renderItem(item))}
+        {!items || items.length === 0
+          ? null
+          : items.map(item => renderItem(item))}
       </div>
     )
   }

@@ -4,12 +4,6 @@
     "id": {
       "type": "integer"
     },
-    "root_id": {
-      "type": ["integer", "null"]
-    },
-    "parent_id": {
-      "type": ["integer", "null"]
-    },
     "content": {
       "type": "string"
     },
@@ -42,12 +36,37 @@
     },
     "replies_count": {
       "type": "integer"
+    },
+    "reports_count": {
+      "type": "integer"
+    },
+    "root": {
+      "type": ["null", "object"],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "creator": {
+          "$ref": "../profile_overall.json"
+        }
+      },
+      "required": ["id", "creator"]
+    },
+    "parent": {
+      "type": ["null", "object"],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "creator": {
+          "$ref": "../profile_overall.json"
+        }
+      },
+      "required": ["id", "creator"]
     }
   },
   "required": [
     "id",
-    "root_id",
-    "parent_id",
     "content",
     "created_at",
     "updated_at",
@@ -57,6 +76,9 @@
     "medias",
     "shares_count",
     "favorites_count",
-    "replies_count"
+    "replies_count",
+    "reports_count",
+    "parent",
+    "root"
   ]
 }

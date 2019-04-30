@@ -1,0 +1,29 @@
+@import 'config/colors';
+
+.layout {
+  padding-bottom: 2rem;
+  min-height: 100vh;
+}
+
+.footerLoadMore {
+  background-color: $text-primary-bg;
+  padding: 0;
+  overflow: hidden;
+}
+
+.buttonLoadMore {
+  background-color: transparent;
+  color: $text-primary-color;
+  border: 0;
+  border-radius: 0;
+
+  &:hover {
+    background-color: #e8f4fb;
+    color: $text-primary-color;
+  }
+
+  &:disabled,
+  &:disabled:hover {
+    color: $text-primary-color;
+  }
+}
