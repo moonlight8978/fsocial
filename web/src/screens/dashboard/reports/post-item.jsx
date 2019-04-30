@@ -2,6 +2,8 @@ import React from 'react'
 import { Col, Row, Divider, Button, Avatar } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
+import { PropTypes } from 'prop-types'
 
 import { Box, BoxSpacer, Text, Ellipsis } from '../../../components/atomics'
 import { PostContent } from '../../../components/post-content'
@@ -12,6 +14,17 @@ import { paths } from '../../../config'
 import styles from './post-item.module.scss'
 
 class PostItem extends React.Component {
+  static propTypes = {
+    post: PropTypes.shape().isRequired,
+    onDeleteReport: PropTypes.func.isRequired,
+    onDeletePost: PropTypes.func.isRequired,
+  }
+
+  getRootPost = () => {
+    const { post } = this.props
+    return post.root ? post.root : post
+  }
+
   render() {
     const { post, onDeleteReport, onDeletePost } = this.props
     const {
@@ -23,6 +36,7 @@ class PostItem extends React.Component {
       sharesCount,
       reportsCount,
     } = post
+    const rootPost = this.getRootPost()
 
     return (
       <>
@@ -46,6 +60,21 @@ class PostItem extends React.Component {
                     </Ellipsis>
 
                     <Text color="secondary">{createdAt.toLocaleString()}</Text>
+
+                    <span>&nbsp;</span>
+
+                    <Link
+                      to={paths.post.resolve({
+                        username: rootPost.creator.username,
+                        id: rootPost.id,
+                      })}
+                    >
+                      <Text color="secondary">
+                        <FontAwesomeIcon icon="eye" />
+                        &nbsp;
+                      </Text>
+                      <FormattedMessage id="dashboard.reports.item.visit" />
+                    </Link>
                   </header>
 
                   <PostContent content={content} />
@@ -67,7 +96,7 @@ class PostItem extends React.Component {
                     <Text bold className={styles.statsCount}>
                       {favoritesCount}
                     </Text>
-                    Favorites
+                    <FormattedMessage id="dashboard.reports.item.statistics.favorite" />
                   </div>
                   <div>
                     <FontAwesomeIcon
@@ -78,7 +107,7 @@ class PostItem extends React.Component {
                     <Text bold className={styles.statsCount}>
                       {sharesCount}
                     </Text>
-                    Shares
+                    <FormattedMessage id="dashboard.reports.item.statistics.sharing" />
                   </div>
                   <div>
                     <FontAwesomeIcon
@@ -89,7 +118,7 @@ class PostItem extends React.Component {
                     <Text bold className={styles.statsCount}>
                       {reportsCount}
                     </Text>
-                    Reports
+                    <FormattedMessage id="dashboard.reports.item.statistics.report" />
                   </div>
                 </div>
 
@@ -110,7 +139,9 @@ class PostItem extends React.Component {
                       </Button>
                     </div>
                     <div className={styles.actionDescription}>
-                      <Text>Delete this post</Text>
+                      <Text>
+                        <FormattedMessage id="dashboard.reports.item.deletePost" />
+                      </Text>
                     </div>
                   </div>
 
@@ -125,7 +156,9 @@ class PostItem extends React.Component {
                       </Button>
                     </div>
                     <div className={styles.actionDescription}>
-                      <Text>Nothing wrong with this post</Text>
+                      <Text>
+                        <FormattedMessage id="dashboard.reports.item.deleteReport" />
+                      </Text>
                     </div>
                   </div>
                 </div>

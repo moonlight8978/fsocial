@@ -1,7 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { AuthConsumer } from './auth'
-import { roles } from './roles'
 
 const roleEnums = {
   admin: 999,
@@ -19,8 +19,17 @@ export const Authorized = ({ requiredRole, children }) => (
   </AuthConsumer>
 )
 
+Authorized.propTypes = {
+  requiredRole: PropTypes.oneOf(['admin', 'user']).isRequired,
+  children: PropTypes.node.isRequired,
+}
+
 export const Unauthorized = ({ children }) => (
   <AuthConsumer>
     {({ isAuthenticated }) => (!isAuthenticated ? children : null)}
   </AuthConsumer>
 )
+
+Unauthorized.propTypes = {
+  children: PropTypes.node.isRequired,
+}

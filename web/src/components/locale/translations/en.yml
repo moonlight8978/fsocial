@@ -64,6 +64,8 @@ activityList:
     context:
       sharing: '{fullname} shared'
       favorite: '{fullname} liked'
+    delete: Delete this post
+    report: Report this post
 reply:
   context: 'Replying to {fullname}'
   submit: Reply
@@ -94,9 +96,11 @@ user:
   post:
     windowTitle: '{content} - {fullname} (@{username})'
     delete: Delete post
+    report: Report post
     replyList:
       lastPage: There is no more replies
       delete: Delete reply
+      report: Report reply
     statistics:
       favoritesCount: Favorites
       sharesCount: Shares
@@ -125,6 +129,17 @@ dashboard:
   windowTitle: Dashboard
   title: Dashboard
   invitation: Manage the application
+  reports:
+    windowTitle: Manage user reports
+    lastPage: There is no more reports
+    item:
+      visit: Visit post
+      statistics:
+        favorite: Favorites
+        sharing: Shares
+        report: Reports
+      deletePost: Delete this post
+      deleteReport: Nothing wrong with this post
 schemas:
   session:
     identity:

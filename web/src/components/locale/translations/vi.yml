@@ -63,6 +63,8 @@ activityList:
     context:
       sharing: '{fullname} đã chia sẻ'
       favorite: '{fullname} đã thích'
+    delete: Xóa bài viết này
+    report: Tố cáo bài viết này
 reply:
   context: 'Trả lời {fullname}'
   submit: Trả lời
@@ -93,9 +95,11 @@ user:
   post:
     windowTitle: '{content} - {fullname} (@{username})'
     delete: Xóa bài viết
+    report: Tố cáo bài viết
     replyList:
       lastPage: Không còn bình luận nào nữa
       delete: Xóa bình luận
+      report: Tố cáo bình luận
     statistics:
       favoritesCount: Lượt thích
       sharesCount: Lượt chia sẻ
@@ -124,6 +128,17 @@ dashboard:
   windowTitle: Dashboard
   title: Dashboard
   invitation: Quản lý ứng dụng
+  reports:
+    windowTitle: Quản lý tố cáo từ người dùng
+    lastPage: Không còn bài viết nào nữa
+    item:
+      visit: Xem bài viết
+      statistics:
+        favorite: Thích
+        sharing: Chia sẻ
+        report: Tố cáo
+      deletePost: Xóa bài viết này
+      deleteReport: Bài viết này hoàn toàn hợp lệ
 schemas:
   session:
     identity:

@@ -9,6 +9,13 @@ const User = {
   }),
 }
 
+const PostAncestor = {
+  parse: post => ({
+    id: post.id,
+    creator: User.parse(post.creator),
+  }),
+}
+
 const Media = {
   parse: media => ({
     filename: media.filename,
@@ -24,8 +31,6 @@ const Media = {
 const Post = {
   parse: post => ({
     id: post.id,
-    rootId: post.root_id,
-    parentId: post.parent_id,
     content: post.content,
     createdAt: new Date(post.created_at),
     updatedAt: new Date(post.updated_at),
@@ -37,6 +42,8 @@ const Post = {
     favoritesCount: post.favorites_count,
     sharesCount: post.shares_count,
     reportsCount: post.reports_count,
+    root: post.root && PostAncestor.parse(post.root),
+    parent: post.parent && PostAncestor.parse(post.parent),
   }),
 }
 

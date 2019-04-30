@@ -70,6 +70,15 @@ class Post extends React.PureComponent {
     }
   }
 
+  handleReport = async () => {
+    const { post } = this.props
+    try {
+      await PostApi.report(post.id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   render() {
     const { isLoading, post, intl } = this.props
 
@@ -84,7 +93,6 @@ class Post extends React.PureComponent {
       sharesCount,
       favoritesCount,
       canDestroy,
-      id,
     } = post
 
     return (
@@ -134,9 +142,20 @@ class Post extends React.PureComponent {
                         <Dropdown
                           overlay={
                             <Menu>
-                              <Menu.Item key={id} onClick={this.handleRemove}>
+                              <Menu.Item
+                                key="remove"
+                                onClick={this.handleRemove}
+                              >
                                 <Text>
                                   <FormattedMessage id="user.post.delete" />
+                                </Text>
+                              </Menu.Item>
+                              <Menu.Item
+                                key="report"
+                                onClick={this.handleReport}
+                              >
+                                <Text>
+                                  <FormattedMessage id="user.post.report" />
                                 </Text>
                               </Menu.Item>
                             </Menu>

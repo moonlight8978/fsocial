@@ -16,6 +16,12 @@ const PostSchema = {
   }),
 }
 
+const ReportSchema = {
+  parse: () => ({
+    message: null,
+  }),
+}
+
 const ActivityApi = {
   createPost: async post => {
     try {
@@ -32,6 +38,13 @@ const ActivityApi = {
     return localHttp.request({
       method: 'delete',
       url: `/posts/${id}`,
+    })
+  },
+  reportPost: async id => {
+    return localHttp.request({
+      method: 'post',
+      url: `/posts/${id}/report`,
+      data: { report: ReportSchema.parse() },
     })
   },
 }

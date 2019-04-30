@@ -2,15 +2,17 @@ import React from 'react'
 import { Button } from 'antd'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Switch, Route } from 'react-router-dom'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 
 import { Layout, Navbar } from '../../layout'
-import { Box, BoxSpacer } from '../../../components/atomics'
-import { paths } from '../../../config'
+import { Box } from '../../../components/atomics'
 import { FolloweeSuggestion } from '../../../components/followee-suggestion'
-import { withLoading, FluidLoading } from '../../../components/loading'
+import {
+  withLoading,
+  FluidLoading,
+  LoadingPropTypes,
+} from '../../../components/loading'
 
 import ReportApi from './report-api'
 import ReportResource from './report-resource'
@@ -18,6 +20,11 @@ import PostItem from './post-item'
 import styles from './reports.module.scss'
 
 class Reports extends React.PureComponent {
+  static propTypes = {
+    ...LoadingPropTypes,
+    intl: PropTypes.shape().isRequired,
+  }
+
   state = {
     posts: [],
     page: 1,
@@ -55,17 +62,29 @@ class Reports extends React.PureComponent {
 
   handleChangePage = () => this.setState(state => ({ page: state.page + 1 }))
 
-  handleDeleteReport = id =>
-    this.setState(state => ({
-      posts: state.posts.filter(post => post.id !== id),
-    }))
+  handleDeleteReport = async id => {
+    try {
+      await ReportApi.deleteReport(id)
+      this.setState(state => ({
+        posts: state.posts.filter(post => post.id !== id),
+      }))
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-  handleDeletePost = id =>
-    this.setState(state => ({
-      posts: state.posts.filter(
-        post => post.id !== id && post.parentId !== id && post.rootId !== id
-      ),
-    }))
+  handleDeletePost = async id => {
+    try {
+      await ReportApi.deletePost(id)
+      this.setState(state => ({
+        posts: state.posts.filter(
+          post => post.id !== id && post.parentId !== id && post.rootId !== id
+        ),
+      }))
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   render() {
     const { intl, isLoading } = this.props
@@ -76,7 +95,9 @@ class Reports extends React.PureComponent {
         hasNavbar
         navbar={<Navbar />}
         hasSideLeft
-        windowTitle={intl.formatMessage({ id: 'dashboard.windowTitle' })}
+        windowTitle={intl.formatMessage({
+          id: 'dashboard.reports.windowTitle',
+        })}
         sideLeft={<FolloweeSuggestion />}
         className={styles.layout}
       >
@@ -105,7 +126,7 @@ class Reports extends React.PureComponent {
                 <>
                   <FontAwesomeIcon icon="angle-up" />
                   <span>&nbsp;</span>
-                  <FormattedMessage id="activityList.noMoreActivities" />
+                  <FormattedMessage id="dashboard.reports.lastPage" />
                   <span>&nbsp;</span>
                   <FontAwesomeIcon icon="angle-up" />
                 </>

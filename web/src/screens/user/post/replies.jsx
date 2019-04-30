@@ -46,6 +46,15 @@ export class Reply extends React.PureComponent {
     }
   }
 
+  handleReport = async () => {
+    const { reply } = this.props
+    try {
+      await PostApi.report(reply.id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   showReplyModal = () => {
     const { showReplyModal, reply } = this.props
     showReplyModal(reply)
@@ -53,14 +62,7 @@ export class Reply extends React.PureComponent {
 
   render() {
     const { reply, replyTo, onChange, children } = this.props
-    const {
-      id,
-      creator,
-      content,
-      subRepliesCount,
-      createdAt,
-      canDestroy,
-    } = reply
+    const { creator, content, subRepliesCount, createdAt, canDestroy } = reply
     const { username, fullname } = creator
 
     return (

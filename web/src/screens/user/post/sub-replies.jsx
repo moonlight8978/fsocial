@@ -115,9 +115,18 @@ export class SubReply extends React.PureComponent {
     }
   }
 
+  handleReport = async () => {
+    const { subReply } = this.props
+    try {
+      await PostApi.report(subReply.id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   render() {
     const { subReply, replyTo, onChange } = this.props
-    const { id, creator, content, createdAt, canDestroy } = subReply
+    const { creator, content, createdAt, canDestroy } = subReply
     const { username, fullname } = creator
 
     return (
