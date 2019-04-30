@@ -255,20 +255,22 @@ ActiveRecord::Base.transaction do
     Hashtag.import(hashtags, on_duplicate_key_update: [:creator_id])
   end
 
-  seed('reports', proc { Report.where(reportable_type: Post.name).count }) do
-    reports = []
+  if Rails.env.development?
+    seed('reports', proc { Report.where(reportable_type: Post.name).count }) do
+      reports = []
 
-    Post.find_each do |post|
-      reporters = Array.new(random_or_nothing(5)) { users.sample }.uniq(&:id)
-      reporters.each do |reporter|
-        reports << Report.new(
-          reportable: post,
-          reporter: reporter
-        )
+      Post.find_each do |post|
+        reporters = Array.new(random_or_nothing(5)) { users.sample }.uniq(&:id)
+        reporters.each do |reporter|
+          reports << Report.new(
+            reportable: post,
+            reporter: reporter
+          )
+        end
       end
-    end
 
-    Report.import(reports, on_duplicate_key_ignore: true)
+      Report.import(reports, on_duplicate_key_ignore: true)
+    end
   end
 rescue StandardError => e
   puts e
