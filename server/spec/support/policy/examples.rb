@@ -4,6 +4,14 @@ shared_examples 'reject guest' do
   end
 end
 
+shared_examples 'reject user' do
+  context 'when user has user role' do
+    let(:user) { create(:user) }
+
+    it { is_expected.not_to permit(user, defined?(record) ? record : nil) }
+  end
+end
+
 shared_examples 'reject admin' do
   context 'when not signed in' do
     let(:admin) { create(:user, :admin) }
@@ -100,5 +108,17 @@ shared_examples 'allow only creator' do
 
   context 'when creator' do
     it { is_expected.to permit(current_user, owned_by_creator) }
+  end
+end
+
+shared_examples 'allow only admin' do
+  include_examples 'reject guest'
+
+  include_examples 'reject user'
+
+  context 'when admin' do
+    let(:admin) { create(:user, :admin) }
+
+    it { is_expected.to permit(admin, defined?(record) ? record : nil) }
   end
 end

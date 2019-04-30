@@ -1,0 +1,84 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "content": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    },
+    "can_update": {
+      "type": "boolean"
+    },
+    "can_destroy": {
+      "type": "boolean"
+    },
+    "creator": {
+      "$ref": "../profile_overall.json"
+    },
+    "medias": {
+      "type": "array",
+      "items": {
+        "$ref": "../attachment.json"
+      }
+    },
+    "shares_count": {
+      "type": "integer"
+    },
+    "favorites_count": {
+      "type": "integer"
+    },
+    "replies_count": {
+      "type": "integer"
+    },
+    "reports_count": {
+      "type": "integer"
+    },
+    "root": {
+      "type": ["null", "object"],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "creator": {
+          "$ref": "../profile_overall.json"
+        }
+      },
+      "required": ["id", "creator"]
+    },
+    "parent": {
+      "type": ["null", "object"],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "creator": {
+          "$ref": "../profile_overall.json"
+        }
+      },
+      "required": ["id", "creator"]
+    }
+  },
+  "required": [
+    "id",
+    "content",
+    "created_at",
+    "updated_at",
+    "can_update",
+    "can_destroy",
+    "creator",
+    "medias",
+    "shares_count",
+    "favorites_count",
+    "replies_count",
+    "reports_count",
+    "parent",
+    "root"
+  ]
+}

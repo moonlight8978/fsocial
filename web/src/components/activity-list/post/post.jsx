@@ -3,6 +3,7 @@ import { Avatar, Menu, Dropdown } from 'antd'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FormattedMessage } from 'react-intl'
 
 import { paths } from '../../../config'
 import { InlineName } from '../../user'
@@ -11,6 +12,7 @@ import { RelativeTime } from '../../relative-time'
 import { FavoriteButton, ShareButton, ReplyButton } from '../../post-actions'
 import { PostContent } from '../../post-content'
 import PostMedias from '../../post-medias/post-medias'
+import ActivityApi from '../activity-api'
 
 import styles from './post.module.scss'
 
@@ -25,6 +27,15 @@ class Post extends React.PureComponent {
   handleRemove = () => {
     const { onRemove, post } = this.props
     onRemove(post)
+  }
+
+  handleReport = async () => {
+    const { post } = this.props
+    try {
+      await ActivityApi.reportPost(post.id)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {
@@ -61,8 +72,15 @@ class Post extends React.PureComponent {
                 <Dropdown
                   overlay={
                     <Menu>
-                      <Menu.Item key={id} onClick={this.handleRemove}>
-                        <Text>Delete post</Text>
+                      <Menu.Item key="remove" onClick={this.handleRemove}>
+                        <Text>
+                          <FormattedMessage id="activityList.item.delete" />
+                        </Text>
+                      </Menu.Item>
+                      <Menu.Item key="report" onClick={this.handleReport}>
+                        <Text>
+                          <FormattedMessage id="activityList.item.report" />
+                        </Text>
                       </Menu.Item>
                     </Menu>
                   }

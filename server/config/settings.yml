@@ -13,6 +13,7 @@ http:
       users/follow/already_followed: 400
       users/unfollow/cannot_unfollow_yourself: 400
       users/unfollow/not_followed_yet: 400
+      reports/create/already_reported: 400
     created: 201
     success: 200
     deleted: 204

@@ -46,6 +46,15 @@ export class Reply extends React.PureComponent {
     }
   }
 
+  handleReport = async () => {
+    const { reply } = this.props
+    try {
+      await PostApi.report(reply.id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   showReplyModal = () => {
     const { showReplyModal, reply } = this.props
     showReplyModal(reply)
@@ -53,14 +62,7 @@ export class Reply extends React.PureComponent {
 
   render() {
     const { reply, replyTo, onChange, children } = this.props
-    const {
-      id,
-      creator,
-      content,
-      subRepliesCount,
-      createdAt,
-      canDestroy,
-    } = reply
+    const { creator, content, subRepliesCount, createdAt, canDestroy } = reply
     const { username, fullname } = creator
 
     return (
@@ -95,9 +97,14 @@ export class Reply extends React.PureComponent {
                   <Dropdown
                     overlay={
                       <Menu>
-                        <Menu.Item key={id} onClick={this.handleRemove}>
+                        <Menu.Item key="remove" onClick={this.handleRemove}>
                           <Text>
                             <FormattedMessage id="user.post.replyList.delete" />
+                          </Text>
+                        </Menu.Item>
+                        <Menu.Item key="report" onClick={this.handleReport}>
+                          <Text>
+                            <FormattedMessage id="user.post.replyList.report" />
                           </Text>
                         </Menu.Item>
                       </Menu>

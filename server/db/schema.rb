@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_414_154_256) do
+ActiveRecord::Schema.define(version: 20_190_429_025_210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -105,10 +105,22 @@ ActiveRecord::Schema.define(version: 20_190_414_154_256) do
     t.integer 'favorites_count', default: 0
     t.integer 'replies_count', default: 0
     t.integer 'sub_replies_count', default: 0
+    t.integer 'reports_count', default: 0
     t.index ['creator_id'], name: 'index_posts_on_creator_id'
     t.index ['deleted_at'], name: 'index_posts_on_deleted_at'
     t.index ['parent_id'], name: 'index_posts_on_parent_id'
     t.index ['root_id'], name: 'index_posts_on_root_id'
+  end
+
+  create_table 'reports', force: :cascade do |t|
+    t.string 'reportable_type'
+    t.bigint 'reportable_id'
+    t.bigint 'reporter_id'
+    t.text 'message'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index %w[reportable_type reportable_id], name: 'index_reports_on_reportable_type_and_reportable_id'
+    t.index ['reporter_id'], name: 'index_reports_on_reporter_id'
   end
 
   create_table 'sharings', force: :cascade do |t|
@@ -147,6 +159,8 @@ ActiveRecord::Schema.define(version: 20_190_414_154_256) do
     t.datetime 'deleted_at'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.integer 'reports_count', default: 0
+    t.boolean 'locked', default: false
     t.index ['country_id'], name: 'index_users_on_country_id'
     t.index ['deleted_at'], name: 'index_users_on_deleted_at'
     t.index ['email'], name: 'index_users_on_email'

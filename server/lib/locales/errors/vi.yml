@@ -6,6 +6,7 @@ vi:
     application_controller/guest_only: Chỉ dành cho guest
     users/follow/cannot_follow_yourself: Bạn không thể tự theo dõi chính mình
     users/unfollow/cannot_unfollow_yourself: Bạn không thể hủy theo dõi chính mình
+    reports/create/already_reported: Bạn đã báo cáo đối tượng này trước đây
 
     dynamic:
       already_followed: Bạn đã theo dõi %s trước đây

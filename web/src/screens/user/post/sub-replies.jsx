@@ -115,9 +115,18 @@ export class SubReply extends React.PureComponent {
     }
   }
 
+  handleReport = async () => {
+    const { subReply } = this.props
+    try {
+      await PostApi.report(subReply.id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   render() {
     const { subReply, replyTo, onChange } = this.props
-    const { id, creator, content, createdAt, canDestroy } = subReply
+    const { creator, content, createdAt, canDestroy } = subReply
     const { username, fullname } = creator
 
     return (
@@ -147,9 +156,14 @@ export class SubReply extends React.PureComponent {
                 <Dropdown
                   overlay={
                     <Menu>
-                      <Menu.Item key={id} onClick={this.handleRemove}>
+                      <Menu.Item key="remove" onClick={this.handleRemove}>
                         <Text>
                           <FormattedMessage id="user.post.replyList.delete" />
+                        </Text>
+                      </Menu.Item>
+                      <Menu.Item key="report" onClick={this.handleReport}>
+                        <Text>
+                          <FormattedMessage id="user.post.replyList.report" />
                         </Text>
                       </Menu.Item>
                     </Menu>

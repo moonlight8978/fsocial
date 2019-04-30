@@ -31,10 +31,13 @@ RSpec.describe 'V1::Posts', type: :request do
     context 'when user is creator' do
       let(:token) { Users::TokenGenerator.new(create(:user, :admin)).perform }
       let!(:conversation) do
-        postt = create(:tagged_post, :activity, tags: %w[depzai 20cm])
-        replies = create_list(:reply, 5, :activity, root: postt)
-        create_list(:sub_reply, 5, :activity, root: postt, parent: replies.first)
-        postt
+        create(:tagged_post, :activity, tags: %w[depzai 20cm]).tap do |postt|
+          replies = create_list(:reply, 5, :activity, root: postt)
+          sub_replies = create_list(:sub_reply, 5, :activity, root: postt, parent: replies.first)
+          create_list(:report_post, 2, reportable: postt)
+          create_list(:report_post, 2, reportable: replies.first)
+          create_list(:report_post, 2, reportable: sub_replies.first)
+        end
       end
 
       context 'when post is root post' do
@@ -55,6 +58,8 @@ RSpec.describe 'V1::Posts', type: :request do
         it 'reduce the posts count of hashtag' do
           expect { subject }.to change(Hashtag.find_by(name: 'depzai').posts.reload, :count).by(-1)
         end
+
+        include_examples 'change db', Report, -6
       end
 
       context 'when post is root reply' do
@@ -69,6 +74,8 @@ RSpec.describe 'V1::Posts', type: :request do
         it 'destroy all activities related' do
           expect { subject }.to change(Activity, :count).by(-6)
         end
+
+        include_examples 'change db', Report, -4
       end
 
       context 'when post is sub reply' do
@@ -83,6 +90,8 @@ RSpec.describe 'V1::Posts', type: :request do
         it 'destroy all activities related' do
           expect { subject }.to change(Activity, :count).by(-1)
         end
+
+        include_examples 'change db', Report, -2
       end
     end
   end
