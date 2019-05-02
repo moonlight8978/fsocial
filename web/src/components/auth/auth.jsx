@@ -115,6 +115,7 @@ export class AuthProvider extends React.Component {
       })
       await this.fetchProfile()
     } catch (error) {
+      await this.signOut()
       throw error
     }
   }
