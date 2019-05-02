@@ -112,9 +112,10 @@ export class AuthProvider extends React.Component {
       await this.setStateAsync({
         token: session.token,
         expiredAt: session.expiredAt,
-        isAuthenticated: true,
       })
+      await this.fetchProfile()
     } catch (error) {
+      await this.signOut()
       throw error
     }
   }
