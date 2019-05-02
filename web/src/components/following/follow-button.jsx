@@ -40,7 +40,7 @@ class FollowButton extends React.Component {
     const { user, following, onFollow } = this.props
     try {
       this.setState({ isSubmitting: true })
-      await AsyncUtils.delay(2000)
+      await AsyncUtils.delay(500)
       await following.follow(user)
       this.setState({ isSubmitting: false })
       onFollow(user)
@@ -54,7 +54,7 @@ class FollowButton extends React.Component {
     const { user, following, onUnfollow } = this.props
     this.setState({ isSubmitting: true })
     try {
-      await AsyncUtils.delay(2000)
+      await AsyncUtils.delay(500)
       await following.unfollow(user)
       this.setState({ isSubmitting: false })
       onUnfollow(user)

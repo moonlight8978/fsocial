@@ -27,7 +27,7 @@ class App extends React.Component {
       await auth.fetchProfile()
     }
 
-    await AsyncUtils.delay(0)
+    await AsyncUtils.delay(200)
     finishLoading()
   }
 
