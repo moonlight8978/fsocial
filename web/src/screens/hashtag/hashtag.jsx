@@ -44,7 +44,7 @@ class Hashtag extends React.PureComponent {
       const { match } = this.props
       const { data } = await HashtagApi.fetch(match.params.slug, page)
       this.setState({ hashtag: HashtagResource.parse(data) })
-      await AsyncUtils.delay(1000)
+      await AsyncUtils.delay(500)
       if (page === 1) {
         this.props.finishLoading()
       }
