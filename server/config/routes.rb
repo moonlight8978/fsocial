@@ -50,6 +50,10 @@ Rails.application.routes.draw do
           get :posts
         end
       end
+
+      namespace :admin do
+        resources :users
+      end
     end
   end
 end
