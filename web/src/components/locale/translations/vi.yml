@@ -129,6 +129,9 @@ dashboard:
   windowTitle: Dashboard
   title: Dashboard
   invitation: Quản lý ứng dụng
+  sidebar:
+    reports: Reports
+    users: Users
   reports:
     windowTitle: Quản lý tố cáo từ người dùng
     lastPage: Không còn bài viết nào nữa

@@ -91,16 +91,7 @@ class Reports extends React.PureComponent {
     const { posts, isLastPage } = this.state
 
     return (
-      <Layout
-        hasNavbar
-        navbar={<Navbar />}
-        hasSideLeft
-        windowTitle={intl.formatMessage({
-          id: 'dashboard.reports.windowTitle',
-        })}
-        sideLeft={<FolloweeSuggestion />}
-        className={styles.layout}
-      >
+      <>
         {posts.map(post => (
           <PostItem
             key={post.id}
@@ -136,7 +127,7 @@ class Reports extends React.PureComponent {
             </Button>
           </Box>
         )}
-      </Layout>
+      </>
     )
   }
 }
