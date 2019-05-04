@@ -22,7 +22,7 @@ class V1::ProfilesController < ApplicationController
     render(
       json: Users::Serializer.new(
         current_user: current_user,
-        users: current_user.followers,
+        users: current_user.followers.includes(cover_attachment: :blob, avatar_attachment: :blob),
         each_serializer: ::FollowingUserSerializer
       ).perform,
       status: Settings.http.statuses.success
@@ -33,7 +33,7 @@ class V1::ProfilesController < ApplicationController
     render(
       json: Users::Serializer.new(
         current_user: current_user,
-        users: current_user.followees,
+        users: current_user.followees.includes(cover_attachment: :blob, avatar_attachment: :blob),
         each_serializer: ::FollowingUserSerializer
       ).perform,
       status: Settings.http.statuses.success
@@ -45,7 +45,7 @@ class V1::ProfilesController < ApplicationController
     render(
       json: Users::Serializer.new(
         current_user: current_user,
-        users: suggestions,
+        users: suggestions.includes(cover_attachment: :blob, avatar_attachment: :blob),
         each_serializer: ::FollowingUserSerializer
       ).perform,
       status: Settings.http.statuses.success

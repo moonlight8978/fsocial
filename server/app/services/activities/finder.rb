@@ -24,9 +24,9 @@ module Activities
           )
         )
         .includes(
-          post: [:creator, medias_attachments: [:blob]],
-          sharing: [:creator, post: [:creator, medias_attachments: [:blob]]],
-          favorite: [:creator, post: [:creator, medias_attachments: [:blob]]]
+          post: [creator: [avatar_attachment: :blob], medias_attachments: [:blob]],
+          sharing: [creator: [avatar_attachment: :blob], post: [creator: [avatar_attachment: :blob], medias_attachments: [:blob]]],
+          favorite: [creator: [avatar_attachment: :blob], post: [creator: [avatar_attachment: :blob], medias_attachments: [:blob]]]
         )
     end
   end
