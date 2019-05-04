@@ -46,8 +46,8 @@
   .boxTitle {
     padding-bottom: 1rem;
 
-    * {
-      margin: 0 !important;
+    > * {
+      margin: 0;
     }
   }
 

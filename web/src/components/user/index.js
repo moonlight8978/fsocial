@@ -1,6 +1,6 @@
 import { Avatar } from './avatar'
 import { Cover } from './cover'
-import Role from './role/role'
+import { Role } from './role'
 import InlineName from './inline-name'
 
 export { InlineName }

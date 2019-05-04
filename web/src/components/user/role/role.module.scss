@@ -1,13 +1,8 @@
+@import 'config/colors';
+
 .role {
   display: inline-block;
-  padding: 0.15rem 0.5rem;
+  padding: 0.1rem 0.5rem;
   border-radius: 4px;
-
-  &.admin {
-    background-color: green;
-  }
-
-  &.user {
-    background-color: yellow;
-  }
+  border: 1px solid #ccc;
 }

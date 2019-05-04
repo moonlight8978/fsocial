@@ -1,0 +1,11 @@
+@import 'config/colors';
+
+.buttonLoadMore {
+  background-color: transparent;
+  color: $text-primary-color;
+
+  &:hover {
+    background-color: #bae7ff;
+    color: $text-primary-color;
+  }
+}

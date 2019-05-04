@@ -65,7 +65,13 @@ class Users extends React.PureComponent {
 
   handleChangePage = () => this.setState(state => ({ page: state.page + 1 }))
 
-  handleChangeUser = () => {}
+  handleChangeUser = (id, newUser) => {
+    this.setState(state => ({
+      users: state.users.map(user =>
+        user.id === id ? { ...user, ...newUser } : user
+      ),
+    }))
+  }
 
   render() {
     const { intl, isLoading } = this.props
@@ -74,56 +80,55 @@ class Users extends React.PureComponent {
     return (
       <Box
         title={
-          <Row>
-            <Col span="3" />
-            <Col span="6">
+          <Row gutter={32}>
+            <Col span={6} offset={3}>
               <Text bold>Username</Text>
             </Col>
-            <Col span="4">
+            <Col span={4}>
               <Text bold>Fullname</Text>
             </Col>
-            <Col span="4">
+            <Col span={4}>
               <Text bold>Email</Text>
             </Col>
-            <Col span="6">
+            <Col span={7}>
               <Text bold>Actions</Text>
             </Col>
           </Row>
         }
       >
-        {users.map(user => (
-          <UserItem
-            key={user.id}
-            user={user}
-            onChange={this.handleChangeUser}
-          />
-        ))}
+        <div>
+          {users.map(user => (
+            <UserItem
+              key={user.id}
+              user={user}
+              onChange={this.handleChangeUser}
+            />
+          ))}
+        </div>
 
         {isLoading && <FluidLoading />}
 
         {!isLoading && (
-          <Box className={styles.footerLoadMore}>
-            <Button
-              onClick={this.handleChangePage}
-              htmlType="button"
-              type="primary"
-              className={styles.buttonLoadMore}
-              block
-              disabled={isLastPage}
-            >
-              {isLastPage ? (
-                <>
-                  <FontAwesomeIcon icon="angle-up" />
-                  <span>&nbsp;</span>
-                  <FormattedMessage id="dashboard.users.lastPage" />
-                  <span>&nbsp;</span>
-                  <FontAwesomeIcon icon="angle-up" />
-                </>
-              ) : (
-                <FontAwesomeIcon icon="ellipsis-h" />
-              )}
-            </Button>
-          </Box>
+          <Button
+            onClick={this.handleChangePage}
+            htmlType="button"
+            type="primary"
+            className={styles.buttonLoadMore}
+            block
+            disabled={isLastPage}
+          >
+            {isLastPage ? (
+              <>
+                <FontAwesomeIcon icon="angle-up" />
+                <span>&nbsp;</span>
+                <FormattedMessage id="dashboard.users.lastPage" />
+                <span>&nbsp;</span>
+                <FontAwesomeIcon icon="angle-up" />
+              </>
+            ) : (
+              <FontAwesomeIcon icon="ellipsis-h" />
+            )}
+          </Button>
         )}
       </Box>
     )
