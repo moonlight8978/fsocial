@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import PropTypes from 'prop-types'
 
 import { Text } from '../../atomics'
 
@@ -17,6 +18,15 @@ const Role = ({ role, className }) => {
       {role}
     </Text>
   )
+}
+
+Role.propTypes = {
+  role: PropTypes.string.isRequired,
+  className: PropTypes.string,
+}
+
+Role.defaultProps = {
+  className: '',
 }
 
 export default Role
