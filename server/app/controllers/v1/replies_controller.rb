@@ -5,7 +5,7 @@ class V1::RepliesController < ApplicationController
     post = Post.root.or(Post.replies).find(params[:post_id])
     replies = post.root? ? post.replies.replies : post.sub_replies
     json = Posts::Replies::Serializer.new(
-      replies: replies.page(params[:page] || 1),
+      replies: replies.with_attached_medias.includes(creator: [avatar_attachment: :blob]).page(params[:page] || 1),
       current_user: current_user,
       each_serializer: ::ReplyListItemSerializer
     ).perform

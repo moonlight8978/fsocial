@@ -5,6 +5,7 @@ class HashtagSerializer < ActiveModel::Serializer
 
   has_many :activities, serializer: ::ActivitySerializer do |serializer|
     serializer.object.activities
+      .includes(post: [creator: [avatar_attachment: :blob]])
       .order(updated_at: :desc)
       .page(serializer.page)
   end

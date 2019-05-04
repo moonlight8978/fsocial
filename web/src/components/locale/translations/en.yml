@@ -129,6 +129,9 @@ dashboard:
   windowTitle: Dashboard
   title: Dashboard
   invitation: Manage the application
+  sidebar:
+    reports: Manage user reports
+    users: Manage users
   reports:
     windowTitle: Manage user reports
     lastPage: There is no more reports
@@ -140,6 +143,17 @@ dashboard:
         report: Reports
       deletePost: Delete this post
       deleteReport: Nothing wrong with this post
+  users:
+    windowTitle: Manage users
+    lastPage: There is no more users
+    headers:
+      username: Username
+      email: Email
+      fullname: Fullname
+      actions: Actions
+    item:
+      upgrade: Upgrade to role admin
+      downgrade: Downgrade to role user
 schemas:
   session:
     identity:

@@ -67,36 +67,36 @@ class Post extends React.PureComponent {
               </Text>
             </Link>
 
-            {canDestroy && (
-              <div className={styles.dropdown}>
-                <Dropdown
-                  overlay={
-                    <Menu>
+            <div className={styles.dropdown}>
+              <Dropdown
+                overlay={
+                  <Menu>
+                    {canDestroy && (
                       <Menu.Item key="remove" onClick={this.handleRemove}>
                         <Text>
                           <FormattedMessage id="activityList.item.delete" />
                         </Text>
                       </Menu.Item>
-                      <Menu.Item key="report" onClick={this.handleReport}>
-                        <Text>
-                          <FormattedMessage id="activityList.item.report" />
-                        </Text>
-                      </Menu.Item>
-                    </Menu>
-                  }
-                  trigger={['click']}
-                  placement="bottomRight"
-                >
-                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                  <a className="ant-dropdown-link" href="#">
-                    {' '}
-                    <Text color="secondary" hover hoverColor="link">
-                      <FontAwesomeIcon icon="angle-down" />
-                    </Text>
-                  </a>
-                </Dropdown>
-              </div>
-            )}
+                    )}
+                    <Menu.Item key="report" onClick={this.handleReport}>
+                      <Text>
+                        <FormattedMessage id="activityList.item.report" />
+                      </Text>
+                    </Menu.Item>
+                  </Menu>
+                }
+                trigger={['click']}
+                placement="bottomRight"
+              >
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a className="ant-dropdown-link" href="#">
+                  {' '}
+                  <Text color="secondary" hover hoverColor="link">
+                    <FontAwesomeIcon icon="angle-down" />
+                  </Text>
+                </a>
+              </Dropdown>
+            </div>
           </header>
 
           <PostContent content={content} />

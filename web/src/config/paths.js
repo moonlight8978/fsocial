@@ -55,7 +55,12 @@ export const paths = {
     resolve: ({ slug }) => createUri('/hashtags/{slug}').expand({ slug }),
   },
   dashboard: {
-    route: '/dashboard/reports',
-    resolve: () => '/dashboard/reports',
+    route: '/dashboard',
+    resolve: (params = {}) =>
+      params.managedTarget
+        ? createUri('/dashboard/{managedTarget}').expand({
+            managedTarget: params.managedTarget,
+          })
+        : '/dashboard/reports',
   },
 }

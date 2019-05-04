@@ -1,0 +1,24 @@
+@import 'config/colors';
+
+.item {
+  padding: 1rem 0;
+  border-bottom: 1px solid #ccc;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.role {
+  margin-right: 0.5rem;
+  text-transform: uppercase;
+}
+
+.upgradeAdmin,
+.downgradeUser {
+  margin-right: 0.5rem;
+}
