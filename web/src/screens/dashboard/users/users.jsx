@@ -11,6 +11,7 @@ import {
   FluidLoading,
 } from '../../../components/loading'
 import { Box, Text } from '../../../components/atomics'
+import { WindowTitle } from '../../layout'
 
 import UserApi from './user-api'
 import UserResource from './user-resource'
@@ -78,59 +79,72 @@ class Users extends React.PureComponent {
     const { users, isLastPage } = this.state
 
     return (
-      <Box
-        title={
-          <Row gutter={32}>
-            <Col span={6} offset={3}>
-              <Text bold>Username</Text>
-            </Col>
-            <Col span={4}>
-              <Text bold>Fullname</Text>
-            </Col>
-            <Col span={4}>
-              <Text bold>Email</Text>
-            </Col>
-            <Col span={7}>
-              <Text bold>Actions</Text>
-            </Col>
-          </Row>
-        }
-      >
-        <div>
-          {users.map(user => (
-            <UserItem
-              key={user.id}
-              user={user}
-              onChange={this.handleChangeUser}
-            />
-          ))}
-        </div>
+      <>
+        <WindowTitle
+          title={intl.formatMessage({ id: 'dashboard.users.windowTitle' })}
+        />
+        <Box
+          title={
+            <Row gutter={32}>
+              <Col span={6} offset={3}>
+                <Text bold>
+                  <FormattedMessage id="dashboard.users.headers.username" />
+                </Text>
+              </Col>
+              <Col span={4}>
+                <Text bold>
+                  <FormattedMessage id="dashboard.users.headers.fullname" />
+                </Text>
+              </Col>
+              <Col span={4}>
+                <Text bold>
+                  <FormattedMessage id="dashboard.users.headers.email" />
+                </Text>
+              </Col>
+              <Col span={7}>
+                <Text bold>
+                  <FormattedMessage id="dashboard.users.headers.actions" />
+                </Text>
+              </Col>
+            </Row>
+          }
+        >
+          <div>
+            {users.map(user => (
+              <UserItem
+                key={user.id}
+                user={user}
+                onChange={this.handleChangeUser}
+              />
+            ))}
+          </div>
 
-        {isLoading && <FluidLoading />}
+          {isLoading && <FluidLoading />}
 
-        {!isLoading && (
-          <Button
-            onClick={this.handleChangePage}
-            htmlType="button"
-            type="primary"
-            className={styles.buttonLoadMore}
-            block
-            disabled={isLastPage}
-          >
-            {isLastPage ? (
-              <>
-                <FontAwesomeIcon icon="angle-up" />
-                <span>&nbsp;</span>
-                <FormattedMessage id="dashboard.users.lastPage" />
-                <span>&nbsp;</span>
-                <FontAwesomeIcon icon="angle-up" />
-              </>
-            ) : (
-              <FontAwesomeIcon icon="ellipsis-h" />
-            )}
-          </Button>
-        )}
-      </Box>
+          {!isLoading && (
+            <Button
+              onClick={this.handleChangePage}
+              htmlType="button"
+              type="primary"
+              className={styles.buttonLoadMore}
+              block
+              disabled={isLastPage}
+            >
+              {isLastPage ? (
+                <>
+                  <FontAwesomeIcon icon="angle-up" />
+                  <span>&nbsp;</span>
+                  <FormattedMessage id="dashboard.users.lastPage" />
+                  <span>&nbsp;</span>
+                  <FontAwesomeIcon icon="angle-up" />
+                </>
+              ) : (
+                <FontAwesomeIcon icon="ellipsis-h" />
+              )}
+            </Button>
+          )}
+        </Box>
+      </>
     )
   }
 }

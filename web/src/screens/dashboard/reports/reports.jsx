@@ -5,9 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 
-import { Layout, Navbar } from '../../layout'
+import { WindowTitle } from '../../layout'
 import { Box } from '../../../components/atomics'
-import { FolloweeSuggestion } from '../../../components/followee-suggestion'
 import {
   withLoading,
   FluidLoading,
@@ -92,6 +91,10 @@ class Reports extends React.PureComponent {
 
     return (
       <>
+        <WindowTitle
+          title={intl.formatMessage({ id: 'dashboard.reports.windowTitle' })}
+        />
+
         {posts.map(post => (
           <PostItem
             key={post.id}

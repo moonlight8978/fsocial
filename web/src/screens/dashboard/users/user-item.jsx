@@ -2,6 +2,8 @@ import React from 'react'
 import { Button, Col, Row, message } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import _ from 'lodash'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
 
 import { Text, Ellipsis } from '../../../components/atomics'
 import { User } from '../../../components/user'
@@ -11,6 +13,11 @@ import UserApi from './user-api'
 import UserResource from './user-resource'
 
 class UserItem extends React.PureComponent {
+  static propTypes = {
+    user: PropTypes.shape().isRequired,
+    onChange: PropTypes.func.isRequired,
+  }
+
   upgradeToAdmin = async () => {
     const { user, onChange } = this.props
     try {
@@ -70,7 +77,9 @@ class UserItem extends React.PureComponent {
                     <FontAwesomeIcon icon="arrow-up" />
                   </Text>
                 </Button>
-                <Text>Upgrade to admin</Text>
+                <Text>
+                  <FormattedMessage id="dashboard.users.item.upgrade" />
+                </Text>
               </div>
             )}
             {role === 'admin' && (
@@ -83,7 +92,9 @@ class UserItem extends React.PureComponent {
                     <FontAwesomeIcon icon="arrow-down" />
                   </Text>
                 </Button>
-                <Text>Downgrade to user</Text>
+                <Text>
+                  <FormattedMessage id="dashboard.users.item.downgrade" />
+                </Text>
               </div>
             )}
           </Col>
