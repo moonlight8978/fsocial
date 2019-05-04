@@ -1,12 +1,12 @@
 import React from 'react'
-import { Avatar, Menu, Dropdown } from 'antd'
+import { Menu, Dropdown } from 'antd'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
 
 import { paths } from '../../../config'
-import { InlineName } from '../../user'
+import { InlineName, User } from '../../user'
 import { Text, Ellipsis } from '../../atomics'
 import { RelativeTime } from '../../relative-time'
 import { FavoriteButton, ShareButton, ReplyButton } from '../../post-actions'
@@ -45,7 +45,7 @@ class Post extends React.PureComponent {
     return (
       <>
         <div className={styles.avatar}>
-          <Avatar size="large" src="/avatar-placeholder.png" />
+          <User.Avatar size="large" user={creator} />
         </div>
 
         <div className={styles.post}>

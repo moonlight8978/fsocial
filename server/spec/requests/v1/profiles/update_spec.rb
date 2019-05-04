@@ -29,14 +29,6 @@ RSpec.describe 'V1::Profiles', type: :request do
         }
       end
 
-      context 'when nothings changed' do
-        let(:user_params) { Hash[fullname: user.fullname] }
-
-        include_examples 'updated without changes'
-
-        include_examples 'response with empty body'
-      end
-
       context 'invalid params' do
         let(:user_params) { Hash[fullname: ''] }
 

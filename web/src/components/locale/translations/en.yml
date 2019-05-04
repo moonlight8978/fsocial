@@ -204,6 +204,10 @@ schemas:
     description:
       label: About me
       placeholder: About me
+    avatar:
+      label: Avatar
+      errors:
+        invalidMime: You can upload images only (.jpg, .jpeg, and .png)
   post:
     content:
       errors:

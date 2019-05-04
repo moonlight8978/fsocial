@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Avatar, Row, Col, Menu } from 'antd'
+import { Row, Col, Menu } from 'antd'
 import { withRouter, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -10,6 +10,7 @@ import { Container } from '../../layout'
 import { Text } from '../../../components/atomics'
 import { StatisticsConsumer } from '../../../components/statistics'
 import { FollowButton } from '../../../components/following'
+import { User } from '../../../components/user'
 
 import styles from './user.module.scss'
 
@@ -82,15 +83,15 @@ class Header extends React.PureComponent {
           <div className={styles.header}>
             <div className={styles.profilePictures}>
               <div className={styles.cover}>
-                <img src="/cover-placeholder.png" alt="Cover" />
+                <img src={user.cover.url} alt="Cover" />
               </div>
 
               <Container>
                 <div className={styles.avatar}>
-                  <Avatar
+                  <User.Avatar
                     className={styles.avatarThumb}
                     size={200}
-                    src="/avatar-placeholder.png"
+                    user={user}
                     alt="Avatar"
                   />
                 </div>

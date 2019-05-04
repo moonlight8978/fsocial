@@ -1,14 +1,5 @@
 import { settings } from '../../../config'
-
-const User = {
-  parse: user => ({
-    fullname: user.fullname,
-    username: user.username,
-    id: user.id,
-    isFollowed: user.is_followed,
-    isCurrentUser: user.is_current_user,
-  }),
-}
+import { UserResource } from '../../../resources/user'
 
 const Media = {
   parse: media => ({
@@ -32,7 +23,7 @@ const Post = {
     updatedAt: new Date(post.updated_at),
     canUpdate: post.can_update,
     canDestroy: post.can_destroy,
-    creator: User.parse(post.creator),
+    creator: UserResource.ProfileOverall.parse(post.creator),
     medias: post.medias.map(media => Media.parse(media)),
     repliesCount: post.replies_count,
     favoritesCount: post.favorites_count,
@@ -52,7 +43,7 @@ const Reply = {
     updatedAt: new Date(reply.updated_at),
     canUpdate: reply.can_update,
     canDestroy: reply.can_destroy,
-    creator: User.parse(reply.creator),
+    creator: UserResource.ProfileOverall.parse(reply.creator),
     medias: reply.medias.map(media => Media.parse(media)),
     repliesCount: reply.replies_count,
     subRepliesCount: reply.sub_replies_count,

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Avatar, Button, Menu, Dropdown } from 'antd'
+import { Button, Menu, Dropdown } from 'antd'
 import classnames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
@@ -11,7 +11,7 @@ import {
   FluidLoading,
   LoadingPropTypes,
 } from '../../../components/loading'
-import { InlineName } from '../../../components/user'
+import { InlineName, User } from '../../../components/user'
 import { paths } from '../../../config'
 import { PostMedias } from '../../../components/post-medias'
 import { FavoriteButton, ReplyButton } from '../../../components/post-actions'
@@ -73,7 +73,7 @@ export class Reply extends React.PureComponent {
               [styles.avatarConnect]: subRepliesCount > 0,
             })}
           >
-            <Avatar src="/avatar-placeholder.png" size={50} />
+            <User.Avatar user={creator} size={50} />
           </div>
 
           <div className={styles.reply}>

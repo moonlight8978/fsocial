@@ -51,6 +51,8 @@
   "schemas.session.password.errors.required": "Password is required",
   "schemas.session.password.label": "Password",
   "schemas.session.password.placeholder": "Password",
+  "schemas.user.avatar.errors.invalidMime": "You can upload images only (.jpg, .jpeg, and .png)",
+  "schemas.user.avatar.label": "Avatar",
   "schemas.user.birthday.errors.invalidDate": "Birthday must be valid date (YYYY/MM/DD)",
   "schemas.user.birthday.label": "Birthday",
   "schemas.user.birthday.placeholder": "Birthday",

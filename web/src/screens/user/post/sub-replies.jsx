@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Avatar, Menu, Dropdown } from 'antd'
+import { Button, Menu, Dropdown } from 'antd'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
@@ -10,7 +10,7 @@ import {
   LoadingPropTypes,
   FluidLoading,
 } from '../../../components/loading'
-import { InlineName } from '../../../components/user'
+import { InlineName, User } from '../../../components/user'
 import { paths } from '../../../config'
 import { PostMedias } from '../../../components/post-medias'
 import { FavoriteButton } from '../../../components/post-actions'
@@ -132,7 +132,7 @@ export class SubReply extends React.PureComponent {
     return (
       <article className={styles.container}>
         <div className={styles.avatar}>
-          <Avatar src="/avatar-placeholder.png" size={50} />
+          <User.Avatar user={creator} size={50} />
         </div>
 
         <div className={styles.reply}>

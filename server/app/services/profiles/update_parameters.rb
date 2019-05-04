@@ -9,7 +9,7 @@ module Profiles
 
     def extract
       params.require(:user)
-        .permit(:fullname, :gender, :birthday, :description, :email)
+        .permit(:fullname, :gender, :birthday, :description, :email, :avatar_base64, :cover_base64)
     end
   end
 end

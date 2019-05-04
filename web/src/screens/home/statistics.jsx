@@ -1,5 +1,4 @@
 import React from 'react'
-import { Avatar } from 'antd'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
@@ -11,6 +10,7 @@ import {
   statisticsSelectors,
 } from '../../components/statistics'
 import { paths } from '../../config'
+import { User } from '../../components/user'
 
 import styles from './statistics.module.scss'
 
@@ -43,13 +43,19 @@ class Statistics extends React.Component {
     return (
       <Box bordered>
         <div className={styles.container}>
-          <div className={styles.cover} />
+          <div className={styles.cover}>
+            <img
+              src={user.cover.url}
+              alt="Cover"
+              className={styles.coverThumb}
+            />
+          </div>
 
           <div className={styles.userInfo}>
             <div className={styles.avatar}>
-              <Avatar
+              <User.Avatar
                 size={60}
-                src="/avatar-placeholder.png"
+                user={user}
                 className={styles.avatarThumb}
               />
             </div>

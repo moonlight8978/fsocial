@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Avatar } from 'antd'
+import { Row, Col } from 'antd'
 import { Link } from 'react-router-dom'
 
 import {
@@ -14,6 +14,7 @@ import {
 } from '../../../components/following'
 import { paths } from '../../../config'
 import { Box, Text, Ellipsis, BoxSpacer } from '../../../components/atomics'
+import { User } from '../../../components/user'
 
 import styles from './following-user.module.scss'
 
@@ -76,14 +77,14 @@ class FollowingUserList extends React.PureComponent {
                 <Box className={styles.wrapper} bordered>
                   <div className={styles.profilePictures}>
                     <div className={styles.cover}>
-                      <img src="/cover-placeholder.png" alt="Cover" />
+                      <img src={user.cover.url} alt="Cover" />
                     </div>
 
                     <div className={styles.avatar}>
-                      <Avatar
+                      <User.Avatar
                         className={styles.avatarThumb}
                         size={80}
-                        src="/avatar-placeholder.png"
+                        user={user}
                         alt="Avatar"
                       />
                     </div>

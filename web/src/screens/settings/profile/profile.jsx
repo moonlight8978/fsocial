@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, DatePicker, Select } from 'antd'
+import { Form, Input, Button, DatePicker, Select, Upload, Avatar } from 'antd'
 import _ from 'lodash'
 import moment from 'moment'
 import { injectIntl, FormattedMessage } from 'react-intl'
@@ -12,10 +12,22 @@ import { WindowTitle } from '../../layout'
 import ProfileForm from './profile-form'
 import styles from './profile.module.scss'
 
+function getBase64(img, callback) {
+  const reader = new FileReader()
+  reader.onload = () => callback(reader.result)
+  reader.onerror = error => console.log(error)
+  reader.readAsDataURL(img)
+}
+
 class Profile extends React.PureComponent {
   static propTypes = {
     auth: PropTypes.shape().isRequired,
     intl: PropTypes.shape().isRequired,
+  }
+
+  state = {
+    avatarPreview: this.props.auth.user.avatar.url || '/avatar-placeholder.png',
+    coverPreview: this.props.auth.user.cover.url || '/cover-placeholder.png',
   }
 
   dateFormat = 'YYYY/MM/DD'
@@ -30,7 +42,7 @@ class Profile extends React.PureComponent {
   defaultValues = () => {
     const { auth } = this.props
     const user = authSelectors.getUser(auth)
-    const userForm = _.pick(user, [
+    let userForm = _.pick(user, [
       'username',
       'fullname',
       'email',
@@ -38,13 +50,25 @@ class Profile extends React.PureComponent {
       'birthday',
       'description',
     ])
-    userForm.birthday = userForm.birthday ? moment(userForm.birthday) : null
+    userForm = {
+      ...userForm,
+      birthday: userForm.birthday ? moment(userForm.birthday) : null,
+      avatar: null,
+      cover: null,
+    }
     return userForm
+  }
+
+  setPreview = prefix => file => {
+    getBase64(file, imageUrl => {
+      this.setState({ [`${prefix}Preview`]: imageUrl })
+    })
   }
 
   render() {
     const { intl } = this.props
     const { formatMessage } = intl
+    const { avatarPreview, coverPreview } = this.state
 
     return (
       <Box className={styles.container}>
@@ -61,8 +85,39 @@ class Profile extends React.PureComponent {
             fieldStatus,
             fieldError,
             isSubmitting,
+            handleUploadSingle,
           }) => (
             <Form onSubmit={handleSubmit} {...this.formLayout}>
+              <div className={styles.profileImages}>
+                <Upload
+                  name="cover"
+                  beforeUpload={handleUploadSingle(
+                    'cover',
+                    this.setPreview('cover')
+                  )}
+                  fileList={[]}
+                  accept=".png,.jpg,.jpeg"
+                  onBlur={handleBlur}
+                  className={styles.cover}
+                >
+                  <img src={coverPreview} alt="Cover" />
+                </Upload>
+
+                <Upload
+                  name="avatar"
+                  beforeUpload={handleUploadSingle(
+                    'avatar',
+                    this.setPreview('avatar')
+                  )}
+                  fileList={[]}
+                  accept=".png,.jpg,.jpeg"
+                  onBlur={handleBlur}
+                  className={styles.avatar}
+                >
+                  <Avatar src={avatarPreview} size={100} />
+                </Upload>
+              </div>
+
               <Form.Item
                 validateStatus={fieldStatus('username')}
                 help={fieldError('username')}
