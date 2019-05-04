@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Avatar, Row, Col, Menu } from 'antd'
+import { Row, Col, Menu } from 'antd'
 import { withRouter, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
-import { Layout, Menu, Dropdown, Avatar, Tooltip } from 'antd'
+import { Layout, Menu, Dropdown, Tooltip } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter, Link } from 'react-router-dom'

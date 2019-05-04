@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Divider, Button, Avatar } from 'antd'
+import { Col, Row, Divider, Button } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'

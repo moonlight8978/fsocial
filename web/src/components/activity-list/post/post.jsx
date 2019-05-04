@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Menu, Dropdown } from 'antd'
+import { Menu, Dropdown } from 'antd'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

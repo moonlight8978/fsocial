@@ -1,5 +1,4 @@
 import React from 'react'
-import { Avatar } from 'antd'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
@@ -11,9 +10,9 @@ import {
   statisticsSelectors,
 } from '../../components/statistics'
 import { paths } from '../../config'
+import { User } from '../../components/user'
 
 import styles from './statistics.module.scss'
-import { User } from '../../components/user'
 
 class Statistics extends React.Component {
   static StatGroup = ({ title, count }) => (

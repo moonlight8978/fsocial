@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Avatar } from 'antd'
 import { Link } from 'react-router-dom'
 
 import { RelativeTime } from '../relative-time'

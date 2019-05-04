@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter, Link } from 'react-router-dom'
-import { Avatar, Menu, Dropdown } from 'antd'
+import { Menu, Dropdown } from 'antd'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
