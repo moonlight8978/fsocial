@@ -1,11 +1,10 @@
 import React from 'react'
-import { Avatar } from 'antd'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
 
 import { Box, Text } from '../atomics'
 import { FollowButton, FollowingUsersResource } from '../following'
-import { InlineName } from '../user'
+import { InlineName, User } from '../user'
 import { paths } from '../../config'
 import { withLoading, FluidLoading, LoadingPropTypes } from '../loading'
 
@@ -92,7 +91,7 @@ class FolloweeSuggestion extends React.Component {
             return (
               <div className={styles.followee} key={id}>
                 <div>
-                  <Avatar size={50} src="/avatar-placeholder.png" />
+                  <User.Avatar size={50} user={user} />
                 </div>
 
                 <div className={styles.userInfo}>

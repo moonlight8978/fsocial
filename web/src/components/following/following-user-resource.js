@@ -1,15 +1,7 @@
-const FollowingUserResource = {
-  parse: user => ({
-    id: user.id,
-    fullname: user.fullname,
-    username: user.username,
-    isCurrentUser: user.is_current_user,
-    isFollowed: user.is_followed,
-  }),
-}
+import { UserResource } from '../../resources/user'
 
 const FollowingUsersResource = {
-  parse: users => users.map(user => FollowingUserResource.parse(user)),
+  parse: users => users.map(user => UserResource.ProfileOverall.parse(user)),
 }
 
-export { FollowingUserResource, FollowingUsersResource }
+export { FollowingUsersResource, UserResource as FollowingUserResource }

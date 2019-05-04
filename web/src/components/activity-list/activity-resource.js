@@ -1,13 +1,5 @@
 import { settings } from '../../config'
-
-const User = {
-  parse: user => ({
-    fullname: user.fullname,
-    username: user.username,
-    id: user.id,
-    isCurrentUser: user.is_current_user,
-  }),
-}
+import { UserResource } from '../../resources/user'
 
 const Media = {
   parse: media => ({
@@ -31,7 +23,7 @@ const Post = {
     updatedAt: new Date(post.updated_at),
     canUpdate: post.can_update,
     canDestroy: post.can_destroy,
-    creator: User.parse(post.creator),
+    creator: UserResource.ProfileOverall.parse(post.creator),
     medias: post.medias.map(media => Media.parse(media)),
     repliesCount: post.replies_count,
     favoritesCount: post.favorites_count,
@@ -46,7 +38,7 @@ const Sharing = {
     id: sharing.id,
     canUpdate: sharing.can_update,
     canDestroy: sharing.can_destroy,
-    creator: User.parse(sharing.creator),
+    creator: UserResource.ProfileOverall.parse(sharing.creator),
     post: Post.parse(sharing.post),
   }),
 }
@@ -56,7 +48,7 @@ const Favorite = {
     id: favorite.id,
     canUpdate: favorite.can_update,
     canDestroy: favorite.can_destroy,
-    creator: User.parse(favorite.creator),
+    creator: UserResource.ProfileOverall.parse(favorite.creator),
     post: Post.parse(favorite.post),
   }),
 }

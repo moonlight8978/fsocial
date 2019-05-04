@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { StaticForm } from '../../../components/form'
 import { withAuthContext } from '../../../components/auth'
 import SettingsApi from '../settings-api'
-import { AuthResources } from '../../../components/auth/auth-resources'
+import { UserResource } from '../../../resources/user'
 
 const schema = intl =>
   object().shape({
@@ -62,7 +62,7 @@ class ProfileForm extends React.Component {
   async updateProfile(user) {
     const { auth } = this.props
     const { data } = await SettingsApi.updateProfile(user)
-    await auth.setUser(AuthResources.CurrentUser.parse(data))
+    await auth.setUser(UserResource.Profile.parse(data))
   }
 
   render() {

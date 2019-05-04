@@ -3,6 +3,7 @@ import React from 'react'
 import _ from 'lodash'
 
 import { PersistedStorage } from '../../services/persisted-storage'
+import { UserResource } from '../../resources/user'
 
 import { AuthApi } from './auth-api'
 import { AuthResources } from './auth-resources'
@@ -56,7 +57,7 @@ export class AuthProvider extends React.Component {
     try {
       const { data: profile } = await AuthApi.fetchProfile()
       await this.setStateAsync({
-        user: AuthResources.CurrentUser.parse(profile),
+        user: UserResource.Profile.parse(profile),
         isAuthenticated: true,
       })
     } catch (error) {

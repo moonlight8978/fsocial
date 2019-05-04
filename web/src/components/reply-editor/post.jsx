@@ -4,7 +4,7 @@ import { Avatar } from 'antd'
 import { Link } from 'react-router-dom'
 
 import { RelativeTime } from '../relative-time'
-import { InlineName } from '../user'
+import { InlineName, User } from '../user'
 import { Text, Ellipsis } from '../atomics'
 import { paths } from '../../config'
 
@@ -22,7 +22,7 @@ export default class Post extends React.PureComponent {
     return (
       <article className={styles.container}>
         <div className={styles.colLeft}>
-          <Avatar src="/avatar-placeholder.png" size={40} />
+          <User.Avatar user={creator} size={40} />
         </div>
 
         <div className={styles.colRight}>

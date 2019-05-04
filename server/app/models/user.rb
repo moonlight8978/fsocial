@@ -7,12 +7,13 @@ class User < ApplicationRecord
   has_secure_password
   acts_as_paranoid
 
-  attr_accessor :identity, :current_password
+  attr_accessor :identity, :current_password, :avatar_base64, :cover_base64
 
   enumerize :role, in: { user: 1, admin: 99 }, default: :user, predicates: { prefix: true }
   enumerize :gender, in: { male: 1, female: 2 }, default: :male, predicates: { prefix: true }
 
   has_one_attached :avatar
+  has_one_attached :cover
 
   has_many :follower_followings, class_name: Following.name, foreign_key: :followee_id
   has_many :followers, through: :follower_followings

@@ -21,6 +21,7 @@ import {
 } from '../../../components/post-actions'
 import { WindowTitle } from '../../layout'
 import { ReplyConsumer, ReplyProvider } from '../../../components/reply-editor'
+import { User } from '../../../components/user'
 
 import PostApi from './post-api'
 import PostResource from './post-resource'
@@ -116,7 +117,7 @@ class Post extends React.PureComponent {
               <article className={styles.rootPost}>
                 <header className={styles.header}>
                   <div className={styles.avatar}>
-                    <Avatar src="/avatar-placeholder.png" size={50} />
+                    <User.Avatar user={creator} size={50} />
                   </div>
 
                   <div className={styles.names}>

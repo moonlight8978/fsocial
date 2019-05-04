@@ -10,6 +10,7 @@ import Container from '../container'
 import { AuthConsumer } from '../../../components/auth'
 import { LocaleConsumer } from '../../../components/locale'
 import { paths } from '../../../config'
+import { User } from '../../../components/user'
 
 import styles from './navbar.module.scss'
 import menuStyles from './user-menu.module.scss'
@@ -75,9 +76,9 @@ class Navbar extends React.Component {
               trigger={['click']}
             >
               <a className="ant-dropdown-link" href="#">
-                <Avatar
+                <User.Avatar
                   size="large"
-                  src="/avatar-placeholder.png"
+                  user={user}
                   className={styles.avatar}
                 />
                 <FontAwesomeIcon

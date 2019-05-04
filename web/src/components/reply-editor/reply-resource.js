@@ -1,13 +1,5 @@
 import { settings } from '../../config'
-
-const User = {
-  parse: user => ({
-    fullname: user.fullname,
-    username: user.username,
-    id: user.id,
-    isCurrentUser: user.is_current_user,
-  }),
-}
+import { UserResource } from '../../resources/user'
 
 const Media = {
   parse: media => ({
@@ -43,7 +35,7 @@ const Post = {
     updatedAt: new Date(post.updated_at),
     canUpdate: post.can_update,
     canDestroy: post.can_destroy,
-    creator: User.parse(post.creator),
+    creator: UserResource.Profile.parse(post.creator),
     medias: post.medias.map(media => Media.parse(media)),
     repliesCount: post.replies_count,
     subRepliesCount: post.sub_replies_count,

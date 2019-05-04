@@ -1,0 +1,17 @@
+.coverContainer {
+  width: 100%;
+  position: relative;
+  padding-bottom: 18.5873606%;
+
+  .coverThumb {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+}

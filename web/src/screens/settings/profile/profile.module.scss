@@ -12,3 +12,38 @@
     font-weight: 600;
   }
 }
+
+.profileImages {
+  position: relative;
+  padding-bottom: 18.5873606%;
+  margin-bottom: calc(1rem + 50px);
+
+  .cover {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+
+    img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+    }
+  }
+
+  .avatar {
+    position: absolute;
+    bottom: -50px;
+    left: 50px;
+    border-radius: 999px;
+    border: 3px solid #fff;
+  }
+
+  img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    display: block;
+  }
+}

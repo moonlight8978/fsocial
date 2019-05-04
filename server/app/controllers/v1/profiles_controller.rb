@@ -8,9 +8,12 @@ class V1::ProfilesController < ApplicationController
   def update
     profile_params = Profiles::UpdateParameters.new(params).extract
     current_user.assign_attributes(profile_params)
-
-    head(Settings.http.statuses.updated.no_changes) && return unless current_user.changed?
-
+    Attachment::Parser.perform!(profile_params.dig(:avatar_base64)) do |tempfile|
+      current_user.avatar.attach(io: tempfile, filename: SecureRandom.uuid)
+    end
+    Attachment::Parser.perform!(profile_params.dig(:cover_base64)) do |tempfile|
+      current_user.cover.attach(io: tempfile, filename: SecureRandom.uuid)
+    end
     current_user.save!
     render json: current_user, serializer: ::CurrentUserSerializer, status: Settings.http.statuses.updated.success
   end

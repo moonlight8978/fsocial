@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Formik } from 'formik'
 import { injectIntl } from 'react-intl'
+import _ from 'lodash'
 
 import { ValidationError } from '../../resources/errors/validation-error'
 import { AsyncUtils } from '../../utils'
@@ -46,8 +47,6 @@ class StaticForm extends React.Component {
 
     this.init()
 
-    this.uploadHandlers = {}
-
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderChildren = this.renderChildren.bind(this)
   }
@@ -79,9 +78,20 @@ class StaticForm extends React.Component {
 
   // eslint-disable-next-line class-methods-use-this
   handleUpload({ handleChange, handleBlur, values }) {
-    return name => file => {
+    return (name, fileAction = _.noop) => file => {
       handleChange({ target: { value: [...values[name], file], name } })
       handleBlur({ target: { name } })
+      fileAction(file)
+      return false
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  handleUploadSingle({ handleChange, handleBlur, values }) {
+    return (name, fileAction = _.noop) => file => {
+      handleChange({ target: { value: file, name } })
+      handleBlur({ target: { name } })
+      fileAction(file)
       return false
     }
   }
@@ -112,6 +122,7 @@ class StaticForm extends React.Component {
       fieldError: fieldError({ errors, touched, apiErrors }),
       handleUpload: this.handleUpload(formikProps),
       handleRemove: this.handleRemove(formikProps),
+      handleUploadSingle: this.handleUploadSingle(formikProps),
     })
   }
 

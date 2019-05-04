@@ -10,13 +10,24 @@ const PasswordSchema = {
   }),
 }
 
+async function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+  })
+}
+
 const ProfileSchema = {
-  parse: user => ({
+  parse: async user => ({
     fullname: user.fullname,
     email: user.email,
     birthday: moment(user.birthday).format('YYYY-MM-DD'),
     description: user.description,
     gender: user.gender,
+    avatar_base64: user.avatar && (await toBase64(user.avatar)),
+    cover_base64: user.cover && (await toBase64(user.cover)),
   }),
 }
 
@@ -28,11 +39,11 @@ const SettingsApi = {
       data: { user: PasswordSchema.parse(user) },
     })
   },
-  updateProfile(user) {
+  async updateProfile(user) {
     return localHttp.request({
       method: 'put',
       url: '/profile',
-      data: { user: ProfileSchema.parse(user) },
+      data: { user: await ProfileSchema.parse(user) },
     })
   },
 }

@@ -13,6 +13,7 @@ import {
 import { paths } from '../../config'
 
 import styles from './statistics.module.scss'
+import { User } from '../../components/user'
 
 class Statistics extends React.Component {
   static StatGroup = ({ title, count }) => (
@@ -43,13 +44,19 @@ class Statistics extends React.Component {
     return (
       <Box bordered>
         <div className={styles.container}>
-          <div className={styles.cover} />
+          <div className={styles.cover}>
+            <img
+              src={user.cover.url}
+              alt="Cover"
+              className={styles.coverThumb}
+            />
+          </div>
 
           <div className={styles.userInfo}>
             <div className={styles.avatar}>
-              <Avatar
+              <User.Avatar
                 size={60}
-                src="/avatar-placeholder.png"
+                user={user}
                 className={styles.avatarThumb}
               />
             </div>

@@ -8,7 +8,7 @@ import { PropTypes } from 'prop-types'
 import { Box, BoxSpacer, Text, Ellipsis } from '../../../components/atomics'
 import { PostContent } from '../../../components/post-content'
 import { PostMedias } from '../../../components/post-medias'
-import { InlineName } from '../../../components/user'
+import { InlineName, User } from '../../../components/user'
 import { paths } from '../../../config'
 
 import styles from './post-item.module.scss'
@@ -45,7 +45,7 @@ class PostItem extends React.Component {
             <Col span={18}>
               <article className={styles.container}>
                 <div className={styles.avatar}>
-                  <Avatar size="large" src="/avatar-placeholder.png" />
+                  <User.Avatar user={creator} size="large" />
                 </div>
 
                 <div className={styles.post}>
