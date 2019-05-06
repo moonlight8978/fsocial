@@ -28,8 +28,8 @@ const development = {
 
 const staging = {
   server: {
-    host: 'http://fsocial.moonlight8978.asia/backend',
-    websocket: 'ws://fsocial.moonlight8978.asia/backend/api/cable',
+    host: 'http://fsocial.moonlight8978.asia',
+    websocket: 'ws://fsocial.moonlight8978.asia/api/cable',
     prefix: '/api/v1',
     authorizationHeader: 'Fsocial-Authorization',
   },
