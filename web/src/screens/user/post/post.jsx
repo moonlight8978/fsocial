@@ -138,11 +138,11 @@ class Post extends React.PureComponent {
                   <div className={styles.actions}>
                     <FollowButton user={creator} />
 
-                    {canDestroy && (
-                      <div className={styles.dropdown}>
-                        <Dropdown
-                          overlay={
-                            <Menu>
+                    <div className={styles.dropdown}>
+                      <Dropdown
+                        overlay={
+                          <Menu>
+                            {canDestroy && (
                               <Menu.Item
                                 key="remove"
                                 onClick={this.handleRemove}
@@ -151,29 +151,26 @@ class Post extends React.PureComponent {
                                   <FormattedMessage id="user.post.delete" />
                                 </Text>
                               </Menu.Item>
-                              <Menu.Item
-                                key="report"
-                                onClick={this.handleReport}
-                              >
-                                <Text>
-                                  <FormattedMessage id="user.post.report" />
-                                </Text>
-                              </Menu.Item>
-                            </Menu>
-                          }
-                          trigger={['click']}
-                          placement="bottomRight"
-                        >
-                          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                          <a className="ant-dropdown-link" href="#">
-                            {' '}
-                            <Text color="secondary" hover hoverColor="link">
-                              <FontAwesomeIcon icon="angle-down" />
-                            </Text>
-                          </a>
-                        </Dropdown>
-                      </div>
-                    )}
+                            )}
+                            <Menu.Item key="report" onClick={this.handleReport}>
+                              <Text>
+                                <FormattedMessage id="user.post.report" />
+                              </Text>
+                            </Menu.Item>
+                          </Menu>
+                        }
+                        trigger={['click']}
+                        placement="bottomRight"
+                      >
+                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                        <a className="ant-dropdown-link" href="#">
+                          {' '}
+                          <Text color="secondary" hover hoverColor="link">
+                            <FontAwesomeIcon icon="angle-down" />
+                          </Text>
+                        </a>
+                      </Dropdown>
+                    </div>
                   </div>
                 </header>
 
