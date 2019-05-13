@@ -63,4 +63,8 @@ export const paths = {
           })
         : '/dashboard/reports',
   },
+  memories: {
+    route: '/memories',
+    resolve: () => '/memories',
+  },
 }

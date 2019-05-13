@@ -1,0 +1,2 @@
+class MemoryTagging < ApplicationRecord
+end
