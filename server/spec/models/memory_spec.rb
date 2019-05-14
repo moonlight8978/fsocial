@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Memory, type: :model do
   let(:trump) do
-    File.open(Rails.root.join("tmp", "trump.jpg"))
+    File.open(Rails.root.join('tmp', 'trump.jpg'))
   end
   let(:un_trump) do
-    File.open(Rails.root.join("tmp", "un-trump.jpg"))
+    File.open(Rails.root.join('tmp', 'un-trump.jpg'))
   end
 
   it do

@@ -4,6 +4,7 @@ navbar:
     notifications: Notifications
     messages: Messages
     about: About
+    memories: Memories
   submenu:
     profile: Profile
     settings: Settings

@@ -42,6 +42,7 @@
   "locales.vietnamese": "Tiếng Việt",
   "navbar.menu.about": "About",
   "navbar.menu.home": "Home",
+  "navbar.menu.memories": "Memories",
   "navbar.menu.messages": "Messages",
   "navbar.menu.notifications": "Notifications",
   "navbar.submenu.changeLocale": "Change language",

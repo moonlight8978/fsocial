@@ -37,6 +37,6 @@ module Fsocial
 
     config.active_job.queue_name_prefix = Rails.env
 
-    config.time_zone = ActiveSupport::TimeZone::MAPPING["Hanoi"]
+    config.time_zone = ActiveSupport::TimeZone::MAPPING['Hanoi']
   end
 end

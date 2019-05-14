@@ -46,4 +46,6 @@ end
 
 group :test do
   gem 'json-schema'
+  gem 'rack-vcr'
+  gem 'webmock'
 end
