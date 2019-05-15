@@ -1,4 +1,4 @@
-require_relative '../support/active_storage'
+require_relative '../support/common/helpers'
 
 class FactoryHelpers
   extend ::ActiveStorageHelpers
