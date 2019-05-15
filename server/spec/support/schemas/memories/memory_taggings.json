@@ -1,0 +1,33 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "vertices": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "integer"
+            },
+            "y": {
+              "type": "integer"
+            }
+          },
+          "required": ["x", "y"]
+        }
+      },
+      "description": {
+        "type": ["string", "null"]
+      },
+      "blob_id": {
+        "type": "integer"
+      }
+    },
+    "required": ["id", "vertices", "description", "blob_id"]
+  }
+}

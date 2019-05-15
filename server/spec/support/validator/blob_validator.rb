@@ -93,6 +93,7 @@ shared_examples 'validate blob content type' do |association|
 
   context 'when invalid' do
     let(:attachment) { invalid_attachment }
+
     it { is_expected.to be_invalid }
 
     it_behaves_like 'model has error', association, :invalid_content_type
@@ -100,6 +101,23 @@ shared_examples 'validate blob content type' do |association|
 
   context 'when valid' do
     let(:attachment) { valid_attachment }
+
+    it { is_expected.to be_valid }
+  end
+end
+
+shared_examples 'validate blob presence' do |association|
+  context 'when invalid' do
+    before { model.send(association).purge }
+
+    it { is_expected.to be_invalid }
+
+    it_behaves_like 'model has error', association, :blank
+  end
+
+  context 'when valid' do
+    before { model.send(association).attach(attachment) }
+
     it { is_expected.to be_valid }
   end
 end

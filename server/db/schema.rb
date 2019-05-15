@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_429_025_210) do
+ActiveRecord::Schema.define(version: 20_190_513_005_302) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -91,6 +91,25 @@ ActiveRecord::Schema.define(version: 20_190_429_025_210) do
     t.index ['creator_id'], name: 'index_hashtags_on_creator_id'
     t.index ['name'], name: 'index_hashtags_on_name'
     t.index ['slug'], name: 'index_hashtags_on_slug', unique: true
+  end
+
+  create_table 'memories', force: :cascade do |t|
+    t.bigint 'creator_id'
+    t.text 'content'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['creator_id'], name: 'index_memories_on_creator_id'
+  end
+
+  create_table 'memory_taggings', force: :cascade do |t|
+    t.bigint 'memory_id'
+    t.bigint 'blob_id'
+    t.text 'description'
+    t.text 'vertices'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['blob_id'], name: 'index_memory_taggings_on_blob_id'
+    t.index ['memory_id'], name: 'index_memory_taggings_on_memory_id'
   end
 
   create_table 'posts', force: :cascade do |t|

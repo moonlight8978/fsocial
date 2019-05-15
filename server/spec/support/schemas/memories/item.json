@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "content": {
+      "type": ["null", "string"]
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "creator": {
+      "$ref": "../profile_overall.json"
+    },
+    "picture": {
+      "$ref": "../attachment.json"
+    },
+    "memory_taggings": {
+      "$ref": "memory_taggings.json"
+    }
+  },
+  "required": [
+    "id",
+    "content",
+    "created_at",
+    "creator",
+    "picture",
+    "memory_taggings"
+  ]
+}

@@ -51,6 +51,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :memories do
+        collection do
+          post :upload
+        end
+      end
+
       namespace :admin do
         resources :users
       end

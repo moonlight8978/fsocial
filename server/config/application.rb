@@ -36,5 +36,7 @@ module Fsocial
     config.autoload_paths << Rails.root.join('lib')
 
     config.active_job.queue_name_prefix = Rails.env
+
+    config.time_zone = ActiveSupport::TimeZone::MAPPING['Hanoi']
   end
 end
