@@ -1,5 +1,5 @@
 class MemoryPictureSerializer < ActiveModel::Serializer
-  attributes :id, :filename, :metadata, :path
+  attributes :id, :filename, :metadata, :path, :signed_id
 
   has_many :memory_taggings, serializer: MemoryTaggingSerializer do |serializer|
     MemoryTagging.where(blob: serializer.object)

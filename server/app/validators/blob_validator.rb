@@ -1,14 +1,16 @@
 class BlobValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, values)
+    add_error = proc do |message|
+      record.errors.add(attribute, message)
+    end
+
+    add_error.call(:blank) if options[:presence] && !values.attached?
+
     return unless values.attached?
 
     attachments = Array(values)
     attachments.each do |attachment|
       blob = attachment.blob
-
-      add_error = proc do |message|
-        record.errors.add(attribute, message)
-      end
 
       validate_size(blob, &add_error)
       validate_content_type(blob, &add_error)

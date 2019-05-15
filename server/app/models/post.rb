@@ -30,7 +30,7 @@ class Post < ApplicationRecord
   validates :medias,
     blob: {
       content_types: %r{image/*},
-      size: { maximum: 1.megabyte },
+      size: { maximum: 5.megabyte },
       count: { maximum: 3 }
     }
 
