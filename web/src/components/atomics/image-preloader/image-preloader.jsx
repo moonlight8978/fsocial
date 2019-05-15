@@ -10,12 +10,10 @@ class ImagePreloader extends React.PureComponent {
     src: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
     className: PropTypes.string,
-    onLoad: PropTypes.func,
   }
 
   static defaultProps = {
     className: '',
-    onLoad: () => {},
   }
 
   constructor(props) {
@@ -39,17 +37,10 @@ class ImagePreloader extends React.PureComponent {
   }
 
   loadImage() {
-    const { src, onLoad } = this.props
+    const { src } = this.props
     this.image = new Image()
     this.image.src = src
-    this.image.onload = event => {
-      this.setState({ isLoading: false })
-      onLoad({
-        width: event.target.naturalWidth,
-        height: event.target.naturalHeight,
-        src,
-      })
-    }
+    this.image.onload = () => this.setState({ isLoading: false })
     this.image.onerror = error => console.log(error)
   }
 

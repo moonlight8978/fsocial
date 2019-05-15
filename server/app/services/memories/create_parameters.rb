@@ -22,11 +22,12 @@ module Memories
     end
 
     def find_blob
-      blob_id = begin
-                  ActiveStorage.verifier.verify(params.dig(:memory, :signed_blob_id), purpose: :blob_id)
-                rescue StandardError
-                  nil
-                end
+      blob_id =
+        begin
+          ActiveStorage.verifier.verify(params.dig(:memory, :signed_blob_id), purpose: :blob_id)
+        rescue StandardError
+          nil
+        end
       ActiveStorage::Blob.find(blob_id)
     end
   end
