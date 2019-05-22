@@ -1,63 +1,68 @@
 import React from 'react'
+import { injectIntl } from 'react-intl'
+import PropTypes from 'prop-types'
 
 import { Layout, Navbar } from '../layout'
-import { ImagePreloader } from '../../components/atomics'
+import { FolloweeSuggestion } from '../../components/followee-suggestion'
+import { BoxSpacer } from '../../components/atomics'
 
 import styles from './memories.module.scss'
+import MemoryListItem from './memory-list-item'
+import CreateMemory from './create-memory'
+import MemoryApi from './memory-api'
+import MemoryResource from './memory-resource'
 
 class Memories extends React.PureComponent {
-  state = {
-    width: null,
-    height: null,
+  static propTypes = {
+    intl: PropTypes.shape().isRequired,
   }
 
-  vertices = [
-    [
-      { x: 91, y: 76 },
-      { x: 212, y: 76 },
-      { x: 212, y: 216 },
-      { x: 91, y: 216 },
-    ],
-    [
-      { x: 375, y: 20 },
-      { x: 507, y: 20 },
-      { x: 507, y: 173 },
-      { x: 375, y: 173 },
-    ],
-  ]
+  state = {
+    memories: [],
+    page: 1,
+  }
+
+  componentDidMount() {
+    this.fetchMemories()
+  }
+
+  fetchMemories = async () => {
+    const { page } = this.state
+    try {
+      const { data } = await MemoryApi.fetchMemories(page)
+      const memories = MemoryResource.Memories.parse(data)
+      this.setState({ memories })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  prependMemory = memory =>
+    this.setState(state => ({ memories: [memory, ...state.memories] }))
 
   render() {
-    const { width, height } = this.state
+    const { memories } = this.state
+    const { intl } = this.props
 
     return (
-      <Layout hasNavbar navbar={<Navbar />} hasSideLeft>
-        <div className={styles.wrapper}>
-          <ImagePreloader
-            src="/faces-demo/un-trump.jpg"
-            alt="Trump and Un"
-            className={styles.image}
-            onLoad={metadata =>
-              this.setState({ height: metadata.height, width: metadata.width })
-            }
-          />
-          {width && height && (
-            <svg className={styles.canvas}>
-              {this.vertices.map(vertices => (
-                <rect
-                  width={`${((vertices[1].x - vertices[0].x) / width) * 100}%`}
-                  height={`${((vertices[3].y - vertices[0].y) / height) *
-                    100}%`}
-                  x={`${(vertices[0].x / width) * 100}%`}
-                  y={`${(vertices[0].y / height) * 100}%`}
-                  className={styles.rect}
-                />
-              ))}
-            </svg>
-          )}
-        </div>
+      <Layout
+        hasNavbar
+        navbar={<Navbar />}
+        hasSideLeft
+        sideLeft={<FolloweeSuggestion />}
+        className={styles.layout}
+        windowTitle={intl.formatMessage({ id: 'memories.windowTitle' })}
+      >
+        <CreateMemory onCreate={this.prependMemory} />
+
+        <BoxSpacer />
+
+        {memories.map(memory => (
+          <MemoryListItem memory={memory} key={memory.id} />
+        ))}
       </Layout>
     )
   }
 }
 
-export default Memories
+export default injectIntl(Memories)

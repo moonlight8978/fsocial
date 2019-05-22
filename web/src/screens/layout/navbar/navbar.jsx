@@ -129,21 +129,12 @@ class Navbar extends React.Component {
               </Menu.Item>
 
               <Menu.Item
-                key={paths.messages.resolve()}
+                key={paths.memories.resolve()}
                 className={styles.menuItem}
                 onClick={this.handleChangeRoute}
-                disabled
               >
-                <Tooltip
-                  placement="bottom"
-                  title={intl.formatMessage({ id: 'features.comingSoon' })}
-                >
-                  <FontAwesomeIcon
-                    icon="envelope"
-                    className={styles.menuIcon}
-                  />
-                  <FormattedMessage id="navbar.menu.messages" />
-                </Tooltip>
+                <FontAwesomeIcon icon="book-open" className={styles.menuIcon} />
+                <FormattedMessage id="navbar.menu.memories" />
               </Menu.Item>
 
               <Menu.Item className={[styles.submenu, styles.dropdownTrigger]}>

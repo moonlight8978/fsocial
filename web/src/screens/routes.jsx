@@ -10,6 +10,7 @@ import { User } from './user'
 import { Hashtag } from './hashtag'
 import { Settings } from './settings'
 import { Dashboard } from './dashboard'
+import { Memories } from './memories'
 
 const SignUpScreen = protectRoute(SignUp, true)
 const HomeScreen = protectRoute(Home)
@@ -17,6 +18,7 @@ const UserScreen = protectRoute(User)
 const HashtagScreen = protectRoute(Hashtag)
 const SettingsScreen = protectRoute(Settings)
 const DashboardScreen = protectRoute(Dashboard)
+const MemoriesScreen = protectRoute(Memories)
 
 class Routes extends React.Component {
   render() {
@@ -28,6 +30,7 @@ class Routes extends React.Component {
         <Route path={paths.hashtag.route} component={HashtagScreen} />
         <Route path={paths.settings.route} component={SettingsScreen} />
         <Route path={paths.dashboard.route} component={DashboardScreen} />
+        <Route path={paths.memories.route} component={MemoriesScreen} />
       </Switch>
     )
   }

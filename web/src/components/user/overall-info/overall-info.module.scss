@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+}
+
+.header {
+  flex: calc(100% - 40px) 0 0;
+  padding-left: 1rem;
+  min-width: 0;
+
+  p {
+    margin: 0;
+  }
+
+  .nameSplitter {
+    padding: 0 0.25rem;
+  }
+
+  .username {
+    display: inline-block;
+    vertical-align: bottom;
+    max-width: 70%;
+  }
+}
+
+.avatar {
+  flex: 40px 0 0;
+}
