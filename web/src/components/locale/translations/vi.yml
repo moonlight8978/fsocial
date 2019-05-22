@@ -155,6 +155,17 @@ dashboard:
     item:
       upgrade: Thăng chức
       downgrade: Giáng chức
+memories:
+  windowTitle: Kỉ niệm
+  taggings:
+    with: Cùng với -
+    empty: Không có người nào được nhắc tới
+    entry: Người
+    detectionEmpty: Không có khuôn mặt nào trong bức ảnh
+  new:
+    title: Hãy chia sẻ kỉ niệm của bạn
+    upload: Tải ảnh lên
+    submit: Tạo
 schemas:
   session:
     identity:
@@ -226,3 +237,9 @@ schemas:
     medias:
       errors:
         invalidMime: Chỉ có thể upload file hình ảnh (.jpg, .jpeg, và .png)
+  memory:
+    signedBlobId:
+      errors:
+        required: Blob's signed_id không được để trống
+    description:
+      placeholder: Mô tả
