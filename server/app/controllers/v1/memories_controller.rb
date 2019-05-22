@@ -16,6 +16,7 @@ class V1::MemoriesController < ApplicationController
     memories = Memory
       .includes(:memory_taggings, :creator, picture_attachment: :blob)
       .where(creator: current_user)
+      .order(created_at: :desc)
       .page(params[:page] || 1)
     render json: memories, each_serializer: MemorySerializer, status: Settings.http.statuses.success
   end

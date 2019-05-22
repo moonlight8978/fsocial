@@ -9,14 +9,18 @@ import { AsyncUtils } from '../../utils'
 
 function fieldStatus({ errors, touched, apiErrors }) {
   return attribute =>
-    apiErrors[attribute] || (touched[attribute] && errors[attribute])
+    _.get(apiErrors, attribute) ||
+    (_.get(touched, attribute) && _.get(errors, attribute))
       ? 'error'
       : 'success'
 }
 
 function fieldError({ errors, touched, apiErrors }) {
   return attribute => {
-    return touched[attribute] && (errors[attribute] || apiErrors[attribute])
+    return (
+      _.get(touched, attribute) &&
+      (_.get(errors, attribute) || _.get(apiErrors, attribute))
+    )
   }
 }
 

@@ -4,6 +4,7 @@ navbar:
     notifications: Notifications
     messages: Messages
     about: About
+    memories: Memories
   submenu:
     profile: Profile
     settings: Settings
@@ -154,6 +155,17 @@ dashboard:
     item:
       upgrade: Upgrade to role admin
       downgrade: Downgrade to role user
+memories:
+  windowTitle: Memories
+  taggings:
+    with: With -
+    empty: No user is mentioned
+    entry: Person
+    detectionEmpty: There is no faces in picture
+  new:
+    title: Share your memory
+    upload: Upload picture
+    submit: Create
 schemas:
   session:
     identity:
@@ -229,3 +241,9 @@ schemas:
     medias:
       errors:
         invalidMime: You can upload images only (.jpg, .jpeg, and .png)
+  memory:
+    signedBlobId:
+      errors:
+        required: Blob's signed_id cannot be required
+    description:
+      placeholder: Description

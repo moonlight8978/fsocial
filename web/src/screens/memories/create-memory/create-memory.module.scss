@@ -1,0 +1,85 @@
+.container {
+  h4 {
+    margin: 0;
+  }
+
+  :global(.ant-collapse-item) {
+    position: relative;
+  }
+
+  :global(.ant-collapse-header),
+  :global(.ant-collapse-arrow) {
+    position: absolute !important;
+    padding: 0 !important;
+  }
+
+  :global(.ant-collapse-header) {
+    right: 0;
+  }
+
+  :global(.ant-collapse-arrow) {
+    top: -0.75rem !important;
+    right: 0;
+    left: initial !important;
+  }
+
+  :global(.ant-collapse-borderless > .ant-collapse-item) {
+    border: 0;
+  }
+
+  .rotatedIcon {
+    transform: rotate(180deg);
+    transition: all 0.15s ease;
+  }
+
+  .collapseButton {
+    border: 0;
+  }
+
+  .collapseBox {
+    padding: 0;
+
+    :global(.ant-collapse-content-box) {
+      padding: 1rem 0 0 0 !important;
+    }
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.attachment {
+  flex: 0 0 75%;
+}
+
+.taggings {
+  flex: 0 0 25%;
+  padding-right: 1rem;
+}
+
+.attachment,
+.taggings {
+  margin-top: 1rem;
+}
+
+.taggingsTitle {
+  margin-bottom: 0.5rem;
+}
+
+.taggingItem {
+  &:not(:last-child) {
+    position: relative;
+
+    &:after {
+      content: '';
+      height: 1px;
+      right: 0;
+      left: 0;
+      bottom: -0.75rem;
+      background-color: #ccc;
+      position: absolute;
+    }
+  }
+}

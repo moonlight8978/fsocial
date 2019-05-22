@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
-import { Layout, Menu, Dropdown, Tooltip } from 'antd'
+import { Layout, Menu, Dropdown } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter, Link } from 'react-router-dom'
@@ -22,7 +22,6 @@ class Navbar extends React.Component {
   static propTypes = {
     match: PropTypes.shape().isRequired,
     history: PropTypes.shape().isRequired,
-    intl: PropTypes.shape().isRequired,
   }
 
   static UserMenu = () => (
@@ -107,7 +106,6 @@ class Navbar extends React.Component {
   render() {
     const {
       match: { path },
-      intl,
     } = this.props
 
     return (
@@ -129,21 +127,12 @@ class Navbar extends React.Component {
               </Menu.Item>
 
               <Menu.Item
-                key={paths.messages.resolve()}
+                key={paths.memories.resolve()}
                 className={styles.menuItem}
                 onClick={this.handleChangeRoute}
-                disabled
               >
-                <Tooltip
-                  placement="bottom"
-                  title={intl.formatMessage({ id: 'features.comingSoon' })}
-                >
-                  <FontAwesomeIcon
-                    icon="envelope"
-                    className={styles.menuIcon}
-                  />
-                  <FormattedMessage id="navbar.menu.messages" />
-                </Tooltip>
+                <FontAwesomeIcon icon="book-open" className={styles.menuIcon} />
+                <FormattedMessage id="navbar.menu.memories" />
               </Menu.Item>
 
               <Menu.Item className={[styles.submenu, styles.dropdownTrigger]}>

@@ -1,0 +1,72 @@
+.layout {
+  min-height: 100vh;
+}
+
+.attachment {
+  position: relative;
+}
+
+.image {
+  display: block;
+  width: 100%;
+}
+
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.rect {
+  stroke-width: 5;
+  stroke: transparent;
+  fill: transparent;
+  transition: all 0.15s ease;
+
+  &:hover,
+  &.rectHighlight {
+    stroke: green;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 1rem;
+
+  .attachment {
+    flex: 0 0 75%;
+  }
+
+  .taggings {
+    flex: 0 0 25%;
+    padding-right: 1rem;
+
+    .taggingList {
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -0.25rem;
+      margin-right: -0.25rem;
+    }
+
+    .taggingItem {
+      font-size: 0.85rem;
+      margin-left: 0.25rem;
+      margin-right: 0.25rem;
+      margin-bottom: 0.5rem;
+      background-color: #bae7ff;
+      padding: 0.15rem 0.25rem;
+      word-break: break-all;
+      cursor: pointer;
+      transition: all 0.15s ease;
+
+      &:hover,
+      &.taggingitemHighlight {
+        background-color: #1890ff;
+        color: #fff;
+      }
+    }
+  }
+}

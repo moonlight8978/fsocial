@@ -1,8 +1,4 @@
-.layout {
-  min-height: 100vh;
-}
-
-.wrapper {
+.attachment {
   position: relative;
 }
 
@@ -21,10 +17,12 @@
 
 .rect {
   stroke-width: 5;
-  stroke: #fff;
+  stroke: transparent;
   fill: transparent;
+  transition: all 0.15s ease;
 
-  &:hover {
+  &:hover,
+  &.rectHighlight {
     stroke: green;
   }
 }
