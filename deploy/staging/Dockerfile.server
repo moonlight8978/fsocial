@@ -1,6 +1,6 @@
-FROM ruby:2.6.2-alpine3.9
+FROM ruby:2.6.2
 
-RUN apk update && apk add -u build-base nodejs tzdata postgresql-dev imagemagick libidn-dev
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client vim imagemagick libidn11-dev
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
