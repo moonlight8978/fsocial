@@ -18,33 +18,36 @@ function MarkedImage({ src, renderTaggings, className, taggings }) {
 
   return (
     <>
-      <div className={classnames(styles.attachment, className)}>
-        <ImagePreloader
-          src={src}
-          alt="Trump and Un"
-          className={styles.image}
-          onLoad={setDimension}
-        />
-        {width && height && (
-          <svg className={styles.canvas}>
-            {taggings.map(({ id, vertices }) => (
-              <rect
-                width={`${((vertices[1].x - vertices[0].x) / width) * 100}%`}
-                height={`${((vertices[3].y - vertices[0].y) / height) * 100}%`}
-                x={`${(vertices[0].x / width) * 100}%`}
-                y={`${(vertices[0].y / height) * 100}%`}
-                className={classnames(styles.rect, {
-                  [styles.rectHighlight]: highlightedPersonId === id,
-                })}
-                onMouseOver={handleMouseOver(id)}
-                onFocus={handleMouseOver(id)}
-                onMouseOut={handleMouseOut}
-                onBlur={handleMouseOut}
-                key={id}
-              />
-            ))}
-          </svg>
-        )}
+      <div className={className}>
+        <div className={styles.attachment}>
+          <ImagePreloader
+            src={src}
+            alt="Trump and Un"
+            className={styles.image}
+            onLoad={setDimension}
+          />
+          {width && height && (
+            <svg className={styles.canvas}>
+              {taggings.map(({ id, vertices }) => (
+                <rect
+                  width={`${((vertices[1].x - vertices[0].x) / width) * 100}%`}
+                  height={`${((vertices[3].y - vertices[0].y) / height) *
+                    100}%`}
+                  x={`${(vertices[0].x / width) * 100}%`}
+                  y={`${(vertices[0].y / height) * 100}%`}
+                  className={classnames(styles.rect, {
+                    [styles.rectHighlight]: highlightedPersonId === id,
+                  })}
+                  onMouseOver={handleMouseOver(id)}
+                  onFocus={handleMouseOver(id)}
+                  onMouseOut={handleMouseOut}
+                  onBlur={handleMouseOut}
+                  key={id}
+                />
+              ))}
+            </svg>
+          )}
+        </div>
       </div>
 
       {taggings &&
