@@ -36,13 +36,14 @@ class CreateMemory extends React.PureComponent {
       handleChange({
         target: { name: 'signedBlobId', value: picture.signedBlobId },
       })
-      this.setState({ isUploading: false })
     } catch (error) {
       if (error.response && error.response.status === 422) {
         message.error('Validation failed')
       } else {
         message.error('Something went wrong')
       }
+    } finally {
+      this.setState({ isUploading: false })
     }
   }
 
