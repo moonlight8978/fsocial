@@ -23,7 +23,7 @@ module Memories
       end
       memory.picture.blob
     rescue StandardError => e
-      Rails.logger.debug(e.message)
+      Rails.logger.error(e.message)
       memory.errors.add(:picture, :invalid)
       raise ActiveRecord::RecordInvalid, memory
     end
