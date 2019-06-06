@@ -47,5 +47,6 @@ end
 group :test do
   gem 'json-schema'
   gem 'rack-vcr'
+  gem 'simplecov', require: false
   gem 'webmock'
 end
