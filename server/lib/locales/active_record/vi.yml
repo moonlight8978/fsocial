@@ -23,3 +23,7 @@ vi:
             password_confirmation:
               blank: Mật khẩu xác nhận không được để trống
               confirmation: Mật khẩu xác nhận không khớp với mật khẩu
+        memory:
+          attributes:
+            picture:
+              invalid: Ảnh không hợp lệ
