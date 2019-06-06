@@ -23,3 +23,7 @@ en:
             password_confirmation:
               blank: Password confirmation cannot be blank
               confirmation: Passwords is not match
+        memory:
+          attributes:
+            picture:
+              invalid: Picture is invalid
