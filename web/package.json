@@ -10,7 +10,7 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "animate.css": "^3.7.0",
     "antd": "^3.16.1",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "flag-icon-css": "^3.3.0",
     "formik": "^1.5.1",
